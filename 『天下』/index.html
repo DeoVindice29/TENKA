@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#EDE4D0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Tebak Hiragana — Tebak Karakter Hiragana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700;900&family=Kosugi+Maru&family=Sawarabi+Mincho&family=Yusei+Magic&family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="washi-noise"></div>
+
+<div class="top-controls">
+  <button class="icon-btn" id="settings-toggle" type="button" aria-label="Buka pengaturan" aria-haspopup="dialog">⚙️</button>
+</div>
+
+<!-- ===== SETTINGS PANEL ===== -->
+<div class="settings-overlay" id="settings-overlay" aria-hidden="true">
+  <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <h2 id="settings-title">
+      Pengaturan
+      <button class="close-x" id="settings-close" type="button" aria-label="Tutup pengaturan">✕</button>
+    </h2>
+
+    <div class="settings-group">
+      <label class="settings-label" for="font-select">Font hiragana</label>
+      <select class="settings-select" id="font-select">
+        <option value="hiragino">Hiragino Sans</option>
+        <option value="zenkaku">Zen Kaku Gothic New</option>
+        <option value="noto">Noto Sans JP</option>
+        <option value="mplus">M PLUS Rounded 1c</option>
+        <option value="kosugi">Kosugi Maru</option>
+        <option value="sawarabi">Sawarabi Mincho</option>
+        <option value="yusei">Yusei Magic</option>
+        <option value="klee">Klee One</option>
+        <option value="mincho">Shippori Mincho</option>
+      </select>
+      <div class="font-preview" id="font-preview">あ か さ た な</div>
+    </div>
+
+    <div class="settings-group">
+      <span class="settings-label">Tampilan</span>
+      <div class="theme-row">
+        <span id="theme-toggle-label">Light Mode</span>
+        <label class="switch">
+          <input type="checkbox" id="theme-switch-input" aria-labelledby="theme-toggle-label">
+          <span class="track"></span>
+          <span class="thumb" id="theme-toggle">🌙</span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute">
+  <filter id="roughen">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="9"/>
+  </filter>
+</svg>
+
+<div class="stage">
+
+  <!-- ===== START SCREEN ===== -->
+  <section id="screen-start">
+    <header>
+      <div class="eyebrow">belajar aksara jepang</div>
+      <h1>Tebak Hiragana
+        <svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M2 8 C 80 2, 220 12, 298 6" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      </h1>
+      <p class="sub">Tebak romaji dari tiap karakter hiragana yang muncul. Pilih tingkatanmu, lalu kumpulkan jawaban benar sebanyak-banyaknya.</p>
+    </header>
+
+    <div class="levels" id="levels"></div>
+    <button class="primary" id="btn-start" disabled>Pilih tingkatan dulu</button>
+    <button class="secondary" id="btn-open-learn" type="button">📖 Belajar Hiragana Dulu</button>
+  </section>
+
+  <!-- ===== LEARN SCREEN ===== -->
+  <section id="screen-learn" class="hidden">
+    <div class="quiz-back-row">
+      <button class="quiz-back" id="btn-learn-back" type="button">← Kembali</button>
+    </div>
+    <header class="learn-header">
+      <div class="eyebrow">mode belajar</div>
+      <h1 class="learn-title">Tabel Hiragana</h1>
+      <p class="sub">Hafalkan dulu bentuk dan cara baca tiap karakter sebelum mulai kuis. Ketuk kartu untuk mendengar cara penulisannya dalam romaji.</p>
+    </header>
+
+    <div id="learn-tables"></div>
+
+    <button class="primary" id="btn-learn-to-quiz">Sudah Siap — Mulai Kuis</button>
+  </section>
+
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <section id="screen-quiz" class="hidden">
+    <div class="quiz-back-row">
+      <button class="quiz-back" id="btn-cancel" type="button">← Kembali</button>
+    </div>
+    <div class="quiz-top">
+      <div class="dots" id="dots"></div>
+      <div class="streak" id="streak"><span class="flame">🔥</span> <span id="streak-count">0</span> beruntun</div>
+    </div>
+
+    <div class="stamp-wrap">
+      <div class="stamp" id="stamp"><span class="kana" id="kana-char">あ</span></div>
+    </div>
+
+    <div class="choices" id="choices"></div>
+
+    <div class="feedback-row">
+      <div class="feedback-text" id="feedback"></div>
+      <button class="ghost hidden" id="btn-next">Lanjut →</button>
+    </div>
+  </section>
+
+  <!-- ===== RESULTS SCREEN ===== -->
+  <section id="screen-results" class="hidden results">
+    <div class="score-stamp">
+      <div class="num" id="res-score">0/10</div>
+      <div class="of">tepat</div>
+    </div>
+    <p class="acc" id="res-acc">Akurasi 0%</p>
+
+    <div id="res-missed-wrap">
+      <p class="missed-title">Perlu diulang</p>
+      <div class="chips" id="res-missed"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="primary" id="btn-retry">Ulangi Set Ini</button>
+      <button class="ghost" id="btn-change">Ganti Tingkatan</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
