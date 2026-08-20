@@ -1,0 +1,2 @@
+# -
+"Tenka represents the highest ambition—to stand beneath the open sky and hold the fate of the world in one's own hands."
