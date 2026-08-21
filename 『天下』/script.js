@@ -211,6 +211,33 @@ const CONQUEST_TITLES = {
   kanji:    {title:"Penakluk Kanji N5", emoji:"漢"}
 };
 
+// cerita sederhana buat Mode Penaklukan 3 babak — cuma dipakai utk Hiragana & Katakana,
+// masing-masing babak dipetakan ke tier1 (dasar) / tier2 (bertitik) / tier3 (gabungan).
+const CONQUEST_STORY = {
+  hiragana: {
+    epilogue: "Kamu resmi menaklukkan seluruh Hiragana dan diakui sebagai penguasa negeri aksara ini!",
+    phases: [
+      { label:"Babak 1 — Gerbang Desa",
+        text:"⚔️ Penaklukan Hiragana dimulai! Kamu, seorang musafir yang baru turun gunung, berdiri di depan Gerbang Aksara. Penjaga gerbang menantangmu: buktikan kau menguasai 46 aksara dasar sebelum boleh melangkah lebih jauh." },
+      { label:"Babak 2 — Kabut Dakuten",
+        text:"🎉 Gerbang terbuka, penjaga mengangguk kagum! Tapi di jalan bercabang muncul Ilusionis Dakuten & Handakuten — ia mengaburkan bunyi huruf dengan titik dan lingkaran kecil. Kalahkan tipuannya untuk lanjut ke tengah kota." },
+      { label:"Babak 3 — Gerbang Istana",
+        text:"✨ Kabut menyingkir, jalanmu terang kembali. Di gerbang istana, Penjaga Terakhir menghadangmu dengan aksara gabungan yōon — きゃ, しゅ, ちょ — bunyi-bunyi yang melebur jadi satu. Ini ujian terakhir sebelum singgasana." }
+    ]
+  },
+  katakana: {
+    epilogue: "Kamu resmi menaklukkan seluruh Katakana dan diterima sebagai warga penuh kota pelabuhan ini!",
+    phases: [
+      { label:"Babak 1 — Gerbang Pelabuhan",
+        text:"⚔️ Penaklukan Katakana dimulai! Kapalmu baru saja berlabuh di kota pelabuhan yang penuh papan nama asing. Untuk mendapat izin masuk, kamu harus membaca 46 aksara dasar katakana di depan petugas pelabuhan." },
+      { label:"Babak 2 — Pasar Kota",
+        text:"🎉 Petugas mengizinkanmu masuk! Di pasar kota, para pedagang punya nama-nama dengan titik dakuten & handakuten yang membingungkan pendatang baru. Bacalah dengan benar supaya tidak tersesat." },
+      { label:"Babak 3 — Menara Yōon",
+        text:"✨ Kamu berhasil melewati pasar. Di ujung kota berdiri Menara Yōon, tempat aksara gabungan asing berkumpul — kya, shu, cho — ujian terakhir sebelum kamu diakui sebagai warga kota." }
+    ]
+  }
+};
+
 function getConqueredTitles(){
   try { return JSON.parse(localStorage.getItem(TITLES_KEY) || "{}"); }
   catch(e){ return {}; }
@@ -692,6 +719,7 @@ Object.values(SCRIPTS).forEach(s=>{
 
 let selectedRoundLen = 10; // diubah lewat tombol "Jumlah Soal" (10/20/30)
 let selectedQuizVariant = "meaning"; // "meaning" | "romaji" | "both" — hanya berlaku utk script ber-hasVariants
+let selectedDifficulty = "easy"; // "easy" (4 pilihan) | "medium" (8 pilihan) | "hard" (ketik sendiri — hiragana/katakana saja)
 let currentScript = "hiragana"; // script currently shown on the start screen
 let currentLearnScript = "hiragana"; // script currently shown in Learn mode
 
@@ -722,12 +750,12 @@ function shuffle(arr){
   return a;
 }
 
-function buildChoices(correct, pool){
+function buildChoices(correct, pool, count=4){
   const wrongPool = pool.filter(p => p[0] !== correct[0]);
-  const wrongs = shuffle(wrongPool).slice(0,3).map(p => p[1]);
-  const options = shuffle([correct[1], ...wrongs]);
-  // ensure uniqueness in case of duplicate answers
-  return [...new Set(options)].length === 4 ? options : shuffle([correct[1], ...new Set(wrongPool.map(p=>p[1])) ].filter((v,i,a)=>a.indexOf(v)===i && v!==correct[1]).slice(0,3).concat(correct[1]));
+  // hilangkan duplikat jawaban (mis. dua kanji beda yg kebetulan sama bacaannya)
+  const uniqueWrongs = [...new Map(wrongPool.map(p => [p[1], p])).values()].filter(p => p[1] !== correct[1]);
+  const wrongs = shuffle(uniqueWrongs).slice(0, count - 1).map(p => p[1]);
+  return shuffle([correct[1], ...wrongs]);
 }
 
 /* ---------------- render: learn tables (hiragana/katakana) ---------------- */
@@ -915,6 +943,14 @@ function renderLevels(scriptKey){
   btnOpenLearn.textContent = `📖 Belajar ${script.label} Dulu`;
   quizVariantPickerEl.classList.toggle("hidden", !script.hasVariants);
 
+  const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
+  const hardBtn = document.querySelector('.difficulty-btn[data-difficulty="hard"]');
+  hardBtn.disabled = !supportsHard;
+  difficultyHintEl.classList.toggle("hidden", supportsHard);
+  if(!supportsHard && selectedDifficulty === "hard"){
+    setDifficulty("easy");
+  }
+
   LEVEL_META.forEach(meta=>{
     const info = script.levelText[meta.id];
     const card = document.createElement("button");
@@ -972,6 +1008,23 @@ document.querySelectorAll(".quiz-variant-btn").forEach(btn=>{
   });
 });
 
+/* ---------------- tingkat kesulitan: easy / medium / hard ---------------- */
+const difficultyHintEl = document.getElementById("difficulty-hint");
+document.querySelectorAll(".difficulty-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    if(btn.disabled) return;
+    document.querySelectorAll(".difficulty-btn").forEach(b=> b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedDifficulty = btn.dataset.difficulty;
+  });
+});
+function setDifficulty(value){
+  selectedDifficulty = value;
+  document.querySelectorAll(".difficulty-btn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.difficulty === value);
+  });
+}
+
 /* ---------------- mode penaklukan (conquest) ---------------- */
 const btnConquest = document.getElementById("btn-conquest");
 const conquestOverlay = document.getElementById("conquest-overlay");
@@ -996,7 +1049,10 @@ function updateConquestCard(scriptKey){
 function openConquestOverlay(){
   const script = SCRIPTS[currentScript];
   const total = script.data.all.length;
-  conquestModalText.textContent = `Kamu akan menghadapi seluruh ${total} soal ${script.label} sekaligus, diacak.`;
+  const isThreePhase = currentScript === "hiragana" || currentScript === "katakana";
+  conquestModalText.textContent = isThreePhase
+    ? `Penaklukan ${script.label} kali ini terbagi jadi 3 babak cerita (dasar → bertitik → gabungan), total ${total} soal. Tiap babak makin susah — Babak 1: 4 pilihan, Babak 2: 8 pilihan, Babak 3: ketik jawaban sendiri. Tetap satu kesatuan: sekali salah, gagal semua dan harus mulai dari Babak 1 lagi.`
+    : `Kamu akan menghadapi seluruh ${total} soal ${script.label} sekaligus, diacak.`;
   conquestOverlay.classList.add("open");
   conquestOverlay.setAttribute("aria-hidden","false");
   btnConquestConfirm.focus();
@@ -1050,16 +1106,35 @@ const streakCountEl = document.getElementById("streak-count");
 const stampEl = document.getElementById("stamp");
 const kanaCharEl = document.getElementById("kana-char");
 const choicesEl = document.getElementById("choices");
+const hardInputRow = document.getElementById("hard-input-row");
+const hardInputEl = document.getElementById("hard-input");
+const btnHardSubmit = document.getElementById("btn-hard-submit");
 const feedbackEl = document.getElementById("feedback");
 const feedbackExtraEl = document.getElementById("feedback-extra");
 const nextBtn = document.getElementById("btn-next");
 const quizModeLabelEl = document.getElementById("quiz-mode-label");
+const screenConquestStory = document.getElementById("screen-conquest-story");
+const conquestStoryEyebrowEl = document.getElementById("conquest-story-eyebrow");
+const conquestStoryTitleEl = document.getElementById("conquest-story-title");
+const conquestStoryTextEl = document.getElementById("conquest-story-text");
+const conquestStoryMetaEl = document.getElementById("conquest-story-meta");
+const btnConquestStoryContinue = document.getElementById("btn-conquest-story-continue");
+
+// Mode Penaklukan 3 babak: tiap babak makin susah — Babak 1 easy (4 pilihan),
+// Babak 2 medium (8 pilihan), Babak 3 hard (ketik sendiri).
+function getConquestPhaseDifficulty(phaseIdx){
+  return phaseIdx === 0 ? "easy" : phaseIdx === 1 ? "medium" : "hard";
+}
 
 function startQuiz(scriptKey, mode){
   const script = SCRIPTS[scriptKey];
   const isConquest = mode === "conquest";
+  // Mode Penaklukan 3 babak (cerita) cuma utk Hiragana & Katakana — tier1/tier2/tier3
+  // berturut-turut jadi Babak 1/2/3, masih satu penaklukan (1x salah = gagal semua).
+  const isThreePhaseConquest = isConquest && (scriptKey === "hiragana" || scriptKey === "katakana");
 
   let pool, queue, wrongPools;
+  let conquestPhaseBoundaries = null;
 
   if(script.hasVariants){
     // kotoba / bunpo / kanji: bisa soal "arti", "romaji", atau "campuran" keduanya
@@ -1080,6 +1155,12 @@ function startQuiz(scriptKey, mode){
       const extra = type === "romaji" ? meaningPool[i][1] : romajiPool[i][1];
       return [src[i][0], src[i][1], type, extra];
     });
+  } else if(isThreePhaseConquest){
+    const t1 = shuffle(script.data.tier1), t2 = shuffle(script.data.tier2), t3 = shuffle(script.data.tier3);
+    pool = script.data.all;
+    wrongPools = { romaji: pool };
+    queue = [...t1, ...t2, ...t3].map(p => [p[0], p[1], "romaji"]);
+    conquestPhaseBoundaries = [0, t1.length, t1.length + t2.length, t1.length + t2.length + t3.length];
   } else {
     // hiragana / katakana: hanya tebak romaji, seperti semula
     pool = isConquest ? script.data.all : script.data[mode];
@@ -1088,9 +1169,18 @@ function startQuiz(scriptKey, mode){
     queue = shuffle(pool).slice(0,len).map(p=>[p[0], p[1], "romaji"]);
   }
 
+  const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
+  // penaklukan 3 babak selalu pakai progresi kesulitan otomatis per babak,
+  // mengabaikan pilihan Tingkat Kesulitan di layar awal.
+  const difficulty = isThreePhaseConquest
+    ? getConquestPhaseDifficulty(0)
+    : (selectedDifficulty === "hard" && !supportsHard) ? "easy" : selectedDifficulty;
+
   state = {
     script: scriptKey, mode, pool, wrongPools,
     queue,
+    difficulty,
+    conquestPhaseBoundaries, conquestPhaseIndex: 0,
     index: 0, score: 0, streak: 0, maxStreak: 0, missed: [], results: [],
     rankIndexBefore: getRankIndex(),
     conquest: isConquest, conquestFailed: false
@@ -1101,15 +1191,67 @@ function startQuiz(scriptKey, mode){
   btnCancel.classList.remove("armed");
   screenStart.classList.add("hidden");
   screenResults.classList.add("hidden");
+
+  if(isThreePhaseConquest){
+    screenQuiz.classList.add("hidden");
+    renderConquestStory(0);
+  } else {
+    screenConquestStory.classList.add("hidden");
+    screenQuiz.classList.remove("hidden");
+    screenQuiz.classList.toggle("conquest-active", isConquest);
+    renderDots();
+    renderQuestion();
+  }
+}
+
+function renderConquestStory(phaseIndex){
+  const script = SCRIPTS[state.script];
+  const story = CONQUEST_STORY[state.script];
+  const phase = story.phases[phaseIndex];
+  const boundaries = state.conquestPhaseBoundaries;
+  const phaseLen = boundaries[phaseIndex+1] - boundaries[phaseIndex];
+
+  state.conquestPhaseIndex = phaseIndex;
+  state.difficulty = getConquestPhaseDifficulty(phaseIndex);
+  const diffLabel = phaseIndex === 0 ? "😌 4 pilihan jawaban"
+    : phaseIndex === 1 ? "😅 8 pilihan jawaban"
+    : "🔥 ketik jawaban sendiri";
+  conquestStoryEyebrowEl.textContent = phaseIndex === 0 ? "⚔️ Mode Penaklukan dimulai" : "⚔️ Babak berikutnya";
+  conquestStoryTitleEl.textContent = `${phase.label} — ${script.label}`;
+  conquestStoryTextEl.textContent = phase.text;
+  conquestStoryMetaEl.textContent = `${phaseLen} soal di babak ini · ${diffLabel} · satu kali salah, seluruh penaklukan gagal.`;
+
+  screenQuiz.classList.add("hidden");
+  screenResults.classList.add("hidden");
+  screenConquestStory.classList.remove("hidden");
+  btnConquestStoryContinue.focus();
+}
+
+btnConquestStoryContinue.addEventListener("click", ()=>{
+  screenConquestStory.classList.add("hidden");
   screenQuiz.classList.remove("hidden");
-  screenQuiz.classList.toggle("conquest-active", isConquest);
+  screenQuiz.classList.toggle("conquest-active", true);
   renderDots();
   renderQuestion();
-}
+});
+document.getElementById("btn-conquest-story-back").addEventListener("click", ()=>{
+  screenConquestStory.classList.add("hidden");
+  screenStart.classList.remove("hidden");
+  renderProfile();
+});
 
 function renderDots(){
   dotsEl.innerHTML = "";
-  state.queue.forEach((_,i)=>{
+  let indices;
+  if(state.conquestPhaseBoundaries){
+    const b = state.conquestPhaseBoundaries;
+    const start = b[state.conquestPhaseIndex], end = b[state.conquestPhaseIndex + 1];
+    indices = [];
+    for(let i = start; i < end; i++) indices.push(i);
+  } else {
+    indices = state.queue.map((_,i)=>i);
+  }
+  indices.forEach(i=>{
     const d = document.createElement("span");
     d.className = "dot";
     if(i === state.index) d.classList.add("current");
@@ -1130,7 +1272,16 @@ function renderQuestion(){
   const current = state.queue[state.index];
 
   if(state.conquest){
-    quizModeLabelEl.textContent = `⚔️ Penaklukan — ${script.label} · Soal ${state.index+1}/${state.queue.length}`;
+    if(state.conquestPhaseBoundaries){
+      const b = state.conquestPhaseBoundaries;
+      const phaseIdx = state.conquestPhaseIndex;
+      const qInPhase = state.index - b[phaseIdx] + 1;
+      const phaseLen = b[phaseIdx+1] - b[phaseIdx];
+      const phaseLabel = CONQUEST_STORY[state.script].phases[phaseIdx].label;
+      quizModeLabelEl.textContent = `⚔️ ${phaseLabel} · Soal ${qInPhase}/${phaseLen}`;
+    } else {
+      quizModeLabelEl.textContent = `⚔️ Penaklukan — ${script.label} · Soal ${state.index+1}/${state.queue.length}`;
+    }
   } else if(script.hasVariants){
     quizModeLabelEl.textContent = current[2] === "romaji" ? script.quizLabelRomaji : script.quizLabel;
   } else {
@@ -1138,22 +1289,37 @@ function renderQuestion(){
   }
 
   kanaCharEl.textContent = current[0];
-  stampEl.classList.toggle("kanji-stamp", !!script.hasVariants);
+  stampEl.classList.toggle("kanji-stamp", script.quizType === "meaning");
   stampEl.classList.toggle("long-text", current[0].length > 6);
   stampEl.classList.remove("pop");
   void stampEl.offsetWidth;
   stampEl.classList.add("pop");
 
-  const options = buildChoices(current, state.wrongPools[current[2]]);
-  choicesEl.innerHTML = "";
-  options.forEach(opt=>{
-    const btn = document.createElement("button");
-    btn.className = "choice";
-    btn.type = "button";
-    btn.textContent = opt;
-    btn.addEventListener("click", ()=> handleAnswer(opt, btn, current));
-    choicesEl.appendChild(btn);
-  });
+  if(state.difficulty === "hard"){
+    // mode hard: user ketik sendiri jawabannya, tanpa pilihan ganda
+    choicesEl.classList.add("hidden");
+    choicesEl.innerHTML = "";
+    hardInputRow.classList.remove("hidden");
+    hardInputEl.value = "";
+    hardInputEl.disabled = false;
+    hardInputEl.className = "hard-input";
+    btnHardSubmit.disabled = false;
+    hardInputEl.focus();
+  } else {
+    hardInputRow.classList.add("hidden");
+    choicesEl.classList.remove("hidden");
+    const count = state.difficulty === "medium" ? 8 : 4;
+    const options = buildChoices(current, state.wrongPools[current[2]], count);
+    choicesEl.innerHTML = "";
+    options.forEach(opt=>{
+      const btn = document.createElement("button");
+      btn.className = "choice";
+      btn.type = "button";
+      btn.textContent = opt;
+      btn.addEventListener("click", ()=> handleAnswer(opt, btn, current));
+      choicesEl.appendChild(btn);
+    });
+  }
 
   renderDots();
   updateStreakUI();
@@ -1166,7 +1332,9 @@ function updateStreakUI(){
 
 function handleAnswer(chosen, btn, current){
   document.querySelectorAll("button.choice").forEach(b => b.disabled = true);
-  const isCorrect = chosen === current[1];
+  hardInputEl.disabled = true;
+  btnHardSubmit.disabled = true;
+  const isCorrect = String(chosen).trim().toLowerCase() === String(current[1]).trim().toLowerCase();
 
   document.querySelectorAll("button.choice").forEach(b=>{
     if(b.textContent === current[1]) b.classList.add("correct");
@@ -1178,8 +1346,10 @@ function handleAnswer(chosen, btn, current){
     state.maxStreak = Math.max(state.maxStreak, state.streak);
     feedbackEl.textContent = "Tepat!";
     feedbackEl.classList.add("correct");
+    if(state.difficulty === "hard") hardInputEl.classList.add("correct");
   } else {
-    btn.classList.add("wrong");
+    if(btn) btn.classList.add("wrong");
+    if(state.difficulty === "hard") hardInputEl.classList.add("wrong");
     state.streak = 0;
     state.missed.push(current);
     if(state.conquest){
@@ -1209,6 +1379,40 @@ function handleAnswer(chosen, btn, current){
   }
   nextBtn.focus();
 }
+
+btnHardSubmit.addEventListener("click", ()=>{
+  if(hardInputEl.disabled) return;
+  if(hardInputEl.value.trim() === ""){
+    feedbackEl.textContent = "Isi dulu jawabannya sebelum lanjut.";
+    feedbackEl.className = "feedback-text warn";
+    hardInputEl.classList.remove("wrong");
+    hardInputEl.classList.remove("shake-empty");
+    void hardInputEl.offsetWidth;
+    hardInputEl.classList.add("shake-empty");
+    hardInputEl.focus();
+    return;
+  }
+  const current = state.queue[state.index];
+  handleAnswer(hardInputEl.value, null, current);
+});
+hardInputEl.addEventListener("input", ()=>{
+  // hapus peringatan "isi dulu" begitu user mulai mengetik lagi
+  if(feedbackEl.classList.contains("warn")){
+    feedbackEl.textContent = "";
+    feedbackEl.className = "feedback-text";
+  }
+});
+hardInputEl.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter"){
+    e.preventDefault();
+    e.stopPropagation(); // jangan sampai keydown ini juga kepick up listener "Enter = lanjut soal"
+    if(!hardInputEl.disabled) btnHardSubmit.click();
+  }
+});
+
+document.getElementById("btn-restart-quiz").addEventListener("click", ()=>{
+  startQuiz(state.script, state.mode);
+});
 
 const btnCancel = document.getElementById("btn-cancel");
 let cancelArmed = false;
@@ -1245,9 +1449,18 @@ nextBtn.addEventListener("click", ()=>{
   state.index++;
   if(state.index >= state.queue.length){
     renderResults();
-  } else {
-    renderQuestion();
+    return;
   }
+  // penaklukan 3 babak: begitu masuk indeks awal babak baru, tampilkan dulu
+  // layar cerita transisinya sebelum lanjut ke soal berikutnya.
+  if(state.conquestPhaseBoundaries){
+    const nextPhaseIdx = state.conquestPhaseBoundaries.indexOf(state.index);
+    if(nextPhaseIdx > 0 && nextPhaseIdx < state.conquestPhaseBoundaries.length - 1){
+      renderConquestStory(nextPhaseIdx);
+      return;
+    }
+  }
+  renderQuestion();
 });
 
 /* keyboard shortcuts 1-4 for choices, enter/space for next */
@@ -1299,14 +1512,20 @@ function renderResults(){
   if(state.conquest){
     const script = SCRIPTS[state.script];
     if(state.conquestFailed){
-      promoBannerEl.innerHTML = `💀 <b>Penaklukan Gagal</b> — meleset di soal ke-${state.index+1} dari ${state.queue.length}. ${script.label} belum takluk, coba lagi dari awal!`;
+      const phaseNote = state.conquestPhaseBoundaries
+        ? ` di ${CONQUEST_STORY[state.script].phases[state.conquestPhaseIndex].label}`
+        : "";
+      promoBannerEl.innerHTML = `💀 <b>Penaklukan Gagal</b> — meleset${phaseNote} (soal ke-${state.index+1} dari ${state.queue.length}). ${script.label} belum takluk, coba lagi dari awal!`;
       promoBannerEl.classList.add("conquest-fail");
       promoBannerEl.classList.remove("hidden");
       retryBtn.textContent = "⚔️ Coba Lagi dari Awal";
     } else {
       const promoted = promoteIfHigher(state.script, "all");
       const newTitle = earnConquestTitle(state.script);
-      let msg = `🏆 <b>Penaklukan Berhasil!</b> Kamu resmi menaklukkan seluruh ${script.label}!`;
+      const opening = state.conquestPhaseBoundaries
+        ? `🏆 <b>Penaklukan Berhasil!</b> ${CONQUEST_STORY[state.script].epilogue}`
+        : `🏆 <b>Penaklukan Berhasil!</b> Kamu resmi menaklukkan seluruh ${script.label}!`;
+      let msg = opening;
       if(newTitle){
         const ct = CONQUEST_TITLES[state.script];
         msg += ` Title baru didapat: <b>${ct.emoji} ${ct.title}</b> — cek koleksimu di Settings.`;

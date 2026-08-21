@@ -15,6 +15,10 @@
   color-scheme: light;
   --line: rgba(36,31,26,0.14);
 
+  /* warna khusus feedback kuis: benar = biru, salah = merah */
+  --quiz-correct:#1D4ED8;
+  --quiz-wrong:#DC2626;
+
   /* kana font stack — swapped via the settings panel */
   --kana-font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Zen Kaku Gothic New", "Yu Gothic", "Meiryo", sans-serif;
 }
@@ -32,6 +36,8 @@
   --on-accent:#17151F;
   --shadow: rgba(0,0,0,0.45);
   --shadow-soft: rgba(0,0,0,0.3);
+  --quiz-correct:#5B8DEF;
+  --quiz-wrong:#F1685E;
   color-scheme: dark;
   --line: rgba(241,236,224,0.14);
 }
@@ -326,6 +332,22 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
   outline:2px solid var(--vermillion); outline-offset:3px;
 }
 
+/* ---------- tingkat kesulitan ---------- */
+.difficulty-picker{margin-top:22px;}
+.difficulty-options{display:flex; gap:8px; margin-top:10px;}
+.difficulty-btn{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+  font-family:inherit; font-size:13.5px; font-weight:700; color:var(--ink-soft);
+  background:var(--card); border:1px solid var(--line); border-radius:4px;
+  padding:12px 8px; cursor:pointer; transition:border-color .15s ease, color .15s ease, background-color .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.difficulty-btn .difficulty-sub{font-size:10.5px; font-weight:600; color:var(--ink-soft); opacity:.8;}
+.difficulty-btn:hover:not(:disabled){border-color:var(--indigo); color:var(--indigo);}
+.difficulty-btn.active{border-color:var(--indigo); color:var(--indigo); background:var(--paper); box-shadow:0 0 0 1px var(--indigo) inset;}
+.difficulty-btn:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
+.difficulty-btn:disabled{opacity:.4; cursor:not-allowed;}
+.difficulty-hint{font-size:11.5px; color:var(--ink-soft); margin:8px 2px 0;}
+
 /* ---------- tipe soal (arti / romaji / campuran) ---------- */
 .quiz-variant-picker{margin-top:22px;}
 .quiz-variant-options{display:flex; gap:8px; margin-top:10px;}
@@ -413,9 +435,24 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
 .modal-actions{display:flex; gap:10px;}
 .modal-actions button{flex:1; margin-top:0;}
 
+/* ---------- layar cerita transisi antar babak penaklukan ---------- */
+.conquest-story{display:flex; flex-direction:column; min-height:60vh;}
+.conquest-story-card{
+  flex:1; display:flex; flex-direction:column; justify-content:center;
+  background:var(--card); border:1px solid var(--vermillion); border-radius:8px;
+  padding:28px 22px; box-shadow:0 14px 30px var(--shadow), 0 0 0 2px var(--vermillion);
+  margin-bottom:22px;
+}
+.conquest-story-title{
+  font-family:'Shippori Mincho', serif; font-weight:800; font-size:clamp(17px,4.5vw,22px);
+  color:var(--vermillion); margin:0 0 14px; letter-spacing:0;
+}
+.conquest-story-text{color:var(--ink); font-size:15px; line-height:1.7; margin:0;}
+.conquest-story-meta{color:var(--ink-soft); font-size:12.5px; font-weight:700; margin:16px 0 0;}
+
 /* ---------- quiz screen ---------- */
 .hidden{display:none !important;}
-.quiz-back-row{margin-bottom:20px;}
+.quiz-back-row{margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; gap:12px;}
 .quiz-back{
   display:inline-flex; align-items:center; gap:6px; font-family:inherit;
   font-size:13px; font-weight:700; color:var(--ink-soft); background:none; border:none;
@@ -426,8 +463,8 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
 .quiz-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:34px; gap:16px; flex-wrap:wrap;}
 .dots{display:flex; gap:6px; flex-wrap:wrap;}
 .dot{width:9px; height:9px; border-radius:50%; background:var(--line);}
-.dot.correct{background:var(--moss);}
-.dot.wrong{background:var(--vermillion);}
+.dot.correct{background:var(--quiz-correct);}
+.dot.wrong{background:var(--quiz-wrong);}
 .dot.current{background:var(--indigo); box-shadow:0 0 0 3px rgba(40,69,90,0.18);}
 .streak{display:flex; align-items:center; gap:6px; font-weight:700; font-size:14px; color:var(--gold); white-space:nowrap;}
 .streak .flame{opacity:0; transform:scale(0.6); transition:all .2s ease;}
@@ -477,8 +514,23 @@ button.choice{
 }
 button.choice:hover:not(:disabled){border-color:var(--indigo); transform:translateY(-1px);}
 button.choice:disabled{cursor:default;}
-button.choice.correct{background:var(--moss); border-color:var(--moss); color:var(--on-accent);}
-button.choice.wrong{background:var(--vermillion); border-color:var(--vermillion); color:var(--on-accent); animation:shake .32s ease;}
+button.choice.correct{background:var(--quiz-correct); border-color:var(--quiz-correct); color:var(--on-accent);}
+button.choice.wrong{background:var(--quiz-wrong); border-color:var(--quiz-wrong); color:var(--on-accent); animation:shake .32s ease;}
+
+/* ---------- hard mode: jawaban diketik sendiri ---------- */
+.hard-input-row{display:flex; gap:8px; margin-top:4px;}
+.hard-input{
+  flex:1; font-family:inherit; font-size:17px; font-weight:700; color:var(--ink);
+  background:var(--card); border:1px solid var(--line); border-radius:4px;
+  padding:12px 14px; min-height:44px; transition:border-color .12s ease, box-shadow .12s ease;
+}
+.hard-input:focus-visible{outline:none; border-color:var(--indigo); box-shadow:0 0 0 1px var(--indigo) inset;}
+.hard-input:disabled{cursor:default;}
+.hard-input.correct{border-color:var(--quiz-correct); box-shadow:0 0 0 1px var(--quiz-correct) inset; color:var(--quiz-correct);}
+.hard-input.wrong{border-color:var(--quiz-wrong); box-shadow:0 0 0 1px var(--quiz-wrong) inset; color:var(--quiz-wrong); animation:shake .32s ease;}
+.hard-input.shake-empty{border-color:var(--gold); box-shadow:0 0 0 1px var(--gold) inset; animation:shake .32s ease;}
+.hard-input-row button.primary{flex:0 0 auto; padding:12px 20px;}
+.hard-input-row button.primary:disabled{opacity:.5; cursor:default;}
 @keyframes shake{
   0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);}
 }
@@ -486,8 +538,9 @@ button.choice.wrong{background:var(--vermillion); border-color:var(--vermillion)
 .feedback-row{min-height:44px; display:flex; align-items:center; justify-content:space-between; margin-top:18px; gap:12px; flex-wrap:wrap;}
 .feedback-col{display:flex; flex-direction:column; gap:4px;}
 .feedback-text{font-size:14px; font-weight:700;}
-.feedback-text.correct{color:var(--moss);}
-.feedback-text.wrong{color:var(--vermillion);}
+.feedback-text.correct{color:var(--quiz-correct);}
+.feedback-text.wrong{color:var(--quiz-wrong);}
+.feedback-text.warn{color:var(--gold);}
 .feedback-extra{font-size:12.5px; font-weight:600; color:var(--ink-soft);}
 button.ghost{
   font-family:inherit; font-weight:700; font-size:14px; background:none; border:none;

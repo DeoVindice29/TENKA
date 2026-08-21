@@ -129,11 +129,11 @@
   <!-- ===== START SCREEN ===== -->
   <section id="screen-start">
     <header>
-      <div class="eyebrow">Learning Japanese — Merangkak dari Dasar</div>
+      <div class="eyebrow">Learning Japanese — Zero to Hero</div>
       <h1>From Heimin 『平民』 To Emperor 『天皇』
         <svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M2 8 C 80 2, 220 12, 298 6" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
       </h1>
-      <p class="sub">Belajar bahasa Jepang dari 0 <br> Merangkak naik tingkat dari rakyat jelata sampai kaisar dengan menguasai tiap babak "Quest".</p>
+      <p class="sub">Belajar bahasa Jepang dari 0 dengan metode quiz<br> Merangkak naik tingkat dari rakyat jelata sampai kaisar dengan menaklukan tiap babak "Quest".</p>
     </header>
 
     <!-- ===== SCRIPT TABS ===== -->
@@ -157,6 +157,16 @@
         <button class="quiz-variant-btn" data-variant="romaji" type="button">🔤 Romaji</button>
         <button class="quiz-variant-btn" data-variant="both" type="button">🎲 Campuran</button>
       </div>
+    </div>
+
+    <div class="difficulty-picker" id="difficulty-picker">
+      <span class="settings-label">Tingkat Kesulitan</span>
+      <div class="difficulty-options" id="difficulty-options">
+        <button class="difficulty-btn active" data-difficulty="easy" type="button">😌 Easy<span class="difficulty-sub">4 pilihan</span></button>
+        <button class="difficulty-btn" data-difficulty="medium" type="button">😅 Medium<span class="difficulty-sub">8 pilihan</span></button>
+        <button class="difficulty-btn" data-difficulty="hard" type="button">🔥 Hard<span class="difficulty-sub">ketik sendiri</span></button>
+      </div>
+      <p class="difficulty-hint hidden" id="difficulty-hint">🔥 Hard cuma tersedia untuk Hiragana &amp; Katakana.</p>
     </div>
 
     <div class="round-len-picker" id="round-len-picker">
@@ -205,10 +215,25 @@
   </section>
 
 
+  <!-- ===== CONQUEST STORY SCREEN (transisi antar babak) ===== -->
+  <section id="screen-conquest-story" class="hidden conquest-story">
+    <div class="quiz-back-row">
+      <button class="quiz-back" id="btn-conquest-story-back" type="button">← Batalkan Penaklukan</button>
+    </div>
+    <div class="conquest-story-card">
+      <div class="eyebrow" id="conquest-story-eyebrow">⚔️ Mode Penaklukan</div>
+      <h2 class="conquest-story-title" id="conquest-story-title">Babak 1 — Gerbang Desa</h2>
+      <p class="conquest-story-text" id="conquest-story-text"></p>
+      <p class="conquest-story-meta" id="conquest-story-meta"></p>
+    </div>
+    <button class="primary danger" id="btn-conquest-story-continue" type="button">⚔️ Mulai Babak Ini</button>
+  </section>
+
   <!-- ===== QUIZ SCREEN ===== -->
   <section id="screen-quiz" class="hidden">
     <div class="quiz-back-row">
       <button class="quiz-back" id="btn-cancel" type="button">← Kembali</button>
+      <button class="quiz-back" id="btn-restart-quiz" type="button">🔁 Restart</button>
     </div>
     <div class="quiz-top">
       <div class="dots" id="dots"></div>
@@ -221,6 +246,11 @@
     <div class="quiz-mode-label" id="quiz-mode-label">Tebak romaji</div>
 
     <div class="choices" id="choices"></div>
+
+    <div class="hard-input-row hidden" id="hard-input-row">
+      <input type="text" id="hard-input" class="hard-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Ketik romaji-nya di sini...">
+      <button class="primary" id="btn-hard-submit" type="button">Jawab</button>
+    </div>
 
     <div class="feedback-row">
       <div class="feedback-col">
