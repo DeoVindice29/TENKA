@@ -995,54 +995,181 @@ startBtn.addEventListener("click", ()=> startQuiz(currentScript, state.mode));
 
 /* ---------------- rentang soal (dari karakter X sampai Y) ---------------- */
 const rangePickerEl = document.getElementById("range-picker");
-const rangeFromEl = document.getElementById("range-from");
-const rangeToEl = document.getElementById("range-to");
 const rangeHintEl = document.getElementById("range-hint");
 
-// isi ulang dropdown "Dari"/"Sampai" sesuai urutan karakter di tingkatan yang
-// baru dipilih, lalu reset rentang ke seluruh tingkatan itu (dari awal - akhir).
+const rangeDdConfig = {
+  from: {
+    dd: document.getElementById("range-from-dd"),
+    trigger: document.getElementById("range-from-trigger"),
+    list: document.getElementById("range-from-list"),
+    kanaEl: document.getElementById("range-from-kana"),
+    subEl: document.getElementById("range-from-sub")
+  },
+  to: {
+    dd: document.getElementById("range-to-dd"),
+    trigger: document.getElementById("range-to-trigger"),
+    list: document.getElementById("range-to-list"),
+    kanaEl: document.getElementById("range-to-kana"),
+    subEl: document.getElementById("range-to-sub")
+  }
+};
+let currentRangeItems = []; // [{kana, romaji, arti, batch}] utk tingkatan yg sedang aktif di picker
+
+// ambil info tampilan (kana/romaji/arti) utk index ke-i pada tingkatan tertentu —
+// beda script py struktur data beda: hiragana/katakana cuma py romaji, bunpo cuma
+// py arti, kotoba/kanji py keduanya (dari data + dataRomaji terpisah).
+function getRangeItemInfo(scriptKey, modeId, i){
+  const script = SCRIPTS[scriptKey];
+  const kana = script.data[modeId][i][0];
+  if(script.dataRomaji){
+    return { kana, romaji: script.dataRomaji[modeId][i][1], arti: script.data[modeId][i][1] };
+  }
+  if(script.quizType === "meaning"){
+    return { kana, romaji: "", arti: script.data[modeId][i][1] };
+  }
+  return { kana, romaji: script.data[modeId][i][1], arti: "" };
+}
+
+// batch selang-seling: hiragana/katakana pakai grup baris tabel gojūon asli
+// (mis. "a-i-u-e-o" satu batch), script lain (kotoba/bunpō/kanji) dikelompokkan
+// tiap 4 item berurutan supaya tetap ada variasi warna walau tanpa tabel baris.
+function getBatchSizes(scriptKey, modeId){
+  const isKana = scriptKey === "hiragana" || scriptKey === "katakana";
+  if(isKana){
+    const gojuon = scriptKey === "hiragana" ? GOJUON_HIRAGANA : GOJUON_KATAKANA;
+    const tiers = modeId === "all" ? ["tier1","tier2","tier3"] : [modeId];
+    const sizes = [];
+    tiers.forEach(t=>{
+      gojuon[t].forEach(row=>{
+        const n = row.chars.filter(Boolean).length;
+        if(n > 0) sizes.push(n);
+      });
+    });
+    return sizes;
+  }
+  const total = SCRIPTS[scriptKey].data[modeId].length;
+  const sizes = [];
+  for(let remaining = total; remaining > 0; remaining -= 4) sizes.push(Math.min(4, remaining));
+  return sizes;
+}
+
+function buildBatchIndexArray(sizes){
+  const arr = [];
+  sizes.forEach((size, batchIdx)=>{
+    for(let k=0;k<size;k++) arr.push(batchIdx);
+  });
+  return arr;
+}
+
+function renderRangeOptionsHtml(){
+  return currentRangeItems.map((item, i)=>{
+    const batchClass = item.batch % 2 === 0 ? "batch-a" : "batch-b";
+    const romajiHtml = item.romaji ? `<span class="range-opt-romaji">${item.romaji}</span>` : "";
+    const artiHtml = item.arti ? `<span class="range-opt-arti">${item.arti}</span>` : "";
+    return `
+      <li class="range-option ${batchClass}" role="option" data-index="${i}">
+        <span class="range-opt-kana">${item.kana}</span>
+        ${romajiHtml}
+        ${artiHtml}
+      </li>`;
+  }).join("");
+}
+
+function closeRangeDropdown(key){
+  const cfg = rangeDdConfig[key];
+  cfg.list.classList.add("hidden");
+  cfg.trigger.setAttribute("aria-expanded","false");
+}
+function closeAllRangeDropdowns(){
+  closeRangeDropdown("from");
+  closeRangeDropdown("to");
+}
+function openRangeDropdown(key){
+  closeAllRangeDropdowns();
+  const cfg = rangeDdConfig[key];
+  cfg.list.classList.remove("hidden");
+  cfg.trigger.setAttribute("aria-expanded","true");
+  const activeEl = cfg.list.querySelector(".range-option.active");
+  if(activeEl) activeEl.scrollIntoView({block:"nearest"});
+}
+
+function updateRangeTrigger(key, index){
+  const cfg = rangeDdConfig[key];
+  const item = currentRangeItems[index];
+  cfg.kanaEl.textContent = item.kana;
+  cfg.subEl.textContent = item.romaji || item.arti || "";
+  cfg.list.querySelectorAll(".range-option").forEach(li=>{
+    li.classList.toggle("active", parseInt(li.dataset.index,10) === index);
+  });
+}
+
+function selectRangeIndex(key, index){
+  if(key === "from"){
+    selectedRangeFrom = index;
+    if(selectedRangeFrom > selectedRangeTo) selectedRangeTo = selectedRangeFrom;
+  } else {
+    selectedRangeTo = index;
+    if(selectedRangeTo < selectedRangeFrom) selectedRangeFrom = selectedRangeTo;
+  }
+  updateRangeTrigger("from", selectedRangeFrom);
+  updateRangeTrigger("to", selectedRangeTo);
+  updateRangeHint();
+}
+
+["from","to"].forEach(key=>{
+  const cfg = rangeDdConfig[key];
+  cfg.trigger.addEventListener("click", ()=>{
+    const isOpen = cfg.trigger.getAttribute("aria-expanded") === "true";
+    if(isOpen) closeRangeDropdown(key); else openRangeDropdown(key);
+  });
+  cfg.list.addEventListener("click", (e)=>{
+    const li = e.target.closest(".range-option");
+    if(!li) return;
+    selectRangeIndex(key, parseInt(li.dataset.index,10));
+    closeRangeDropdown(key);
+  });
+});
+document.addEventListener("click", (e)=>{
+  if(!e.target.closest(".range-dd")) closeAllRangeDropdowns();
+});
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape") closeAllRangeDropdowns();
+});
+
+// isi ulang kedua dropdown "Dari"/"Sampai" sesuai urutan karakter di tingkatan
+// yang baru dipilih, lalu reset rentang ke seluruh tingkatan itu (awal - akhir).
 function renderRangePicker(scriptKey, modeId){
   const pool = SCRIPTS[scriptKey].data[modeId];
-  const optionsHtml = pool.map((p,i)=> `<option value="${i}">${p[0]}</option>`).join("");
-  rangeFromEl.innerHTML = optionsHtml;
-  rangeToEl.innerHTML = optionsHtml;
+  const batchIdxArr = buildBatchIndexArray(getBatchSizes(scriptKey, modeId));
+  currentRangeItems = pool.map((_,i)=>({
+    ...getRangeItemInfo(scriptKey, modeId, i),
+    batch: batchIdxArr[i] ?? 0
+  }));
+
+  const optionsHtml = renderRangeOptionsHtml();
+  rangeDdConfig.from.list.innerHTML = optionsHtml;
+  rangeDdConfig.to.list.innerHTML = optionsHtml;
+  closeAllRangeDropdowns();
+
   selectedRangeFrom = 0;
   selectedRangeTo = pool.length - 1;
-  rangeFromEl.value = selectedRangeFrom;
-  rangeToEl.value = selectedRangeTo;
+  updateRangeTrigger("from", selectedRangeFrom);
+  updateRangeTrigger("to", selectedRangeTo);
   rangePickerEl.classList.remove("hidden");
   updateRangeHint();
 }
 
 function updateRangeHint(){
   if(!state.mode) return;
-  const pool = SCRIPTS[currentScript].data[state.mode];
   const count = selectedRangeTo - selectedRangeFrom + 1;
-  const fromLabel = pool[selectedRangeFrom][0];
-  const toLabel = pool[selectedRangeTo][0];
+  const fromLabel = currentRangeItems[selectedRangeFrom].kana;
+  const toLabel = currentRangeItems[selectedRangeTo].kana;
   rangeHintEl.textContent = count === 1
     ? `1 soal terpilih (${fromLabel})`
     : `${count} soal terpilih (${fromLabel} → ${toLabel})`;
   const info = SCRIPTS[currentScript].levelText[state.mode];
   startBtn.textContent = `Mulai — ${info.title} (${count} Soal)`;
 }
-
-rangeFromEl.addEventListener("change", ()=>{
-  selectedRangeFrom = parseInt(rangeFromEl.value, 10) || 0;
-  if(selectedRangeFrom > selectedRangeTo){
-    selectedRangeTo = selectedRangeFrom;
-    rangeToEl.value = selectedRangeTo;
-  }
-  updateRangeHint();
-});
-rangeToEl.addEventListener("change", ()=>{
-  selectedRangeTo = parseInt(rangeToEl.value, 10) || 0;
-  if(selectedRangeTo < selectedRangeFrom){
-    selectedRangeFrom = selectedRangeTo;
-    rangeFromEl.value = selectedRangeFrom;
-  }
-  updateRangeHint();
-});
 
 /* ---------------- tipe soal: arti / romaji / campuran ---------------- */
 const quizVariantPickerEl = document.getElementById("quiz-variant-picker");

@@ -173,13 +173,27 @@
       <span class="settings-label">Rentang Soal</span>
       <div class="range-row">
         <div class="range-field">
-          <label for="range-from">Dari</label>
-          <select class="range-select" id="range-from"></select>
+          <label id="range-from-label">Dari</label>
+          <div class="range-dd" id="range-from-dd">
+            <button type="button" class="range-dd-trigger" id="range-from-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="range-from-label">
+              <span class="range-dd-kana" id="range-from-kana"></span>
+              <span class="range-dd-sub" id="range-from-sub"></span>
+              <span class="range-dd-caret">▾</span>
+            </button>
+            <ul class="range-dd-list hidden" id="range-from-list" role="listbox" tabindex="-1"></ul>
+          </div>
         </div>
         <span class="range-arrow">→</span>
         <div class="range-field">
-          <label for="range-to">Sampai</label>
-          <select class="range-select" id="range-to"></select>
+          <label id="range-to-label">Sampai</label>
+          <div class="range-dd" id="range-to-dd">
+            <button type="button" class="range-dd-trigger" id="range-to-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="range-to-label">
+              <span class="range-dd-kana" id="range-to-kana"></span>
+              <span class="range-dd-sub" id="range-to-sub"></span>
+              <span class="range-dd-caret">▾</span>
+            </button>
+            <ul class="range-dd-list hidden" id="range-to-list" role="listbox" tabindex="-1"></ul>
+          </div>
         </div>
       </div>
       <p class="range-hint" id="range-hint"></p>

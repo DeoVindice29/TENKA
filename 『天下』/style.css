@@ -19,6 +19,10 @@
   --quiz-correct:#1D4ED8;
   --quiz-wrong:#DC2626;
 
+  /* batch selang-seling untuk daftar rentang soal (dari-sampai) */
+  --batch-a:#F7F1E1;
+  --batch-b:#DECBA0;
+
   /* kana font stack — swapped via the settings panel */
   --kana-font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Zen Kaku Gothic New", "Yu Gothic", "Meiryo", sans-serif;
 }
@@ -40,6 +44,8 @@
   --quiz-wrong:#F1685E;
   color-scheme: dark;
   --line: rgba(241,236,224,0.14);
+  --batch-a:#211E2C;
+  --batch-b:#14121C;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;}
@@ -364,20 +370,50 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
 .range-picker{margin-top:22px;}
 .range-picker.hidden{display:none;}
 .range-row{display:flex; align-items:flex-end; gap:10px; margin-top:10px;}
-.range-field{flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;}
+.range-field{flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; position:relative;}
 .range-field label{font-size:11px; font-weight:700; color:var(--ink-soft);}
-.range-select{
-  width:100%; font-family:var(--kana-font); font-size:15px; font-weight:700; color:var(--ink);
-  background:var(--card); border:1px solid var(--line); border-radius:4px;
-  padding:11px 12px; cursor:pointer; appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2357503f' stroke-width='2'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat:no-repeat; background-position:right 10px center; background-size:16px;
-  padding-right:30px;
-  transition:border-color .15s ease;
+.range-arrow{color:var(--ink-soft); font-size:15px; font-weight:700; padding-bottom:12px; flex:0 0 auto;}
+
+.range-dd{position:relative;}
+.range-dd-trigger{
+  width:100%; display:flex; align-items:center; gap:8px;
+  font-family:inherit; color:var(--ink); background:var(--card);
+  border:1px solid var(--line); border-radius:4px; padding:9px 10px;
+  cursor:pointer; text-align:left; transition:border-color .15s ease, box-shadow .15s ease;
 }
-.range-select:hover{border-color:var(--indigo);}
-.range-select:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
-.range-arrow{color:var(--ink-soft); font-size:15px; font-weight:700; padding-bottom:11px; flex:0 0 auto;}
+.range-dd-trigger:hover{border-color:var(--indigo);}
+.range-dd-trigger:focus-visible, .range-dd[aria-expanded="true"] .range-dd-trigger{
+  outline:none; border-color:var(--indigo); box-shadow:0 0 0 1px var(--indigo) inset;
+}
+.range-dd-kana{font-family:var(--kana-font); font-size:18px; font-weight:700; line-height:1; color:var(--indigo);}
+.range-dd-sub{font-size:12px; font-weight:700; color:var(--ink-soft); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.range-dd-caret{font-size:10px; color:var(--ink-soft); flex:0 0 auto; transition:transform .15s ease;}
+.range-dd-trigger[aria-expanded="true"] .range-dd-caret{transform:rotate(180deg);}
+
+.range-dd-list{
+  position:absolute; z-index:15; top:calc(100% + 6px); left:0; right:0;
+  max-height:264px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  list-style:none; margin:0; padding:5px;
+  background:var(--card); border:1px solid var(--line); border-radius:6px;
+  box-shadow:0 14px 32px var(--shadow);
+}
+.range-dd-list.hidden{display:none;}
+.range-option{
+  display:flex; align-items:baseline; gap:8px;
+  padding:9px 10px; border-radius:4px; cursor:pointer;
+  transition:filter .12s ease;
+}
+.range-option + .range-option{margin-top:2px;}
+.range-option.batch-a{background:var(--batch-a);}
+.range-option.batch-b{background:var(--batch-b);}
+.range-option:hover{filter:brightness(0.94);}
+[data-theme="dark"] .range-option:hover{filter:brightness(1.25);}
+.range-option.active{box-shadow:0 0 0 2px var(--indigo) inset;}
+.range-opt-kana{font-family:var(--kana-font); font-size:16px; font-weight:700; color:var(--ink); flex:0 0 auto; min-width:2.2em;}
+.range-opt-romaji{font-size:12.5px; font-weight:700; color:var(--indigo-deep); flex:0 0 auto;}
+[data-theme="dark"] .range-opt-romaji{color:var(--indigo);}
+.range-opt-arti{font-size:11.5px; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; min-width:0;}
+
 .range-hint{font-size:11.5px; color:var(--ink-soft); margin:8px 2px 0;}
 
 /* ---------- mode penaklukan (conquest) ---------- */
@@ -741,6 +777,9 @@ button.ghost{
   .level-card .kana-sample{font-size:20px;}
   .level-card h3{font-size:15px;}
   .level-card p{font-size:12.5px;}
+
+  .range-dd-list{max-height:220px;}
+  .range-opt-arti{max-width:34vw;}
 
   button.primary{margin-top:20px; padding:15px 18px; font-size:14.5px;}
 
