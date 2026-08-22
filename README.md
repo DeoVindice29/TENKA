@@ -1,6 +1,6 @@
 # TENKA 『天下』
 
-> *"Tenka signifies the ultimate ambition—to stand beneath the open sky and hold the fate of the world within one's hands."*
+> *"Signifies the ultimate ambition—to stand beneath the open sky and hold the fate of the world within one's hands."*
 
 ---
 
