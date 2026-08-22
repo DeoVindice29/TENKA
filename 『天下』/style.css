@@ -719,6 +719,91 @@ button.ghost{
 .speak-btn:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
 .speak-btn.speaking{background:var(--vermillion);}
 
+/* ---------- kids mode: Anak SD (start screen entry) ---------- */
+.kids-section{
+  margin-top:26px; padding-top:22px; border-top:1px dashed var(--line);
+}
+.kids-section.hidden{display:none;}
+.kids-section-title{
+  font-family:'Shippori Mincho', serif; font-weight:800; font-size:15px;
+  color:var(--ink); margin-bottom:12px;
+}
+.kids-buttons{display:flex; flex-direction:column; gap:10px;}
+.kids-btn{
+  width:100%; display:flex; align-items:center; gap:12px;
+  background:linear-gradient(135deg, rgba(79,145,85,0.09), rgba(79,145,85,0.02));
+  border:1px solid var(--moss); border-radius:6px; padding:13px 14px;
+  cursor:pointer; text-align:left; font-family:inherit;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.kids-btn:hover{transform:translateY(-2px); box-shadow:0 8px 20px var(--shadow-soft);}
+.kids-btn:focus-visible{outline:2px solid var(--vermillion); outline-offset:3px;}
+.kids-btn-icon{font-size:22px; line-height:1; flex:0 0 auto;}
+.kids-btn-body{display:flex; flex-direction:column; gap:2px; min-width:0; flex:1;}
+.kids-btn-title{font-weight:800; font-size:14px; color:var(--ink);}
+.kids-btn-desc{font-size:11.5px; color:var(--ink-soft); line-height:1.4;}
+.kids-btn-arrow{font-size:16px; color:var(--moss); flex:0 0 auto;}
+
+/* ---------- kids mode: cerita anak (story reading) ---------- */
+#story-sentences{display:flex; flex-direction:column; gap:12px; margin-bottom:8px;}
+.story-sentence{
+  display:flex; align-items:flex-start; gap:12px;
+  background:var(--card); border:1px solid var(--line); border-radius:6px; padding:14px 16px;
+}
+.story-num{
+  flex:0 0 auto; width:22px; height:22px; border-radius:50%; background:var(--paper-dark);
+  color:var(--ink-soft); font-size:11px; font-weight:800;
+  display:flex; align-items:center; justify-content:center; margin-top:2px;
+}
+.story-sentence-body{flex:1; min-width:0; display:flex; flex-direction:column; gap:4px;}
+.story-jp{
+  position:relative; align-self:flex-start; font-family:var(--kana-font); font-size:18px; font-weight:700;
+  color:var(--indigo); background:none; border:none; cursor:pointer; padding:2px 24px 2px 0;
+  text-align:left; line-height:1.5; transition:color .15s ease;
+}
+.story-jp:hover, .story-jp:focus-visible{color:var(--indigo-deep);}
+.story-jp:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
+.story-jp.speaking{color:var(--vermillion);}
+.story-jp .cell-audio-icon{position:static; margin-left:6px; opacity:0.55; font-size:11px;}
+.story-romaji{font-size:12.5px; font-weight:700; color:var(--ink-soft); font-style:italic;}
+.story-id{font-size:12.5px; color:var(--ink-soft);}
+.story-emoji{flex:0 0 auto; font-size:22px; line-height:1.3;}
+
+/* ---------- kids mode: latihan shadowing ---------- */
+.shadow-card{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:26px 20px 24px; text-align:center; box-shadow:0 10px 26px var(--shadow-soft);
+}
+.shadow-progress{font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px;}
+.shadow-word{
+  display:block; width:100%; background:none; border:none; cursor:pointer;
+  font-family:var(--kana-font); font-weight:700; color:var(--indigo);
+  font-size:clamp(30px,9vw,46px); line-height:1.3; padding:4px; transition:color .15s ease;
+}
+.shadow-word.long-text{font-size:clamp(20px,6vw,30px);}
+.shadow-word:hover, .shadow-word:focus-visible{color:var(--indigo-deep);}
+.shadow-word:focus-visible{outline:2px solid var(--vermillion); outline-offset:3px;}
+.shadow-word.speaking{color:var(--vermillion);}
+.shadow-romaji{font-size:15px; font-weight:700; color:var(--ink-soft); font-style:italic; margin-top:4px;}
+.shadow-meaning{font-size:13.5px; color:var(--ink-soft); margin-top:2px;}
+.shadow-emoji{font-size:30px; margin-top:10px;}
+.shadow-actions{display:flex; gap:10px; margin-top:20px;}
+.shadow-btn{
+  flex:1; font-family:inherit; font-weight:700; font-size:13.5px; color:var(--indigo);
+  background:var(--paper); border:1px solid var(--line); border-radius:4px;
+  padding:13px 10px; cursor:pointer; transition:border-color .15s ease, transform .12s ease;
+}
+.shadow-btn:hover{border-color:var(--indigo); transform:translateY(-1px);}
+.shadow-btn:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
+.shadow-countdown{
+  margin-top:16px; font-family:'Shippori Mincho', serif; font-weight:800; font-size:34px; color:var(--vermillion);
+}
+.shadow-prompt{
+  margin-top:16px; font-size:15px; font-weight:800; color:var(--moss);
+  animation:stampdown .28s ease;
+}
+.shadow-nav{display:flex; justify-content:space-between; margin-top:18px;}
+
 /* ---------- tablet (iPad) refinements ---------- */
 @media (max-width:1024px) and (min-width:769px){
   body{
@@ -780,6 +865,14 @@ button.ghost{
 
   .range-dd-list{max-height:220px;}
   .range-opt-arti{max-width:34vw;}
+
+  .kids-section{margin-top:20px; padding-top:18px;}
+  .kids-btn{padding:12px;}
+  .kids-btn-icon{font-size:20px;}
+  .story-sentence{padding:12px 14px; gap:10px;}
+  .story-jp{font-size:16px;}
+  .shadow-card{padding:22px 16px 20px;}
+  .shadow-actions{gap:8px;}
 
   button.primary{margin-top:20px; padding:15px 18px; font-size:14.5px;}
 
