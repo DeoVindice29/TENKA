@@ -717,7 +717,10 @@ Object.values(SCRIPTS).forEach(s=>{
   }
 });
 
-let selectedRoundLen = 10; // diubah lewat tombol "Jumlah Soal" (10/20/30)
+// rentang soal: indeks (inklusif) di dalam pool tingkatan yang sedang dipilih,
+// diatur lewat dropdown "Dari" — "Sampai". Direset tiap kali user pilih tingkatan baru.
+let selectedRangeFrom = 0;
+let selectedRangeTo = 0;
 let selectedQuizVariant = "meaning"; // "meaning" | "romaji" | "both" — hanya berlaku utk script ber-hasVariants
 let selectedDifficulty = "easy"; // "easy" (4 pilihan) | "medium" (8 pilihan) | "hard" (ketik sendiri — hiragana/katakana saja)
 let currentScript = "hiragana"; // script currently shown on the start screen
@@ -942,6 +945,7 @@ function renderLevels(scriptKey){
   startBtn.textContent = "Pilih tingkatan dulu";
   btnOpenLearn.textContent = `📖 Belajar ${script.label} Dulu`;
   quizVariantPickerEl.classList.toggle("hidden", !script.hasVariants);
+  rangePickerEl.classList.add("hidden");
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
   const hardBtn = document.querySelector('.difficulty-btn[data-difficulty="hard"]');
@@ -972,7 +976,7 @@ function renderLevels(scriptKey){
       card.setAttribute("aria-pressed","true");
       state.mode = meta.id;
       startBtn.disabled = false;
-      startBtn.textContent = `Mulai — ${info.title}`;
+      renderRangePicker(scriptKey, meta.id);
     });
     levelsEl.appendChild(card);
   });
@@ -989,13 +993,55 @@ document.querySelectorAll("#script-tabs .script-tab").forEach(btn=>{
 
 startBtn.addEventListener("click", ()=> startQuiz(currentScript, state.mode));
 
-/* ---------------- jumlah soal (round length) ---------------- */
-document.querySelectorAll(".round-len-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".round-len-btn").forEach(b=> b.classList.remove("active"));
-    btn.classList.add("active");
-    selectedRoundLen = parseInt(btn.dataset.len, 10) || 10;
-  });
+/* ---------------- rentang soal (dari karakter X sampai Y) ---------------- */
+const rangePickerEl = document.getElementById("range-picker");
+const rangeFromEl = document.getElementById("range-from");
+const rangeToEl = document.getElementById("range-to");
+const rangeHintEl = document.getElementById("range-hint");
+
+// isi ulang dropdown "Dari"/"Sampai" sesuai urutan karakter di tingkatan yang
+// baru dipilih, lalu reset rentang ke seluruh tingkatan itu (dari awal - akhir).
+function renderRangePicker(scriptKey, modeId){
+  const pool = SCRIPTS[scriptKey].data[modeId];
+  const optionsHtml = pool.map((p,i)=> `<option value="${i}">${p[0]}</option>`).join("");
+  rangeFromEl.innerHTML = optionsHtml;
+  rangeToEl.innerHTML = optionsHtml;
+  selectedRangeFrom = 0;
+  selectedRangeTo = pool.length - 1;
+  rangeFromEl.value = selectedRangeFrom;
+  rangeToEl.value = selectedRangeTo;
+  rangePickerEl.classList.remove("hidden");
+  updateRangeHint();
+}
+
+function updateRangeHint(){
+  if(!state.mode) return;
+  const pool = SCRIPTS[currentScript].data[state.mode];
+  const count = selectedRangeTo - selectedRangeFrom + 1;
+  const fromLabel = pool[selectedRangeFrom][0];
+  const toLabel = pool[selectedRangeTo][0];
+  rangeHintEl.textContent = count === 1
+    ? `1 soal terpilih (${fromLabel})`
+    : `${count} soal terpilih (${fromLabel} → ${toLabel})`;
+  const info = SCRIPTS[currentScript].levelText[state.mode];
+  startBtn.textContent = `Mulai — ${info.title} (${count} Soal)`;
+}
+
+rangeFromEl.addEventListener("change", ()=>{
+  selectedRangeFrom = parseInt(rangeFromEl.value, 10) || 0;
+  if(selectedRangeFrom > selectedRangeTo){
+    selectedRangeTo = selectedRangeFrom;
+    rangeToEl.value = selectedRangeTo;
+  }
+  updateRangeHint();
+});
+rangeToEl.addEventListener("change", ()=>{
+  selectedRangeTo = parseInt(rangeToEl.value, 10) || 0;
+  if(selectedRangeTo < selectedRangeFrom){
+    selectedRangeFrom = selectedRangeTo;
+    rangeFromEl.value = selectedRangeFrom;
+  }
+  updateRangeHint();
 });
 
 /* ---------------- tipe soal: arti / romaji / campuran ---------------- */
@@ -1143,8 +1189,17 @@ function startQuiz(scriptKey, mode){
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
     pool = meaningPool;
 
-    const len = isConquest ? meaningPool.length : Math.min(selectedRoundLen, meaningPool.length);
-    const indices = shuffle(meaningPool.map((_,i)=>i)).slice(0,len);
+    // di luar penaklukan, hanya soal dalam rentang "Dari"—"Sampai" yang dipilih user.
+    let rangeIndices;
+    if(isConquest){
+      rangeIndices = meaningPool.map((_,i)=>i);
+    } else {
+      const from = Math.max(0, Math.min(selectedRangeFrom, meaningPool.length - 1));
+      const to = Math.max(from, Math.min(selectedRangeTo, meaningPool.length - 1));
+      rangeIndices = [];
+      for(let i=from; i<=to; i++) rangeIndices.push(i);
+    }
+    const indices = shuffle(rangeIndices);
     queue = indices.map(i=>{
       const type = selectedQuizVariant === "both"
         ? (Math.random() < 0.5 ? "meaning" : "romaji")
@@ -1164,9 +1219,17 @@ function startQuiz(scriptKey, mode){
   } else {
     // hiragana / katakana: hanya tebak romaji, seperti semula
     pool = isConquest ? script.data.all : script.data[mode];
-    const len = isConquest ? pool.length : Math.min(selectedRoundLen, pool.length);
     wrongPools = { romaji: pool };
-    queue = shuffle(pool).slice(0,len).map(p=>[p[0], p[1], "romaji"]);
+    // di luar penaklukan, hanya karakter dalam rentang "Dari"—"Sampai" yang dipilih user.
+    let rangePool;
+    if(isConquest){
+      rangePool = pool;
+    } else {
+      const from = Math.max(0, Math.min(selectedRangeFrom, pool.length - 1));
+      const to = Math.max(from, Math.min(selectedRangeTo, pool.length - 1));
+      rangePool = pool.slice(from, to + 1);
+    }
+    queue = shuffle(rangePool).map(p=>[p[0], p[1], "romaji"]);
   }
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";

@@ -169,13 +169,20 @@
       <p class="difficulty-hint hidden" id="difficulty-hint">🔥 Hard cuma tersedia untuk Hiragana &amp; Katakana.</p>
     </div>
 
-    <div class="round-len-picker" id="round-len-picker">
-      <span class="settings-label">Jumlah Soal</span>
-      <div class="round-len-options" id="round-len-options">
-        <button class="round-len-btn active" data-len="10" type="button">10 Soal</button>
-        <button class="round-len-btn" data-len="20" type="button">20 Soal</button>
-        <button class="round-len-btn" data-len="30" type="button">30 Soal</button>
+    <div class="range-picker hidden" id="range-picker">
+      <span class="settings-label">Rentang Soal</span>
+      <div class="range-row">
+        <div class="range-field">
+          <label for="range-from">Dari</label>
+          <select class="range-select" id="range-from"></select>
+        </div>
+        <span class="range-arrow">→</span>
+        <div class="range-field">
+          <label for="range-to">Sampai</label>
+          <select class="range-select" id="range-to"></select>
+        </div>
       </div>
+      <p class="range-hint" id="range-hint"></p>
     </div>
 
     <button class="primary" id="btn-start" disabled>Pilih tingkatan dulu</button>

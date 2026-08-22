@@ -56,7 +56,7 @@ body{
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:48px 20px 80px;
+  padding:calc(76px + env(safe-area-inset-top)) 20px 80px;
   transition:background-color .25s ease, color .25s ease;
 }
 
@@ -360,17 +360,25 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
 .quiz-variant-btn.active{border-color:var(--indigo); color:var(--indigo); background:var(--paper); box-shadow:0 0 0 1px var(--indigo) inset;}
 .quiz-variant-btn:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
 
-/* ---------- jumlah soal (round length) ---------- */
-.round-len-picker{margin-top:22px;}
-.round-len-options{display:flex; gap:8px; margin-top:10px;}
-.round-len-btn{
-  flex:1; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--ink-soft);
+/* ---------- rentang soal (pilih dari-sampai karakter) ---------- */
+.range-picker{margin-top:22px;}
+.range-picker.hidden{display:none;}
+.range-row{display:flex; align-items:flex-end; gap:10px; margin-top:10px;}
+.range-field{flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;}
+.range-field label{font-size:11px; font-weight:700; color:var(--ink-soft);}
+.range-select{
+  width:100%; font-family:var(--kana-font); font-size:15px; font-weight:700; color:var(--ink);
   background:var(--card); border:1px solid var(--line); border-radius:4px;
-  padding:12px 8px; cursor:pointer; transition:border-color .15s ease, color .15s ease, background-color .15s ease, box-shadow .15s ease;
+  padding:11px 12px; cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2357503f' stroke-width='2'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center; background-size:16px;
+  padding-right:30px;
+  transition:border-color .15s ease;
 }
-.round-len-btn:hover{border-color:var(--indigo); color:var(--indigo);}
-.round-len-btn.active{border-color:var(--indigo); color:var(--indigo); background:var(--paper); box-shadow:0 0 0 1px var(--indigo) inset;}
-.round-len-btn:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
+.range-select:hover{border-color:var(--indigo);}
+.range-select:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
+.range-arrow{color:var(--ink-soft); font-size:15px; font-weight:700; padding-bottom:11px; flex:0 0 auto;}
+.range-hint{font-size:11.5px; color:var(--ink-soft); margin:8px 2px 0;}
 
 /* ---------- mode penaklukan (conquest) ---------- */
 .conquest-card{
@@ -679,7 +687,7 @@ button.ghost{
 @media (max-width:1024px) and (min-width:769px){
   body{
     align-items:center;
-    padding:calc(32px + env(safe-area-inset-top)) 32px calc(32px + env(safe-area-inset-bottom));
+    padding:calc(64px + env(safe-area-inset-top)) 32px calc(32px + env(safe-area-inset-bottom));
   }
   .stage{max-width:640px;}
   .levels{gap:16px;}
@@ -696,7 +704,7 @@ button.ghost{
   body{
     align-items:center;
     padding:
-      calc(20px + env(safe-area-inset-top))
+      calc(64px + env(safe-area-inset-top))
       calc(16px + env(safe-area-inset-right))
       calc(28px + env(safe-area-inset-bottom))
       calc(16px + env(safe-area-inset-left));
