@@ -209,36 +209,6 @@
       </span>
       <span class="conquest-arrow">→</span>
     </button>
-
-    <div class="kids-section hidden" id="kids-section">
-      <div class="kids-section-title">🧒 Mode Anak SD — Belajar Sambil Baca</div>
-      <div class="kids-buttons">
-        <button class="kids-btn" id="btn-open-blok" type="button">
-          <span class="kids-btn-icon">🔤</span>
-          <span class="kids-btn-body">
-            <span class="kids-btn-title">Baca Blok Kata</span>
-            <span class="kids-btn-desc">Belajar &amp; kuis kata sederhana</span>
-          </span>
-          <span class="kids-btn-arrow">→</span>
-        </button>
-        <button class="kids-btn" id="btn-open-story" type="button">
-          <span class="kids-btn-icon">📖</span>
-          <span class="kids-btn-body">
-            <span class="kids-btn-title">Cerita Anak</span>
-            <span class="kids-btn-desc">Baca cerita pendek &amp; shadowing</span>
-          </span>
-          <span class="kids-btn-arrow">→</span>
-        </button>
-        <button class="kids-btn" id="btn-open-shadow" type="button">
-          <span class="kids-btn-icon">🎙️</span>
-          <span class="kids-btn-body">
-            <span class="kids-btn-title">Latihan Shadowing</span>
-            <span class="kids-btn-desc">Dengar, tiru, ucapkan</span>
-          </span>
-          <span class="kids-btn-arrow">→</span>
-        </button>
-      </div>
-    </div>
   </section>
 
   <!-- ===== LEARN SCREEN ===== -->
@@ -265,55 +235,6 @@
     <button class="primary" id="btn-learn-to-quiz">Sudah Siap — Mulai Quest</button>
   </section>
 
-  <!-- ===== KIDS: CERITA ANAK (story reading) ===== -->
-  <section id="screen-story" class="hidden">
-    <div class="quiz-back-row">
-      <button class="quiz-back" id="btn-story-back" type="button">← Kembali</button>
-    </div>
-    <header class="learn-header">
-      <div class="eyebrow" id="story-eyebrow">cerita anak · hiragana</div>
-      <h1 class="learn-title" id="story-title">Cerita</h1>
-      <p class="sub">Ketuk 🔊 di tiap kalimat untuk dengar cara bacanya, lalu coba ucapkan sendiri semirip mungkin (shadowing).</p>
-    </header>
-
-    <div id="story-sentences"></div>
-
-    <button class="primary" id="btn-story-to-shadow">🎙️ Latihan Shadowing Cerita Ini</button>
-  </section>
-
-  <!-- ===== KIDS: LATIHAN SHADOWING ===== -->
-  <section id="screen-shadow" class="hidden">
-    <div class="quiz-back-row">
-      <button class="quiz-back" id="btn-shadow-back" type="button">← Kembali</button>
-    </div>
-    <header class="learn-header">
-      <div class="eyebrow">latihan shadowing</div>
-      <h1 class="learn-title">Dengar, Tiru, Ucapkan</h1>
-      <p class="sub">1) Ketuk <b>Dengar</b>. 2) Kalau masih susah, ketuk <b>Pelan-pelan</b>. 3) Ketuk <b>Giliranmu</b>, lalu ucapkan sekeras dan semirip mungkin begitu hitungan mundur selesai.</p>
-    </header>
-
-    <div class="shadow-card">
-      <div class="shadow-progress" id="shadow-progress">1 / 8</div>
-      <button type="button" class="shadow-word speakable" id="shadow-word" data-speak="" aria-label="Dengar ucapannya"></button>
-      <div class="shadow-romaji" id="shadow-romaji"></div>
-      <div class="shadow-meaning" id="shadow-meaning"></div>
-      <div class="shadow-emoji" id="shadow-emoji"></div>
-
-      <div class="shadow-actions">
-        <button class="shadow-btn" id="btn-shadow-play" type="button">🔊 Dengar</button>
-        <button class="shadow-btn" id="btn-shadow-slow" type="button">🐢 Pelan-pelan</button>
-      </div>
-
-      <button class="primary danger" id="btn-shadow-go" type="button">🎙️ Giliranmu — Ucapkan!</button>
-      <div class="shadow-countdown hidden" id="shadow-countdown">3</div>
-      <div class="shadow-prompt hidden" id="shadow-prompt">Sekarang ucapkan! 🗣️</div>
-    </div>
-
-    <div class="shadow-nav">
-      <button class="ghost" id="btn-shadow-prev" type="button">← Sebelumnya</button>
-      <button class="ghost" id="btn-shadow-next" type="button">Berikutnya →</button>
-    </div>
-  </section>
 
   <!-- ===== CONQUEST STORY SCREEN (transisi antar babak) ===== -->
   <section id="screen-conquest-story" class="hidden conquest-story">

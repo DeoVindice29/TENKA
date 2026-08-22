@@ -521,30 +521,86 @@ const KANJI_TIER3 = [
 const KANJI_READING = {};
 [...KANJI_TIER1, ...KANJI_TIER2, ...KANJI_TIER3].forEach(([c,r])=>{ KANJI_READING[c] = r; });
 
-/* ---- Kotoba N5 (word, romaji, meaning-for-quiz) ---- */
+/* ---- Kotoba N5 (word-in-kana, romaji, meaning-for-quiz, contoh kalimat-in-kana, contoh romaji) ----
+   Sengaja ditulis full hiragana/katakana (tanpa kanji) supaya bisa langsung dibaca begitu
+   Hiragana & Katakana sudah dikuasai — kanji-nya dipelajari terpisah di babak "Kanji N5". */
 const KOTOBA_TIER1 = [
-  ["私","watashi","saya"],["先生","sensei","guru"],["学生","gakusei","murid / pelajar"],
-  ["学校","gakkou","sekolah"],["会社","kaisha","perusahaan"],["家","ie","rumah"],
-  ["友達","tomodachi","teman"],["名前","namae","nama"],["電話","denwa","telepon"],
-  ["車","kuruma","mobil"],["本","hon","buku"],["水","mizu","air"],
-  ["食べ物","tabemono","makanan"],["飲み物","nomimono","minuman"],["天気","tenki","cuaca"],
-  ["今日","kyou","hari ini"]
+  ["わたし","watashi","saya","わたしは がくせいです。","Watashi wa gakusei desu."],
+  ["あなた","anata","kamu","あなたの なまえは なんですか。","Anata no namae wa nan desu ka."],
+  ["せんせい","sensei","guru","せんせいは とても やさしいです。","Sensei wa totemo yasashii desu."],
+  ["がくせい","gakusei","murid / pelajar","がくせいは まいにち べんきょうします。","Gakusei wa mainichi benkyou shimasu."],
+  ["がっこう","gakkou","sekolah","がっこうは とても おおきいです。","Gakkou wa totemo ookii desu."],
+  ["かいしゃ","kaisha","perusahaan","ちちは かいしゃで はたらきます。","Chichi wa kaisha de hatarakimasu."],
+  ["いえ","ie","rumah","わたしの いえは えきの ちかくです。","Watashi no ie wa eki no chikaku desu."],
+  ["ともだち","tomodachi","teman","ともだちと えいがを みます。","Tomodachi to eiga wo mimasu."],
+  ["かぞく","kazoku","keluarga","わたしの かぞくは よにんです。","Watashi no kazoku wa yonin desu."],
+  ["ちち","chichi","ayah (saya)","ちちは あさ はやく おきます。","Chichi wa asa hayaku okimasu."],
+  ["はは","haha","ibu (saya)","ははは りょうりが じょうずです。","Haha wa ryouri ga jouzu desu."],
+  ["こども","kodomo","anak","こどもたちは こうえんで あそびます。","Kodomotachi wa kouen de asobimasu."],
+  ["なまえ","namae","nama","あなたの なまえを おしえてください。","Anata no namae wo oshiete kudasai."],
+  ["でんわ","denwa","telepon","でんわで はなしましょう。","Denwa de hanashimashou."],
+  ["くるま","kuruma","mobil","くるまで がっこうへ いきます。","Kuruma de gakkou e ikimasu."],
+  ["ほん","hon","buku","この ほんは とても おもしろいです。","Kono hon wa totemo omoshiroi desu."],
+  ["みず","mizu","air","みずを いっぱい のみます。","Mizu wo ippai nomimasu."],
+  ["たべもの","tabemono","makanan","すきな たべものは なんですか。","Sukina tabemono wa nan desu ka."],
+  ["のみもの","nomimono","minuman","のみものは なにに しますか。","Nomimono wa nani ni shimasu ka."],
+  ["てんき","tenki","cuaca","きょうの てんきは いいです。","Kyou no tenki wa ii desu."],
+  ["きょう","kyou","hari ini","きょうは とても あついです。","Kyou wa totemo atsui desu."],
+  ["いぬ","inu","anjing","いぬと さんぽします。","Inu to sanpo shimasu."],
+  ["ねこ","neko","kucing","ねこが いすの うえに います。","Neko ga isu no ue ni imasu."],
+  ["テレビ","terebi","televisi","よる テレビを みます。","Yoru terebi wo mimasu."]
 ];
 const KOTOBA_TIER2 = [
-  ["食べる","taberu","makan"],["飲む","nomu","minum"],["見る","miru","melihat"],
-  ["聞く","kiku","mendengar"],["話す","hanasu","berbicara"],["行く","iku","pergi"],
-  ["来る","kuru","datang"],["帰る","kaeru","pulang"],["買う","kau","membeli"],
-  ["大きい","ookii","besar"],["小さい","chiisai","kecil"],["高い","takai","tinggi / mahal"],
-  ["安い","yasui","murah"],["新しい","atarashii","baru"],["古い","furui","lama / tua"],
-  ["いい","ii","bagus"]
+  ["たべる","taberu","makan","あさごはんを たべます。","Asagohan wo tabemasu."],
+  ["のむ","nomu","minum","コーヒーを のみます。","Koohii wo nomimasu."],
+  ["みる","miru","melihat / menonton","えいがを みるのが すきです。","Eiga wo miru no ga suki desu."],
+  ["きく","kiku","mendengar","おんがくを きくのが すきです。","Ongaku wo kiku no ga suki desu."],
+  ["はなす","hanasu","berbicara","にほんごで はなします。","Nihongo de hanashimasu."],
+  ["いく","iku","pergi","がっこうへ いきます。","Gakkou e ikimasu."],
+  ["くる","kuru","datang","ともだちが うちへ きます。","Tomodachi ga uchi e kimasu."],
+  ["かえる","kaeru","pulang","はやく いえへ かえります。","Hayaku ie e kaerimasu."],
+  ["かう","kau","membeli","あたらしい くつを かいます。","Atarashii kutsu wo kaimasu."],
+  ["よむ","yomu","membaca","ほんを よむのが すきです。","Hon wo yomu no ga suki desu."],
+  ["かく","kaku","menulis","てがみを かきます。","Tegami wo kakimasu."],
+  ["ねる","neru","tidur","よる はやく ねます。","Yoru hayaku nemasu."],
+  ["おきる","okiru","bangun","まいあさ ろくじに おきます。","Maiasa rokuji ni okimasu."],
+  ["わかる","wakaru","mengerti","にほんごが すこし わかります。","Nihongo ga sukoshi wakarimasu."],
+  ["おおきい","ookii","besar","この いえは おおきいです。","Kono ie wa ookii desu."],
+  ["ちいさい","chiisai","kecil","あの いぬは ちいさいです。","Ano inu wa chiisai desu."],
+  ["たかい","takai","tinggi / mahal","この かばんは たかいです。","Kono kaban wa takai desu."],
+  ["やすい","yasui","murah","やおやの やさいは やすいです。","Yaoya no yasai wa yasui desu."],
+  ["あたらしい","atarashii","baru","あたらしい くるまが ほしいです。","Atarashii kuruma ga hoshii desu."],
+  ["ふるい","furui","lama / tua","これは ふるい たてものです。","Kore wa furui tatemono desu."],
+  ["いい","ii","bagus","きょうは いい てんきですね。","Kyou wa ii tenki desu ne."],
+  ["たのしい","tanoshii","menyenangkan","りょこうは とても たのしかったです。","Ryokou wa totemo tanoshikatta desu."],
+  ["きれい","kirei (na)","cantik / bersih","この はなは きれいです。","Kono hana wa kirei desu."],
+  ["すき","suki (na)","suka","わたしは すしが すきです。","Watashi wa sushi ga suki desu."]
 ];
 const KOTOBA_TIER3 = [
-  ["駅","eki","stasiun"],["病院","byouin","rumah sakit"],["銀行","ginkou","bank"],
-  ["郵便局","yuubinkyoku","kantor pos"],["図書館","toshokan","perpustakaan"],["公園","kouen","taman"],
-  ["映画","eiga","film"],["音楽","ongaku","musik"],["仕事","shigoto","pekerjaan"],
-  ["休み","yasumi","libur / istirahat"],["朝","asa","pagi"],["昼","hiru","siang"],
-  ["夜","yoru","malam"],["明日","ashita","besok"],["昨日","kinou","kemarin"],
-  ["今","ima","sekarang"]
+  ["えき","eki","stasiun","えきまで あるいて いきます。","Eki made aruite ikimasu."],
+  ["びょういん","byouin","rumah sakit","びょういんで くすりを もらいます。","Byouin de kusuri wo moraimasu."],
+  ["ぎんこう","ginkou","bank","ぎんこうで おかねを おろします。","Ginkou de okane wo oroshimasu."],
+  ["ゆうびんきょく","yuubinkyoku","kantor pos","ゆうびんきょくで きってを かいます。","Yuubinkyoku de kitte wo kaimasu."],
+  ["としょかん","toshokan","perpustakaan","としょかんで ほんを よみます。","Toshokan de hon wo yomimasu."],
+  ["こうえん","kouen","taman","こうえんで さんぽします。","Kouen de sanpo shimasu."],
+  ["えいが","eiga","film","しゅうまつに えいがを みます。","Shuumatsu ni eiga wo mimasu."],
+  ["おんがく","ongaku","musik","おんがくを きくのが たのしいです。","Ongaku wo kiku no ga tanoshii desu."],
+  ["しごと","shigoto","pekerjaan","しごとは なんじに おわりますか。","Shigoto wa nanji ni owarimasu ka."],
+  ["やすみ","yasumi","libur / istirahat","あしたは やすみです。","Ashita wa yasumi desu."],
+  ["あさ","asa","pagi","あさ ろくじに おきます。","Asa rokuji ni okimasu."],
+  ["ひる","hiru","siang","ひるに ごはんを たべます。","Hiru ni gohan wo tabemasu."],
+  ["よる","yoru","malam","よるは しずかです。","Yoru wa shizuka desu."],
+  ["あした","ashita","besok","あした がっこうへ いきます。","Ashita gakkou e ikimasu."],
+  ["きのう","kinou","kemarin","きのう えいがを みました。","Kinou eiga wo mimashita."],
+  ["いま","ima","sekarang","いま なんじですか。","Ima nanji desu ka."],
+  ["どこ","doko","di mana","としょかんは どこですか。","Toshokan wa doko desu ka."],
+  ["だれ","dare","siapa","あのひとは だれですか。","Ano hito wa dare desu ka."],
+  ["いつ","itsu","kapan","たんじょうびは いつですか。","Tanjoubi wa itsu desu ka."],
+  ["なぜ","naze","mengapa","なぜ がっこうを やすみましたか。","Naze gakkou wo yasumimashita ka."],
+  ["おはよう","ohayou","selamat pagi","おはよう ございます。","Ohayou gozaimasu."],
+  ["こんにちは","konnichiwa","selamat siang / halo","こんにちは、げんきですか。","Konnichiwa, genki desu ka."],
+  ["ありがとう","arigatou","terima kasih","てつだって くれて ありがとう。","Tetsudatte kurete arigatou."],
+  ["すみません","sumimasen","permisi / maaf","すみません、といれは どこですか。","Sumimasen, toire wa doko desu ka."]
 ];
 
 /* ---- Bunpō N5 (pattern, contoh kalimat, fungsi/arti-for-quiz) ---- */
@@ -592,58 +648,6 @@ const BUNPO_TIER3 = [
   ["〜すぎる","食べすぎました。","terlalu (berlebihan)",[["食べすぎました。","Tabesugimashita."]]]
 ];
 
-/* ---- Blok Kata (Anak SD) — kosakata murni kana (tanpa kanji) untuk
-   latihan "baca blok": membaca gabungan beberapa kana sebagai satu kata ---- */
-const HIRAGANA_BLOK_TIER1 = [
-  ["ねこ","neko","kucing"],["いぬ","inu","anjing"],["うさぎ","usagi","kelinci"],["とり","tori","burung"],
-  ["さかな","sakana","ikan"],["ぞう","zou","gajah"],["くま","kuma","beruang"],["うし","ushi","sapi"]
-];
-const HIRAGANA_BLOK_TIER2 = [
-  ["りんご","ringo","apel"],["みかん","mikan","jeruk"],["たまご","tamago","telur"],["おちゃ","ocha","teh"],
-  ["すし","sushi","sushi"],["おにぎり","onigiri","nasi kepal"],["みず","mizu","air"],["やさい","yasai","sayur"]
-];
-const HIRAGANA_BLOK_TIER3 = [
-  ["やま","yama","gunung"],["かわ","kawa","sungai"],["そら","sora","langit"],["はな","hana","bunga"],
-  ["つき","tsuki","bulan"],["ほし","hoshi","bintang"],["あめ","ame","hujan"],["き","ki","pohon"]
-];
-const KATAKANA_BLOK_TIER1 = [
-  ["パン","pan","roti"],["ケーキ","keeki","kue"],["ジュース","juusu","jus"],["アイス","aisu","es krim"],
-  ["バナナ","banana","pisang"],["チーズ","chiizu","keju"],["ピザ","piza","pizza"],["ミルク","miruku","susu"]
-];
-const KATAKANA_BLOK_TIER2 = [
-  ["テレビ","terebi","tv"],["ボール","booru","bola"],["ノート","nooto","buku catatan"],["ペン","pen","pulpen"],
-  ["カメラ","kamera","kamera"],["バス","basu","bus"],["タクシー","takushii","taksi"],["ホテル","hoteru","hotel"]
-];
-const KATAKANA_BLOK_TIER3 = [
-  ["パンダ","panda","panda"],["コアラ","koala","koala"],["ライオン","raion","singa"],["ペンギン","pengin","penguin"],
-  ["ロボット","robotto","robot"],["ピアノ","piano","piano"],["ギター","gitaa","gitar"],["スキー","sukii","ski"]
-];
-
-/* ---- Cerita Anak (kids' stories) — dipakai di layar "Cerita Anak" & Shadowing ---- */
-const STORIES = {
-  hiragana: {
-    title:"ねこの たま", scriptLabel:"Hiragana", emoji:"🐱",
-    sentences:[
-      {jp:"むかしむかし、もりに ねこが いました。", romaji:"Mukashi mukashi, mori ni neko ga imashita.", id:"Dahulu kala, di hutan ada seekor kucing.", emoji:"🐱🌲"},
-      {jp:"ねこの なまえは たまです。", romaji:"Neko no namae wa tama desu.", id:"Nama kucing itu Tama.", emoji:"🐱"},
-      {jp:"たまは まいにち さかなを たべます。", romaji:"Tama wa mainichi sakana wo tabemasu.", id:"Tama makan ikan setiap hari.", emoji:"🐟"},
-      {jp:"ある ひ、たまは うさぎに あいました。", romaji:"Aru hi, tama wa usagi ni aimashita.", id:"Suatu hari, Tama bertemu kelinci.", emoji:"🐰"},
-      {jp:"ふたりは いっしょに あそびました。", romaji:"Futari wa issho ni asobimashita.", id:"Mereka berdua bermain bersama.", emoji:"🎉"},
-      {jp:"たまと うさぎは ともだちに なりました。", romaji:"Tama to usagi wa tomodachi ni narimashita.", id:"Tama dan kelinci pun menjadi teman.", emoji:"💕"}
-    ]
-  },
-  katakana: {
-    title:"パンダと ケーキ", scriptLabel:"Katakana", emoji:"🐼",
-    sentences:[
-      {jp:"パンダが こうえんに いました。", romaji:"Panda ga kouen ni imashita.", id:"Ada seekor panda di taman.", emoji:"🐼🌳"},
-      {jp:"パンダは ケーキが すきです。", romaji:"Panda wa keeki ga suki desu.", id:"Panda suka kue.", emoji:"🍰"},
-      {jp:"ともだちが ジュースを もってきました。", romaji:"Tomodachi ga juusu wo mottekimashita.", id:"Teman membawakan jus.", emoji:"🧃"},
-      {jp:"ふたりは いっしょに ケーキを たべました。", romaji:"Futari wa issho ni keeki wo tabemashita.", id:"Mereka berdua makan kue bersama.", emoji:"🎉"},
-      {jp:"とても たのしい ひでした。", romaji:"Totemo tanoshii hi deshita.", id:"Hari yang sangat menyenangkan.", emoji:"😊"}
-    ]
-  }
-};
-
 /* =========================================================
    SCRIPTS registry — generalizes hiragana / katakana / kanji
    ========================================================= */
@@ -690,44 +694,6 @@ const SCRIPTS = {
       {tierKey:"tier3", title:"Yōon — Gabungan", desc:"Konsonan + ャュョ kecil, dibaca sebagai satu suku kata.", rows:GOJUON_KATAKANA.tier3}
     ]
   },
-  hiragana_blok: {
-    key:"hiragana_blok", label:"Blok Kata Hiragana", tabGlyph:"🔤",
-    quizLabel:"Tebak artinya", quizLabelRomaji:"Tebak romaji", hasVariants:true, quizType:"meaning",
-    data:{
-      tier1: HIRAGANA_BLOK_TIER1.map(([c,,m])=>[c,m]),
-      tier2: HIRAGANA_BLOK_TIER2.map(([c,,m])=>[c,m]),
-      tier3: HIRAGANA_BLOK_TIER3.map(([c,,m])=>[c,m])
-    },
-    dataRomaji:{
-      tier1: HIRAGANA_BLOK_TIER1.map(([c,r])=>[c,r]),
-      tier2: HIRAGANA_BLOK_TIER2.map(([c,r])=>[c,r]),
-      tier3: HIRAGANA_BLOK_TIER3.map(([c,r])=>[c,r])
-    },
-    learnVocab:[
-      {tierKey:"tier1", title:"Hewan", desc:"8 kata hewan sederhana untuk latihan baca blok hiragana.", items:HIRAGANA_BLOK_TIER1},
-      {tierKey:"tier2", title:"Makanan & Minuman", desc:"8 kata makanan dan minuman sehari-hari.", items:HIRAGANA_BLOK_TIER2},
-      {tierKey:"tier3", title:"Alam", desc:"8 kata tentang alam sekitar.", items:HIRAGANA_BLOK_TIER3}
-    ]
-  },
-  katakana_blok: {
-    key:"katakana_blok", label:"Blok Kata Katakana", tabGlyph:"🔤",
-    quizLabel:"Tebak artinya", quizLabelRomaji:"Tebak romaji", hasVariants:true, quizType:"meaning",
-    data:{
-      tier1: KATAKANA_BLOK_TIER1.map(([c,,m])=>[c,m]),
-      tier2: KATAKANA_BLOK_TIER2.map(([c,,m])=>[c,m]),
-      tier3: KATAKANA_BLOK_TIER3.map(([c,,m])=>[c,m])
-    },
-    dataRomaji:{
-      tier1: KATAKANA_BLOK_TIER1.map(([c,r])=>[c,r]),
-      tier2: KATAKANA_BLOK_TIER2.map(([c,r])=>[c,r]),
-      tier3: KATAKANA_BLOK_TIER3.map(([c,r])=>[c,r])
-    },
-    learnVocab:[
-      {tierKey:"tier1", title:"Makanan Asing", desc:"8 kata makanan &amp; minuman yang ditulis katakana.", items:KATAKANA_BLOK_TIER1},
-      {tierKey:"tier2", title:"Benda & Tempat", desc:"8 kata benda dan tempat sehari-hari.", items:KATAKANA_BLOK_TIER2},
-      {tierKey:"tier3", title:"Hewan & Lainnya", desc:"8 kata hewan dan benda serapan lainnya.", items:KATAKANA_BLOK_TIER3}
-    ]
-  },
   kanji: {
     key:"kanji", label:"Kanji N5", tabGlyph:"漢", quizType:"meaning",
     quizLabel:"Tebak artinya", quizLabelRomaji:"Tebak romaji", hasVariants:true,
@@ -767,15 +733,15 @@ const SCRIPTS = {
       tier3: KOTOBA_TIER3.map(([c,r])=>[c,r])
     },
     levelText:{
-      tier1:{title:"Sehari-hari", sample:"私 学校 友達", desc:"16 kosakata dasar N5: orang, tempat, dan benda sehari-hari."},
-      tier2:{title:"Kerja & Sifat", sample:"食べる 大きい", desc:"16 kosakata N5: kata kerja dan kata sifat dasar."},
-      tier3:{title:"Tempat & Waktu", sample:"駅 図書館 明日", desc:"16 kosakata N5: tempat, waktu, dan kegiatan."},
-      all:{title:"Semua Campur", sample:"仕事 新しい 帰る", desc:"Seluruh 48 kosakata N5 diacak jadi satu babak."}
+      tier1:{title:"Kata Benda", sample:"わたし がっこう ともだち", desc:"24 kosakata N5 (kana, tanpa kanji): orang, tempat, dan benda sehari-hari, lengkap dengan contoh kalimat."},
+      tier2:{title:"Kerja & Sifat", sample:"たべる おおきい すき", desc:"24 kosakata N5 (kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na, lengkap dengan contoh kalimat."},
+      tier3:{title:"Waktu & Ekspresi", sample:"えき あした ありがとう", desc:"24 kosakata N5 (kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam, lengkap dengan contoh kalimat."},
+      all:{title:"Semua Campur", sample:"しごと あたらしい かえる", desc:"Seluruh 72 kosakata N5 diacak jadi satu babak."}
     },
     learnVocab:[
-      {tierKey:"tier1", title:"Sehari-hari", desc:"16 kosakata dasar N5: orang, tempat, dan benda sehari-hari.", items:KOTOBA_TIER1},
-      {tierKey:"tier2", title:"Kata Kerja & Sifat", desc:"16 kosakata N5: kata kerja dan kata sifat dasar.", items:KOTOBA_TIER2},
-      {tierKey:"tier3", title:"Tempat & Waktu", desc:"16 kosakata N5: tempat, waktu, dan kegiatan.", items:KOTOBA_TIER3}
+      {tierKey:"tier1", title:"Kata Benda — Sehari-hari", desc:"24 kosakata dasar N5 (full kana, tanpa kanji): orang, keluarga, tempat, dan benda sehari-hari — tiap kata disertai contoh kalimat.", items:KOTOBA_TIER1},
+      {tierKey:"tier2", title:"Kata Kerja & Kata Sifat", desc:"24 kosakata N5 (full kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na — tiap kata disertai contoh kalimat.", items:KOTOBA_TIER2},
+      {tierKey:"tier3", title:"Tempat, Waktu & Ekspresi", desc:"24 kosakata N5 (full kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam — tiap kata disertai contoh kalimat.", items:KOTOBA_TIER3}
     ]
   },
   bunpo: {
@@ -929,24 +895,30 @@ function renderVocabTables(section){
     <h2 class="learn-section-title">${section.title} <span class="count">${section.items.length} kata</span></h2>
     <p class="learn-section-desc">${section.desc}</p>
   `;
-  const grid = document.createElement("div");
-  grid.className = "kanji-grid";
-  section.items.forEach(([word,reading,meaning])=>{
-    const cell = document.createElement("div");
-    cell.className = "kanji-cell vocab-cell";
-    cell.setAttribute("data-speak", word);
-    cell.setAttribute("role","button");
-    cell.setAttribute("tabindex","0");
-    cell.setAttribute("aria-label", `Dengar ucapan ${word}, dibaca ${reading}`);
-    cell.innerHTML = `
-      <span class="kj">${word}</span>
-      <span class="kj-reading">${reading}</span>
-      <span class="kj-meaning">${meaning}</span>
-      <span class="cell-audio-icon">🔊</span>
+  const list = document.createElement("div");
+  list.className = "grammar-list vocab-list";
+  section.items.forEach(([word,reading,meaning,example,exampleRomaji])=>{
+    const card = document.createElement("div");
+    card.className = "grammar-card vocab-card";
+    const wordRow = `
+      <button type="button" class="vocab-word-btn" data-speak="${word}" aria-label="Dengar ucapan ${word}, dibaca ${reading}">
+        <span class="grammar-pattern vocab-word">${word}</span>
+        <span class="cell-audio-icon">🔊</span>
+      </button>
+      <span class="vocab-reading">${reading}</span>
+      <span class="grammar-meaning">${meaning}</span>
     `;
-    grid.appendChild(cell);
+    const exampleHtml = example ? `
+      <div class="grammar-example-row">
+        <span class="grammar-example">${example}</span>
+        <button type="button" class="speak-btn" data-speak="${example}" aria-label="Dengar kalimat contoh">🔊</button>
+      </div>
+      <span class="vocab-example-romaji">${exampleRomaji || ""}</span>
+    ` : "";
+    card.innerHTML = wordRow + exampleHtml;
+    list.appendChild(card);
   });
-  sectionEl.appendChild(grid);
+  sectionEl.appendChild(list);
   wrap.appendChild(sectionEl);
   return wrap;
 }
@@ -1012,9 +984,6 @@ function renderLearnTables(scriptKey){
   document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn=>{
     btn.classList.toggle("active", btn.dataset.script === scriptKey);
   });
-  const isBlok = scriptKey.endsWith("_blok");
-  document.getElementById("learn-script-tabs").classList.toggle("hidden", isBlok);
-  btnLearnToQuiz.textContent = isBlok ? "🔤 Mulai Kuis Blok Kata" : "Sudah Siap — Mulai Quest";
 }
 
 document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn=>{
@@ -1028,7 +997,6 @@ document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn=>{
 const levelsEl = document.getElementById("levels");
 const startBtn = document.getElementById("btn-start");
 const btnOpenLearn = document.getElementById("btn-open-learn");
-const kidsSectionEl = document.getElementById("kids-section");
 
 function renderLevels(scriptKey){
   currentScript = scriptKey;
@@ -1040,7 +1008,6 @@ function renderLevels(scriptKey){
   btnOpenLearn.textContent = `📖 Belajar ${script.label} Dulu`;
   quizVariantPickerEl.classList.toggle("hidden", !script.hasVariants);
   rangePickerEl.classList.add("hidden");
-  kidsSectionEl.classList.toggle("hidden", !(scriptKey === "hiragana" || scriptKey === "katakana"));
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
   const hardBtn = document.querySelector('.difficulty-btn[data-difficulty="hard"]');
@@ -1361,173 +1328,8 @@ btnLearnBack.addEventListener("click", ()=>{
 });
 btnLearnToQuiz.addEventListener("click", ()=>{
   screenLearnEl.classList.add("hidden");
-  if(currentLearnScript.endsWith("_blok")){
-    // kuis blok kata (anak SD): langsung kuis seluruh daftar kata, tanpa layar pilih tingkatan
-    const blokScript = SCRIPTS[currentLearnScript];
-    selectedRangeFrom = 0;
-    selectedRangeTo = blokScript.data.all.length - 1;
-    if(selectedDifficulty === "hard") setDifficulty("easy");
-    startQuiz(currentLearnScript, "all");
-    return;
-  }
   screenStart.classList.remove("hidden");
   window.scrollTo({top:0, behavior:"instant"});
-});
-
-/* ---------------- kids mode: blok kata entry ---------------- */
-document.getElementById("btn-open-blok").addEventListener("click", ()=>{
-  const blokKey = currentScript + "_blok";
-  screenStart.classList.add("hidden");
-  screenLearnEl.classList.remove("hidden");
-  renderLearnTables(blokKey);
-  window.scrollTo({top:0, behavior:"instant"});
-});
-
-/* =========================================================
-   KIDS MODE — Cerita Anak (story reading)
-   ========================================================= */
-const screenStoryEl = document.getElementById("screen-story");
-const storyEyebrowEl = document.getElementById("story-eyebrow");
-const storyTitleEl = document.getElementById("story-title");
-const storySentencesEl = document.getElementById("story-sentences");
-const btnOpenStory = document.getElementById("btn-open-story");
-const btnStoryBack = document.getElementById("btn-story-back");
-const btnStoryToShadow = document.getElementById("btn-story-to-shadow");
-let currentStoryScript = "hiragana";
-
-function renderStoryScreen(scriptKey){
-  currentStoryScript = scriptKey;
-  const story = STORIES[scriptKey];
-  storyEyebrowEl.textContent = `cerita anak · ${story.scriptLabel}`;
-  storyTitleEl.textContent = `${story.emoji} ${story.title}`;
-  storySentencesEl.innerHTML = story.sentences.map((s,i)=>`
-    <div class="story-sentence">
-      <span class="story-num">${i+1}</span>
-      <div class="story-sentence-body">
-        <button type="button" class="story-jp speakable" data-speak="${s.jp}" aria-label="Dengar kalimat ini">
-          ${s.jp}<span class="cell-audio-icon">🔊</span>
-        </button>
-        <div class="story-romaji">${s.romaji}</div>
-        <div class="story-id">${s.id}</div>
-      </div>
-      <span class="story-emoji">${s.emoji}</span>
-    </div>`).join("");
-}
-
-btnOpenStory.addEventListener("click", ()=>{
-  screenStart.classList.add("hidden");
-  renderStoryScreen(currentScript);
-  screenStoryEl.classList.remove("hidden");
-  window.scrollTo({top:0, behavior:"instant"});
-});
-btnStoryBack.addEventListener("click", ()=>{
-  screenStoryEl.classList.add("hidden");
-  screenStart.classList.remove("hidden");
-});
-
-/* =========================================================
-   KIDS MODE — Latihan Shadowing (dengar, tiru, ucapkan)
-   ========================================================= */
-const screenShadowEl = document.getElementById("screen-shadow");
-const shadowWordEl = document.getElementById("shadow-word");
-const shadowRomajiEl = document.getElementById("shadow-romaji");
-const shadowMeaningEl = document.getElementById("shadow-meaning");
-const shadowEmojiEl = document.getElementById("shadow-emoji");
-const shadowProgressEl = document.getElementById("shadow-progress");
-const shadowCountdownEl = document.getElementById("shadow-countdown");
-const shadowPromptEl = document.getElementById("shadow-prompt");
-const btnShadowPlay = document.getElementById("btn-shadow-play");
-const btnShadowSlow = document.getElementById("btn-shadow-slow");
-const btnShadowGo = document.getElementById("btn-shadow-go");
-const btnShadowPrev = document.getElementById("btn-shadow-prev");
-const btnShadowNext = document.getElementById("btn-shadow-next");
-const btnOpenShadow = document.getElementById("btn-open-shadow");
-const btnShadowBack = document.getElementById("btn-shadow-back");
-
-let shadowItems = [];
-let shadowIndex = 0;
-let shadowCountdownTimer = null;
-
-function buildShadowItemsFromBlok(scriptKey){
-  const blok = SCRIPTS[scriptKey + "_blok"];
-  return blok.data.all.map(([word, meaning], i)=>({
-    jp: word, romaji: blok.dataRomaji.all[i][1], meaning, emoji: "🔤"
-  }));
-}
-function buildShadowItemsFromStory(scriptKey){
-  return STORIES[scriptKey].sentences.map(s=>({ jp:s.jp, romaji:s.romaji, meaning:s.id, emoji:s.emoji }));
-}
-
-function openShadowScreen(scriptKey, fromStory){
-  clearInterval(shadowCountdownTimer);
-  shadowItems = fromStory ? buildShadowItemsFromStory(scriptKey) : buildShadowItemsFromBlok(scriptKey);
-  shadowIndex = 0;
-  screenStart.classList.add("hidden");
-  screenStoryEl.classList.add("hidden");
-  screenShadowEl.classList.remove("hidden");
-  renderShadowItem();
-  window.scrollTo({top:0, behavior:"instant"});
-}
-
-function renderShadowItem(){
-  clearInterval(shadowCountdownTimer);
-  const item = shadowItems[shadowIndex];
-  shadowProgressEl.textContent = `${shadowIndex+1} / ${shadowItems.length}`;
-  shadowWordEl.textContent = item.jp;
-  shadowWordEl.setAttribute("data-speak", item.jp);
-  shadowWordEl.classList.toggle("long-text", item.jp.length > 10);
-  shadowRomajiEl.textContent = item.romaji;
-  shadowMeaningEl.textContent = item.meaning;
-  shadowEmojiEl.textContent = item.emoji;
-  shadowCountdownEl.classList.add("hidden");
-  shadowPromptEl.classList.add("hidden");
-  btnShadowPrev.disabled = shadowIndex === 0;
-  btnShadowNext.disabled = shadowIndex === shadowItems.length - 1;
-}
-
-function speakShadowWord(rate){
-  if(!speechSupported) return;
-  speechSynthesis.cancel();
-  if(!jaVoice) pickJaVoice();
-  const utter = new SpeechSynthesisUtterance(shadowItems[shadowIndex].jp);
-  utter.lang = "ja-JP";
-  if(jaVoice) utter.voice = jaVoice;
-  utter.rate = rate;
-  speechSynthesis.speak(utter);
-}
-
-btnShadowPlay.addEventListener("click", ()=> speakShadowWord(0.85));
-btnShadowSlow.addEventListener("click", ()=> speakShadowWord(0.5));
-btnShadowGo.addEventListener("click", ()=>{
-  speakShadowWord(0.85);
-  let count = 3;
-  shadowPromptEl.classList.add("hidden");
-  shadowCountdownEl.classList.remove("hidden");
-  shadowCountdownEl.textContent = count;
-  clearInterval(shadowCountdownTimer);
-  shadowCountdownTimer = setInterval(()=>{
-    count--;
-    if(count <= 0){
-      clearInterval(shadowCountdownTimer);
-      shadowCountdownEl.classList.add("hidden");
-      shadowPromptEl.classList.remove("hidden");
-    } else {
-      shadowCountdownEl.textContent = count;
-    }
-  }, 700);
-});
-btnShadowPrev.addEventListener("click", ()=>{ if(shadowIndex > 0){ shadowIndex--; renderShadowItem(); } });
-btnShadowNext.addEventListener("click", ()=>{ if(shadowIndex < shadowItems.length - 1){ shadowIndex++; renderShadowItem(); } });
-btnOpenShadow.addEventListener("click", ()=> openShadowScreen(currentScript, false));
-btnStoryToShadow.addEventListener("click", ()=>{
-  screenStoryEl.classList.add("hidden");
-  openShadowScreen(currentStoryScript, true);
-});
-btnShadowBack.addEventListener("click", ()=>{
-  clearInterval(shadowCountdownTimer);
-  speechSupported && speechSynthesis.cancel();
-  screenShadowEl.classList.add("hidden");
-  screenStart.classList.remove("hidden");
 });
 
 /* ---------------- quiz flow ---------------- */
