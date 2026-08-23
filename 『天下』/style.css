@@ -63,7 +63,24 @@ body{
   align-items:flex-start;
   justify-content:center;
   padding:calc(76px + env(safe-area-inset-top)) 20px 80px;
-  transition:background-color .25s ease, color .25s ease;
+  transition:background .5s ease, background-color .25s ease, color .25s ease;
+}
+
+/* latar khusus saat mengerjakan kuis — nuansa lebih hidup & fokus dari layar biasa */
+body:has(#screen-quiz:not(.hidden)){
+  background:
+    radial-gradient(900px 520px at 50% -12%, rgba(46,98,166,0.20), transparent 62%),
+    radial-gradient(650px 480px at 105% 15%, rgba(242,169,60,0.12), transparent 55%),
+    radial-gradient(650px 480px at -5% 100%, rgba(29,78,216,0.10), transparent 55%),
+    var(--paper);
+}
+/* mode penaklukan: nuansa lebih menegangkan/dramatis — merah-emas seperti medan perang */
+body:has(#screen-quiz.conquest-active:not(.hidden)){
+  background:
+    radial-gradient(900px 540px at 50% -14%, rgba(220,38,38,0.16), transparent 62%),
+    radial-gradient(700px 520px at 108% 20%, rgba(242,169,60,0.18), transparent 55%),
+    radial-gradient(700px 520px at -8% 105%, rgba(29,78,216,0.12), transparent 55%),
+    var(--paper);
 }
 
 /* ---------- top-right controls ---------- */
@@ -556,11 +573,28 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
 .streak .flame{opacity:0; transform:scale(0.6); transition:all .2s ease;}
 .streak.show .flame{opacity:1; transform:scale(1);}
 
-.stamp-wrap{display:flex; justify-content:center; margin:10px 0 36px;}
+.stamp-wrap{position:relative; display:flex; justify-content:center; margin:10px 0 36px;}
+.stamp-wrap::before{
+  content:"";
+  position:absolute; top:50%; left:50%; z-index:0;
+  width:min(360px,88vw); height:min(360px,88vw);
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:
+    repeating-conic-gradient(from 0deg, rgba(46,98,166,0.12) 0deg 3deg, transparent 3deg 18deg),
+    radial-gradient(closest-side, rgba(46,98,166,0.08), transparent 75%);
+  pointer-events:none;
+  transition:background .4s ease;
+}
+#screen-quiz.conquest-active .stamp-wrap::before{
+  background:
+    repeating-conic-gradient(from 0deg, rgba(220,38,38,0.16) 0deg 3deg, transparent 3deg 18deg),
+    radial-gradient(closest-side, rgba(242,169,60,0.12), transparent 75%);
+}
 .stamp{
   width:clamp(140px,38vw,180px); height:clamp(140px,38vw,180px); background:var(--card);
   display:flex; align-items:center; justify-content:center;
-  position:relative; transform:rotate(-1.4deg);
+  position:relative; z-index:1; transform:rotate(-1.4deg);
   filter:url(#roughen);
   box-shadow:0 14px 30px var(--shadow);
   transition:background-color .25s ease;

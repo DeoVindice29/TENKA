@@ -1655,7 +1655,18 @@ function renderQuestion(){
 
   kanaCharEl.textContent = current[0];
   stampEl.classList.toggle("kanji-stamp", script.quizType === "meaning");
-  stampEl.classList.toggle("long-text", current[0].length > 6);
+  // kata (kotoba/kanji/bunpō) selalu pakai kartu lebar "long-text" biar tidak
+  // meluber dari lingkaran cap — lingkaran hanya untuk 1 karakter kana/kanji tunggal.
+  const isWordStamp = script.quizType === "meaning" || current[0].length > 6;
+  stampEl.classList.toggle("long-text", isWordStamp);
+  if(isWordStamp){
+    const len = current[0].length;
+    // makin panjang katanya, makin kecil hurufnya, supaya tetap rapi & pas di kartu.
+    const size = len <= 3 ? 34 : len <= 5 ? 28 : len <= 7 ? 23 : len <= 10 ? 19 : 16;
+    kanaCharEl.style.fontSize = `clamp(${size - 8}px, ${(size * 0.26).toFixed(1)}vw, ${size + 6}px)`;
+  } else {
+    kanaCharEl.style.fontSize = "";
+  }
   stampEl.classList.remove("pop");
   void stampEl.offsetWidth;
   stampEl.classList.add("pop");
