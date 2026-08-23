@@ -262,29 +262,29 @@ h1 svg{position:absolute; left:0; bottom:-10px; width:100%; height:14px;}
   display:flex; align-items:center; justify-content:center; border:2px solid var(--card);
 }
 .profile-info{flex:1; min-width:0;}
-.profile-title-row{display:flex; align-items:baseline; gap:8px; margin-bottom:6px; flex-wrap:wrap;}
-.profile-emoji{font-size:20px; line-height:1;}
-.profile-title{font-family:'Shippori Mincho', serif; font-weight:800; font-size:16px; color:var(--ink);}
-.profile-subtitle{font-family:var(--kana-font); font-size:13px; color:var(--ink-soft);}
-.profile-nickname-wrap{margin-bottom:6px;}
+.profile-nickname-wrap{margin-bottom:5px;}
 .profile-nickname-btn{
-  display:inline-flex; align-items:center; gap:6px; max-width:100%;
-  font-family:inherit; font-size:12.5px; font-weight:700; color:var(--ink-soft);
+  display:inline-flex; align-items:center; gap:7px; max-width:100%;
+  font-family:'Shippori Mincho', serif; font-size:18px; font-weight:800; color:var(--ink-soft);
   background:none; border:1px dashed var(--line); border-radius:100px;
-  padding:3px 10px; cursor:pointer; transition:border-color .15s ease, color .15s ease;
+  padding:2px 12px; cursor:pointer; transition:border-color .15s ease, color .15s ease;
 }
 .profile-nickname-btn:hover{border-color:var(--indigo); color:var(--indigo);}
 .profile-nickname-btn:focus-visible{outline:2px solid var(--vermillion); outline-offset:2px;}
-.profile-nickname-btn span:first-child{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:22ch;}
+.profile-nickname-btn span:first-child{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:20ch;}
 .profile-nickname-btn.has-name{border-style:solid; border-color:var(--indigo); color:var(--indigo);}
-.profile-nickname-edit-icon{font-size:10px; flex:0 0 auto; opacity:.75;}
+.profile-nickname-edit-icon{font-size:11px; flex:0 0 auto; opacity:.75;}
 .profile-nickname-input{
-  font-family:inherit; font-size:12.5px; font-weight:700; color:var(--ink);
+  font-family:'Shippori Mincho', serif; font-size:18px; font-weight:800; color:var(--ink);
   background:var(--card); border:1px solid var(--indigo); border-radius:100px;
-  padding:3px 12px; max-width:220px; width:100%;
+  padding:2px 14px; max-width:220px; width:100%;
 }
 .profile-nickname-input.hidden{display:none;}
 .profile-nickname-input:focus-visible{outline:none; box-shadow:0 0 0 1px var(--indigo) inset;}
+.profile-title-row{display:flex; align-items:baseline; gap:6px; margin-bottom:6px; flex-wrap:wrap;}
+.profile-emoji{font-size:15px; line-height:1;}
+.profile-title{font-family:'Shippori Mincho', serif; font-weight:700; font-size:12.5px; color:var(--ink-soft);}
+.profile-subtitle{font-family:var(--kana-font); font-size:10.5px; color:var(--ink-soft);}
 .profile-dots{display:flex; gap:5px;}
 .profile-dots span{width:8px; height:8px; border-radius:50%; background:var(--line);}
 .profile-dots span.filled{background:var(--vermillion);}

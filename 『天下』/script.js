@@ -1858,8 +1858,20 @@ function renderResults(){
 
   const nickname = getNickname();
   if(nickname){
-    const willFail = state.conquest && state.conquestFailed;
-    resGreetEl.textContent = willFail ? `Semangat, ${nickname}! 💪` : `Kerja bagus, ${nickname}! 🎉`;
+    let greet;
+    if(state.conquest){
+      // penaklukan: berhasil = otomatis 100% (sekali salah = gagal), jadi tetap layak pujian.
+      greet = state.conquestFailed ? `Semangat, ${nickname}! 💪` : `Sempurna, ${nickname}! 🏆`;
+    } else if(acc === 100){
+      greet = `Sempurna, ${nickname}! 🎉`;
+    } else if(acc >= 80){
+      greet = `Hampir sempurna, ${nickname}! Sedikit lagi.`;
+    } else if(acc >= 50){
+      greet = `Lumayan, ${nickname}! Terus berlatih ya.`;
+    } else {
+      greet = `Semangat, ${nickname}! Coba lagi pelan-pelan.`;
+    }
+    resGreetEl.textContent = greet;
     resGreetEl.classList.remove("hidden");
   } else {
     resGreetEl.classList.add("hidden");
