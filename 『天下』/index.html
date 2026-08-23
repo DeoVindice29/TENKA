@@ -43,6 +43,13 @@
             <span class="profile-title" id="profile-title">Heimin</span>
             <span class="profile-subtitle" id="profile-subtitle">平民</span>
           </div>
+          <div class="profile-nickname-wrap" id="profile-nickname-wrap">
+            <button type="button" class="profile-nickname-btn" id="profile-nickname-btn" aria-label="Atur nickname kamu">
+              <span id="profile-nickname-text">+ Tambah nickname</span>
+              <span class="profile-nickname-edit-icon">✎</span>
+            </button>
+            <input type="text" id="profile-nickname-input" class="profile-nickname-input hidden" maxlength="18" autocomplete="off" placeholder="Nickname kamu...">
+          </div>
           <div class="profile-dots" id="profile-dots"></div>
           <div class="profile-next" id="profile-next"></div>
         </div>
@@ -171,7 +178,12 @@
 
     <div class="range-picker hidden" id="range-picker">
       <span class="settings-label">Rentang Soal</span>
-      <div class="range-row">
+      <div class="range-mode-toggle" id="range-mode-toggle">
+        <button class="range-mode-btn active" data-range-mode="manual" type="button">🎯 Pilih Rentang</button>
+        <button class="range-mode-btn" data-range-mode="random" type="button">🎲 Acak</button>
+      </div>
+
+      <div class="range-row" id="range-row">
         <div class="range-field">
           <label id="range-from-label">Dari</label>
           <div class="range-dd" id="range-from-dd">
@@ -196,6 +208,12 @@
           </div>
         </div>
       </div>
+
+      <div class="range-random hidden" id="range-random">
+        <label class="range-random-label">Jumlah soal (diambil acak dari seluruh tingkatan ini)</label>
+        <div class="range-random-options" id="range-random-options"></div>
+      </div>
+
       <p class="range-hint" id="range-hint"></p>
     </div>
 
@@ -285,6 +303,7 @@
   <!-- ===== RESULTS SCREEN ===== -->
   <section id="screen-results" class="hidden results">
     <div class="promo-banner hidden" id="promo-banner"></div>
+    <p class="res-greet hidden" id="res-greet"></p>
     <div class="score-stamp">
       <div class="num" id="res-score">0/10</div>
       <div class="of">tepat</div>
@@ -298,6 +317,7 @@
 
     <div class="result-actions">
       <button class="primary" id="btn-retry">Ulangi Set Ini</button>
+      <button class="ghost hidden" id="btn-results-learn">📖 Belajar Dulu</button>
       <button class="ghost" id="btn-change">← Kembali</button>
     </div>
   </section>

@@ -142,6 +142,7 @@ fontSelect.addEventListener("change", ()=> applyFont(fontSelect.value));
 const RANK_KEY = "tebakAksara_rank_v1";
 const PHOTO_KEY = "tebakAksara_photo_v1";
 const MASTERY_KEY = "tebakAksara_mastery_v1";
+const NICKNAME_KEY = "tebakAksara_nickname_v1";
 
 // Tingkatan kebangsawanan — dari rakyat jelata sampai kaisar.
 // Setiap tingkat butuh menuntaskan babak "Kaisar" (Semua Campur) pada aksara terkait.
@@ -350,6 +351,51 @@ photoInput.addEventListener("change", ()=>{
     renderAvatar();
   };
   reader.readAsDataURL(file);
+});
+
+/* ---- nickname profil ---- */
+function getNickname(){
+  return (localStorage.getItem(NICKNAME_KEY) || "").trim();
+}
+function setNickname(name){
+  localStorage.setItem(NICKNAME_KEY, name);
+}
+
+const nicknameBtnEl = document.getElementById("profile-nickname-btn");
+const nicknameTextEl = document.getElementById("profile-nickname-text");
+const nicknameInputEl = document.getElementById("profile-nickname-input");
+
+function renderNickname(){
+  const name = getNickname();
+  nicknameTextEl.textContent = name || "+ Tambah nickname";
+  nicknameBtnEl.classList.toggle("has-name", !!name);
+}
+renderNickname();
+
+function openNicknameEditor(){
+  nicknameInputEl.value = getNickname();
+  nicknameBtnEl.classList.add("hidden");
+  nicknameInputEl.classList.remove("hidden");
+  nicknameInputEl.focus();
+  nicknameInputEl.select();
+}
+function commitNickname(){
+  const val = nicknameInputEl.value.trim().slice(0, 18);
+  setNickname(val);
+  nicknameInputEl.classList.add("hidden");
+  nicknameBtnEl.classList.remove("hidden");
+  renderNickname();
+}
+nicknameBtnEl.addEventListener("click", openNicknameEditor);
+nicknameInputEl.addEventListener("blur", commitNickname);
+nicknameInputEl.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter"){
+    e.preventDefault();
+    nicknameInputEl.blur();
+  } else if(e.key === "Escape"){
+    nicknameInputEl.value = getNickname();
+    nicknameInputEl.blur();
+  }
 });
 
 /* =========================================================
@@ -777,6 +823,8 @@ Object.values(SCRIPTS).forEach(s=>{
 // diatur lewat dropdown "Dari" — "Sampai". Direset tiap kali user pilih tingkatan baru.
 let selectedRangeFrom = 0;
 let selectedRangeTo = 0;
+let rangeMode = "manual"; // "manual" (pilih dari-sampai) | "random" (jumlah soal acak)
+let selectedRandomCount = 5;
 let selectedQuizVariant = "meaning"; // "meaning" | "romaji" | "both" — hanya berlaku utk script ber-hasVariants
 let selectedDifficulty = "easy"; // "easy" (4 pilihan) | "medium" (8 pilihan) | "hard" (ketik sendiri — hiragana/katakana saja)
 let currentScript = "hiragana"; // script currently shown on the start screen
@@ -1218,18 +1266,75 @@ function renderRangePicker(scriptKey, modeId){
   updateRangeTrigger("from", selectedRangeFrom);
   updateRangeTrigger("to", selectedRangeTo);
   rangePickerEl.classList.remove("hidden");
+
+  // tingkatan baru dipilih -> selalu kembali ke mode "Pilih Rentang" biar tidak
+  // membingungkan, dan siapkan ulang daftar opsi jumlah soal utk mode Acak.
+  setRangeMode("manual");
+  renderRandomCountOptions(pool.length);
+
   updateRangeHint();
 }
 
+/* ---- mode "Acak": pilih jumlah soal (5, 10, 15, ...) diambil random dari seluruh tingkatan ---- */
+const rangeModeToggleEl = document.getElementById("range-mode-toggle");
+const rangeRowEl = document.getElementById("range-row");
+const rangeRandomEl = document.getElementById("range-random");
+const rangeRandomOptionsEl = document.getElementById("range-random-options");
+
+function setRangeMode(mode){
+  rangeMode = mode;
+  document.querySelectorAll(".range-mode-btn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.rangeMode === mode);
+  });
+  rangeRowEl.classList.toggle("hidden", mode !== "manual");
+  rangeRandomEl.classList.toggle("hidden", mode !== "random");
+}
+rangeModeToggleEl.addEventListener("click", (e)=>{
+  const btn = e.target.closest(".range-mode-btn");
+  if(!btn) return;
+  setRangeMode(btn.dataset.rangeMode);
+  updateRangeHint();
+});
+
+// opsi kelipatan 5 sampai total soal tingkatan ini, selalu diakhiri "Semua".
+function renderRandomCountOptions(totalCount){
+  const steps = [];
+  for(let n = 5; n < totalCount; n += 5) steps.push(n);
+  steps.push(totalCount);
+  if(!steps.includes(selectedRandomCount)) selectedRandomCount = steps[0];
+  rangeRandomOptionsEl.innerHTML = steps.map(n=>{
+    const label = n === totalCount ? `Semua (${n})` : String(n);
+    return `<button type="button" class="range-count-btn ${n === selectedRandomCount ? 'active' : ''}" data-count="${n}">${label}</button>`;
+  }).join("");
+}
+rangeRandomOptionsEl.addEventListener("click", (e)=>{
+  const btn = e.target.closest(".range-count-btn");
+  if(!btn) return;
+  selectedRandomCount = parseInt(btn.dataset.count, 10);
+  rangeRandomOptionsEl.querySelectorAll(".range-count-btn").forEach(b=>{
+    b.classList.toggle("active", b === btn);
+  });
+  updateRangeHint();
+});
+
 function updateRangeHint(){
   if(!state.mode) return;
+  const info = SCRIPTS[currentScript].levelText[state.mode];
+
+  if(rangeMode === "random"){
+    const total = currentRangeItems.length;
+    const count = Math.min(selectedRandomCount, total);
+    rangeHintEl.textContent = `🎲 ${count} soal acak dipilih dari total ${total} soal di tingkatan ini`;
+    startBtn.textContent = `Mulai — ${info.title} (${count} Soal Acak)`;
+    return;
+  }
+
   const count = selectedRangeTo - selectedRangeFrom + 1;
   const fromLabel = currentRangeItems[selectedRangeFrom].kana;
   const toLabel = currentRangeItems[selectedRangeTo].kana;
   rangeHintEl.textContent = count === 1
     ? `1 soal terpilih (${fromLabel})`
     : `${count} soal terpilih (${fromLabel} → ${toLabel})`;
-  const info = SCRIPTS[currentScript].levelText[state.mode];
   startBtn.textContent = `Mulai — ${info.title} (${count} Soal)`;
 }
 
@@ -1378,10 +1483,14 @@ function startQuiz(scriptKey, mode){
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
     pool = meaningPool;
 
-    // di luar penaklukan, hanya soal dalam rentang "Dari"—"Sampai" yang dipilih user.
+    // di luar penaklukan: mode manual pakai rentang "Dari"—"Sampai", mode acak
+    // mengambil sejumlah `selectedRandomCount` soal random dari seluruh tingkatan.
     let rangeIndices;
     if(isConquest){
       rangeIndices = meaningPool.map((_,i)=>i);
+    } else if(rangeMode === "random"){
+      const count = Math.min(selectedRandomCount, meaningPool.length);
+      rangeIndices = shuffle(meaningPool.map((_,i)=>i)).slice(0, count);
     } else {
       const from = Math.max(0, Math.min(selectedRangeFrom, meaningPool.length - 1));
       const to = Math.max(from, Math.min(selectedRangeTo, meaningPool.length - 1));
@@ -1409,10 +1518,14 @@ function startQuiz(scriptKey, mode){
     // hiragana / katakana: hanya tebak romaji, seperti semula
     pool = isConquest ? script.data.all : script.data[mode];
     wrongPools = { romaji: pool };
-    // di luar penaklukan, hanya karakter dalam rentang "Dari"—"Sampai" yang dipilih user.
+    // di luar penaklukan: mode manual pakai rentang "Dari"—"Sampai", mode acak
+    // mengambil sejumlah `selectedRandomCount` karakter random dari seluruh tingkatan.
     let rangePool;
     if(isConquest){
       rangePool = pool;
+    } else if(rangeMode === "random"){
+      const count = Math.min(selectedRandomCount, pool.length);
+      rangePool = shuffle(pool).slice(0, count);
     } else {
       const from = Math.max(0, Math.min(selectedRangeFrom, pool.length - 1));
       const to = Math.max(from, Math.min(selectedRangeTo, pool.length - 1));
@@ -1731,6 +1844,8 @@ document.addEventListener("keydown", (e)=>{
 
 /* ---------------- results ---------------- */
 const promoBannerEl = document.getElementById("promo-banner");
+const resGreetEl = document.getElementById("res-greet");
+const btnResultsLearn = document.getElementById("btn-results-learn");
 
 function renderResults(){
   screenQuiz.classList.add("hidden");
@@ -1740,6 +1855,15 @@ function renderResults(){
   const acc = Math.round((state.score / state.queue.length) * 100);
   const streakNote = state.maxStreak >= 3 ? ` · beruntun terbaik ${state.maxStreak}` : "";
   document.getElementById("res-acc").textContent = `Akurasi ${acc}%${streakNote}`;
+
+  const nickname = getNickname();
+  if(nickname){
+    const willFail = state.conquest && state.conquestFailed;
+    resGreetEl.textContent = willFail ? `Semangat, ${nickname}! 💪` : `Kerja bagus, ${nickname}! 🎉`;
+    resGreetEl.classList.remove("hidden");
+  } else {
+    resGreetEl.classList.add("hidden");
+  }
 
   const missedWrap = document.getElementById("res-missed-wrap");
   const missedEl = document.getElementById("res-missed");
@@ -1771,7 +1895,9 @@ function renderResults(){
       promoBannerEl.classList.add("conquest-fail");
       promoBannerEl.classList.remove("hidden");
       retryBtn.textContent = "⚔️ Coba Lagi dari Awal";
+      btnResultsLearn.classList.remove("hidden");
     } else {
+      btnResultsLearn.classList.add("hidden");
       const promoted = promoteIfHigher(state.script, "all");
       const newTitle = earnConquestTitle(state.script);
       const opening = state.conquestPhaseBoundaries
@@ -1794,6 +1920,7 @@ function renderResults(){
       updateScriptConquestBadges();
     }
   } else {
+    btnResultsLearn.classList.add("hidden");
     retryBtn.textContent = "Ulangi Set Ini";
     const promoted = promoteIfHigher(state.script, state.mode);
     if(promoted){
@@ -1812,6 +1939,12 @@ document.getElementById("btn-retry").addEventListener("click", ()=> startQuiz(st
 document.getElementById("btn-change").addEventListener("click", ()=>{
   screenResults.classList.add("hidden");
   screenStart.classList.remove("hidden");
+});
+btnResultsLearn.addEventListener("click", ()=>{
+  screenResults.classList.add("hidden");
+  screenLearnEl.classList.remove("hidden");
+  renderLearnTables(state.script);
+  window.scrollTo({top:0, behavior:"instant"});
 });
 
 /* ---------------- kirim masukan (email) ---------------- */
