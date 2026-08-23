@@ -15,7 +15,7 @@
   color-scheme: light;
   --line: rgba(36,31,26,0.14);
 
-  /* warna khusus feedback kuis: benar = biru, salah = merah */
+  /* warna khusus feedback quest: benar = biru, salah = merah */
   --quiz-correct:#1D4ED8;
   --quiz-wrong:#DC2626;
 
@@ -63,24 +63,7 @@ body{
   align-items:flex-start;
   justify-content:center;
   padding:calc(76px + env(safe-area-inset-top)) 20px 80px;
-  transition:background .5s ease, background-color .25s ease, color .25s ease;
-}
-
-/* latar khusus saat mengerjakan kuis — nuansa lebih hidup & fokus dari layar biasa */
-body:has(#screen-quiz:not(.hidden)){
-  background:
-    radial-gradient(900px 520px at 50% -12%, rgba(46,98,166,0.20), transparent 62%),
-    radial-gradient(650px 480px at 105% 15%, rgba(242,169,60,0.12), transparent 55%),
-    radial-gradient(650px 480px at -5% 100%, rgba(29,78,216,0.10), transparent 55%),
-    var(--paper);
-}
-/* mode penaklukan: nuansa lebih menegangkan/dramatis — merah-emas seperti medan perang */
-body:has(#screen-quiz.conquest-active:not(.hidden)){
-  background:
-    radial-gradient(900px 540px at 50% -14%, rgba(220,38,38,0.16), transparent 62%),
-    radial-gradient(700px 520px at 108% 20%, rgba(242,169,60,0.18), transparent 55%),
-    radial-gradient(700px 520px at -8% 105%, rgba(29,78,216,0.12), transparent 55%),
-    var(--paper);
+  transition:background-color .25s ease, color .25s ease;
 }
 
 /* ---------- top-right controls ---------- */
@@ -495,6 +478,16 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
   color:var(--on-accent); background:var(--gold); padding:2px 8px; border-radius:20px;
   letter-spacing:0.01em;
 }
+.conquest-lock-note{font-size:11.5px; font-weight:700; color:var(--ink-soft); line-height:1.5;}
+.conquest-lock-note.hidden{display:none;}
+.conquest-card.locked{
+  cursor:not-allowed; opacity:0.6;
+  background:var(--card); border-color:var(--line);
+}
+.conquest-card.locked:hover{transform:none; box-shadow:none;}
+.conquest-card.locked .conquest-title,
+.conquest-card.locked .conquest-arrow{color:var(--ink-soft);}
+.conquest-card.locked .conquest-desc{display:none;}
 
 /* ---------- koleksi title (achievement badges) ---------- */
 .title-collection-hint{margin:2px 0 10px; font-size:12px; color:var(--ink-soft); line-height:1.5;}
@@ -538,7 +531,7 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
 .modal-actions{display:flex; gap:10px;}
 .modal-actions button{flex:1; margin-top:0;}
 
-/* ---------- layar cerita transisi antar babak penaklukan ---------- */
+/* ---------- layar cerita transisi antar Chapter penaklukan ---------- */
 .conquest-story{display:flex; flex-direction:column; min-height:60vh;}
 .conquest-story-card{
   flex:1; display:flex; flex-direction:column; justify-content:center;
@@ -573,47 +566,26 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
 .streak .flame{opacity:0; transform:scale(0.6); transition:all .2s ease;}
 .streak.show .flame{opacity:1; transform:scale(1);}
 
-.stamp-wrap{position:relative; display:flex; justify-content:center; margin:10px 0 36px;}
-.stamp-wrap::before{
-  content:"";
-  position:absolute; top:50%; left:50%; z-index:0;
-  width:min(360px,88vw); height:min(360px,88vw);
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  background:
-    repeating-conic-gradient(from 0deg, rgba(46,98,166,0.12) 0deg 3deg, transparent 3deg 18deg),
-    radial-gradient(closest-side, rgba(46,98,166,0.08), transparent 75%);
-  pointer-events:none;
-  transition:background .4s ease;
-}
-#screen-quiz.conquest-active .stamp-wrap::before{
-  background:
-    repeating-conic-gradient(from 0deg, rgba(220,38,38,0.16) 0deg 3deg, transparent 3deg 18deg),
-    radial-gradient(closest-side, rgba(242,169,60,0.12), transparent 75%);
-}
+.stamp-wrap{display:flex; justify-content:center; margin:10px 0 36px;}
 .stamp{
-  width:clamp(140px,38vw,180px); height:clamp(140px,38vw,180px); background:var(--card);
+  width:auto; height:auto; min-width:140px; min-height:140px;
   display:flex; align-items:center; justify-content:center;
-  position:relative; z-index:1; transform:rotate(-1.4deg);
-  filter:url(#roughen);
-  box-shadow:0 14px 30px var(--shadow);
-  transition:background-color .25s ease;
+  position:relative;
 }
 .stamp .kana{
   font-family:var(--kana-font); font-weight:700; font-size:clamp(52px,14vw,78px); color:var(--indigo);
-  transform:rotate(1.4deg);
   transition:color .25s ease;
 }
 .stamp.pop{animation:stampdown .32s ease;}
 @keyframes stampdown{
-  0%{transform:rotate(-1.4deg) scale(1.5); opacity:0;}
-  60%{transform:rotate(-1.4deg) scale(0.96); opacity:1;}
-  100%{transform:rotate(-1.4deg) scale(1);}
+  0%{transform:scale(1.5); opacity:0;}
+  60%{transform:scale(0.96); opacity:1;}
+  100%{transform:scale(1);}
 }
 .stamp.kanji-stamp .kana{font-family:var(--kana-font); font-weight:700;}
 .stamp.long-text{
-  width:auto; max-width:92%; min-width:220px; height:auto; min-height:140px;
-  border-radius:12px; padding:22px 18px;
+  width:auto; max-width:92%; min-width:0; height:auto; min-height:0;
+  padding:0;
 }
 .stamp.long-text .kana{
   font-size:clamp(17px,4.6vw,25px); white-space:normal; line-height:1.4; text-align:center;
@@ -623,7 +595,6 @@ button.primary:focus-visible, .level-card:focus-visible, button.choice:focus-vis
   color:var(--ink-soft); margin:-24px 0 22px;
 }
 #screen-quiz.conquest-active .quiz-mode-label{color:var(--vermillion);}
-#screen-quiz.conquest-active .stamp{box-shadow:0 14px 30px var(--shadow), 0 0 0 2px var(--vermillion);}
 
 .choices{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 button.choice{
@@ -823,7 +794,7 @@ button.ghost{
   .stage{max-width:640px;}
   .levels{gap:16px;}
   .level-card{padding:22px 20px 18px;}
-  .stamp{width:200px; height:200px;}
+  .stamp{min-width:200px; min-height:200px;}
   .stamp .kana{font-size:84px;}
   .choices{gap:14px;}
   button.choice{padding:24px 14px; font-size:18px;}
@@ -881,7 +852,7 @@ button.ghost{
   .quiz-back-row{margin-bottom:14px;}
   .quiz-top{margin-bottom:22px;}
   .stamp-wrap{margin:6px 0 24px;}
-  .stamp{width:clamp(130px,42vw,170px); height:clamp(130px,42vw,170px);}
+  .stamp{min-width:clamp(130px,42vw,170px); min-height:clamp(130px,42vw,170px);}
   .stamp .kana{font-size:clamp(48px,15vw,70px);}
 
   .choices{grid-template-columns:1fr 1fr; gap:10px;}

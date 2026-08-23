@@ -29,7 +29,7 @@
     </h2>
 
     <div class="settings-group">
-      <span class="settings-label">Profil</span>
+      <span class="settings-label">Profile</span>
       <div class="profile-card" id="profile-card">
         <button class="profile-avatar" id="profile-avatar-btn" type="button" aria-label="Ganti foto profil">
           <img class="profile-avatar-img hidden" id="profile-avatar-img" alt="">
@@ -94,7 +94,7 @@
       <span class="settings-label">Tentang</span>
       <details class="about-details" id="about-details">
         <summary>👑 Tingkatan Kebangsawanan</summary>
-        <p class="about-intro">Merangkak naik tingkat dari rakyat jelata sampai kaisar dengan menguasai tiap babak "Quest".</p>
+        <p class="about-intro">Taklukkan tiap Chapter Quest untuk rangkak naik dari rakyat jelata sampai kaisar.</p>
         <ol class="rank-ladder" id="rank-ladder"></ol>
       </details>
     </div>
@@ -112,11 +112,7 @@
   <div class="modal-panel" role="alertdialog" aria-modal="true" aria-labelledby="conquest-modal-title">
     <h2 id="conquest-modal-title">⚔️ Mode Penaklukan</h2>
     <p class="modal-text" id="conquest-modal-text"></p>
-    <ul class="modal-rules">
-      <li>Semua soal aksara ini akan diacak dan ditampilkan sekaligus, <b>tanpa dipotong</b>.</li>
-      <li>Salah <b>satu saja</b> jawaban, penaklukan langsung <b>GAGAL</b>.</li>
-      <li>Kalau gagal, kamu harus mengulang lagi dari soal pertama.</li>
-    </ul>
+    <ul class="modal-rules" id="conquest-modal-rules"></ul>
     <div class="modal-actions">
       <button class="ghost" id="btn-conquest-cancel" type="button">Batal</button>
       <button class="primary danger" id="btn-conquest-confirm" type="button">Mulai Penaklukan</button>
@@ -140,7 +136,7 @@
       <h1>From Heimin 『平民』 To Emperor 『天皇』
         <svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M2 8 C 80 2, 220 12, 298 6" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
       </h1>
-      <p class="sub">Belajar bahasa Jepang dari 0 dengan metode quiz<br> Merangkak naik tingkat dari rakyat jelata sampai kaisar dengan menaklukan tiap babak "Quest".</p>
+      <p class="sub">Belajar bahasa Jepang dari nol lewat Quest.<br> Taklukkan tiap Chapter, kuasai aksaranya, dan rangkak naik dari rakyat jelata sampai kaisar.</p>
     </header>
 
     <!-- ===== SCRIPT TABS ===== -->
@@ -160,8 +156,8 @@
     <div class="quiz-variant-picker hidden" id="quiz-variant-picker">
       <span class="settings-label">Tipe Soal</span>
       <div class="quiz-variant-options" id="quiz-variant-options">
-        <button class="quiz-variant-btn active" data-variant="meaning" type="button">🈺 Arti</button>
         <button class="quiz-variant-btn" data-variant="romaji" type="button">🔤 Romaji</button>
+        <button class="quiz-variant-btn active" data-variant="meaning" type="button">🈺 Arti</button>
         <button class="quiz-variant-btn" data-variant="both" type="button">🎲 Campuran</button>
       </div>
     </div>
@@ -223,7 +219,8 @@
       <span class="conquest-icon">⚔️</span>
       <span class="conquest-body">
         <span class="conquest-title">Mode Penaklukan <span class="conquest-status hidden" id="conquest-status">✓ Ditaklukkan</span></span>
-        <span class="conquest-desc">Taklukkan seluruh <b id="conquest-script-label">Hiragana</b> sekaligus — <span id="conquest-count">0</span> soal, satu kali salah langsung gagal.</span>
+        <span class="conquest-desc" id="conquest-desc">Taklukkan seluruh <b id="conquest-script-label">Hiragana</b> sekaligus — <span id="conquest-count">0</span> soal, satu kali salah langsung gagal.</span>
+        <span class="conquest-lock-note hidden" id="conquest-lock-note"></span>
       </span>
       <span class="conquest-arrow">→</span>
     </button>
@@ -254,18 +251,18 @@
   </section>
 
 
-  <!-- ===== CONQUEST STORY SCREEN (transisi antar babak) ===== -->
+  <!-- ===== CONQUEST STORY SCREEN (transisi antar chapter) ===== -->
   <section id="screen-conquest-story" class="hidden conquest-story">
     <div class="quiz-back-row">
       <button class="quiz-back" id="btn-conquest-story-back" type="button">← Batalkan Penaklukan</button>
     </div>
     <div class="conquest-story-card">
       <div class="eyebrow" id="conquest-story-eyebrow">⚔️ Mode Penaklukan</div>
-      <h2 class="conquest-story-title" id="conquest-story-title">Babak 1 — Gerbang Desa</h2>
+      <h2 class="conquest-story-title" id="conquest-story-title">Chapter 1 — Gerbang Desa</h2>
       <p class="conquest-story-text" id="conquest-story-text"></p>
       <p class="conquest-story-meta" id="conquest-story-meta"></p>
     </div>
-    <button class="primary danger" id="btn-conquest-story-continue" type="button">⚔️ Mulai Babak Ini</button>
+    <button class="primary danger" id="btn-conquest-story-continue" type="button">⚔️ Mulai Chapter Ini</button>
   </section>
 
   <!-- ===== QUIZ SCREEN ===== -->

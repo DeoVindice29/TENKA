@@ -145,7 +145,7 @@ const MASTERY_KEY = "tebakAksara_mastery_v1";
 const NICKNAME_KEY = "tebakAksara_nickname_v1";
 
 // Tingkatan kebangsawanan — dari rakyat jelata sampai kaisar.
-// Setiap tingkat butuh menuntaskan babak "Kaisar" (Semua Campur) pada aksara terkait.
+// Setiap tingkat butuh menuntaskan Chapter "Kaisar" (Semua Campur) pada aksara terkait.
 const RANK_LEVELS = [
   {title:"Heimin",   subtitle:"平民",  emoji:"🌾", req:"Titik awal perjalanan belajarmu."},
   {title:"Knight",   subtitle:"騎士",  emoji:"⚔️", req:"Kuasai semua Hiragana & Katakana."},
@@ -166,7 +166,7 @@ function setRankIndex(i){
   localStorage.setItem(RANK_KEY, String(i));
 }
 
-/* ---- penguasaan per-aksara: babak "Kaisar" (all) yang sudah dituntaskan ---- */
+/* ---- penguasaan per-aksara: Chapter "Kaisar" (all) yang sudah dituntaskan ---- */
 function getMastery(){
   try { return JSON.parse(localStorage.getItem(MASTERY_KEY) || "{}"); }
   catch(e){ return {}; }
@@ -188,7 +188,7 @@ function computeRankIndex(){
   if(idx >= 4)                 idx = 5; // Marquis — seluruh N5 tuntas
   return idx;
 }
-// dipanggil setelah menuntaskan babak "Kaisar" pada sebuah aksara
+// dipanggil setelah menuntaskan Chapter "Kaisar" pada sebuah aksara
 function promoteIfHigher(scriptKey, mode){
   if(mode === "all") markScriptMastered(scriptKey);
   const computed = computeRankIndex();
@@ -212,32 +212,49 @@ const CONQUEST_TITLES = {
   kanji:    {title:"Penakluk Kanji N5", emoji:"漢"}
 };
 
-// cerita sederhana buat Mode Penaklukan 3 babak — cuma dipakai utk Hiragana & Katakana,
-// masing-masing babak dipetakan ke tier1 (dasar) / tier2 (bertitik) / tier3 (gabungan).
+// cerita sederhana buat Mode Penaklukan 3 Chapter — cuma dipakai utk Hiragana & Katakana,
+// masing-masing Chapter dipetakan ke tier1 (dasar) / tier2 (bertitik) / tier3 (gabungan).
+// cerita satu kesatuan: Hiragana = Ujian Ksatria Tahap Pertama (desa asal),
+// Katakana = Ujian Ksatria Tahap Kedua (kota pelabuhan) — menuntaskan keduanya
+// resmi mengangkat pemain jadi Knight (騎士), sesuai RANK_LEVELS[1].
 const CONQUEST_STORY = {
   hiragana: {
-    epilogue: "Kamu resmi menaklukkan seluruh Hiragana dan diakui sebagai penguasa negeri aksara ini!",
+    epilogue: "Bupati membubuhkan cap resminya pada surat rekomendasimu. Ujian Ksatria Tahap Pertama tuntas — kau resmi diakui layak melangkah ke Ujian Tahap Kedua di kota pelabuhan, tempat Katakana menanti.",
     phases: [
-      { label:"Babak 1 — Gerbang Desa",
-        text:"⚔️ Penaklukan Hiragana dimulai! Kamu, seorang musafir yang baru turun gunung, berdiri di depan Gerbang Aksara. Penjaga gerbang menantangmu: buktikan kau menguasai 46 aksara dasar sebelum boleh melangkah lebih jauh." },
-      { label:"Babak 2 — Kabut Dakuten",
-        text:"🎉 Gerbang terbuka, penjaga mengangguk kagum! Tapi di jalan bercabang muncul Ilusionis Dakuten & Handakuten — ia mengaburkan bunyi huruf dengan titik dan lingkaran kecil. Kalahkan tipuannya untuk lanjut ke tengah kota." },
-      { label:"Babak 3 — Gerbang Istana",
-        text:"✨ Kabut menyingkir, jalanmu terang kembali. Di gerbang istana, Penjaga Terakhir menghadangmu dengan aksara gabungan yōon — きゃ, しゅ, ちょ — bunyi-bunyi yang melebur jadi satu. Ini ujian terakhir sebelum singgasana." }
+      { label:"Chapter 1 — Gerbang Balai Desa",
+        text:"⚔️ Sejak kecil kau hanya mendengar cerita tentang Ksatria Kekaisaran dari para musafir yang singgah di desamu. Hari ini, utusan Balai Ksatria akhirnya membuka pendaftaran murid baru. Syarat pertama: buktikan kau bisa membaca dan menulis sendiri 46 aksara dasar Hiragana di hadapan penulis balai desa — tanpa contekan, tanpa pilihan ganda, murni dari ingatanmu." },
+      { label:"Chapter 2 — Sandi Sang Mata-Mata",
+        text:"🎉 Penulis balai desa mengangguk puas — namamu dicatat sebagai calon murid! Tapi sebelum surat rekomendasi diserahkan, ia menyodorkan gulungan sandi berisi huruf-huruf bertitik dan berlingkar kecil (dakuten & handakuten) yang disita dari mata-mata musuh. \"Kalau kau bisa membaca sandi ini,\" katanya, \"kau pantas jadi murid ksatria.\" Tuliskan sendiri setiap bunyinya." },
+      { label:"Chapter 3 — Titah Sang Bupati",
+        text:"✨ Sandi berhasil kau pecahkan. Tak lama, Bupati setempat datang membawa titah resmi penuh aksara gabungan yōon — きゃ, しゅ, ちょ — untuk mengujimu langsung. Ini ujian pemungkas sebelum kau boleh berangkat ke kota pelabuhan untuk Ujian Ksatria Tahap Kedua." }
     ]
   },
   katakana: {
-    epilogue: "Kamu resmi menaklukkan seluruh Katakana dan diterima sebagai warga penuh kota pelabuhan ini!",
+    epilogue: "Kapten Ksatria menyarungkan pedangnya dan meletakkannya di kedua bahumu. \"Bangkitlah, Ksatria.\" Malam itu juga, di hadapan obor dan derap ombak pelabuhan, kau resmi diangkat menjadi Ksatria Kekaisaran — dua ujian, Hiragana dan Katakana, telah kau taklukkan sepenuhnya.",
     phases: [
-      { label:"Babak 1 — Gerbang Pelabuhan",
-        text:"⚔️ Penaklukan Katakana dimulai! Kapalmu baru saja berlabuh di kota pelabuhan yang penuh papan nama asing. Untuk mendapat izin masuk, kamu harus membaca 46 aksara dasar katakana di depan petugas pelabuhan." },
-      { label:"Babak 2 — Pasar Kota",
-        text:"🎉 Petugas mengizinkanmu masuk! Di pasar kota, para pedagang punya nama-nama dengan titik dakuten & handakuten yang membingungkan pendatang baru. Bacalah dengan benar supaya tidak tersesat." },
-      { label:"Babak 3 — Menara Yōon",
-        text:"✨ Kamu berhasil melewati pasar. Di ujung kota berdiri Menara Yōon, tempat aksara gabungan asing berkumpul — kya, shu, cho — ujian terakhir sebelum kamu diakui sebagai warga kota." }
+      { label:"Chapter 1 — Gerbang Pelabuhan",
+        text:"⚔️ Berbekal surat rekomendasi dari Bupati, kau tiba di kota pelabuhan yang ramai oleh kapal asing dan papan nama beraksara Katakana. Petugas gerbang, seorang ksatria magang, menantangmu membaca 46 aksara dasar katakana satu per satu — tanpa pilihan, langsung tulis jawabanmu sendiri." },
+      { label:"Chapter 2 — Daftar Muatan Kapal Asing",
+        text:"🎉 Gerbang terbuka! Namun di dermaga, seorang saudagar asing menyerahkan daftar muatan kapal penuh nama barang bertitik dakuten & handakuten yang bercampur logat asing. \"Kalau kau mau jadi ksatria,\" katanya, \"kau harus bisa baca ini tanpa salah eja.\" Tuliskan sendiri setiap jawabanmu." },
+      { label:"Chapter 3 — Titah Sang Kapten Ksatria",
+        text:"✨ Seluruh daftar muatan berhasil kau baca. Di menara pengawas pelabuhan, Kapten Ksatria sendiri turun tangan mengujimu dengan aksara gabungan yōon asing — kya, shu, cho — sebagai ujian pemungkas. Kalau kau lulus, gelar Ksatria akan resmi disematkan malam ini juga." }
     ]
   }
 };
+
+// urutan wajib Mode Penaklukan: tiap aksara harus ditaklukkan berurutan,
+// tidak bisa lompat (mis. Katakana harus menunggu Hiragana takluk dulu).
+const CONQUEST_ORDER = Object.keys(CONQUEST_TITLES);
+// return key aksara prasyarat yang belum ditaklukkan, atau null kalau sudah boleh.
+function getConquestLockReason(scriptKey){
+  const idx = CONQUEST_ORDER.indexOf(scriptKey);
+  if(idx <= 0) return null;
+  const earned = getConqueredTitles();
+  for(let i=0; i<idx; i++){
+    if(!earned[CONQUEST_ORDER[i]]) return CONQUEST_ORDER[i];
+  }
+  return null;
+}
 
 function getConqueredTitles(){
   try { return JSON.parse(localStorage.getItem(TITLES_KEY) || "{}"); }
@@ -569,7 +586,7 @@ const KANJI_READING = {};
 
 /* ---- Kotoba N5 (word-in-kana, romaji, meaning-for-quiz, contoh kalimat-in-kana, contoh romaji) ----
    Sengaja ditulis full hiragana/katakana (tanpa kanji) supaya bisa langsung dibaca begitu
-   Hiragana & Katakana sudah dikuasai — kanji-nya dipelajari terpisah di babak "Kanji N5". */
+   Hiragana & Katakana sudah dikuasai — kanji-nya dipelajari terpisah di Chapter "Kanji N5". */
 const KOTOBA_TIER1 = [
   ["わたし","watashi","saya","わたしは がくせいです。","Watashi wa gakusei desu."],
   ["あなた","anata","kamu","あなたの なまえは なんですか。","Anata no namae wa nan desu ka."],
@@ -698,7 +715,7 @@ const BUNPO_TIER3 = [
    SCRIPTS registry — generalizes hiragana / katakana / kanji
    ========================================================= */
 // beberapa kanji punya 2 cara baca sekaligus (mis. "hi / nichi") — untuk soal
-// kuis "Tebak romaji" kita ambil bacaan utama (sebelum " / ") sebagai jawaban.
+// quest "Tebak romaji" kita ambil bacaan utama (sebelum " / ") sebagai jawaban.
 function primaryReading(str){
   return str.includes(" / ") ? str.split(" / ")[0].trim() : str;
 }
@@ -717,7 +734,7 @@ const SCRIPTS = {
       tier1:{title:"Dasar", sample:"あ い う", desc:"Gojūon — 46 karakter inti dari a sampai n."},
       tier2:{title:"Bertitik", sample:"が ざ ぱ", desc:"Dakuten & handakuten: ga, za, da, ba, pa."},
       tier3:{title:"Gabungan", sample:"きゃ しゅ", desc:"Yōon — kombinasi kecil seperti kya, sha, cho."},
-      all:{title:"Semua Campur", sample:"ん づ りょ", desc:"Seluruh karakter hiragana diacak jadi satu babak."}
+      all:{title:"Semua Campur", sample:"ん づ りょ", desc:"Seluruh karakter hiragana diacak jadi satu Chapter."}
     },
     learnSections:[
       {tierKey:"tier1", title:"Gojūon — Dasar", desc:"46 karakter inti. Ini fondasi yang wajib dihafal duluan.", rows:GOJUON_HIRAGANA.tier1},
@@ -732,7 +749,7 @@ const SCRIPTS = {
       tier1:{title:"Dasar", sample:"ア イ ウ", desc:"46 karakter inti katakana, dari a sampai n."},
       tier2:{title:"Bertitik", sample:"ガ ザ パ", desc:"Dakuten & handakuten katakana: ga, za, da, ba, pa."},
       tier3:{title:"Gabungan", sample:"キャ シュ", desc:"Yōon katakana — kombinasi kecil seperti kya, sha, cho."},
-      all:{title:"Semua Campur", sample:"ン ヅ リョ", desc:"Seluruh karakter katakana diacak jadi satu babak."}
+      all:{title:"Semua Campur", sample:"ン ヅ リョ", desc:"Seluruh karakter katakana diacak jadi satu Chapter."}
     },
     learnSections:[
       {tierKey:"tier1", title:"Gojūon — Dasar", desc:"46 karakter inti katakana, biasanya dipakai untuk kata serapan asing dan nama.", rows:GOJUON_KATAKANA.tier1},
@@ -757,7 +774,7 @@ const SCRIPTS = {
       tier1:{title:"Angka & Alam", sample:"一 二 日", desc:"16 kanji dasar: angka dan unsur alam."},
       tier2:{title:"Ukuran & Arah", sample:"大 小 上", desc:"16 kanji: ukuran, arah, dan keluarga."},
       tier3:{title:"Sekolah & Waktu", sample:"学 校 今", desc:"16 kanji: sekolah, waktu, dan kegiatan sehari-hari."},
-      all:{title:"Semua Campur", sample:"私 何 見", desc:"Seluruh 48 kanji N5 diacak jadi satu babak."}
+      all:{title:"Semua Campur", sample:"私 何 見", desc:"Seluruh 48 kanji N5 diacak jadi satu Chapter."}
     },
     learnCards:[
       {tierKey:"tier1", title:"Angka & Alam", desc:"16 kanji dasar: angka dan unsur alam.", items:KANJI_TIER1},
@@ -782,7 +799,7 @@ const SCRIPTS = {
       tier1:{title:"Kata Benda", sample:"わたし がっこう ともだち", desc:"24 kosakata N5 (kana, tanpa kanji): orang, tempat, dan benda sehari-hari, lengkap dengan contoh kalimat."},
       tier2:{title:"Kerja & Sifat", sample:"たべる おおきい すき", desc:"24 kosakata N5 (kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na, lengkap dengan contoh kalimat."},
       tier3:{title:"Waktu & Ekspresi", sample:"えき あした ありがとう", desc:"24 kosakata N5 (kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam, lengkap dengan contoh kalimat."},
-      all:{title:"Semua Campur", sample:"しごと あたらしい かえる", desc:"Seluruh 72 kosakata N5 diacak jadi satu babak."}
+      all:{title:"Semua Campur", sample:"しごと あたらしい かえる", desc:"Seluruh 72 kosakata N5 diacak jadi satu Chapter."}
     },
     learnVocab:[
       {tierKey:"tier1", title:"Kata Benda — Sehari-hari", desc:"24 kosakata dasar N5 (full kana, tanpa kanji): orang, keluarga, tempat, dan benda sehari-hari — tiap kata disertai contoh kalimat.", items:KOTOBA_TIER1},
@@ -801,7 +818,7 @@ const SCRIPTS = {
       tier1:{title:"Partikel Dasar", sample:"〜は 〜が 〜を", desc:"12 partikel dasar N5 yang wajib dikuasai."},
       tier2:{title:"Pola Kalimat", sample:"〜たい 〜てください", desc:"12 pola kalimat N5 untuk percakapan sehari-hari."},
       tier3:{title:"Struktur Lanjutan", sample:"〜ながら 〜ので", desc:"12 struktur tata bahasa N5 tingkat lanjut."},
-      all:{title:"Semua Campur", sample:"〜つもりです", desc:"Seluruh 36 pola bunpō N5 diacak jadi satu babak."}
+      all:{title:"Semua Campur", sample:"〜つもりです", desc:"Seluruh 36 pola bunpō N5 diacak jadi satu Chapter."}
     },
     learnGrammar:[
       {tierKey:"tier1", title:"Partikel Dasar", desc:"12 partikel dasar N5 yang wajib dikuasai.", items:BUNPO_TIER1},
@@ -1369,12 +1386,14 @@ function setDifficulty(value){
 const btnConquest = document.getElementById("btn-conquest");
 const conquestOverlay = document.getElementById("conquest-overlay");
 const conquestModalText = document.getElementById("conquest-modal-text");
+const conquestModalRulesEl = document.getElementById("conquest-modal-rules");
 const btnConquestCancel = document.getElementById("btn-conquest-cancel");
 const btnConquestConfirm = document.getElementById("btn-conquest-confirm");
 const conquestScriptLabelEl = document.getElementById("conquest-script-label");
 const conquestCountEl = document.getElementById("conquest-count");
 
 const conquestStatusEl = document.getElementById("conquest-status");
+const conquestLockNoteEl = document.getElementById("conquest-lock-note");
 
 function updateConquestCard(scriptKey){
   const script = SCRIPTS[scriptKey];
@@ -1383,16 +1402,47 @@ function updateConquestCard(scriptKey){
   conquestCountEl.textContent = total;
   const isConquered = !!getConqueredTitles()[scriptKey];
   if(conquestStatusEl) conquestStatusEl.classList.toggle("hidden", !isConquered);
+
+  const lockKey = getConquestLockReason(scriptKey);
+  btnConquest.classList.toggle("locked", !!lockKey);
+  btnConquest.disabled = !!lockKey;
+  if(lockKey){
+    conquestLockNoteEl.textContent = `🔒 Taklukkan ${SCRIPTS[lockKey].label} dulu sebelum bisa menaklukkan ${script.label}.`;
+    conquestLockNoteEl.classList.remove("hidden");
+  } else {
+    conquestLockNoteEl.classList.add("hidden");
+  }
   updateScriptConquestBadges();
 }
 
 function openConquestOverlay(){
+  if(getConquestLockReason(currentScript)) return; // terkunci — tombolnya juga sudah disabled
   const script = SCRIPTS[currentScript];
   const total = script.data.all.length;
   const isThreePhase = currentScript === "hiragana" || currentScript === "katakana";
-  conquestModalText.textContent = isThreePhase
-    ? `Penaklukan ${script.label} kali ini terbagi jadi 3 babak cerita (dasar → bertitik → gabungan), total ${total} soal. Tiap babak makin susah — Babak 1: 4 pilihan, Babak 2: 8 pilihan, Babak 3: ketik jawaban sendiri. Tetap satu kesatuan: sekali salah, gagal semua dan harus mulai dari Babak 1 lagi.`
-    : `Kamu akan menghadapi seluruh ${total} soal ${script.label} sekaligus, diacak.`;
+  const bothConquered = !!getConqueredTitles().hiragana && !!getConqueredTitles().katakana;
+
+  let rules;
+  if(isThreePhase){
+    conquestModalText.textContent = `Ini bukan quest biasa — ini <b>Ujian Ksatria</b>. Penaklukan ${script.label} terbagi jadi 3 Chapter cerita (dasar → bertitik → gabungan), total ${total} soal.`;
+    rules = [
+      `Di <b>semua Chapter</b>, kamu harus <b>mengetik sendiri</b> jawabannya — tidak ada pilihan ganda sama sekali.`,
+      `Salah <b>satu saja</b> jawaban, penaklukan langsung <b>GAGAL</b>.`,
+      `Kalau gagal, kamu harus mengulang lagi dari Chapter 1.`,
+      currentScript === "katakana" && !bothConquered
+        ? `Taklukkan ini sampai tuntas dan kamu akan resmi <b>diangkat jadi Knight (騎士)</b> — ujian Hiragana &amp; Katakana lunas keduanya!`
+        : `Taklukkan Hiragana &amp; Katakana keduanya untuk resmi <b>diangkat jadi Knight (騎士)</b>.`
+    ];
+  } else {
+    conquestModalText.textContent = `Kamu akan menghadapi seluruh ${total} soal ${script.label} sekaligus, diacak.`;
+    rules = [
+      `Semua soal aksara ini akan diacak dan ditampilkan sekaligus, <b>tanpa dipotong</b>.`,
+      `Salah <b>satu saja</b> jawaban, penaklukan langsung <b>GAGAL</b>.`,
+      `Kalau gagal, kamu harus mengulang lagi dari soal pertama.`
+    ];
+  }
+  conquestModalRulesEl.innerHTML = rules.map(r => `<li>${r}</li>`).join("");
+
   conquestOverlay.classList.add("open");
   conquestOverlay.setAttribute("aria-hidden","false");
   btnConquestConfirm.focus();
@@ -1411,6 +1461,7 @@ document.addEventListener("keydown", (e)=>{
   if(e.key === "Escape" && conquestOverlay.classList.contains("open")) closeConquestOverlay();
 });
 btnConquestConfirm.addEventListener("click", ()=>{
+  if(getConquestLockReason(currentScript)) { closeConquestOverlay(); return; }
   closeConquestOverlay();
   startQuiz(currentScript, "conquest");
 });
@@ -1460,17 +1511,17 @@ const conquestStoryTextEl = document.getElementById("conquest-story-text");
 const conquestStoryMetaEl = document.getElementById("conquest-story-meta");
 const btnConquestStoryContinue = document.getElementById("btn-conquest-story-continue");
 
-// Mode Penaklukan 3 babak: tiap babak makin susah — Babak 1 easy (4 pilihan),
-// Babak 2 medium (8 pilihan), Babak 3 hard (ketik sendiri).
-function getConquestPhaseDifficulty(phaseIdx){
-  return phaseIdx === 0 ? "easy" : phaseIdx === 1 ? "medium" : "hard";
+// Mode Penaklukan 3 Chapter: setiap Chapter (Hiragana maupun Katakana) selalu
+// mode "hard" — user mengetik sendiri jawabannya, tanpa pilihan ganda sama sekali.
+function getConquestPhaseDifficulty(_phaseIdx){
+  return "hard";
 }
 
 function startQuiz(scriptKey, mode){
   const script = SCRIPTS[scriptKey];
   const isConquest = mode === "conquest";
-  // Mode Penaklukan 3 babak (cerita) cuma utk Hiragana & Katakana — tier1/tier2/tier3
-  // berturut-turut jadi Babak 1/2/3, masih satu penaklukan (1x salah = gagal semua).
+  // Mode Penaklukan 3 Chapter (cerita) cuma utk Hiragana & Katakana — tier1/tier2/tier3
+  // berturut-turut jadi Chapter 1/2/3, masih satu penaklukan (1x salah = gagal semua).
   const isThreePhaseConquest = isConquest && (scriptKey === "hiragana" || scriptKey === "katakana");
 
   let pool, queue, wrongPools;
@@ -1535,7 +1586,7 @@ function startQuiz(scriptKey, mode){
   }
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
-  // penaklukan 3 babak selalu pakai progresi kesulitan otomatis per babak,
+  // penaklukan 3 Chapter selalu pakai progresi kesulitan otomatis per Chapter,
   // mengabaikan pilihan Tingkat Kesulitan di layar awal.
   const difficulty = isThreePhaseConquest
     ? getConquestPhaseDifficulty(0)
@@ -1578,13 +1629,14 @@ function renderConquestStory(phaseIndex){
 
   state.conquestPhaseIndex = phaseIndex;
   state.difficulty = getConquestPhaseDifficulty(phaseIndex);
-  const diffLabel = phaseIndex === 0 ? "😌 4 pilihan jawaban"
-    : phaseIndex === 1 ? "😅 8 pilihan jawaban"
-    : "🔥 ketik jawaban sendiri";
-  conquestStoryEyebrowEl.textContent = phaseIndex === 0 ? "⚔️ Mode Penaklukan dimulai" : "⚔️ Babak berikutnya";
+  const isFinalPhase = phaseIndex === story.phases.length - 1;
+  const diffLabel = "🔥 ketik jawaban sendiri";
+  conquestStoryEyebrowEl.textContent = phaseIndex === 0
+    ? "⚔️ Ujian Ksatria dimulai"
+    : isFinalPhase ? "⚔️ Chapter terakhir" : "⚔️ Chapter berikutnya";
   conquestStoryTitleEl.textContent = `${phase.label} — ${script.label}`;
   conquestStoryTextEl.textContent = phase.text;
-  conquestStoryMetaEl.textContent = `${phaseLen} soal di babak ini · ${diffLabel} · satu kali salah, seluruh penaklukan gagal.`;
+  conquestStoryMetaEl.textContent = `${phaseLen} soal di Chapter ini · ${diffLabel} · satu kali salah, seluruh penaklukan gagal.`;
 
   screenQuiz.classList.add("hidden");
   screenResults.classList.add("hidden");
@@ -1827,7 +1879,7 @@ nextBtn.addEventListener("click", ()=>{
     renderResults();
     return;
   }
-  // penaklukan 3 babak: begitu masuk indeks awal babak baru, tampilkan dulu
+  // penaklukan 3 Chapter: begitu masuk indeks awal Chapter baru, tampilkan dulu
   // layar cerita transisinya sebelum lanjut ke soal berikutnya.
   if(state.conquestPhaseBoundaries){
     const nextPhaseIdx = state.conquestPhaseBoundaries.indexOf(state.index);
@@ -1933,7 +1985,11 @@ function renderResults(){
       }
       if(promoted){
         const rank = RANK_LEVELS[getRankIndex()];
-        msg += ` Tingkatanmu naik jadi <b>${rank.emoji} ${rank.title} (${rank.subtitle})</b>`;
+        if(rank.title === "Knight"){
+          msg += ` <br><br>⚔️ <b>Upacara Pengangkatan Ksatria!</b> Hiragana dan Katakana sudah kau taklukkan sepenuhnya — Kapten Ksatria meletakkan pedangnya di kedua bahumu di hadapan seluruh warga kota. Mulai hari ini kau resmi menyandang gelar <b>${rank.emoji} ${rank.title} (${rank.subtitle})</b>!`;
+        } else {
+          msg += ` Tingkatanmu naik jadi <b>${rank.emoji} ${rank.title} (${rank.subtitle})</b>`;
+        }
       }
       promoBannerEl.innerHTML = msg;
       promoBannerEl.classList.add("conquest-success");
