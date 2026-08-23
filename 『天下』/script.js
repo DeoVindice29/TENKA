@@ -1424,7 +1424,7 @@ function openConquestOverlay(){
 
   let rules;
   if(isThreePhase){
-    conquestModalText.textContent = `Ini bukan quest biasa — ini <b>Ujian Ksatria</b>. Penaklukan ${script.label} terbagi jadi 3 Chapter cerita (dasar → bertitik → gabungan), total ${total} soal.`;
+    conquestModalText.textContent = `Ini bukan quest biasa — ini Ujian Ksatria. Penaklukan ${script.label} terbagi jadi 3 Chapter cerita (dasar → bertitik → gabungan), total ${total} soal.`;
     rules = [
       `Di <b>semua Chapter</b>, kamu harus <b>mengetik sendiri</b> jawabannya — tidak ada pilihan ganda sama sekali.`,
       `Salah <b>satu saja</b> jawaban, penaklukan langsung <b>GAGAL</b>.`,
