@@ -1,68 +1,236 @@
 /* =========================================================
+   LANGUAGE / I18N — English (default) & Indonesian
+   ========================================================= */
+const LANG_KEY = "tebakAksara_lang_v1";
+
+const I18N = {
+  "aria.openSettings": { en: "Open settings", id: "Buka pengaturan" },
+  "aria.closeSettings": { en: "Close settings", id: "Tutup pengaturan" },
+  "aria.changePhoto": { en: "Change profile photo", id: "Ganti foto profil" },
+  "aria.setNickname": { en: "Set your nickname", id: "Atur nickname kamu" },
+  "aria.chooseLanguage": { en: "Choose language", id: "Pilih bahasa" },
+  "aria.chooseScript": { en: "Choose a script", id: "Pilih aksara" },
+  "aria.chooseScriptStudy": { en: "Choose a script to study", id: "Pilih aksara untuk belajar" },
+  "profile.addNickname": { en: "+ Add nickname", id: "+ Tambah nickname" },
+  "profile.nicknamePlaceholder": { en: "Your nickname...", id: "Nickname kamu..." },
+  "titles.heading": { en: "🏅 Conquest Title Collection", id: "🏅 Koleksi Title penaklukkan" },
+  "titles.hint": { en: "Complete every conquest ⚔️ to claim the title of Conqueror!", id: "Selesaikan setiap penaklukan ⚔️ untuk meraih gelar Penakluk!" },
+  "appearance.language": { en: "Language", id: "Bahasa" },
+  "about.heading": { en: "About", id: "Tentang" },
+  "about.summary": { en: "👑 Noble Ranks", id: "👑 Tingkatan Kebangsawanan" },
+  "about.intro": { en: "Conquer every Chapter Trial to climb from commoner to emperor.", id: "Taklukkan tiap Chapter Trial untuk rangkak naik dari rakyat jelata sampai kaisar." },
+  "feedback.heading": { en: "Send Feedback", id: "Kirim Masukan" },
+  "feedback.placeholder": { en: "Got a suggestion, idea, or found a bug? Write it here...", id: "Ada saran, ide, atau nemu bug? Tulis di sini..." },
+  "feedback.button": { en: "✉️ Send Feedback", id: "✉️ Kirim Masukan" },
+  "feedback.subject": { en: "Feedback — Learning Japanese App", id: "Masukan — Learning Japanese App" },
+  "feedback.bodyDefault": { en: "Write your feedback here...", id: "Tulis masukanmu di sini..." },
+  "common.cancel": { en: "Cancel", id: "Batal" },
+  "common.back": { en: "← Back", id: "← Kembali" },
+  "common.backArmed": { en: "Sure? Click again to cancel", id: "Yakin? Klik lagi untuk batalkan" },
+  "conquestModal.confirm": { en: "Start Conquering", id: "Mulai Menaklukkan" },
+  "conquest.modeTitle": { en: "Conquer Mode", id: "Mode penaklukkan" },
+  "conquest.conquered": { en: "✓ Conquered", id: "✓ Ditaklukkan" },
+  "conquest.cancelConquest": { en: "← Cancel Conquest", id: "← Batalkan penaklukkan" },
+  "conquest.startThisChapter": { en: "⚔️ Start This Chapter", id: "⚔️ Mulai Chapter Ini" },
+  "conquest.desc": { en: "Conquer all of {label} at once — {count} questions, one mistake and it's over.", id: "Taklukkan seluruh {label} sekaligus — {count} soal, satu kali salah langsung gagal." },
+  "conquest.lockNote": { en: "🔒 Conquer {lockLabel} first before you can conquer {label}.", id: "🔒 Taklukkan {lockLabel} dulu sebelum bisa menaklukkan {label}." },
+  "conquest.modalTitleWithLabel": { en: "⚔️ Conquer {label}", id: "⚔️ Taklukkan {label}" },
+  "start.studyFirst": { en: "📖 Study First", id: "📖 Belajar Dulu" },
+  "start.studyScriptFirst": { en: "📖 Study {label} First", id: "📖 Belajar {label} Dulu" },
+  "start.chooseTierFirst": { en: "Choose a tier first", id: "Pilih tingkatan dulu" },
+  "start.startCount": { en: "Start — {title} ({count} Questions)", id: "Mulai — {title} ({count} Soal)" },
+  "start.startRandomCount": { en: "Start — {title} ({count} Random Questions)", id: "Mulai — {title} ({count} Soal Acak)" },
+  "quiz.typeLabel": { en: "Question Type", id: "Tipe Soal" },
+  "quiz.meaning": { en: "Meaning", id: "Arti" },
+  "quiz.mixed": { en: "Mixed", id: "Campuran" },
+  "quiz.difficultyLabel": { en: "Difficulty", id: "Tingkat Kesulitan" },
+  "quiz.choices4": { en: "4 choices", id: "4 pilihan" },
+  "quiz.choices8": { en: "8 choices", id: "8 pilihan" },
+  "quiz.typeItYourself": { en: "type it yourself", id: "ketik sendiri" },
+  "quiz.hardHint": { en: "🔥 Hard is only available for Hiragana & Katakana.", id: "🔥 Hard cuma tersedia untuk Hiragana & Katakana." },
+  "quiz.streak": { en: "streak", id: "beruntun" },
+  "quiz.typeRomajiPlaceholder": { en: "Type the romaji here...", id: "Ketik romaji-nya di sini..." },
+  "quiz.answer": { en: "Answer", id: "Jawab" },
+  "quiz.next": { en: "Next →", id: "Lanjut →" },
+  "quiz.seeResults": { en: "See Results →", id: "Lihat Hasil →" },
+  "quiz.guessRomaji": { en: "Guess the romaji", id: "Tebak romaji" },
+  "quiz.guessMeaning": { en: "Guess the meaning", id: "Tebak artinya" },
+  "quiz.guessFunction": { en: "Guess the function", id: "Tebak fungsinya" },
+  "quiz.conquerLabel": { en: "⚔️ Conquer — {label} · Question {current}/{total}", id: "⚔️ penaklukkan — {label} · Soal {current}/{total}" },
+  "quiz.chapterLabel": { en: "⚔️ {phaseLabel} · Question {current}/{total}", id: "⚔️ {phaseLabel} · Soal {current}/{total}" },
+  "quiz.correct": { en: "Correct!", id: "Tepat!" },
+  "quiz.failedAnswerWas": { en: 'Failed — the answer was "{answer}"', id: 'Gagal — jawabannya "{answer}"' },
+  "quiz.missedAnswerWas": { en: 'Missed — the answer was "{answer}"', id: 'Meleset — jawabannya "{answer}"' },
+  "quiz.meaningLabel": { en: "Meaning: {value}", id: "Arti: {value}" },
+  "quiz.romajiLabel": { en: "Romaji: {value}", id: "Romaji: {value}" },
+  "quiz.fillAnswerFirst": { en: "Fill in your answer before continuing.", id: "Isi dulu jawabannya sebelum lanjut." },
+  "range.label": { en: "Question Range", id: "Rentang Soal" },
+  "range.chooseRange": { en: "Choose Range", id: "Pilih Rentang" },
+  "range.random": { en: "Random", id: "Acak" },
+  "range.from": { en: "From", id: "Dari" },
+  "range.to": { en: "To", id: "Sampai" },
+  "range.randomCountLabel": { en: "Number of questions (picked randomly from this whole tier)", id: "Jumlah soal (diambil acak dari seluruh tingkatan ini)" },
+  "range.all": { en: "All ({n})", id: "seluruh ({n})" },
+  "range.randomHint": { en: "🎲 {count} random questions picked from {total} total in this tier", id: "🎲 {count} soal acak dipilih dari total {total} soal di tingkatan ini" },
+  "range.oneSelected": { en: "1 question selected ({from})", id: "1 soal terpilih ({from})" },
+  "range.manySelected": { en: "{count} questions selected ({from} → {to})", id: "{count} soal terpilih ({from} → {to})" },
+  "learn.eyebrow": { en: "study mode", id: "mode belajar" },
+  "learn.title": { en: "Character Tables", id: "Tabel Aksara" },
+  "learn.sub": { en: "Memorize the shape and reading of each character before starting a Trial. Choose a script below.", id: "Hafalkan dulu bentuk dan cara baca tiap karakter sebelum mulai Trial. Pilih aksaranya di bawah." },
+  "learn.readyStart": { en: "Ready — Start Trial", id: "Sudah Siap — Mulai Trial" },
+  "learn.characters": { en: "characters", id: "karakter" },
+  "learn.words": { en: "words", id: "kata" },
+  "learn.patterns": { en: "patterns", id: "pola" },
+  "learn.listenPronunciation": { en: "Listen to {text}, read {reading}", id: "Dengar ucapan {text}, dibaca {reading}" },
+  "learn.listenExample": { en: "Listen to the example sentence", id: "Dengar kalimat contoh" },
+  "learn.listenSegment": { en: "Listen to {seg}, read {rom}", id: "Dengar {seg}, dibaca {rom}" },
+  "results.correct": { en: "correct", id: "tepat" },
+  "results.accuracy": { en: "Accuracy {acc}%", id: "Akurasi {acc}%" },
+  "results.bestStreak": { en: " · best streak {n}", id: " · beruntun terbaik {n}" },
+  "results.needsPractice": { en: "Needs practice", id: "Perlu diulang" },
+  "results.failureReason": { en: "Reasons for failure", id: "Penyebab kegagalan" },
+  "results.retrySet": { en: "Retry This Set", id: "Ulangi Set Ini" },
+  "results.tryAgainFromStart": { en: "⚔️ Try Again From Start", id: "⚔️ Coba Lagi dari Awal" },
+  "results.conquerAgain": { en: "⚔️ Conquer Again", id: "⚔️ Taklukkan Lagi" },
+  "results.greetConquestFail": { en: "Keep going, {name}! 💪", id: "Semangat, {name}! 💪" },
+  "results.greetConquestSuccess": { en: "Perfect, {name}! 🏆", id: "Sempurna, {name}! 🏆" },
+  "results.greetPerfect": { en: "Perfect, {name}! 🎉", id: "Sempurna, {name}! 🎉" },
+  "results.greetAlmost": { en: "Almost perfect, {name}! Just a bit more.", id: "Hampir sempurna, {name}! Sedikit lagi." },
+  "results.greetDecent": { en: "Not bad, {name}! Keep practicing.", id: "Lumayan, {name}! Terus berlatih ya." },
+  "results.greetKeepGoing": { en: "Keep going, {name}! Try again, take it slow.", id: "Semangat, {name}! Coba lagi pelan-pelan." },
+  "results.conquestFailBanner": { en: "💀 <b>Conquest Failed</b> — missed{phaseNote} (question {current} of {total}). {label} isn't conquered yet, try again from the start!", id: "💀 <b>penaklukkan Gagal</b> — meleset{phaseNote} (soal ke-{current} dari {total}). {label} belum takluk, coba lagi dari awal!" },
+  "results.conquestFailPhaseNote": { en: " in {phase}", id: " di {phase}" },
+  "results.conquestSuccessOpening": { en: "🏆 <b>Conquest Successful!</b> {epilogue}", id: "🏆 <b>penaklukkan Berhasil!</b> {epilogue}" },
+  "results.conquestSuccessOpeningPlain": { en: "🏆 <b>Conquest Successful!</b> You've officially conquered all of {label}!", id: "🏆 <b>penaklukkan Berhasil!</b> Kamu resmi menaklukkan seluruh {label}!" },
+  "results.newTitleEarned": { en: " New title earned: <b>{emoji} {title}</b> — check your collection in Settings.", id: " Title baru didapat: <b>{emoji} {title}</b> — cek koleksimu di Settings." },
+  "results.knightCeremony": { en: " <br><br>⚔️ <b>Knighting Ceremony!</b> You've fully conquered Hiragana and Katakana — the Knight Captain lays his sword on both your shoulders before the whole town. From today you officially hold the title <b>{emoji} {title} ({subtitle})</b>!", id: " <br><br>⚔️ <b>Upacara Pengangkatan Ksatria!</b> Hiragana dan Katakana sudah kau taklukkan sepenuhnya — Kapten Ksatria meletakkan pedangnya di kedua bahumu di hadapan seluruh warga kota. Mulai hari ini kau resmi menyandang gelar <b>{emoji} {title} ({subtitle})</b>!" },
+  "results.rankUp": { en: " Your rank rose to <b>{emoji} {title} ({subtitle})</b>", id: " Tingkatanmu naik menjadi <b>{emoji} {title} ({subtitle})</b>" },
+  "results.rankUpPlain": { en: "Your rank rose! You are now <b>{emoji} {title} ({subtitle})</b>", id: "Tingkatanmu naik! Sekarang kamu adalah <b>{emoji} {title} ({subtitle})</b>" },
+  "profile.highestN5": { en: "Highest N5 rank reached — {emoji} {title} unlocks once N4 material arrives.", id: "Tingkatan N5 tertinggi tercapai — {emoji} {title} akan terbuka begitu materi N4 hadir." },
+  "profile.nextRank": { en: "{req} and rise to {emoji} {title}", id: "{req} untuk naik menjadi {emoji} {title}" },
+  "profile.highestReached": { en: "Highest rank reached — take the throne, Emperor! 👑", id: "Tingkatan tertinggi tercapai — bertahtalah, Emperor! 👑" },
+  "rank.comingSoon": { en: "Coming soon", id: "Segera hadir" },
+  "learnCta.study": { en: "Study {label} First", id: "Belajar {label} Dulu" },
+  "theme.light": { en: "Light Mode", id: "Mode Terang" },
+  "theme.dark": { en: "Dark Mode", id: "Mode Gelap" },
+  "aria.switchToLight": { en: "Switch to light mode", id: "Ganti ke mode terang" },
+  "aria.switchToDark": { en: "Switch to dark mode", id: "Ganti ke mode gelap" },
+  "conquest.cardTitleWithLabel": { en: "Conquer {label}", id: "Taklukkan {label}" },
+  "conquestStory.eyebrowStart": { en: "⚔️ The Knight's Trial begins", id: "⚔️ Ujian Ksatria dimulai" },
+  "conquestStory.eyebrowFinal": { en: "⚔️ Final chapter", id: "⚔️ Chapter terakhir" },
+  "conquestStory.eyebrowNext": { en: "⚔️ Next chapter", id: "⚔️ Chapter berikutnya" },
+  "conquestStory.titleWithScript": { en: "{label} — {script}", id: "{label} — {script}" },
+  "conquestStory.diffLabel": { en: "🔥 type your own answer", id: "🔥 ketik jawaban sendiri" },
+  "conquestStory.meta": { en: "{count} questions in this Chapter · {diff} · one mistake and the whole conquest fails.", id: "{count} soal di Chapter ini · {diff} · satu kali salah, seluruh penaklukkan gagal." },
+  "conquestModal.threePhaseIntro": { en: "This isn't an ordinary trial — this is the Knight's Trial. Conquering {label} is split into 3 story Chapters (basic → dotted → combined), {count} questions in total.", id: "Ini bukan trial biasa — ini Ujian Ksatria. penaklukkan {label} terbagi menjadi 3 Chapter cerita (dasar → bertitik → gabungan), total {count} soal." },
+  "conquestModal.rule.typeOnly": { en: "In <b>every Chapter</b>, you must <b>type your own</b> answer — there's no multiple choice at all.", id: "Di <b>seluruh Chapter</b>, kamu harus <b>mengetik sendiri</b> jawabannya — tidak ada pilihan ganda sama sekali." },
+  "conquestModal.rule.oneWrongFails": { en: "Get <b>even one</b> answer wrong and the conquest instantly <b>FAILS</b>.", id: "Salah <b>satu saja</b> jawaban, penaklukkan langsung <b>GAGAL</b>." },
+  "conquestModal.rule.failRestartChapter": { en: "If you fail, you'll have to start over from Chapter 1.", id: "Kalau gagal, kamu harus mengulang lagi dari Chapter 1." },
+  "conquestModal.rule.becomeKnightSolo": { en: "Conquer this fully and you'll officially be <b>knighted (騎士)</b> — both the Hiragana &amp; Katakana trials complete!", id: "Taklukkan ini sampai tuntas dan kamu akan resmi <b>diangkat menjadi Knight (騎士)</b> — ujian Hiragana &amp; Katakana lunas keduanya!" },
+  "conquestModal.rule.becomeKnightBoth": { en: "Conquer both Hiragana &amp; Katakana to officially be <b>knighted (騎士)</b>.", id: "Taklukkan Hiragana &amp; Katakana keduanya untuk resmi <b>diangkat menjadi Knight (騎士)</b>." },
+  "conquestModal.singleIntro": { en: "You'll face all {count} {label} questions at once, shuffled.", id: "Kamu akan menghadapi seluruh {count} soal {label} sekaligus, diacak." },
+  "conquestModal.rule.allAtOnce": { en: "All questions for this script will be shuffled and shown all at once, <b>without breaks</b>.", id: "seluruh soal aksara ini akan diacak dan ditampilkan sekaligus, <b>tanpa dipotong</b>." },
+  "conquestModal.rule.failRestartFirst": { en: "If you fail, you'll have to start over from the first question.", id: "Kalau gagal, kamu harus mengulang lagi dari soal pertama." }
+};
+
+function getLang() {
+  const stored = localStorage.getItem(LANG_KEY);
+  return (stored === "id" || stored === "en") ? stored : "en";
+}
+let LANG = getLang();
+function setLang(lang) {
+  LANG = (lang === "id") ? "id" : "en";
+  localStorage.setItem(LANG_KEY, LANG);
+}
+
+function t(key, vars) {
+  const entry = I18N[key];
+  let str = entry ? (entry[LANG] || entry.en) : key;
+  if (vars) {
+    Object.keys(vars).forEach(k => {
+      str = str.split(`{${k}}`).join(vars[k]);
+    });
+  }
+  return str;
+}
+
+function applyStaticTranslations() {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => {
+    el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
+  });
+}
+
+/* =========================================================
    AUDIO PENGUCAPAN — Web Speech API (ja-JP)
-   dipakai oleh semua elemen ber-atribut data-speak di mode Belajar
+   dipakai oleh seluruh elemen ber-atribut data-speak di mode Belajar
    ========================================================= */
 const speechSupported = "speechSynthesis" in window;
 let jaVoice = null;
-function pickJaVoice(){
-  if(!speechSupported) return;
+function pickJaVoice() {
+  if (!speechSupported) return;
   const voices = speechSynthesis.getVoices();
   jaVoice = voices.find(v => v.lang === "ja-JP") || voices.find(v => v.lang && v.lang.startsWith("ja")) || null;
 }
-if(speechSupported){
+if (speechSupported) {
   pickJaVoice();
   speechSynthesis.addEventListener("voiceschanged", pickJaVoice);
 }
 
 // token pembanding: memastikan hanya klik TERAKHIR yang benar-benar diucapkan.
 // Tanpa ini, cancel()+speak() yang dipanggil beruntun (mis. saat mengetuk beberapa
-// huruf dengan cepat) rawan bug di beberapa browser: teks yang terdengar jadi teks
+// huruf dengan cepat) rawan bug di beberapa browser: teks yang terdengar menjadi teks
 // klik SEBELUMNYA, bukan klik yang baru — itulah penyebab audio "tidak sesuai huruf".
 let speakRequestId = 0;
 
-function clearSpeakingHighlight(){
-  document.querySelectorAll(".speaking").forEach(b=> b.classList.remove("speaking"));
+function clearSpeakingHighlight() {
+  document.querySelectorAll(".speaking").forEach(b => b.classList.remove("speaking"));
 }
 
-function speakJapanese(text, btn){
-  if(!speechSupported || !text) return;
+function speakJapanese(text, btn) {
+  if (!speechSupported || !text) return;
   const requestId = ++speakRequestId;
 
   // highlight target yang benar SEKARANG JUGA (sinkron), sebelum delay apa pun,
   // supaya walau audio sedikit tertunda, elemen yang disorot selalu yang baru diklik.
   clearSpeakingHighlight();
-  if(btn) btn.classList.add("speaking");
+  if (btn) btn.classList.add("speaking");
 
   speechSynthesis.cancel();
-  if(!jaVoice) pickJaVoice();
+  if (!jaVoice) pickJaVoice();
 
   // jeda singkat setelah cancel() sebelum speak() — menghindari race condition
   // pada beberapa browser (terutama Chrome) yang membuat ucapan sebelumnya masih
   // "nyangkut" dan terdengar bercampur/salah dengan permintaan baru.
-  setTimeout(()=>{
-    if(requestId !== speakRequestId) return; // sudah dikalahkan oleh klik yang lebih baru
+  setTimeout(() => {
+    if (requestId !== speakRequestId) return; // sudah dikalahkan oleh klik yang lebih baru
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "ja-JP";
-    if(jaVoice) utter.voice = jaVoice;
+    if (jaVoice) utter.voice = jaVoice;
     utter.rate = 0.85;
-    utter.onend = ()=> { if(btn) btn.classList.remove("speaking"); };
-    utter.onerror = ()=> { if(btn) btn.classList.remove("speaking"); };
+    utter.onend = () => { if (btn) btn.classList.remove("speaking"); };
+    utter.onerror = () => { if (btn) btn.classList.remove("speaking"); };
     speechSynthesis.speak(utter);
   }, 80);
 }
 
-// event delegation: satu listener untuk semua tombol/sel yang punya data-speak
-document.addEventListener("click", (e)=>{
+// event delegation: satu listener untuk seluruh tombol/sel yang punya data-speak
+document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-speak]");
-  if(!el) return;
+  if (!el) return;
   e.preventDefault();
   e.stopPropagation();
   speakJapanese(el.getAttribute("data-speak"), el);
 });
-document.addEventListener("keydown", (e)=>{
-  if(e.key !== "Enter" && e.key !== " ") return;
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
   const el = e.target.closest("[data-speak]");
-  if(!el) return;
+  if (!el) return;
   e.preventDefault();
   speakJapanese(el.getAttribute("data-speak"), el);
 });
@@ -72,22 +240,22 @@ const themeToggle = document.getElementById("theme-toggle");
 const themeSwitchInput = document.getElementById("theme-switch-input");
 const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-function applyTheme(theme){
+function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
-  themeToggle.setAttribute("aria-label", theme === "dark" ? "Ganti ke mode terang" : "Ganti ke mode gelap");
+  themeToggle.setAttribute("aria-label", theme === "dark" ? t("aria.switchToLight") : t("aria.switchToDark"));
   themeSwitchInput.checked = theme === "dark";
   const themeLabel = document.getElementById("theme-toggle-label");
-  themeLabel.textContent = theme === "dark" ? "Dark Mode" : "Light Mode";
+  themeLabel.textContent = theme === "dark" ? t("theme.dark") : t("theme.light");
 }
 applyTheme(prefersDark ? "dark" : "light");
 
-function toggleTheme(){
+function toggleTheme() {
   const current = document.documentElement.getAttribute("data-theme");
   applyTheme(current === "dark" ? "light" : "dark");
 }
 themeToggle.addEventListener("click", toggleTheme);
-themeSwitchInput.addEventListener("change", ()=> applyTheme(themeSwitchInput.checked ? "dark" : "light"));
+themeSwitchInput.addEventListener("change", () => applyTheme(themeSwitchInput.checked ? "dark" : "light"));
 
 /* ---------------- settings panel ---------------- */
 const settingsBtn = document.getElementById("settings-toggle");
@@ -97,102 +265,174 @@ const fontSelect = document.getElementById("font-select");
 const fontPreview = document.getElementById("font-preview");
 
 const FONT_STACKS = {
-  hiragino: `"Hiragino Sans", "Hiragino Kaku Gothic ProN", "Zen Kaku Gothic New", "Yu Gothic", "Meiryo", sans-serif`,
-  zenkaku: `"Zen Kaku Gothic New", "Hiragino Sans", sans-serif`,
   noto: `"Noto Sans JP", "Hiragino Sans", sans-serif`,
-  mplus: `"M PLUS Rounded 1c", "Hiragino Sans", sans-serif`,
-  kosugi: `"Kosugi Maru", "Hiragino Sans", sans-serif`,
-  sawarabi: `"Sawarabi Mincho", "Hiragino Mincho ProN", serif`,
-  yusei: `"Yusei Magic", "Hiragino Sans", sans-serif`,
+  bizud: `"BIZ UDGothic", "Hiragino Sans", sans-serif`,
+  zenmaru: `"Zen Maru Gothic", "Hiragino Sans", sans-serif`,
+  mplusrounded: `"M PLUS Rounded 1c", "Hiragino Sans", sans-serif`,
   klee: `"Klee One", "Hiragino Mincho ProN", serif`,
   mincho: `"Shippori Mincho", "Hiragino Mincho ProN", serif`
 };
 
-function applyFont(key){
-  const stack = FONT_STACKS[key] || FONT_STACKS.hiragino;
+function applyFont(key) {
+  const stack = FONT_STACKS[key] || FONT_STACKS.noto;
   document.documentElement.style.setProperty("--kana-font", stack);
   fontPreview.style.fontFamily = stack;
   fontSelect.value = key;
 }
 applyFont("noto");
 
-function openSettings(){
+function openSettings() {
   settingsOverlay.classList.add("open");
-  settingsOverlay.setAttribute("aria-hidden","false");
+  settingsOverlay.setAttribute("aria-hidden", "false");
   settingsClose.focus();
 }
-function closeSettings(){
+function closeSettings() {
   settingsOverlay.classList.remove("open");
-  settingsOverlay.setAttribute("aria-hidden","true");
+  settingsOverlay.setAttribute("aria-hidden", "true");
   settingsBtn.focus();
 }
 settingsBtn.addEventListener("click", openSettings);
 settingsClose.addEventListener("click", closeSettings);
-settingsOverlay.addEventListener("click", (e)=>{
-  if(e.target === settingsOverlay) closeSettings();
+settingsOverlay.addEventListener("click", (e) => {
+  if (e.target === settingsOverlay) closeSettings();
 });
-document.addEventListener("keydown", (e)=>{
-  if(e.key === "Escape" && settingsOverlay.classList.contains("open")) closeSettings();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && settingsOverlay.classList.contains("open")) closeSettings();
 });
-fontSelect.addEventListener("change", ()=> applyFont(fontSelect.value));
+fontSelect.addEventListener("change", () => applyFont(fontSelect.value));
+
+/* ---------------- language ---------------- */
+const langOptionsEl = document.getElementById("lang-options");
+function applyLanguage(lang) {
+  setLang(lang);
+  document.documentElement.setAttribute("lang", LANG);
+  document.querySelectorAll(".lang-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.lang === LANG);
+  });
+  applyStaticTranslations();
+  rebuildLocalizedContent();
+  refreshVisibleScreenText();
+}
+if (langOptionsEl) {
+  langOptionsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".lang-btn");
+    if (!btn) return;
+    applyLanguage(btn.dataset.lang);
+  });
+}
+
+// re-renders pieces of UI that are always present in the DOM (profile card,
+// title collection, script-tab badges) so they pick up the new language.
+function rebuildLocalizedContent() {
+  rebuildMeaningPools();
+  applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+  renderProfile();
+  renderNickname();
+  renderTitleCollection();
+  updateScriptConquestBadges();
+  if (conquestOverlay.classList.contains("open")) openConquestOverlay();
+}
+
+// re-renders whichever screen the user currently has open, so in-progress
+// dynamic text (level cards, quiz labels, results, etc.) updates too.
+function refreshVisibleScreenText() {
+  if (!screenStart.classList.contains("hidden")) {
+    renderLevels(currentScript);
+  }
+  if (!screenLearnEl.classList.contains("hidden")) {
+    renderLearnTables(currentLearnScript);
+  }
+  if (!screenConquestStory.classList.contains("hidden") && state.conquestPhaseBoundaries) {
+    renderConquestStory(state.conquestPhaseIndex);
+  }
+  if (!screenQuiz.classList.contains("hidden") && state.queue && state.queue.length) {
+    renderQuestion();
+  }
+  if (!screenResults.classList.contains("hidden") && state.queue && state.queue.length) {
+    renderResults();
+  }
+}
 
 /* =========================================================
-   PROFILE / TINGKATAN — "dari Heimin menuju Tennō" (tanpa XP)
+   PROFILE / TINGKATAN — "dari Commoner menuju Tennō" (tanpa XP)
    ========================================================= */
 const RANK_KEY = "tebakAksara_rank_v1";
 const PHOTO_KEY = "tebakAksara_photo_v1";
-const MASTERY_KEY = "tebakAksara_mastery_v1";
+const ConquerY_KEY = "tebakAksara_Conquery_v1";
 const NICKNAME_KEY = "tebakAksara_nickname_v1";
 
 // Tingkatan kebangsawanan — dari rakyat jelata sampai kaisar.
-// Setiap tingkat butuh menuntaskan Chapter "Kaisar" (Semua Campur) pada aksara terkait.
+// Setiap tingkat butuh menuntaskan Chapter "Kaisar" (seluruh Campur) pada aksara terkait.
 const RANK_LEVELS = [
-  {title:"Heimin",   subtitle:"平民",  emoji:"🌾", req:"Titik awal perjalanan belajarmu."},
-  {title:"Knight",   subtitle:"騎士",  emoji:"⚔️", req:"Kuasai semua Hiragana & Katakana."},
-  {title:"Baron",    subtitle:"男爵",  emoji:"🎗️", req:"Kuasai semua Kotoba N5."},
-  {title:"Viscount", subtitle:"子爵",  emoji:"📯", req:"Pahami semua Bunpō N5."},
-  {title:"Count",    subtitle:"伯爵",  emoji:"🏛️", req:"Kuasai semua Kanji N5."},
-  {title:"Marquis",  subtitle:"侯爵",  emoji:"🏯", req:"Kuasai seluruh materi N5 — Hiragana, Katakana, Kotoba, Bunpō, dan Kanji."},
-  {title:"Duke",     subtitle:"公爵",  emoji:"🦅", req:"Kuasai seluruh materi N4.", locked:true},
-  {title:"Prince",   subtitle:"親王",  emoji:"🌟", req:"Kuasai seluruh materi N3.", locked:true},
-  {title:"King",     subtitle:"国王",  emoji:"🏵️", req:"Kuasai seluruh materi N2.", locked:true},
-  {title:"Emperor",  subtitle:"天皇",  emoji:"👑", req:"Kuasai seluruh materi N1.", locked:true}
+  { title: "Commoner", subtitle: "平民", emoji: "🌾", req: "The starting point of your journey." },
+  { title: "Knight", subtitle: "騎士", emoji: "⚔️", req: "Conquer all of Hiragana & Katakana." },
+  { title: "Baron", subtitle: "男爵", emoji: "🎗️", req: "Conquer all N5 Kotoba." },
+  { title: "Viscount", subtitle: "子爵", emoji: "📯", req: "Understand all N5 Bunpō." },
+  { title: "Count", subtitle: "伯爵", emoji: "🏛️", req: "Conquer all N5 Kanji." },
+  { title: "Marquis", subtitle: "侯爵", emoji: "🏯", req: "Conquer all N5 material — Hiragana, Katakana, Kotoba, Bunpō, and Kanji." },
+  { title: "Duke", subtitle: "公爵", emoji: "🦅", req: "Conquer all N4 material.", locked: true },
+  { title: "Prince", subtitle: "親王", emoji: "🌟", req: "Conquer all N3 material.", locked: true },
+  { title: "King", subtitle: "国王", emoji: "🏵️", req: "Conquer all N2 material.", locked: true },
+  { title: "Emperor", subtitle: "天皇", emoji: "👑", req: "Conquer all N1 material.", locked: true }
 ];
+const RANK_REQ_ID = {
+  "The starting point of your journey.": "Titik awal perjalananmu.",
+  "Conquer all of Hiragana & Katakana.": "Taklukkan seluruh Hiragana & Katakana.",
+  "Conquer all N5 Kotoba.": "Taklukkan seluruh Kotoba N5.",
+  "Understand all N5 Bunpō.": "Pahami seluruh Bunpō N5.",
+  "Conquer all N5 Kanji.": "Taklukkan seluruh Kanji N5.",
+  "Conquer all N5 material — Hiragana, Katakana, Kotoba, Bunpō, and Kanji.": "Taklukkan seluruh materi N5 — Hiragana, Katakana, Kotoba, Bunpō, dan Kanji.",
+  "Conquer all N4 material.": "Taklukkan seluruh materi N4.",
+  "Conquer all N3 material.": "Taklukkan seluruh materi N3.",
+  "Conquer all N2 material.": "Taklukkan seluruh materi N2.",
+  "Conquer all N1 material.": "Taklukkan seluruh materi N1."
+};
+function loc(str) {
+  return LANG === "id" ? (RANK_REQ_ID[str] || str) : str;
+}
 
-function getRankIndex(){
+// resolves an inline {en,id} translation object (used for content data like
+// level descriptions, learn-section titles, etc.) — falls back gracefully.
+function tf(entry) {
+  if (entry == null) return "";
+  if (typeof entry === "string") return entry;
+  return entry[LANG] || entry.en || entry.id || "";
+}
+
+function getRankIndex() {
   return parseInt(localStorage.getItem(RANK_KEY) || "0", 10) || 0;
 }
-function setRankIndex(i){
+function setRankIndex(i) {
   localStorage.setItem(RANK_KEY, String(i));
 }
 
 /* ---- penguasaan per-aksara: Chapter "Kaisar" (all) yang sudah dituntaskan ---- */
-function getMastery(){
-  try { return JSON.parse(localStorage.getItem(MASTERY_KEY) || "{}"); }
-  catch(e){ return {}; }
+function getConquery() {
+  try { return JSON.parse(localStorage.getItem(ConquerY_KEY) || "{}"); }
+  catch (e) { return {}; }
 }
-function markScriptMastered(scriptKey){
-  const m = getMastery();
-  if(!m[scriptKey]){
+function markScriptConquered(scriptKey) {
+  const m = getConquery();
+  if (!m[scriptKey]) {
     m[scriptKey] = true;
-    localStorage.setItem(MASTERY_KEY, JSON.stringify(m));
+    localStorage.setItem(ConquerY_KEY, JSON.stringify(m));
   }
 }
-function computeRankIndex(){
-  const m = getMastery();
+function computeRankIndex() {
+  const m = getConquery();
   let idx = 0;
-  if(m.hiragana && m.katakana) idx = 1; // Knight
-  if(idx >= 1 && m.kotoba)     idx = 2; // Baron
-  if(idx >= 2 && m.bunpo)      idx = 3; // Viscount
-  if(idx >= 3 && m.kanji)      idx = 4; // Count
-  if(idx >= 4)                 idx = 5; // Marquis — seluruh N5 tuntas
+  if (m.hiragana && m.katakana) idx = 1; // Knight
+  if (idx >= 1 && m.kotoba) idx = 2; // Baron
+  if (idx >= 2 && m.bunpo) idx = 3; // Viscount
+  if (idx >= 3 && m.kanji) idx = 4; // Count
+  if (idx >= 4) idx = 5; // Marquis — seluruh N5 tuntas
   return idx;
 }
 // dipanggil setelah menuntaskan Chapter "Kaisar" pada sebuah aksara
-function promoteIfHigher(scriptKey, mode){
-  if(mode === "all") markScriptMastered(scriptKey);
+function promoteIfHigher(scriptKey, mode) {
+  if (mode === "all") markScriptConquered(scriptKey);
   const computed = computeRankIndex();
-  if(computed > getRankIndex()){
+  if (computed > getRankIndex()) {
     setRankIndex(computed);
     return true;
   }
@@ -200,70 +440,112 @@ function promoteIfHigher(scriptKey, mode){
 }
 
 /* =========================================================
-   KOLEKSI TITLE — title khusus per aksara, didapat dari Mode Penaklukan
+   KOLEKSI TITLE — title khusus per aksara, didapat dari Mode penaklukkan
    ========================================================= */
 const TITLES_KEY = "tebakAksara_titles_v1";
 
 const CONQUEST_TITLES = {
-  hiragana: {title:"Penakluk Hiragana", emoji:"あ"},
-  katakana: {title:"Penakluk Katakana", emoji:"ア"},
-  kotoba:   {title:"Penakluk Kotoba",   emoji:"語"},
-  bunpo:    {title:"Penakluk Bunpō",    emoji:"文"},
-  kanji:    {title:"Penakluk Kanji N5", emoji:"漢"}
+  hiragana: { title: "Hiragana Conqueror", emoji: "あ" },
+  katakana: { title: "Katakana Conqueror", emoji: "ア" },
+  kotoba: { title: "Kotoba Conqueror", emoji: "語" },
+  bunpo: { title: "Bunpō Conqueror", emoji: "文" },
+  kanji: { title: "Kanji N5 Conqueror", emoji: "漢" }
 };
 
-// cerita sederhana buat Mode Penaklukan 3 Chapter — cuma dipakai utk Hiragana & Katakana,
+// cerita sederhana buat Mode penaklukkan 3 Chapter — cuma dipakai utk Hiragana & Katakana,
 // masing-masing Chapter dipetakan ke tier1 (dasar) / tier2 (bertitik) / tier3 (gabungan).
 // cerita satu kesatuan: Hiragana = Ujian Ksatria Tahap Pertama (desa asal),
 // Katakana = Ujian Ksatria Tahap Kedua (kota pelabuhan) — menuntaskan keduanya
-// resmi mengangkat pemain jadi Knight (騎士), sesuai RANK_LEVELS[1].
+// resmi mengangkat pemain menjadi Knight (騎士), sesuai RANK_LEVELS[1].
 const CONQUEST_STORY = {
   hiragana: {
-    epilogue: "Bupati membubuhkan cap resminya pada surat rekomendasimu. Ujian Ksatria Tahap Pertama tuntas — kau resmi diakui layak melangkah ke Ujian Tahap Kedua di kota pelabuhan, tempat Katakana menanti.",
+    epilogue: "The magistrate stamps his official seal on your letter of recommendation. The First Trial of Knighthood is complete — you're officially recognized as ready to move on to the Second Trial in the port city, where Katakana awaits.",
     phases: [
-      { label:"Chapter 1 — Gerbang Balai Desa",
-        text:"⚔️ Sejak kecil kau hanya mendengar cerita tentang Ksatria Kekaisaran dari para musafir yang singgah di desamu. Hari ini, utusan Balai Ksatria akhirnya membuka pendaftaran murid baru. Syarat pertama: buktikan kau bisa membaca dan menulis sendiri 46 aksara dasar Hiragana di hadapan penulis balai desa — tanpa contekan, tanpa pilihan ganda, murni dari ingatanmu." },
-      { label:"Chapter 2 — Sandi Sang Mata-Mata",
-        text:"🎉 Penulis balai desa mengangguk puas — namamu dicatat sebagai calon murid! Tapi sebelum surat rekomendasi diserahkan, ia menyodorkan gulungan sandi berisi huruf-huruf bertitik dan berlingkar kecil (dakuten & handakuten) yang disita dari mata-mata musuh. \"Kalau kau bisa membaca sandi ini,\" katanya, \"kau pantas jadi murid ksatria.\" Tuliskan sendiri setiap bunyinya." },
-      { label:"Chapter 3 — Titah Sang Bupati",
-        text:"✨ Sandi berhasil kau pecahkan. Tak lama, Bupati setempat datang membawa titah resmi penuh aksara gabungan yōon — きゃ, しゅ, ちょ — untuk mengujimu langsung. Ini ujian pemungkas sebelum kau boleh berangkat ke kota pelabuhan untuk Ujian Ksatria Tahap Kedua." }
+      {
+        label: "Chapter 1 — The Village Hall Gate",
+        text: "⚔️ Since childhood you've only heard stories of the Imperial Knights from travelers passing through your village. Today, an envoy from the Knights' Hall has finally opened enrollment for new students. The first requirement: prove you can read and write all 46 basic Hiragana characters yourself in front of the village hall scribe — no cheat sheets, no multiple choice, purely from memory."
+      },
+      {
+        label: "Chapter 2 — The Spy's Cipher",
+        text: "🎉 The village hall scribe nods, satisfied — your name is recorded as a candidate student! But before handing over the letter of recommendation, he produces a scroll of cipher text full of dotted and small-circled characters (dakuten & handakuten) seized from an enemy spy. \"If you can read this cipher,\" he says, \"you're worthy of becoming a knight's apprentice.\" Write out each sound yourself."
+      },
+      {
+        label: "Chapter 3 — The Magistrate's Decree",
+        text: "✨ You've cracked the cipher. Before long, the local magistrate arrives bearing an official decree full of combined yōon characters — きゃ, しゅ, ちょ — to test you directly. This is the final trial before you may set off for the port city for the Second Trial of Knighthood."
+      }
     ]
   },
   katakana: {
-    epilogue: "Kapten Ksatria menyarungkan pedangnya dan meletakkannya di kedua bahumu. \"Bangkitlah, Ksatria.\" Malam itu juga, di hadapan obor dan derap ombak pelabuhan, kau resmi diangkat menjadi Ksatria Kekaisaran — dua ujian, Hiragana dan Katakana, telah kau taklukkan sepenuhnya.",
+    epilogue: "The Knight Captain sheathes his sword and lays it on both your shoulders. \"Rise, Knight.\" That very night, before torchlight and the crash of harbor waves, you're officially made an Imperial Knight — two trials, Hiragana and Katakana, fully conquered.",
     phases: [
-      { label:"Chapter 1 — Gerbang Pelabuhan",
-        text:"⚔️ Berbekal surat rekomendasi dari Bupati, kau tiba di kota pelabuhan yang ramai oleh kapal asing dan papan nama beraksara Katakana. Petugas gerbang, seorang ksatria magang, menantangmu membaca 46 aksara dasar katakana satu per satu — tanpa pilihan, langsung tulis jawabanmu sendiri." },
-      { label:"Chapter 2 — Daftar Muatan Kapal Asing",
-        text:"🎉 Gerbang terbuka! Namun di dermaga, seorang saudagar asing menyerahkan daftar muatan kapal penuh nama barang bertitik dakuten & handakuten yang bercampur logat asing. \"Kalau kau mau jadi ksatria,\" katanya, \"kau harus bisa baca ini tanpa salah eja.\" Tuliskan sendiri setiap jawabanmu." },
-      { label:"Chapter 3 — Titah Sang Kapten Ksatria",
-        text:"✨ Seluruh daftar muatan berhasil kau baca. Di menara pengawas pelabuhan, Kapten Ksatria sendiri turun tangan mengujimu dengan aksara gabungan yōon asing — kya, shu, cho — sebagai ujian pemungkas. Kalau kau lulus, gelar Ksatria akan resmi disematkan malam ini juga." }
+      {
+        label: "Chapter 1 — The Harbor Gate",
+        text: "⚔️ Armed with the magistrate's letter of recommendation, you arrive at a port city bustling with foreign ships and Katakana signboards. The gate officer, a knight-in-training, challenges you to read all 46 basic katakana characters one by one — no options, just write your own answers."
+      },
+      {
+        label: "Chapter 2 — The Foreign Ship's Cargo Manifest",
+        text: "🎉 The gate opens! But at the dock, a foreign merchant hands you a cargo manifest full of dakuten & handakuten dotted item names mixed with foreign accents. \"If you want to be a knight,\" he says, \"you must be able to read this without a single misspelling.\" Write out each answer yourself."
+      },
+      {
+        label: "Chapter 3 — The Knight Captain's Decree",
+        text: "✨ You've successfully read the entire cargo manifest. At the harbor watchtower, the Knight Captain himself steps in to test you with foreign combined yōon characters — kya, shu, cho — as the final trial. If you pass, the title of Knight will be officially bestowed this very night."
+      }
     ]
   }
 };
+const CONQUEST_STORY_ID = {
+  hiragana: {
+    epilogue: "Bupati membubuhkan cap resminya pada surat rekomendasimu. Ujian Ksatria Tahap Pertama tuntas — kau resmi diakui layak melangkah ke Ujian Tahap Kedua di kota pelabuhan, tempat Katakana menanti.",
+    phases: [
+      "⚔️ Sejak kecil kau hanya mendengar cerita tentang Ksatria Kekaisaran dari para musafir yang singgah di desamu. Hari ini, utusan Balai Ksatria akhirnya membuka pendaftaran murid baru. Syarat pertama: buktikan kau bisa membaca dan menulis sendiri 46 aksara dasar Hiragana di hadapan penulis balai desa — tanpa contekan, tanpa pilihan ganda, murni dari ingatanmu.",
+      "🎉 Penulis balai desa mengangguk puas — namamu dicatat sebagai calon murid! Tapi sebelum surat rekomendasi diserahkan, ia menyodorkan gulungan sandi berisi huruf-huruf bertitik dan berlingkar kecil (dakuten & handakuten) yang disita dari mata-mata musuh. \"Kalau kau bisa membaca sandi ini,\" katanya, \"kau pantas menjadi murid ksatria.\" Tuliskan sendiri setiap bunyinya.",
+      "✨ Sandi berhasil kau pecahkan. Tak lama, Bupati setempat datang membawa titah resmi penuh aksara gabungan yōon — きゃ, しゅ, ちょ — untuk mengujimu langsung. Ini ujian pemungkas sebelum kau boleh berangkat ke kota pelabuhan untuk Ujian Ksatria Tahap Kedua."
+    ],
+    phaseLabels: ["Chapter 1 — Gerbang Balai Desa", "Chapter 2 — Sandi Sang Mata-Mata", "Chapter 3 — Titah Sang Bupati"]
+  },
+  katakana: {
+    epilogue: "Kapten Ksatria menyarungkan pedangnya dan meletakkannya di kedua bahumu. \"Bangkitlah, Ksatria.\" Malam itu juga, di hadapan obor dan derap ombak pelabuhan, kau resmi diangkat menmenjadi Ksatria Kekaisaran — dua ujian, Hiragana dan Katakana, telah kau taklukkan sepenuhnya.",
+    phases: [
+      "⚔️ Berbekal surat rekomendasi dari Bupati, kau tiba di kota pelabuhan yang ramai oleh kapal asing dan papan nama beraksara Katakana. Petugas gerbang, seorang ksatria magang, menantangmu membaca 46 aksara dasar katakana satu per satu — tanpa pilihan, langsung tulis jawabanmu sendiri.",
+      "🎉 Gerbang terbuka! Namun di dermaga, seorang saudagar asing menyerahkan daftar muatan kapal penuh nama barang bertitik dakuten & handakuten yang bercampur logat asing. \"Kalau kau mau menjadi ksatria,\" katanya, \"kau harus bisa baca ini tanpa salah eja.\" Tuliskan sendiri setiap jawabanmu.",
+      "✨ Seluruh daftar muatan berhasil kau baca. Di menara pengawas pelabuhan, Kapten Ksatria sendiri turun tangan mengujimu dengan aksara gabungan yōon asing — kya, shu, cho — sebagai ujian pemungkas. Kalau kau lulus, gelar Ksatria akan resmi disematkan malam ini juga."
+    ],
+    phaseLabels: ["Chapter 1 — Gerbang Pelabuhan", "Chapter 2 — Daftar Muatan Kapal Asing", "Chapter 3 — Titah Sang Kapten Ksatria"]
+  }
+};
+// returns the localized conquest story object for a script, matching CONQUEST_STORY's shape
+function getLocalizedConquestStory(scriptKey) {
+  if (LANG !== "id") return CONQUEST_STORY[scriptKey];
+  const en = CONQUEST_STORY[scriptKey];
+  const idv = CONQUEST_STORY_ID[scriptKey];
+  return {
+    epilogue: idv.epilogue,
+    phases: en.phases.map((p, i) => ({ label: idv.phaseLabels[i], text: idv.phases[i] }))
+  };
+}
 
-// urutan wajib Mode Penaklukan: tiap aksara harus ditaklukkan berurutan,
+// urutan wajib Mode penaklukkan: tiap aksara harus ditaklukkan berurutan,
 // tidak bisa lompat (mis. Katakana harus menunggu Hiragana takluk dulu).
 const CONQUEST_ORDER = Object.keys(CONQUEST_TITLES);
 // return key aksara prasyarat yang belum ditaklukkan, atau null kalau sudah boleh.
-function getConquestLockReason(scriptKey){
+function getConquestLockReason(scriptKey) {
   const idx = CONQUEST_ORDER.indexOf(scriptKey);
-  if(idx <= 0) return null;
+  if (idx <= 0) return null;
   const earned = getConqueredTitles();
-  for(let i=0; i<idx; i++){
-    if(!earned[CONQUEST_ORDER[i]]) return CONQUEST_ORDER[i];
+  for (let i = 0; i < idx; i++) {
+    if (!earned[CONQUEST_ORDER[i]]) return CONQUEST_ORDER[i];
   }
   return null;
 }
 
-function getConqueredTitles(){
+function getConqueredTitles() {
   try { return JSON.parse(localStorage.getItem(TITLES_KEY) || "{}"); }
-  catch(e){ return {}; }
+  catch (e) { return {}; }
 }
 // menandai sebuah aksara sebagai sudah ditaklukkan; return true kalau title-nya baru didapat
-function earnConquestTitle(scriptKey){
+function earnConquestTitle(scriptKey) {
   const t = getConqueredTitles();
-  if(!t[scriptKey]){
+  if (!t[scriptKey]) {
     t[scriptKey] = true;
     localStorage.setItem(TITLES_KEY, JSON.stringify(t));
     return true;
@@ -271,11 +553,11 @@ function earnConquestTitle(scriptKey){
   return false;
 }
 
-function renderTitleCollection(){
+function renderTitleCollection() {
   const el = document.getElementById("title-collection");
-  if(!el) return;
+  if (!el) return;
   const earned = getConqueredTitles();
-  el.innerHTML = Object.keys(CONQUEST_TITLES).map(key=>{
+  el.innerHTML = Object.keys(CONQUEST_TITLES).map(key => {
     const ct = CONQUEST_TITLES[key];
     const has = !!earned[key];
     return `
@@ -287,9 +569,9 @@ function renderTitleCollection(){
 }
 
 // menandai script-tab yang aksaranya sudah ditaklukkan (start screen)
-function updateScriptConquestBadges(){
+function updateScriptConquestBadges() {
   const earned = getConqueredTitles();
-  document.querySelectorAll('#script-tabs .script-tab').forEach(btn=>{
+  document.querySelectorAll('#script-tabs .script-tab').forEach(btn => {
     btn.classList.toggle('conquered', !!earned[btn.dataset.script]);
   });
 }
@@ -300,20 +582,20 @@ const profileSubtitleEl = document.getElementById("profile-subtitle");
 const profileDotsEl = document.getElementById("profile-dots");
 const profileNextEl = document.getElementById("profile-next");
 
-function renderProfile(){
+function renderProfile() {
   const idx = getRankIndex();
   const rank = RANK_LEVELS[idx];
-  const next = RANK_LEVELS[idx+1];
+  const next = RANK_LEVELS[idx + 1];
   profileEmojiEl.textContent = rank.emoji;
   profileTitleEl.textContent = rank.title;
   profileSubtitleEl.textContent = rank.subtitle;
-  profileDotsEl.innerHTML = RANK_LEVELS.map((_,i)=> `<span class="${i<=idx?'filled':''}"></span>`).join("");
-  if(next && next.locked){
-    profileNextEl.textContent = `Tingkatan N5 tertinggi tercapai — ${next.emoji} ${next.title} akan terbuka begitu materi N4 hadir.`;
-  } else if(next){
-    profileNextEl.textContent = `${next.req} untuk naik jadi ${next.emoji} ${next.title}`;
+  profileDotsEl.innerHTML = RANK_LEVELS.map((_, i) => `<span class="${i <= idx ? 'filled' : ''}"></span>`).join("");
+  if (next && next.locked) {
+    profileNextEl.textContent = t("profile.highestN5", { emoji: next.emoji, title: next.title });
+  } else if (next) {
+    profileNextEl.textContent = t("profile.nextRank", { req: loc(next.req), emoji: next.emoji, title: next.title });
   } else {
-    profileNextEl.textContent = "Tingkatan tertinggi tercapai — bertahtalah, Emperor! 👑";
+    profileNextEl.textContent = t("profile.highestReached");
   }
   renderRankLadder(idx);
 }
@@ -321,18 +603,18 @@ renderProfile();
 renderTitleCollection();
 
 /* ---- daftar tingkatan kebangsawanan di panel About ---- */
-function renderRankLadder(idx){
+function renderRankLadder(idx) {
   const el = document.getElementById("rank-ladder");
-  if(!el) return;
-  el.innerHTML = RANK_LEVELS.map((r,i)=>{
+  if (!el) return;
+  el.innerHTML = RANK_LEVELS.map((r, i) => {
     const status = r.locked ? "locked" : (i < idx ? "done" : i === idx ? "current" : "todo");
-    const soon = r.locked ? `<span class="rank-soon">Segera hadir</span>` : "";
+    const soon = r.locked ? `<span class="rank-soon">${t("rank.comingSoon")}</span>` : "";
     return `
       <li class="rank-item ${status}">
         <span class="rank-emoji">${r.emoji}</span>
         <span class="rank-body">
           <span class="rank-name">${r.title} <span class="rank-jp">${r.subtitle}</span></span>
-          <span class="rank-req">${r.req}</span>
+          <span class="rank-req">${loc(r.req)}</span>
         </span>
         ${soon}
       </li>`;
@@ -345,9 +627,9 @@ const avatarPlaceholderEl = document.getElementById("profile-avatar-placeholder"
 const avatarBtn = document.getElementById("profile-avatar-btn");
 const photoInput = document.getElementById("profile-photo-input");
 
-function renderAvatar(){
+function renderAvatar() {
   const dataUrl = localStorage.getItem(PHOTO_KEY);
-  if(dataUrl){
+  if (dataUrl) {
     avatarImgEl.src = dataUrl;
     avatarImgEl.classList.remove("hidden");
     avatarPlaceholderEl.classList.add("hidden");
@@ -358,12 +640,12 @@ function renderAvatar(){
 }
 renderAvatar();
 
-avatarBtn.addEventListener("click", ()=> photoInput.click());
-photoInput.addEventListener("change", ()=>{
+avatarBtn.addEventListener("click", () => photoInput.click());
+photoInput.addEventListener("change", () => {
   const file = photoInput.files && photoInput.files[0];
-  if(!file) return;
+  if (!file) return;
   const reader = new FileReader();
-  reader.onload = ()=>{
+  reader.onload = () => {
     localStorage.setItem(PHOTO_KEY, reader.result);
     renderAvatar();
   };
@@ -371,10 +653,10 @@ photoInput.addEventListener("change", ()=>{
 });
 
 /* ---- nickname profil ---- */
-function getNickname(){
+function getNickname() {
   return (localStorage.getItem(NICKNAME_KEY) || "").trim();
 }
-function setNickname(name){
+function setNickname(name) {
   localStorage.setItem(NICKNAME_KEY, name);
 }
 
@@ -382,21 +664,21 @@ const nicknameBtnEl = document.getElementById("profile-nickname-btn");
 const nicknameTextEl = document.getElementById("profile-nickname-text");
 const nicknameInputEl = document.getElementById("profile-nickname-input");
 
-function renderNickname(){
+function renderNickname() {
   const name = getNickname();
-  nicknameTextEl.textContent = name || "+ Tambah nickname";
+  nicknameTextEl.textContent = name || t("profile.addNickname");
   nicknameBtnEl.classList.toggle("has-name", !!name);
 }
 renderNickname();
 
-function openNicknameEditor(){
+function openNicknameEditor() {
   nicknameInputEl.value = getNickname();
   nicknameBtnEl.classList.add("hidden");
   nicknameInputEl.classList.remove("hidden");
   nicknameInputEl.focus();
   nicknameInputEl.select();
 }
-function commitNickname(){
+function commitNickname() {
   const val = nicknameInputEl.value.trim().slice(0, 18);
   setNickname(val);
   nicknameInputEl.classList.add("hidden");
@@ -405,11 +687,11 @@ function commitNickname(){
 }
 nicknameBtnEl.addEventListener("click", openNicknameEditor);
 nicknameInputEl.addEventListener("blur", commitNickname);
-nicknameInputEl.addEventListener("keydown", (e)=>{
-  if(e.key === "Enter"){
+nicknameInputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
     e.preventDefault();
     nicknameInputEl.blur();
-  } else if(e.key === "Escape"){
+  } else if (e.key === "Escape") {
     nicknameInputEl.value = getNickname();
     nicknameInputEl.blur();
   }
@@ -421,139 +703,139 @@ nicknameInputEl.addEventListener("keydown", (e)=>{
 
 /* ---- Hiragana ---- */
 const HIRAGANA_TIER1 = [
-  ["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"],
-  ["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"],
-  ["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"],
-  ["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"],
-  ["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"],
-  ["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"],
-  ["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"],
-  ["や","ya"],["ゆ","yu"],["よ","yo"],
-  ["ら","ra"],["り","ri"],["る","ru"],["れ","re"],["ろ","ro"],
-  ["わ","wa"],["を","wo"],["ん","n"]
+  ["あ", "a"], ["い", "i"], ["う", "u"], ["え", "e"], ["お", "o"],
+  ["か", "ka"], ["き", "ki"], ["く", "ku"], ["け", "ke"], ["こ", "ko"],
+  ["さ", "sa"], ["し", "shi"], ["す", "su"], ["せ", "se"], ["そ", "so"],
+  ["た", "ta"], ["ち", "chi"], ["つ", "tsu"], ["て", "te"], ["と", "to"],
+  ["な", "na"], ["に", "ni"], ["ぬ", "nu"], ["ね", "ne"], ["の", "no"],
+  ["は", "ha"], ["ひ", "hi"], ["ふ", "fu"], ["へ", "he"], ["ほ", "ho"],
+  ["ま", "ma"], ["み", "mi"], ["む", "mu"], ["め", "me"], ["も", "mo"],
+  ["や", "ya"], ["ゆ", "yu"], ["よ", "yo"],
+  ["ら", "ra"], ["り", "ri"], ["る", "ru"], ["れ", "re"], ["ろ", "ro"],
+  ["わ", "wa"], ["を", "wo"], ["ん", "n"]
 ];
 const HIRAGANA_TIER2 = [
-  ["が","ga"],["ぎ","gi"],["ぐ","gu"],["げ","ge"],["ご","go"],
-  ["ざ","za"],["じ","ji"],["ず","zu"],["ぜ","ze"],["ぞ","zo"],
-  ["だ","da"],["ぢ","ji"],["づ","zu"],["で","de"],["ど","do"],
-  ["ば","ba"],["び","bi"],["ぶ","bu"],["べ","be"],["ぼ","bo"],
-  ["ぱ","pa"],["ぴ","pi"],["ぷ","pu"],["ぺ","pe"],["ぽ","po"]
+  ["が", "ga"], ["ぎ", "gi"], ["ぐ", "gu"], ["げ", "ge"], ["ご", "go"],
+  ["ざ", "za"], ["じ", "ji"], ["ず", "zu"], ["ぜ", "ze"], ["ぞ", "zo"],
+  ["だ", "da"], ["ぢ", "ji"], ["づ", "zu"], ["で", "de"], ["ど", "do"],
+  ["ば", "ba"], ["び", "bi"], ["ぶ", "bu"], ["べ", "be"], ["ぼ", "bo"],
+  ["ぱ", "pa"], ["ぴ", "pi"], ["ぷ", "pu"], ["ぺ", "pe"], ["ぽ", "po"]
 ];
 const HIRAGANA_TIER3 = [
-  ["きゃ","kya"],["きゅ","kyu"],["きょ","kyo"],
-  ["しゃ","sha"],["しゅ","shu"],["しょ","sho"],
-  ["ちゃ","cha"],["ちゅ","chu"],["ちょ","cho"],
-  ["にゃ","nya"],["にゅ","nyu"],["にょ","nyo"],
-  ["ひゃ","hya"],["ひゅ","hyu"],["ひょ","hyo"],
-  ["みゃ","mya"],["みゅ","myu"],["みょ","myo"],
-  ["りゃ","rya"],["りゅ","ryu"],["りょ","ryo"],
-  ["ぎゃ","gya"],["ぎゅ","gyu"],["ぎょ","gyo"],
-  ["じゃ","ja"],["じゅ","ju"],["じょ","jo"],
-  ["びゃ","bya"],["びゅ","byu"],["びょ","byo"],
-  ["ぴゃ","pya"],["ぴゅ","pyu"],["ぴょ","pyo"]
+  ["きゃ", "kya"], ["きゅ", "kyu"], ["きょ", "kyo"],
+  ["しゃ", "sha"], ["しゅ", "shu"], ["しょ", "sho"],
+  ["ちゃ", "cha"], ["ちゅ", "chu"], ["ちょ", "cho"],
+  ["にゃ", "nya"], ["にゅ", "nyu"], ["にょ", "nyo"],
+  ["ひゃ", "hya"], ["ひゅ", "hyu"], ["ひょ", "hyo"],
+  ["みゃ", "mya"], ["みゅ", "myu"], ["みょ", "myo"],
+  ["りゃ", "rya"], ["りゅ", "ryu"], ["りょ", "ryo"],
+  ["ぎゃ", "gya"], ["ぎゅ", "gyu"], ["ぎょ", "gyo"],
+  ["じゃ", "ja"], ["じゅ", "ju"], ["じょ", "jo"],
+  ["びゃ", "bya"], ["びゅ", "byu"], ["びょ", "byo"],
+  ["ぴゃ", "pya"], ["ぴゅ", "pyu"], ["ぴょ", "pyo"]
 ];
 const GOJUON_HIRAGANA = {
   tier1: [
-    { label:"",  cols:5, chars:[["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"]] },
-    { label:"k", cols:5, chars:[["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"]] },
-    { label:"s", cols:5, chars:[["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"]] },
-    { label:"t", cols:5, chars:[["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"]] },
-    { label:"n", cols:5, chars:[["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"]] },
-    { label:"h", cols:5, chars:[["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"]] },
-    { label:"m", cols:5, chars:[["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"]] },
-    { label:"y", cols:5, chars:[["や","ya"],null,["ゆ","yu"],null,["よ","yo"]] },
-    { label:"r", cols:5, chars:[["ら","ra"],["り","ri"],["る","ru"],["れ","re"],["ろ","ro"]] },
-    { label:"w", cols:5, chars:[["わ","wa"],null,null,null,["を","wo"]] },
-    { label:"n", cols:5, chars:[["ん","n"],null,null,null,null] }
+    { label: "", cols: 5, chars: [["あ", "a"], ["い", "i"], ["う", "u"], ["え", "e"], ["お", "o"]] },
+    { label: "k", cols: 5, chars: [["か", "ka"], ["き", "ki"], ["く", "ku"], ["け", "ke"], ["こ", "ko"]] },
+    { label: "s", cols: 5, chars: [["さ", "sa"], ["し", "shi"], ["す", "su"], ["せ", "se"], ["そ", "so"]] },
+    { label: "t", cols: 5, chars: [["た", "ta"], ["ち", "chi"], ["つ", "tsu"], ["て", "te"], ["と", "to"]] },
+    { label: "n", cols: 5, chars: [["な", "na"], ["に", "ni"], ["ぬ", "nu"], ["ね", "ne"], ["の", "no"]] },
+    { label: "h", cols: 5, chars: [["は", "ha"], ["ひ", "hi"], ["ふ", "fu"], ["へ", "he"], ["ほ", "ho"]] },
+    { label: "m", cols: 5, chars: [["ま", "ma"], ["み", "mi"], ["む", "mu"], ["め", "me"], ["も", "mo"]] },
+    { label: "y", cols: 5, chars: [["や", "ya"], null, ["ゆ", "yu"], null, ["よ", "yo"]] },
+    { label: "r", cols: 5, chars: [["ら", "ra"], ["り", "ri"], ["る", "ru"], ["れ", "re"], ["ろ", "ro"]] },
+    { label: "w", cols: 5, chars: [["わ", "wa"], null, null, null, ["を", "wo"]] },
+    { label: "n", cols: 5, chars: [["ん", "n"], null, null, null, null] }
   ],
   tier2: [
-    { label:"g", cols:5, chars:[["が","ga"],["ぎ","gi"],["ぐ","gu"],["げ","ge"],["ご","go"]] },
-    { label:"z", cols:5, chars:[["ざ","za"],["じ","ji"],["ず","zu"],["ぜ","ze"],["ぞ","zo"]] },
-    { label:"d", cols:5, chars:[["だ","da"],["ぢ","ji"],["づ","zu"],["で","de"],["ど","do"]] },
-    { label:"b", cols:5, chars:[["ば","ba"],["び","bi"],["ぶ","bu"],["べ","be"],["ぼ","bo"]] },
-    { label:"p", cols:5, chars:[["ぱ","pa"],["ぴ","pi"],["ぷ","pu"],["ぺ","pe"],["ぽ","po"]] }
+    { label: "g", cols: 5, chars: [["が", "ga"], ["ぎ", "gi"], ["ぐ", "gu"], ["げ", "ge"], ["ご", "go"]] },
+    { label: "z", cols: 5, chars: [["ざ", "za"], ["じ", "ji"], ["ず", "zu"], ["ぜ", "ze"], ["ぞ", "zo"]] },
+    { label: "d", cols: 5, chars: [["だ", "da"], ["ぢ", "ji"], ["づ", "zu"], ["で", "de"], ["ど", "do"]] },
+    { label: "b", cols: 5, chars: [["ば", "ba"], ["び", "bi"], ["ぶ", "bu"], ["べ", "be"], ["ぼ", "bo"]] },
+    { label: "p", cols: 5, chars: [["ぱ", "pa"], ["ぴ", "pi"], ["ぷ", "pu"], ["ぺ", "pe"], ["ぽ", "po"]] }
   ],
   tier3: [
-    { label:"ky", cols:3, chars:[["きゃ","kya"],["きゅ","kyu"],["きょ","kyo"]] },
-    { label:"sh", cols:3, chars:[["しゃ","sha"],["しゅ","shu"],["しょ","sho"]] },
-    { label:"ch", cols:3, chars:[["ちゃ","cha"],["ちゅ","chu"],["ちょ","cho"]] },
-    { label:"ny", cols:3, chars:[["にゃ","nya"],["にゅ","nyu"],["にょ","nyo"]] },
-    { label:"hy", cols:3, chars:[["ひゃ","hya"],["ひゅ","hyu"],["ひょ","hyo"]] },
-    { label:"my", cols:3, chars:[["みゃ","mya"],["みゅ","myu"],["みょ","myo"]] },
-    { label:"ry", cols:3, chars:[["りゃ","rya"],["りゅ","ryu"],["りょ","ryo"]] },
-    { label:"gy", cols:3, chars:[["ぎゃ","gya"],["ぎゅ","gyu"],["ぎょ","gyo"]] },
-    { label:"j",  cols:3, chars:[["じゃ","ja"],["じゅ","ju"],["じょ","jo"]] },
-    { label:"by", cols:3, chars:[["びゃ","bya"],["びゅ","byu"],["びょ","byo"]] },
-    { label:"py", cols:3, chars:[["ぴゃ","pya"],["ぴゅ","pyu"],["ぴょ","pyo"]] }
+    { label: "ky", cols: 3, chars: [["きゃ", "kya"], ["きゅ", "kyu"], ["きょ", "kyo"]] },
+    { label: "sh", cols: 3, chars: [["しゃ", "sha"], ["しゅ", "shu"], ["しょ", "sho"]] },
+    { label: "ch", cols: 3, chars: [["ちゃ", "cha"], ["ちゅ", "chu"], ["ちょ", "cho"]] },
+    { label: "ny", cols: 3, chars: [["にゃ", "nya"], ["にゅ", "nyu"], ["にょ", "nyo"]] },
+    { label: "hy", cols: 3, chars: [["ひゃ", "hya"], ["ひゅ", "hyu"], ["ひょ", "hyo"]] },
+    { label: "my", cols: 3, chars: [["みゃ", "mya"], ["みゅ", "myu"], ["みょ", "myo"]] },
+    { label: "ry", cols: 3, chars: [["りゃ", "rya"], ["りゅ", "ryu"], ["りょ", "ryo"]] },
+    { label: "gy", cols: 3, chars: [["ぎゃ", "gya"], ["ぎゅ", "gyu"], ["ぎょ", "gyo"]] },
+    { label: "j", cols: 3, chars: [["じゃ", "ja"], ["じゅ", "ju"], ["じょ", "jo"]] },
+    { label: "by", cols: 3, chars: [["びゃ", "bya"], ["びゅ", "byu"], ["びょ", "byo"]] },
+    { label: "py", cols: 3, chars: [["ぴゃ", "pya"], ["ぴゅ", "pyu"], ["ぴょ", "pyo"]] }
   ]
 };
 
 /* ---- Katakana ---- */
 const KATAKANA_TIER1 = [
-  ["ア","a"],["イ","i"],["ウ","u"],["エ","e"],["オ","o"],
-  ["カ","ka"],["キ","ki"],["ク","ku"],["ケ","ke"],["コ","ko"],
-  ["サ","sa"],["シ","shi"],["ス","su"],["セ","se"],["ソ","so"],
-  ["タ","ta"],["チ","chi"],["ツ","tsu"],["テ","te"],["ト","to"],
-  ["ナ","na"],["ニ","ni"],["ヌ","nu"],["ネ","ne"],["ノ","no"],
-  ["ハ","ha"],["ヒ","hi"],["フ","fu"],["ヘ","he"],["ホ","ho"],
-  ["マ","ma"],["ミ","mi"],["ム","mu"],["メ","me"],["モ","mo"],
-  ["ヤ","ya"],["ユ","yu"],["ヨ","yo"],
-  ["ラ","ra"],["リ","ri"],["ル","ru"],["レ","re"],["ロ","ro"],
-  ["ワ","wa"],["ヲ","wo"],["ン","n"]
+  ["ア", "a"], ["イ", "i"], ["ウ", "u"], ["エ", "e"], ["オ", "o"],
+  ["カ", "ka"], ["キ", "ki"], ["ク", "ku"], ["ケ", "ke"], ["コ", "ko"],
+  ["サ", "sa"], ["シ", "shi"], ["ス", "su"], ["セ", "se"], ["ソ", "so"],
+  ["タ", "ta"], ["チ", "chi"], ["ツ", "tsu"], ["テ", "te"], ["ト", "to"],
+  ["ナ", "na"], ["ニ", "ni"], ["ヌ", "nu"], ["ネ", "ne"], ["ノ", "no"],
+  ["ハ", "ha"], ["ヒ", "hi"], ["フ", "fu"], ["ヘ", "he"], ["ホ", "ho"],
+  ["マ", "ma"], ["ミ", "mi"], ["ム", "mu"], ["メ", "me"], ["モ", "mo"],
+  ["ヤ", "ya"], ["ユ", "yu"], ["ヨ", "yo"],
+  ["ラ", "ra"], ["リ", "ri"], ["ル", "ru"], ["レ", "re"], ["ロ", "ro"],
+  ["ワ", "wa"], ["ヲ", "wo"], ["ン", "n"]
 ];
 const KATAKANA_TIER2 = [
-  ["ガ","ga"],["ギ","gi"],["グ","gu"],["ゲ","ge"],["ゴ","go"],
-  ["ザ","za"],["ジ","ji"],["ズ","zu"],["ゼ","ze"],["ゾ","zo"],
-  ["ダ","da"],["ヂ","ji"],["ヅ","zu"],["デ","de"],["ド","do"],
-  ["バ","ba"],["ビ","bi"],["ブ","bu"],["ベ","be"],["ボ","bo"],
-  ["パ","pa"],["ピ","pi"],["プ","pu"],["ペ","pe"],["ポ","po"]
+  ["ガ", "ga"], ["ギ", "gi"], ["グ", "gu"], ["ゲ", "ge"], ["ゴ", "go"],
+  ["ザ", "za"], ["ジ", "ji"], ["ズ", "zu"], ["ゼ", "ze"], ["ゾ", "zo"],
+  ["ダ", "da"], ["ヂ", "ji"], ["ヅ", "zu"], ["デ", "de"], ["ド", "do"],
+  ["バ", "ba"], ["ビ", "bi"], ["ブ", "bu"], ["ベ", "be"], ["ボ", "bo"],
+  ["パ", "pa"], ["ピ", "pi"], ["プ", "pu"], ["ペ", "pe"], ["ポ", "po"]
 ];
 const KATAKANA_TIER3 = [
-  ["キャ","kya"],["キュ","kyu"],["キョ","kyo"],
-  ["シャ","sha"],["シュ","shu"],["ショ","sho"],
-  ["チャ","cha"],["チュ","chu"],["チョ","cho"],
-  ["ニャ","nya"],["ニュ","nyu"],["ニョ","nyo"],
-  ["ヒャ","hya"],["ヒュ","hyu"],["ヒョ","hyo"],
-  ["ミャ","mya"],["ミュ","myu"],["ミョ","myo"],
-  ["リャ","rya"],["リュ","ryu"],["リョ","ryo"],
-  ["ギャ","gya"],["ギュ","gyu"],["ギョ","gyo"],
-  ["ジャ","ja"],["ジュ","ju"],["ジョ","jo"],
-  ["ビャ","bya"],["ビュ","byu"],["ビョ","byo"],
-  ["ピャ","pya"],["ピュ","pyu"],["ピョ","pyo"]
+  ["キャ", "kya"], ["キュ", "kyu"], ["キョ", "kyo"],
+  ["シャ", "sha"], ["シュ", "shu"], ["ショ", "sho"],
+  ["チャ", "cha"], ["チュ", "chu"], ["チョ", "cho"],
+  ["ニャ", "nya"], ["ニュ", "nyu"], ["ニョ", "nyo"],
+  ["ヒャ", "hya"], ["ヒュ", "hyu"], ["ヒョ", "hyo"],
+  ["ミャ", "mya"], ["ミュ", "myu"], ["ミョ", "myo"],
+  ["リャ", "rya"], ["リュ", "ryu"], ["リョ", "ryo"],
+  ["ギャ", "gya"], ["ギュ", "gyu"], ["ギョ", "gyo"],
+  ["ジャ", "ja"], ["ジュ", "ju"], ["ジョ", "jo"],
+  ["ビャ", "bya"], ["ビュ", "byu"], ["ビョ", "byo"],
+  ["ピャ", "pya"], ["ピュ", "pyu"], ["ピョ", "pyo"]
 ];
 const GOJUON_KATAKANA = {
   tier1: [
-    { label:"",  cols:5, chars:[["ア","a"],["イ","i"],["ウ","u"],["エ","e"],["オ","o"]] },
-    { label:"k", cols:5, chars:[["カ","ka"],["キ","ki"],["ク","ku"],["ケ","ke"],["コ","ko"]] },
-    { label:"s", cols:5, chars:[["サ","sa"],["シ","shi"],["ス","su"],["セ","se"],["ソ","so"]] },
-    { label:"t", cols:5, chars:[["タ","ta"],["チ","chi"],["ツ","tsu"],["テ","te"],["ト","to"]] },
-    { label:"n", cols:5, chars:[["ナ","na"],["ニ","ni"],["ヌ","nu"],["ネ","ne"],["ノ","no"]] },
-    { label:"h", cols:5, chars:[["ハ","ha"],["ヒ","hi"],["フ","fu"],["ヘ","he"],["ホ","ho"]] },
-    { label:"m", cols:5, chars:[["マ","ma"],["ミ","mi"],["ム","mu"],["メ","me"],["モ","mo"]] },
-    { label:"y", cols:5, chars:[["ヤ","ya"],null,["ユ","yu"],null,["ヨ","yo"]] },
-    { label:"r", cols:5, chars:[["ラ","ra"],["リ","ri"],["ル","ru"],["レ","re"],["ロ","ro"]] },
-    { label:"w", cols:5, chars:[["ワ","wa"],null,null,null,["ヲ","wo"]] },
-    { label:"n", cols:5, chars:[["ン","n"],null,null,null,null] }
+    { label: "", cols: 5, chars: [["ア", "a"], ["イ", "i"], ["ウ", "u"], ["エ", "e"], ["オ", "o"]] },
+    { label: "k", cols: 5, chars: [["カ", "ka"], ["キ", "ki"], ["ク", "ku"], ["ケ", "ke"], ["コ", "ko"]] },
+    { label: "s", cols: 5, chars: [["サ", "sa"], ["シ", "shi"], ["ス", "su"], ["セ", "se"], ["ソ", "so"]] },
+    { label: "t", cols: 5, chars: [["タ", "ta"], ["チ", "chi"], ["ツ", "tsu"], ["テ", "te"], ["ト", "to"]] },
+    { label: "n", cols: 5, chars: [["ナ", "na"], ["ニ", "ni"], ["ヌ", "nu"], ["ネ", "ne"], ["ノ", "no"]] },
+    { label: "h", cols: 5, chars: [["ハ", "ha"], ["ヒ", "hi"], ["フ", "fu"], ["ヘ", "he"], ["ホ", "ho"]] },
+    { label: "m", cols: 5, chars: [["マ", "ma"], ["ミ", "mi"], ["ム", "mu"], ["メ", "me"], ["モ", "mo"]] },
+    { label: "y", cols: 5, chars: [["ヤ", "ya"], null, ["ユ", "yu"], null, ["ヨ", "yo"]] },
+    { label: "r", cols: 5, chars: [["ラ", "ra"], ["リ", "ri"], ["ル", "ru"], ["レ", "re"], ["ロ", "ro"]] },
+    { label: "w", cols: 5, chars: [["ワ", "wa"], null, null, null, ["ヲ", "wo"]] },
+    { label: "n", cols: 5, chars: [["ン", "n"], null, null, null, null] }
   ],
   tier2: [
-    { label:"g", cols:5, chars:[["ガ","ga"],["ギ","gi"],["グ","gu"],["ゲ","ge"],["ゴ","go"]] },
-    { label:"z", cols:5, chars:[["ザ","za"],["ジ","ji"],["ズ","zu"],["ゼ","ze"],["ゾ","zo"]] },
-    { label:"d", cols:5, chars:[["ダ","da"],["ヂ","ji"],["ヅ","zu"],["デ","de"],["ド","do"]] },
-    { label:"b", cols:5, chars:[["バ","ba"],["ビ","bi"],["ブ","bu"],["ベ","be"],["ボ","bo"]] },
-    { label:"p", cols:5, chars:[["パ","pa"],["ピ","pi"],["プ","pu"],["ペ","pe"],["ポ","po"]] }
+    { label: "g", cols: 5, chars: [["ガ", "ga"], ["ギ", "gi"], ["グ", "gu"], ["ゲ", "ge"], ["ゴ", "go"]] },
+    { label: "z", cols: 5, chars: [["ザ", "za"], ["ジ", "ji"], ["ズ", "zu"], ["ゼ", "ze"], ["ゾ", "zo"]] },
+    { label: "d", cols: 5, chars: [["ダ", "da"], ["ヂ", "ji"], ["ヅ", "zu"], ["デ", "de"], ["ド", "do"]] },
+    { label: "b", cols: 5, chars: [["バ", "ba"], ["ビ", "bi"], ["ブ", "bu"], ["ベ", "be"], ["ボ", "bo"]] },
+    { label: "p", cols: 5, chars: [["パ", "pa"], ["ピ", "pi"], ["プ", "pu"], ["ペ", "pe"], ["ポ", "po"]] }
   ],
   tier3: [
-    { label:"ky", cols:3, chars:[["キャ","kya"],["キュ","kyu"],["キョ","kyo"]] },
-    { label:"sh", cols:3, chars:[["シャ","sha"],["シュ","shu"],["ショ","sho"]] },
-    { label:"ch", cols:3, chars:[["チャ","cha"],["チュ","chu"],["チョ","cho"]] },
-    { label:"ny", cols:3, chars:[["ニャ","nya"],["ニュ","nyu"],["ニョ","nyo"]] },
-    { label:"hy", cols:3, chars:[["ヒャ","hya"],["ヒュ","hyu"],["ヒョ","hyo"]] },
-    { label:"my", cols:3, chars:[["ミャ","mya"],["ミュ","myu"],["ミョ","myo"]] },
-    { label:"ry", cols:3, chars:[["リャ","rya"],["リュ","ryu"],["リョ","ryo"]] },
-    { label:"gy", cols:3, chars:[["ギャ","gya"],["ギュ","gyu"],["ギョ","gyo"]] },
-    { label:"j",  cols:3, chars:[["ジャ","ja"],["ジュ","ju"],["ジョ","jo"]] },
-    { label:"by", cols:3, chars:[["ビャ","bya"],["ビュ","byu"],["ビョ","byo"]] },
-    { label:"py", cols:3, chars:[["ピャ","pya"],["ピュ","pyu"],["ピョ","pyo"]] }
+    { label: "ky", cols: 3, chars: [["キャ", "kya"], ["キュ", "kyu"], ["キョ", "kyo"]] },
+    { label: "sh", cols: 3, chars: [["シャ", "sha"], ["シュ", "shu"], ["ショ", "sho"]] },
+    { label: "ch", cols: 3, chars: [["チャ", "cha"], ["チュ", "chu"], ["チョ", "cho"]] },
+    { label: "ny", cols: 3, chars: [["ニャ", "nya"], ["ニュ", "nyu"], ["ニョ", "nyo"]] },
+    { label: "hy", cols: 3, chars: [["ヒャ", "hya"], ["ヒュ", "hyu"], ["ヒョ", "hyo"]] },
+    { label: "my", cols: 3, chars: [["ミャ", "mya"], ["ミュ", "myu"], ["ミョ", "myo"]] },
+    { label: "ry", cols: 3, chars: [["リャ", "rya"], ["リュ", "ryu"], ["リョ", "ryo"]] },
+    { label: "gy", cols: 3, chars: [["ギャ", "gya"], ["ギュ", "gyu"], ["ギョ", "gyo"]] },
+    { label: "j", cols: 3, chars: [["ジャ", "ja"], ["ジュ", "ju"], ["ジョ", "jo"]] },
+    { label: "by", cols: 3, chars: [["ビャ", "bya"], ["ビュ", "byu"], ["ビョ", "byo"]] },
+    { label: "py", cols: 3, chars: [["ピャ", "pya"], ["ピュ", "pyu"], ["ピョ", "pyo"]] }
   ]
 };
 
@@ -563,152 +845,152 @@ const GOJUON_KATAKANA = {
    padahal yang diajarkan "yon", 七 dibaca "shichi" padahal "nana", 土 dibaca "do"
    padahal "tsuchi"). Dengan mengucapkan kana-nya langsung, audio selalu cocok teks. */
 const KANJI_TIER1 = [
-  ["一","ichi","satu (1)","いち"],["二","ni","dua (2)","に"],["三","san","tiga (3)","さん"],["四","yon","empat (4)","よん"],
-  ["五","go","lima (5)","ご"],["六","roku","enam (6)","ろく"],["七","nana","tujuh (7)","なな"],["八","hachi","delapan (8)","はち"],
-  ["九","kyuu","sembilan (9)","きゅう"],["十","juu","sepuluh (10)","じゅう"],["人","hito","orang","ひと"],["日","hi / nichi","hari / matahari","ひ"],
-  ["月","tsuki","bulan","つき"],["火","hi / ka","api","ひ"],["水","mizu","air","みず"],["木","ki","pohon / kayu","き"]
+  ["一", "ichi", { en: "one (1)", id: "satu (1)" }, "いち"], ["二", "ni", { en: "two (2)", id: "dua (2)" }, "に"], ["三", "san", { en: "three (3)", id: "tiga (3)" }, "さん"], ["四", "yon", { en: "four (4)", id: "empat (4)" }, "よん"],
+  ["五", "go", { en: "five (5)", id: "lima (5)" }, "ご"], ["六", "roku", { en: "six (6)", id: "enam (6)" }, "ろく"], ["七", "nana", { en: "seven (7)", id: "tujuh (7)" }, "なな"], ["八", "hachi", { en: "eight (8)", id: "delapan (8)" }, "はち"],
+  ["九", "kyuu", { en: "nine (9)", id: "sembilan (9)" }, "きゅう"], ["十", "juu", { en: "ten (10)", id: "sepuluh (10)" }, "じゅう"], ["人", "hito", { en: "person", id: "orang" }, "ひと"], ["日", "hi / nichi", { en: "day / sun", id: "hari / matahari" }, "ひ"],
+  ["月", "tsuki", { en: "moon / month", id: "bulan (langit) / bulan (kalender)" }, "つき"], ["火", "hi / ka", { en: "fire", id: "api" }, "ひ"], ["水", "mizu", { en: "water", id: "air" }, "みず"], ["木", "ki", { en: "tree / wood", id: "pohon / kayu" }, "き"]
 ];
 const KANJI_TIER2 = [
-  ["金","kin","emas / uang","きん"],["土","tsuchi","tanah","つち"],["年","toshi","tahun","とし"],["本","hon","buku / asal","ほん"],
-  ["中","naka","tengah / dalam","なか"],["大","ookii","besar","おおきい"],["小","chiisai","kecil","ちいさい"],["上","ue","atas","うえ"],
-  ["下","shita","bawah","した"],["左","hidari","kiri","ひだり"],["右","migi","kanan","みぎ"],["山","yama","gunung","やま"],
-  ["川","kawa","sungai","かわ"],["田","ta","sawah","た"],["女","onna","perempuan","おんな"],["男","otoko","laki-laki","おとこ"]
+  ["金", "kin", { en: "gold / money", id: "emas / uang" }, "きん"], ["土", "tsuchi", { en: "earth / soil", id: "tanah" }, "つち"], ["年", "toshi", { en: "year", id: "tahun" }, "とし"], ["本", "hon", { en: "book / origin", id: "buku / asal" }, "ほん"],
+  ["中", "naka", { en: "middle / inside", id: "tengah / dalam" }, "なか"], ["大", "ookii", { en: "big", id: "besar" }, "おおきい"], ["小", "chiisai", { en: "small", id: "kecil" }, "ちいさい"], ["上", "ue", { en: "up / above", id: "atas" }, "うえ"],
+  ["下", "shita", { en: "down / below", id: "bawah" }, "した"], ["左", "hidari", { en: "left", id: "kiri" }, "ひだり"], ["右", "migi", { en: "right", id: "kanan" }, "みぎ"], ["山", "yama", { en: "mountain", id: "gunung" }, "やま"],
+  ["川", "kawa", { en: "river", id: "sungai" }, "かわ"], ["田", "ta", { en: "rice field", id: "sawah" }, "た"], ["女", "onna", { en: "woman", id: "perempuan" }, "おんな"], ["男", "otoko", { en: "man", id: "laki-laki" }, "おとこ"]
 ];
 const KANJI_TIER3 = [
-  ["子","ko","anak","こ"],["学","gaku","ilmu / belajar","がく"],["校","kou","sekolah","こう"],["先","sen","lebih dulu","せん"],
-  ["生","sei","hidup / lahir","せい"],["私","watashi","saya","わたし"],["今","ima","sekarang","いま"],["何","nani","apa","なに"],
-  ["時","ji","waktu / jam","じ"],["分","fun","menit / bagian","ふん"],["半","han","setengah","はん"],["週","shuu","minggu","しゅう"],
-  ["毎","mai","setiap","まい"],["食","shoku","makan","しょく"],["飲","in","minum","いん"],["見","ken","melihat","けん"]
+  ["子", "ko", { en: "child", id: "anak" }, "こ"], ["学", "gaku", { en: "study / learning", id: "belajar / ilmu" }, "がく"], ["校", "kou", { en: "school", id: "sekolah" }, "こう"], ["先", "sen", { en: "before / previous", id: "sebelum / sebelumnya" }, "せん"],
+  ["生", "sei", { en: "life / born", id: "hidup / lahir" }, "せい"], ["私", "watashi", { en: "I / me", id: "saya / aku" }, "わたし"], ["今", "ima", { en: "now", id: "sekarang" }, "いま"], ["何", "nani", { en: "what", id: "apa" }, "なに"],
+  ["時", "ji", { en: "time / o'clock", id: "waktu / jam" }, "じ"], ["分", "fun", { en: "minute / part", id: "menit / bagian" }, "ふん"], ["半", "han", { en: "half", id: "setengah" }, "はん"], ["週", "shuu", { en: "week", id: "minggu" }, "しゅう"],
+  ["毎", "mai", { en: "every", id: "setiap" }, "まい"], ["食", "shoku", { en: "eat", id: "makan" }, "しょく"], ["飲", "in", { en: "drink", id: "minum" }, "いん"], ["見", "ken", { en: "see", id: "lihat" }, "けん"]
 ];
 // reading lookup used only in Learn mode + as a quiz hint
 const KANJI_READING = {};
-[...KANJI_TIER1, ...KANJI_TIER2, ...KANJI_TIER3].forEach(([c,r])=>{ KANJI_READING[c] = r; });
+[...KANJI_TIER1, ...KANJI_TIER2, ...KANJI_TIER3].forEach(([c, r]) => { KANJI_READING[c] = r; });
 
 /* ---- Kotoba N5 (word-in-kana, romaji, meaning-for-quiz, contoh kalimat-in-kana, contoh romaji) ----
    Sengaja ditulis full hiragana/katakana (tanpa kanji) supaya bisa langsung dibaca begitu
-   Hiragana & Katakana sudah dikuasai — kanji-nya dipelajari terpisah di Chapter "Kanji N5". */
+   Hiragana & Katakana sudah diTaklukkan — kanji-nya dipelajari terpisah di Chapter "Kanji N5". */
 const KOTOBA_TIER1 = [
-  ["わたし","watashi","saya","わたしは がくせいです。","Watashi wa gakusei desu."],
-  ["あなた","anata","kamu","あなたの なまえは なんですか。","Anata no namae wa nan desu ka."],
-  ["せんせい","sensei","guru","せんせいは とても やさしいです。","Sensei wa totemo yasashii desu."],
-  ["がくせい","gakusei","murid / pelajar","がくせいは まいにち べんきょうします。","Gakusei wa mainichi benkyou shimasu."],
-  ["がっこう","gakkou","sekolah","がっこうは とても おおきいです。","Gakkou wa totemo ookii desu."],
-  ["かいしゃ","kaisha","perusahaan","ちちは かいしゃで はたらきます。","Chichi wa kaisha de hatarakimasu."],
-  ["いえ","ie","rumah","わたしの いえは えきの ちかくです。","Watashi no ie wa eki no chikaku desu."],
-  ["ともだち","tomodachi","teman","ともだちと えいがを みます。","Tomodachi to eiga wo mimasu."],
-  ["かぞく","kazoku","keluarga","わたしの かぞくは よにんです。","Watashi no kazoku wa yonin desu."],
-  ["ちち","chichi","ayah (saya)","ちちは あさ はやく おきます。","Chichi wa asa hayaku okimasu."],
-  ["はは","haha","ibu (saya)","ははは りょうりが じょうずです。","Haha wa ryouri ga jouzu desu."],
-  ["こども","kodomo","anak","こどもたちは こうえんで あそびます。","Kodomotachi wa kouen de asobimasu."],
-  ["なまえ","namae","nama","あなたの なまえを おしえてください。","Anata no namae wo oshiete kudasai."],
-  ["でんわ","denwa","telepon","でんわで はなしましょう。","Denwa de hanashimashou."],
-  ["くるま","kuruma","mobil","くるまで がっこうへ いきます。","Kuruma de gakkou e ikimasu."],
-  ["ほん","hon","buku","この ほんは とても おもしろいです。","Kono hon wa totemo omoshiroi desu."],
-  ["みず","mizu","air","みずを いっぱい のみます。","Mizu wo ippai nomimasu."],
-  ["たべもの","tabemono","makanan","すきな たべものは なんですか。","Sukina tabemono wa nan desu ka."],
-  ["のみもの","nomimono","minuman","のみものは なにに しますか。","Nomimono wa nani ni shimasu ka."],
-  ["てんき","tenki","cuaca","きょうの てんきは いいです。","Kyou no tenki wa ii desu."],
-  ["きょう","kyou","hari ini","きょうは とても あついです。","Kyou wa totemo atsui desu."],
-  ["いぬ","inu","anjing","いぬと さんぽします。","Inu to sanpo shimasu."],
-  ["ねこ","neko","kucing","ねこが いすの うえに います。","Neko ga isu no ue ni imasu."],
-  ["テレビ","terebi","televisi","よる テレビを みます。","Yoru terebi wo mimasu."]
+  ["わたし", "watashi", { en: "I / me", id: "saya / aku" }, "わたしは がくせいです。", "Watashi wa gakusei desu."],
+  ["あなた", "anata", { en: "you", id: "kamu" }, "あなたの なまえは なんですか。", "Anata no namae wa nan desu ka."],
+  ["せんせい", "sensei", { en: "teacher", id: "guru" }, "せんせいは とても やさしいです。", "Sensei wa totemo yasashii desu."],
+  ["がくせい", "gakusei", { en: "student", id: "murid / siswa" }, "がくせいは まいにち べんきょうします。", "Gakusei wa mainichi benkyou shimasu."],
+  ["がっこう", "gakkou", { en: "school", id: "sekolah" }, "がっこうは とても おおきいです。", "Gakkou wa totemo ookii desu."],
+  ["かいしゃ", "kaisha", { en: "company", id: "perusahaan" }, "ちちは かいしゃで はたらきます。", "Chichi wa kaisha de hatarakimasu."],
+  ["いえ", "ie", { en: "house", id: "rumah" }, "わたしの いえは えきの ちかくです。", "Watashi no ie wa eki no chikaku desu."],
+  ["ともだち", "tomodachi", { en: "friend", id: "teman" }, "ともだちと えいがを みます。", "Tomodachi to eiga wo mimasu."],
+  ["かぞく", "kazoku", { en: "family", id: "keluarga" }, "わたしの かぞくは よにんです。", "Watashi no kazoku wa yonin desu."],
+  ["ちち", "chichi", { en: "father (my own)", id: "ayah (sendiri)" }, "ちちは あさ はやく おきます。", "Chichi wa asa hayaku okimasu."],
+  ["はは", "haha", { en: "mother (my own)", id: "ibu (sendiri)" }, "ははは りょうりが じょうずです。", "Haha wa ryouri ga jouzu desu."],
+  ["こども", "kodomo", { en: "child", id: "anak" }, "こどもたちは こうえんで あそびます。", "Kodomotachi wa kouen de asobimasu."],
+  ["なまえ", "namae", { en: "name", id: "nama" }, "あなたの なまえを おしえてください。", "Anata no namae wo oshiete kudasai."],
+  ["でんわ", "denwa", { en: "telephone", id: "telepon" }, "でんわで はなしましょう。", "Denwa de hanashimashou."],
+  ["くるま", "kuruma", { en: "car", id: "mobil" }, "くるまで がっこうへ いきます。", "Kuruma de gakkou e ikimasu."],
+  ["ほん", "hon", { en: "book", id: "buku" }, "この ほんは とても おもしろいです。", "Kono hon wa totemo omoshiroi desu."],
+  ["みず", "mizu", { en: "water", id: "air" }, "みずを いっぱい のみます。", "Mizu wo ippai nomimasu."],
+  ["たべもの", "tabemono", { en: "food", id: "makanan" }, "すきな たべものは なんですか。", "Sukina tabemono wa nan desu ka."],
+  ["のみもの", "nomimono", { en: "drink", id: "minum" }, "のみものは なにに しますか。", "Nomimono wa nani ni shimasu ka."],
+  ["てんき", "tenki", { en: "weather", id: "cuaca" }, "きょうの てんきは いいです。", "Kyou no tenki wa ii desu."],
+  ["きょう", "kyou", { en: "today", id: "hari ini" }, "きょうは とても あついです。", "Kyou wa totemo atsui desu."],
+  ["いぬ", "inu", { en: "dog", id: "anjing" }, "いぬと さんぽします。", "Inu to sanpo shimasu."],
+  ["ねこ", "neko", { en: "cat", id: "kucing" }, "ねこが いすの うえに います。", "Neko ga isu no ue ni imasu."],
+  ["テレビ", "terebi", { en: "television", id: "televisi" }, "よる テレビを みます。", "Yoru terebi wo mimasu."]
 ];
 const KOTOBA_TIER2 = [
-  ["たべる","taberu","makan","あさごはんを たべます。","Asagohan wo tabemasu."],
-  ["のむ","nomu","minum","コーヒーを のみます。","Koohii wo nomimasu."],
-  ["みる","miru","melihat / menonton","えいがを みるのが すきです。","Eiga wo miru no ga suki desu."],
-  ["きく","kiku","mendengar","おんがくを きくのが すきです。","Ongaku wo kiku no ga suki desu."],
-  ["はなす","hanasu","berbicara","にほんごで はなします。","Nihongo de hanashimasu."],
-  ["いく","iku","pergi","がっこうへ いきます。","Gakkou e ikimasu."],
-  ["くる","kuru","datang","ともだちが うちへ きます。","Tomodachi ga uchi e kimasu."],
-  ["かえる","kaeru","pulang","はやく いえへ かえります。","Hayaku ie e kaerimasu."],
-  ["かう","kau","membeli","あたらしい くつを かいます。","Atarashii kutsu wo kaimasu."],
-  ["よむ","yomu","membaca","ほんを よむのが すきです。","Hon wo yomu no ga suki desu."],
-  ["かく","kaku","menulis","てがみを かきます。","Tegami wo kakimasu."],
-  ["ねる","neru","tidur","よる はやく ねます。","Yoru hayaku nemasu."],
-  ["おきる","okiru","bangun","まいあさ ろくじに おきます。","Maiasa rokuji ni okimasu."],
-  ["わかる","wakaru","mengerti","にほんごが すこし わかります。","Nihongo ga sukoshi wakarimasu."],
-  ["おおきい","ookii","besar","この いえは おおきいです。","Kono ie wa ookii desu."],
-  ["ちいさい","chiisai","kecil","あの いぬは ちいさいです。","Ano inu wa chiisai desu."],
-  ["たかい","takai","tinggi / mahal","この かばんは たかいです。","Kono kaban wa takai desu."],
-  ["やすい","yasui","murah","やおやの やさいは やすいです。","Yaoya no yasai wa yasui desu."],
-  ["あたらしい","atarashii","baru","あたらしい くるまが ほしいです。","Atarashii kuruma ga hoshii desu."],
-  ["ふるい","furui","lama / tua","これは ふるい たてものです。","Kore wa furui tatemono desu."],
-  ["いい","ii","bagus","きょうは いい てんきですね。","Kyou wa ii tenki desu ne."],
-  ["たのしい","tanoshii","menyenangkan","りょこうは とても たのしかったです。","Ryokou wa totemo tanoshikatta desu."],
-  ["きれい","kirei (na)","cantik / bersih","この はなは きれいです。","Kono hana wa kirei desu."],
-  ["すき","suki (na)","suka","わたしは すしが すきです。","Watashi wa sushi ga suki desu."]
+  ["たべる", "taberu", { en: "eat", id: "makan" }, "あさごはんを たべます。", "Asagohan wo tabemasu."],
+  ["のむ", "nomu", { en: "drink", id: "minum" }, "コーヒーを のみます。", "Koohii wo nomimasu."],
+  ["みる", "miru", { en: "see / watch", id: "lihat / menonton" }, "えいがを みるのが すきです。", "Eiga wo miru no ga suki desu."],
+  ["きく", "kiku", { en: "listen / hear", id: "dengar" }, "おんがくを きくのが すきです。", "Ongaku wo kiku no ga suki desu."],
+  ["はなす", "hanasu", { en: "speak", id: "bicara" }, "にほんごで はなします。", "Nihongo de hanashimasu."],
+  ["いく", "iku", { en: "go", id: "pergi" }, "がっこうへ いきます。", "Gakkou e ikimasu."],
+  ["くる", "kuru", { en: "come", id: "datang" }, "ともだちが うちへ きます。", "Tomodachi ga uchi e kimasu."],
+  ["かえる", "kaeru", { en: "go home", id: "pulang" }, "はやく いえへ かえります。", "Hayaku ie e kaerimasu."],
+  ["かう", "kau", { en: "buy", id: "beli" }, "あたらしい くつを かいます。", "Atarashii kutsu wo kaimasu."],
+  ["よむ", "yomu", { en: "read", id: "baca" }, "ほんを よむのが すきです。", "Hon wo yomu no ga suki desu."],
+  ["かく", "kaku", { en: "write", id: "tulis" }, "てがみを かきます。", "Tegami wo kakimasu."],
+  ["ねる", "neru", { en: "sleep", id: "tidur" }, "よる はやく ねます。", "Yoru hayaku nemasu."],
+  ["おきる", "okiru", { en: "wake up", id: "bangun" }, "まいあさ ろくじに おきます。", "Maiasa rokuji ni okimasu."],
+  ["わかる", "wakaru", { en: "understand", id: "mengerti" }, "にほんごが すこし わかります。", "Nihongo ga sukoshi wakarimasu."],
+  ["おおきい", "ookii", { en: "big", id: "besar" }, "この いえは おおきいです。", "Kono ie wa ookii desu."],
+  ["ちいさい", "chiisai", { en: "small", id: "kecil" }, "あの いぬは ちいさいです。", "Ano inu wa chiisai desu."],
+  ["たかい", "takai", { en: "tall / expensive", id: "tinggi / mahal" }, "この かばんは たかいです。", "Kono kaban wa takai desu."],
+  ["やすい", "yasui", { en: "cheap", id: "murah" }, "やおやの やさいは やすいです。", "Yaoya no yasai wa yasui desu."],
+  ["あたらしい", "atarashii", { en: "new", id: "baru" }, "あたらしい くるまが ほしいです。", "Atarashii kuruma ga hoshii desu."],
+  ["ふるい", "furui", { en: "old", id: "lama / tua" }, "これは ふるい たてものです。", "Kore wa furui tatemono desu."],
+  ["いい", "ii", { en: "good", id: "bagus" }, "きょうは いい てんきですね。", "Kyou wa ii tenki desu ne."],
+  ["たのしい", "tanoshii", { en: "fun", id: "menyenangkan" }, "りょこうは とても たのしかったです。", "Ryokou wa totemo tanoshikatta desu."],
+  ["きれい", "kirei (na)", { en: "pretty / clean", id: "cantik / bersih" }, "この はなは きれいです。", "Kono hana wa kirei desu."],
+  ["すき", "suki (na)", { en: "like", id: "suka" }, "わたしは すしが すきです。", "Watashi wa sushi ga suki desu."]
 ];
 const KOTOBA_TIER3 = [
-  ["えき","eki","stasiun","えきまで あるいて いきます。","Eki made aruite ikimasu."],
-  ["びょういん","byouin","rumah sakit","びょういんで くすりを もらいます。","Byouin de kusuri wo moraimasu."],
-  ["ぎんこう","ginkou","bank","ぎんこうで おかねを おろします。","Ginkou de okane wo oroshimasu."],
-  ["ゆうびんきょく","yuubinkyoku","kantor pos","ゆうびんきょくで きってを かいます。","Yuubinkyoku de kitte wo kaimasu."],
-  ["としょかん","toshokan","perpustakaan","としょかんで ほんを よみます。","Toshokan de hon wo yomimasu."],
-  ["こうえん","kouen","taman","こうえんで さんぽします。","Kouen de sanpo shimasu."],
-  ["えいが","eiga","film","しゅうまつに えいがを みます。","Shuumatsu ni eiga wo mimasu."],
-  ["おんがく","ongaku","musik","おんがくを きくのが たのしいです。","Ongaku wo kiku no ga tanoshii desu."],
-  ["しごと","shigoto","pekerjaan","しごとは なんじに おわりますか。","Shigoto wa nanji ni owarimasu ka."],
-  ["やすみ","yasumi","libur / istirahat","あしたは やすみです。","Ashita wa yasumi desu."],
-  ["あさ","asa","pagi","あさ ろくじに おきます。","Asa rokuji ni okimasu."],
-  ["ひる","hiru","siang","ひるに ごはんを たべます。","Hiru ni gohan wo tabemasu."],
-  ["よる","yoru","malam","よるは しずかです。","Yoru wa shizuka desu."],
-  ["あした","ashita","besok","あした がっこうへ いきます。","Ashita gakkou e ikimasu."],
-  ["きのう","kinou","kemarin","きのう えいがを みました。","Kinou eiga wo mimashita."],
-  ["いま","ima","sekarang","いま なんじですか。","Ima nanji desu ka."],
-  ["どこ","doko","di mana","としょかんは どこですか。","Toshokan wa doko desu ka."],
-  ["だれ","dare","siapa","あのひとは だれですか。","Ano hito wa dare desu ka."],
-  ["いつ","itsu","kapan","たんじょうびは いつですか。","Tanjoubi wa itsu desu ka."],
-  ["なぜ","naze","mengapa","なぜ がっこうを やすみましたか。","Naze gakkou wo yasumimashita ka."],
-  ["おはよう","ohayou","selamat pagi","おはよう ございます。","Ohayou gozaimasu."],
-  ["こんにちは","konnichiwa","selamat siang / halo","こんにちは、げんきですか。","Konnichiwa, genki desu ka."],
-  ["ありがとう","arigatou","terima kasih","てつだって くれて ありがとう。","Tetsudatte kurete arigatou."],
-  ["すみません","sumimasen","permisi / maaf","すみません、といれは どこですか。","Sumimasen, toire wa doko desu ka."]
+  ["えき", "eki", { en: "station", id: "stasiun" }, "えきまで あるいて いきます。", "Eki made aruite ikimasu."],
+  ["びょういん", "byouin", { en: "hospital", id: "rumah sakit" }, "びょういんで くすりを もらいます。", "Byouin de kusuri wo moraimasu."],
+  ["ぎんこう", "ginkou", { en: "bank", id: "bank" }, "ぎんこうで おかねを おろします。", "Ginkou de okane wo oroshimasu."],
+  ["ゆうびんきょく", "yuubinkyoku", { en: "post office", id: "kantor pos" }, "ゆうびんきょくで きってを かいます。", "Yuubinkyoku de kitte wo kaimasu."],
+  ["としょかん", "toshokan", { en: "library", id: "perpustakaan" }, "としょかんで ほんを よみます。", "Toshokan de hon wo yomimasu."],
+  ["こうえん", "kouen", { en: "park", id: "taman" }, "こうえんで さんぽします。", "Kouen de sanpo shimasu."],
+  ["えいが", "eiga", { en: "movie", id: "film" }, "しゅうまつに えいがを みます。", "Shuumatsu ni eiga wo mimasu."],
+  ["おんがく", "ongaku", { en: "music", id: "musik" }, "おんがくを きくのが たのしいです。", "Ongaku wo kiku no ga tanoshii desu."],
+  ["しごと", "shigoto", { en: "job / work", id: "pekerjaan" }, "しごとは なんじに おわりますか。", "Shigoto wa nanji ni owarimasu ka."],
+  ["やすみ", "yasumi", { en: "holiday / rest", id: "libur / istirahat" }, "あしたは やすみです。", "Ashita wa yasumi desu."],
+  ["あさ", "asa", { en: "morning", id: "pagi" }, "あさ ろくじに おきます。", "Asa rokuji ni okimasu."],
+  ["ひる", "hiru", { en: "noon", id: "siang" }, "ひるに ごはんを たべます。", "Hiru ni gohan wo tabemasu."],
+  ["よる", "yoru", { en: "night", id: "malam" }, "よるは しずかです。", "Yoru wa shizuka desu."],
+  ["あした", "ashita", { en: "tomorrow", id: "besok" }, "あした がっこうへ いきます。", "Ashita gakkou e ikimasu."],
+  ["きのう", "kinou", { en: "yesterday", id: "kemarin" }, "きのう えいがを みました。", "Kinou eiga wo mimashita."],
+  ["いま", "ima", { en: "now", id: "sekarang" }, "いま なんじですか。", "Ima nanji desu ka."],
+  ["どこ", "doko", { en: "where", id: "di mana" }, "としょかんは どこですか。", "Toshokan wa doko desu ka."],
+  ["だれ", "dare", { en: "who", id: "siapa" }, "あのひとは だれですか。", "Ano hito wa dare desu ka."],
+  ["いつ", "itsu", { en: "when", id: "kapan" }, "たんじょうびは いつですか。", "Tanjoubi wa itsu desu ka."],
+  ["なぜ", "naze", { en: "why", id: "kenapa / mengapa" }, "なぜ がっこうを やすみましたか。", "Naze gakkou wo yasumimashita ka."],
+  ["おはよう", "ohayou", { en: "good morning", id: "selamat pagi" }, "おはよう ございます。", "Ohayou gozaimasu."],
+  ["こんにちは", "konnichiwa", { en: "good afternoon / hello", id: "selamat siang / halo" }, "こんにちは、げんきですか。", "Konnichiwa, genki desu ka."],
+  ["ありがとう", "arigatou", { en: "thank you", id: "terima kasih" }, "てつだって くれて ありがとう。", "Tetsudatte kurete arigatou."],
+  ["すみません", "sumimasen", { en: "excuse me / sorry", id: "permisi / maaf" }, "すみません、といれは どこですか。", "Sumimasen, toire wa doko desu ka."]
 ];
 
-/* ---- Bunpō N5 (pattern, contoh kalimat, fungsi/arti-for-quiz) ---- */
-/* elemen ke-4 = romaji pecah per-segmen kata: [[teks_jp, romaji], ...] agar mudah dipelajari & bisa diucapkan satu-satu */
+/* ---- Bunpō N5 (pattern, example sentence, function/meaning-for-quiz) ---- */
+/* 4th element = romaji broken into segments: [[jp_text, romaji], ...] so it's easy to learn & can be spoken one at a time */
 const BUNPO_TIER1 = [
-  ["〜は〜です","私は学生です。","menyatakan A adalah B",[["私","Watashi"],["は","wa"],["学生","gakusei"],["です。","desu."]]],
-  ["〜が","雨が降っています。","menandai subjek kalimat",[["雨","Ame"],["が","ga"],["降っています。","futte imasu."]]],
-  ["〜を","水を飲みます。","menandai objek langsung",[["水","Mizu"],["を","wo"],["飲みます。","nomimasu."]]],
-  ["〜に","7時に起きます。","menunjukkan waktu atau tujuan",[["7時","Shichi-ji"],["に","ni"],["起きます。","okimasu."]]],
-  ["〜で","電車で行きます。","menunjukkan tempat/alat melakukan sesuatu",[["電車","Densha"],["で","de"],["行きます。","ikimasu."]]],
-  ["〜と","友達と話します。","dan / bersama dengan",[["友達","Tomodachi"],["と","to"],["話します。","hanashimasu."]]],
-  ["〜も","私も学生です。","juga",[["私","Watashi"],["も","mo"],["学生です。","gakusei desu."]]],
-  ["〜の","これは私の本です。","menunjukkan kepemilikan",[["これ","Kore"],["は","wa"],["私の","watashi no"],["本です。","hon desu."]]],
-  ["〜へ","学校へ行きます。","menuju / ke arah",[["学校","Gakkou"],["へ","e"],["行きます。","ikimasu."]]],
-  ["〜か","これは何ですか。","partikel tanya",[["これ","Kore"],["は","wa"],["何ですか。","nan desu ka."]]],
-  ["〜ね","今日は暑いですね。","penegasan, kira-kira 'ya kan?'",[["今日","Kyou"],["は","wa"],["暑いですね。","atsui desu ne."]]],
-  ["〜よ","もう6時ですよ。","penekanan informasi baru",[["もう","Mou"],["6時","roku-ji"],["ですよ。","desu yo."]]]
+  ["〜は〜です", "私は学生です。", { en: "states that A is B", id: "menyatakan A adalah B" }, [["私", "Watashi"], ["は", "wa"], ["学生", "gakusei"], ["です。", "desu."]]],
+  ["〜が", "雨が降っています。", { en: "marks the sentence subject", id: "menandai subjek kalimat" }, [["雨", "Ame"], ["が", "ga"], ["降っています。", "futte imasu."]]],
+  ["〜を", "水を飲みます。", { en: "marks the direct object", id: "menandai objek langsung" }, [["水", "Mizu"], ["を", "wo"], ["飲みます。", "nomimasu."]]],
+  ["〜に", "7時に起きます。", { en: "indicates time or destination", id: "menunjukkan waktu atau tujuan" }, [["7時", "Shichi-ji"], ["に", "ni"], ["起きます。", "okimasu."]]],
+  ["〜で", "電車で行きます。", { en: "indicates the place/means of doing something", id: "menunjukkan tempat/cara melakukan sesuatu" }, [["電車", "Densha"], ["で", "de"], ["行きます。", "ikimasu."]]],
+  ["〜と", "友達と話します。", { en: "and / together with", id: "dan / bersama dengan" }, [["友達", "Tomodachi"], ["と", "to"], ["話します。", "hanashimasu."]]],
+  ["〜も", "私も学生です。", { en: "also / too", id: "juga" }, [["私", "Watashi"], ["も", "mo"], ["学生です。", "gakusei desu."]]],
+  ["〜の", "これは私の本です。", { en: "indicates possession", id: "menunjukkan kepemilikan" }, [["これ", "Kore"], ["は", "wa"], ["私の", "watashi no"], ["本です。", "hon desu."]]],
+  ["〜へ", "学校へ行きます。", { en: "toward / in the direction of", id: "menuju / ke arah" }, [["学校", "Gakkou"], ["へ", "e"], ["行きます。", "ikimasu."]]],
+  ["〜か", "これは何ですか。", { en: "question particle", id: "partikel tanya" }, [["これ", "Kore"], ["は", "wa"], ["何ですか。", "nan desu ka."]]],
+  ["〜ね", "今日は暑いですね。", { en: "seeking agreement, roughly 'isn't it?'", id: "mencari persetujuan, kira-kira 'bukan?'" }, [["今日", "Kyou"], ["は", "wa"], ["暑いですね。", "atsui desu ne."]]],
+  ["〜よ", "もう6時ですよ。", { en: "emphasizes new information", id: "menegaskan informasi baru" }, [["もう", "Mou"], ["6時", "roku-ji"], ["ですよ。", "desu yo."]]]
 ];
 const BUNPO_TIER2 = [
-  ["〜ませんか","一緒に行きませんか。","mengajak, 'maukah...?'",[["一緒に","Issho ni"],["行きませんか。","ikimasen ka."]]],
-  ["〜ましょう","一緒に食べましょう。","ayo / mari kita",[["一緒に","Issho ni"],["食べましょう。","tabemashou."]]],
-  ["〜たい","日本へ行きたいです。","ingin melakukan sesuatu",[["日本へ","Nihon e"],["行きたいです。","ikitai desu."]]],
-  ["〜ないでください","写真を撮らないでください。","tolong jangan lakukan",[["写真を","Shashin wo"],["撮らないでください。","toranaide kudasai."]]],
-  ["〜てください","ここに座ってください。","tolong lakukan",[["ここに","Koko ni"],["座ってください。","suwatte kudasai."]]],
-  ["〜ています","今、勉強しています。","sedang melakukan (progresif)",[["今、","Ima,"],["勉強しています。","benkyou shite imasu."]]],
-  ["〜ました","昨日、映画を見ました。","bentuk lampau positif",[["昨日、","Kinou,"],["映画を","eiga wo"],["見ました。","mimashita."]]],
-  ["〜ませんでした","昨日、行きませんでした。","bentuk lampau negatif",[["昨日、","Kinou,"],["行きませんでした。","ikimasen deshita."]]],
-  ["〜から〜まで","9時から5時まで働きます。","dari...sampai",[["9時から","Ku-ji kara"],["5時まで","go-ji made"],["働きます。","hatarakimasu."]]],
-  ["〜より","犬より猫が好きです。","dibanding dengan",[["犬より","Inu yori"],["猫が","neko ga"],["好きです。","suki desu."]]],
-  ["〜ほうがいい","早く寝たほうがいいです。","lebih baik melakukan",[["早く","Hayaku"],["寝たほうが","neta hou ga"],["いいです。","ii desu."]]],
-  ["〜てもいいです","ここに座ってもいいです。","boleh melakukan",[["ここに","Koko ni"],["座ってもいいです。","suwattemo ii desu."]]]
+  ["〜ませんか", "一緒に行きませんか。", { en: "inviting, 'would you like to...?'", id: "mengajak, 'mau...?'" }, [["一緒に", "Issho ni"], ["行きませんか。", "ikimasen ka."]]],
+  ["〜ましょう", "一緒に食べましょう。", { en: "let's / shall we", id: "ayo / mari kita" }, [["一緒に", "Issho ni"], ["食べましょう。", "tabemashou."]]],
+  ["〜たい", "日本へ行きたいです。", { en: "want to do something", id: "ingin melakukan sesuatu" }, [["日本へ", "Nihon e"], ["行きたいです。", "ikitai desu."]]],
+  ["〜ないでください", "写真を撮らないでください。", { en: "please don't do", id: "tolong jangan lakukan" }, [["写真を", "Shashin wo"], ["撮らないでください。", "toranaide kudasai."]]],
+  ["〜てください", "ここに座ってください。", { en: "please do", id: "tolong lakukan" }, [["ここに", "Koko ni"], ["座ってください。", "suwatte kudasai."]]],
+  ["〜ています", "今、勉強しています。", { en: "doing right now (progressive)", id: "sedang dilakukan (progresif)" }, [["今、", "Ima,"], ["勉強しています。", "benkyou shite imasu."]]],
+  ["〜ました", "昨日、映画を見ました。", { en: "past tense, positive", id: "bentuk lampau, positif" }, [["昨日、", "Kinou,"], ["映画を", "eiga wo"], ["見ました。", "mimashita."]]],
+  ["〜ませんでした", "昨日、行きませんでした。", { en: "past tense, negative", id: "bentuk lampau, negatif" }, [["昨日、", "Kinou,"], ["行きませんでした。", "ikimasen deshita."]]],
+  ["〜から〜まで", "9時から5時まで働きます。", { en: "from...to", id: "dari...sampai" }, [["9時から", "Ku-ji kara"], ["5時まで", "go-ji made"], ["働きます。", "hatarakimasu."]]],
+  ["〜より", "犬より猫が好きです。", { en: "compared to", id: "dibandingkan dengan" }, [["犬より", "Inu yori"], ["猫が", "neko ga"], ["好きです。", "suki desu."]]],
+  ["〜ほうがいい", "早く寝たほうがいいです。", { en: "better to do", id: "lebih baik melakukan" }, [["早く", "Hayaku"], ["寝たほうが", "neta hou ga"], ["いいです。", "ii desu."]]],
+  ["〜てもいいです", "ここに座ってもいいです。", { en: "allowed to do", id: "boleh melakukan" }, [["ここに", "Koko ni"], ["座ってもいいです。", "suwattemo ii desu."]]]
 ];
 const BUNPO_TIER3 = [
-  ["〜なければなりません","薬を飲まなければなりません。","harus melakukan",[["薬を","Kusuri wo"],["飲まなければなりません。","nomanakereba narimasen."]]],
-  ["〜前に","寝る前に歯を磨きます。","sebelum melakukan",[["寝る前に","Neru mae ni"],["歯を","ha wo"],["磨きます。","migakimasu."]]],
-  ["〜後で","食べた後で薬を飲みます。","setelah melakukan",[["食べた後で","Tabeta ato de"],["薬を","kusuri wo"],["飲みます。","nomimasu."]]],
-  ["〜ながら","音楽を聞きながら勉強します。","sambil melakukan",[["音楽を","Ongaku wo"],["聞きながら","kikinagara"],["勉強します。","benkyou shimasu."]]],
-  ["〜ので","雨なので、行きません。","karena (alasan)",[["雨なので、","Ame nanode,"],["行きません。","ikimasen."]]],
-  ["〜のに","勉強したのに、忘れました。","padahal / meskipun",[["勉強したのに、","Benkyou shita noni,"],["忘れました。","wasuremashita."]]],
-  ["〜と思います","明日雨が降ると思います。","saya pikir / menurut saya",[["明日","Ashita"],["雨が","ame ga"],["降ると思います。","furu to omoimasu."]]],
-  ["〜と言いました","先生は明日休むと言いました。","mengatakan bahwa",[["先生は","Sensei wa"],["明日","ashita"],["休むと言いました。","yasumu to iimashita."]]],
-  ["〜ことができます","漢字を読むことができます。","bisa / mampu melakukan",[["漢字を","Kanji wo"],["読むことができます。","yomu koto ga dekimasu."]]],
-  ["〜つもりです","来年日本へ行くつもりです。","berniat / berencana",[["来年","Rainen"],["日本へ","Nihon e"],["行くつもりです。","iku tsumori desu."]]],
-  ["〜でしょう","明日は晴れでしょう。","mungkin / perkiraan",[["明日は","Ashita wa"],["晴れでしょう。","hare deshou."]]],
-  ["〜すぎる","食べすぎました。","terlalu (berlebihan)",[["食べすぎました。","Tabesugimashita."]]]
+  ["〜なければなりません", "薬を飲まなければなりません。", { en: "must do", id: "harus melakukan" }, [["薬を", "Kusuri wo"], ["飲まなければなりません。", "nomanakereba narimasen."]]],
+  ["〜前に", "寝る前に歯を磨きます。", { en: "before doing", id: "sebelum melakukan" }, [["寝る前に", "Neru mae ni"], ["歯を", "ha wo"], ["磨きます。", "migakimasu."]]],
+  ["〜後で", "食べた後で薬を飲みます。", { en: "after doing", id: "setelah melakukan" }, [["食べた後で", "Tabeta ato de"], ["薬を", "kusuri wo"], ["飲みます。", "nomimasu."]]],
+  ["〜ながら", "音楽を聞きながら勉強します。", { en: "while doing", id: "sambil melakukan" }, [["音楽を", "Ongaku wo"], ["聞きながら", "kikinagara"], ["勉強します。", "benkyou shimasu."]]],
+  ["〜ので", "雨なので、行きません。", { en: "because (reason)", id: "karena (alasan)" }, [["雨なので、", "Ame nanode,"], ["行きません。", "ikimasen."]]],
+  ["〜のに", "勉強したのに、忘れました。", { en: "even though / despite", id: "meskipun / walaupun" }, [["勉強したのに、", "Benkyou shita noni,"], ["忘れました。", "wasuremashita."]]],
+  ["〜と思います", "明日雨が降ると思います。", { en: "I think / in my opinion", id: "menurut saya / saya pikir" }, [["明日", "Ashita"], ["雨が", "ame ga"], ["降ると思います。", "furu to omoimasu."]]],
+  ["〜と言いました", "先生は明日休むと言いました。", { en: "said that", id: "mengatakan bahwa" }, [["先生は", "Sensei wa"], ["明日", "ashita"], ["休むと言いました。", "yasumu to iimashita."]]],
+  ["〜ことができます", "漢字を読むことができます。", { en: "can / is able to do", id: "bisa / mampu melakukan" }, [["漢字を", "Kanji wo"], ["読むことができます。", "yomu koto ga dekimasu."]]],
+  ["〜つもりです", "来年日本へ行くつもりです。", { en: "intend to / plan to", id: "berniat / berencana" }, [["来年", "Rainen"], ["日本へ", "Nihon e"], ["行くつもりです。", "iku tsumori desu."]]],
+  ["〜でしょう", "明日は晴れでしょう。", { en: "probably / likely", id: "mungkin / kemungkinan besar" }, [["明日は", "Ashita wa"], ["晴れでしょう。", "hare deshou."]]],
+  ["〜すぎる", "食べすぎました。", { en: "too much (excessive)", id: "terlalu banyak (berlebihan)" }, [["食べすぎました。", "Tabesugimashita."]]]
 ];
 
 /* =========================================================
@@ -716,125 +998,151 @@ const BUNPO_TIER3 = [
    ========================================================= */
 // beberapa kanji punya 2 cara baca sekaligus (mis. "hi / nichi") — untuk soal
 // quest "Tebak romaji" kita ambil bacaan utama (sebelum " / ") sebagai jawaban.
-function primaryReading(str){
+function primaryReading(str) {
   return str.includes(" / ") ? str.split(" / ")[0].trim() : str;
 }
 const LEVEL_META = [
-  {id:"tier1", tier:1, rank:"Warrior"},
-  {id:"tier2", tier:2, rank:"Epic"},
-  {id:"tier3", tier:3, rank:"Mythical"},
-  {id:"all",   tier:4, rank:"Immortal"}
+  { id: "tier1", tier: 1, rank: "Warrior" },
+  { id: "tier2", tier: 2, rank: "Epic" },
+  { id: "tier3", tier: 3, rank: "Mythical" },
+  { id: "all", tier: 4, rank: "Immortal" }
 ];
 
 const SCRIPTS = {
   hiragana: {
-    key:"hiragana", label:"Hiragana", tabGlyph:"あ", quizType:"romaji", quizLabel:"Tebak romaji",
-    data:{ tier1:HIRAGANA_TIER1, tier2:HIRAGANA_TIER2, tier3:HIRAGANA_TIER3 },
-    levelText:{
-      tier1:{title:"Dasar", sample:"あ い う", desc:"Gojūon — 46 karakter inti dari a sampai n."},
-      tier2:{title:"Bertitik", sample:"が ざ ぱ", desc:"Dakuten & handakuten: ga, za, da, ba, pa."},
-      tier3:{title:"Gabungan", sample:"きゃ しゅ", desc:"Yōon — kombinasi kecil seperti kya, sha, cho."},
-      all:{title:"Semua Campur", sample:"ん づ りょ", desc:"Seluruh karakter hiragana diacak jadi satu Chapter."}
+    key: "hiragana", label: "Hiragana", tabGlyph: "あ", quizType: "romaji", quizLabelKey: "quiz.guessRomaji",
+    data: { tier1: HIRAGANA_TIER1, tier2: HIRAGANA_TIER2, tier3: HIRAGANA_TIER3 },
+    levelText: {
+      tier1: { title: { en: "Basic", id: "Dasar" }, sample: "あ い う", desc: { en: "Gojūon — the 46 core characters from a to n.", id: "Gojūon — 46 karakter inti dari a sampai n." } },
+      tier2: { title: { en: "Dotted", id: "Bertitik" }, sample: "が ざ ぱ", desc: { en: "Dakuten & handakuten: ga, za, da, ba, pa.", id: "Dakuten & handakuten: ga, za, da, ba, pa." } },
+      tier3: { title: { en: "Combined", id: "Gabungan" }, sample: "きゃ しゅ", desc: { en: "Yōon — small combinations like kya, sha, cho.", id: "Yōon — kombinasi kecil seperti kya, sha, cho." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "ん づ りょ", desc: { en: "All hiragana characters shuffled into one Chapter.", id: "Seluruh karakter hiragana diacak menjadi satu Chapter." } }
     },
-    learnSections:[
-      {tierKey:"tier1", title:"Gojūon — Dasar", desc:"46 karakter inti. Ini fondasi yang wajib dihafal duluan.", rows:GOJUON_HIRAGANA.tier1},
-      {tierKey:"tier2", title:"Dakuten & Handakuten — Bertitik", desc:"Tanda titik dua (゛) atau lingkaran kecil (゜) mengubah cara baca.", rows:GOJUON_HIRAGANA.tier2},
-      {tierKey:"tier3", title:"Yōon — Gabungan", desc:"Konsonan + ゃゅょ kecil yang dibaca sebagai satu suku kata.", rows:GOJUON_HIRAGANA.tier3}
+    learnSections: [
+      { tierKey: "tier1", title: { en: "Gojūon — Basic", id: "Gojūon — Dasar" }, desc: { en: "The 46 core characters. This is the foundation you need to memorize first.", id: "46 karakter inti. Ini fondasi yang wajib dihafal duluan." }, rows: GOJUON_HIRAGANA.tier1 },
+      { tierKey: "tier2", title: { en: "Dakuten & Handakuten — Dotted", id: "Dakuten & Handakuten — Bertitik" }, desc: { en: "A double mark (゛) or small circle (゜) changes how the character is read.", id: "Tanda titik dua (゛) atau lingkaran kecil (゜) mengubah cara baca." }, rows: GOJUON_HIRAGANA.tier2 },
+      { tierKey: "tier3", title: { en: "Yōon — Combined", id: "Yōon — Gabungan" }, desc: { en: "A consonant + small ゃゅょ, read together as one syllable.", id: "Konsonan + ゃゅょ kecil yang dibaca sebagai satu suku kata." }, rows: GOJUON_HIRAGANA.tier3 }
     ]
   },
   katakana: {
-    key:"katakana", label:"Katakana", tabGlyph:"ア", quizType:"romaji", quizLabel:"Tebak romaji",
-    data:{ tier1:KATAKANA_TIER1, tier2:KATAKANA_TIER2, tier3:KATAKANA_TIER3 },
-    levelText:{
-      tier1:{title:"Dasar", sample:"ア イ ウ", desc:"46 karakter inti katakana, dari a sampai n."},
-      tier2:{title:"Bertitik", sample:"ガ ザ パ", desc:"Dakuten & handakuten katakana: ga, za, da, ba, pa."},
-      tier3:{title:"Gabungan", sample:"キャ シュ", desc:"Yōon katakana — kombinasi kecil seperti kya, sha, cho."},
-      all:{title:"Semua Campur", sample:"ン ヅ リョ", desc:"Seluruh karakter katakana diacak jadi satu Chapter."}
+    key: "katakana", label: "Katakana", tabGlyph: "ア", quizType: "romaji", quizLabelKey: "quiz.guessRomaji",
+    data: { tier1: KATAKANA_TIER1, tier2: KATAKANA_TIER2, tier3: KATAKANA_TIER3 },
+    levelText: {
+      tier1: { title: { en: "Basic", id: "Dasar" }, sample: "ア イ ウ", desc: { en: "The 46 core katakana characters, from a to n.", id: "46 karakter inti katakana, dari a sampai n." } },
+      tier2: { title: { en: "Dotted", id: "Bertitik" }, sample: "ガ ザ パ", desc: { en: "Katakana dakuten & handakuten: ga, za, da, ba, pa.", id: "Dakuten & handakuten katakana: ga, za, da, ba, pa." } },
+      tier3: { title: { en: "Combined", id: "Gabungan" }, sample: "キャ シュ", desc: { en: "Katakana yōon — small combinations like kya, sha, cho.", id: "Yōon katakana — kombinasi kecil seperti kya, sha, cho." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "ン ヅ リョ", desc: { en: "All katakana characters shuffled into one Chapter.", id: "Seluruh karakter katakana diacak menjadi satu Chapter." } }
     },
-    learnSections:[
-      {tierKey:"tier1", title:"Gojūon — Dasar", desc:"46 karakter inti katakana, biasanya dipakai untuk kata serapan asing dan nama.", rows:GOJUON_KATAKANA.tier1},
-      {tierKey:"tier2", title:"Dakuten & Handakuten — Bertitik", desc:"Sama seperti hiragana, tanda titik mengubah cara baca konsonannya.", rows:GOJUON_KATAKANA.tier2},
-      {tierKey:"tier3", title:"Yōon — Gabungan", desc:"Konsonan + ャュョ kecil, dibaca sebagai satu suku kata.", rows:GOJUON_KATAKANA.tier3}
+    learnSections: [
+      { tierKey: "tier1", title: { en: "Gojūon — Basic", id: "Gojūon — Dasar" }, desc: { en: "The 46 core katakana characters, mostly used for loanwords and foreign names.", id: "46 karakter inti katakana, biasanya dipakai untuk kata serapan asing dan nama." }, rows: GOJUON_KATAKANA.tier1 },
+      { tierKey: "tier2", title: { en: "Dakuten & Handakuten — Dotted", id: "Dakuten & Handakuten — Bertitik" }, desc: { en: "Just like hiragana, the dot marks change how the consonant is read.", id: "Sama seperti hiragana, tanda titik mengubah cara baca konsonannya." }, rows: GOJUON_KATAKANA.tier2 },
+      { tierKey: "tier3", title: { en: "Yōon — Combined", id: "Yōon — Gabungan" }, desc: { en: "A consonant + small ャュョ, read together as one syllable.", id: "Konsonan + ャュョ kecil, dibaca sebagai satu suku kata." }, rows: GOJUON_KATAKANA.tier3 }
     ]
   },
   kanji: {
-    key:"kanji", label:"Kanji N5", tabGlyph:"漢", quizType:"meaning",
-    quizLabel:"Tebak artinya", quizLabelRomaji:"Tebak romaji", hasVariants:true,
-    data:{
-      tier1: KANJI_TIER1.map(([c,,m])=>[c,m]),
-      tier2: KANJI_TIER2.map(([c,,m])=>[c,m]),
-      tier3: KANJI_TIER3.map(([c,,m])=>[c,m])
+    key: "kanji", label: "Kanji N5", tabGlyph: "漢", quizType: "meaning",
+    quizLabelKey: "quiz.guessMeaning", quizLabelRomajiKey: "quiz.guessRomaji", hasVariants: true,
+    data: {
+      tier1: KANJI_TIER1.map(([c, , m]) => [c, tf(m)]),
+      tier2: KANJI_TIER2.map(([c, , m]) => [c, tf(m)]),
+      tier3: KANJI_TIER3.map(([c, , m]) => [c, tf(m)])
     },
-    dataRomaji:{
-      tier1: KANJI_TIER1.map(([c,r])=>[c, primaryReading(r)]),
-      tier2: KANJI_TIER2.map(([c,r])=>[c, primaryReading(r)]),
-      tier3: KANJI_TIER3.map(([c,r])=>[c, primaryReading(r)])
+    dataRomaji: {
+      tier1: KANJI_TIER1.map(([c, r]) => [c, primaryReading(r)]),
+      tier2: KANJI_TIER2.map(([c, r]) => [c, primaryReading(r)]),
+      tier3: KANJI_TIER3.map(([c, r]) => [c, primaryReading(r)])
     },
-    levelText:{
-      tier1:{title:"Angka & Alam", sample:"一 二 日", desc:"16 kanji dasar: angka dan unsur alam."},
-      tier2:{title:"Ukuran & Arah", sample:"大 小 上", desc:"16 kanji: ukuran, arah, dan keluarga."},
-      tier3:{title:"Sekolah & Waktu", sample:"学 校 今", desc:"16 kanji: sekolah, waktu, dan kegiatan sehari-hari."},
-      all:{title:"Semua Campur", sample:"私 何 見", desc:"Seluruh 48 kanji N5 diacak jadi satu Chapter."}
+    levelText: {
+      tier1: { title: { en: "Numbers & Nature", id: "Angka & Alam" }, sample: "一 二 日", desc: { en: "16 basic kanji: numbers and elements of nature.", id: "16 kanji dasar: angka dan unsur alam." } },
+      tier2: { title: { en: "Size & Direction", id: "Ukuran & Arah" }, sample: "大 小 上", desc: { en: "16 kanji: size, direction, and family.", id: "16 kanji: ukuran, arah, dan keluarga." } },
+      tier3: { title: { en: "School & Time", id: "Sekolah & Waktu" }, sample: "学 校 今", desc: { en: "16 kanji: school, time, and daily activities.", id: "16 kanji: sekolah, waktu, dan kegiatan sehari-hari." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "私 何 見", desc: { en: "All 48 N5 kanji shuffled into one Chapter.", id: "Seluruh 48 kanji N5 diacak menjadi satu Chapter." } }
     },
-    learnCards:[
-      {tierKey:"tier1", title:"Angka & Alam", desc:"16 kanji dasar: angka dan unsur alam.", items:KANJI_TIER1},
-      {tierKey:"tier2", title:"Ukuran & Arah", desc:"16 kanji: ukuran, arah, dan keluarga.", items:KANJI_TIER2},
-      {tierKey:"tier3", title:"Sekolah & Waktu", desc:"16 kanji: sekolah, waktu, dan kegiatan sehari-hari.", items:KANJI_TIER3}
+    learnCards: [
+      { tierKey: "tier1", title: { en: "Numbers & Nature", id: "Angka & Alam" }, desc: { en: "16 basic kanji: numbers and elements of nature.", id: "16 kanji dasar: angka dan unsur alam." }, items: KANJI_TIER1 },
+      { tierKey: "tier2", title: { en: "Size & Direction", id: "Ukuran & Arah" }, desc: { en: "16 kanji: size, direction, and family.", id: "16 kanji: ukuran, arah, dan keluarga." }, items: KANJI_TIER2 },
+      { tierKey: "tier3", title: { en: "School & Time", id: "Sekolah & Waktu" }, desc: { en: "16 kanji: school, time, and daily activities.", id: "16 kanji: sekolah, waktu, dan kegiatan sehari-hari." }, items: KANJI_TIER3 }
     ]
   },
   kotoba: {
-    key:"kotoba", label:"Kotoba", tabGlyph:"語", quizType:"meaning",
-    quizLabel:"Tebak artinya", quizLabelRomaji:"Tebak romaji", hasVariants:true,
-    data:{
-      tier1: KOTOBA_TIER1.map(([c,,m])=>[c,m]),
-      tier2: KOTOBA_TIER2.map(([c,,m])=>[c,m]),
-      tier3: KOTOBA_TIER3.map(([c,,m])=>[c,m])
+    key: "kotoba", label: "Kotoba", tabGlyph: "語", quizType: "meaning",
+    quizLabelKey: "quiz.guessMeaning", quizLabelRomajiKey: "quiz.guessRomaji", hasVariants: true,
+    data: {
+      tier1: KOTOBA_TIER1.map(([c, , m]) => [c, tf(m)]),
+      tier2: KOTOBA_TIER2.map(([c, , m]) => [c, tf(m)]),
+      tier3: KOTOBA_TIER3.map(([c, , m]) => [c, tf(m)])
     },
-    dataRomaji:{
-      tier1: KOTOBA_TIER1.map(([c,r])=>[c,r]),
-      tier2: KOTOBA_TIER2.map(([c,r])=>[c,r]),
-      tier3: KOTOBA_TIER3.map(([c,r])=>[c,r])
+    dataRomaji: {
+      tier1: KOTOBA_TIER1.map(([c, r]) => [c, r]),
+      tier2: KOTOBA_TIER2.map(([c, r]) => [c, r]),
+      tier3: KOTOBA_TIER3.map(([c, r]) => [c, r])
     },
-    levelText:{
-      tier1:{title:"Kata Benda", sample:"わたし がっこう ともだち", desc:"24 kosakata N5 (kana, tanpa kanji): orang, tempat, dan benda sehari-hari, lengkap dengan contoh kalimat."},
-      tier2:{title:"Kerja & Sifat", sample:"たべる おおきい すき", desc:"24 kosakata N5 (kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na, lengkap dengan contoh kalimat."},
-      tier3:{title:"Waktu & Ekspresi", sample:"えき あした ありがとう", desc:"24 kosakata N5 (kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam, lengkap dengan contoh kalimat."},
-      all:{title:"Semua Campur", sample:"しごと あたらしい かえる", desc:"Seluruh 72 kosakata N5 diacak jadi satu Chapter."}
+    levelText: {
+      tier1: { title: { en: "Nouns", id: "Kata Benda" }, sample: "わたし がっこう ともだち", desc: { en: "24 N5 vocabulary words (kana only, no kanji): people, places, and everyday objects, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): orang, tempat, dan benda sehari-hari, lengkap dengan contoh kalimat." } },
+      tier2: { title: { en: "Verbs & Adjectives", id: "Kerja & Sifat" }, sample: "たべる おおきい すき", desc: { en: "24 N5 vocabulary words (kana only, no kanji): verbs, -i adjectives, and -na adjectives, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na, lengkap dengan contoh kalimat." } },
+      tier3: { title: { en: "Time & Expressions", id: "Waktu & Ekspresi" }, sample: "えき あした ありがとう", desc: { en: "24 N5 vocabulary words (kana only, no kanji): places, time, question words, and greetings/expressions, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam, lengkap dengan contoh kalimat." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "しごと あたらしい かえる", desc: { en: "All 72 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 72 kosakata N5 diacak menjadi satu Chapter." } }
     },
-    learnVocab:[
-      {tierKey:"tier1", title:"Kata Benda — Sehari-hari", desc:"24 kosakata dasar N5 (full kana, tanpa kanji): orang, keluarga, tempat, dan benda sehari-hari — tiap kata disertai contoh kalimat.", items:KOTOBA_TIER1},
-      {tierKey:"tier2", title:"Kata Kerja & Kata Sifat", desc:"24 kosakata N5 (full kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na — tiap kata disertai contoh kalimat.", items:KOTOBA_TIER2},
-      {tierKey:"tier3", title:"Tempat, Waktu & Ekspresi", desc:"24 kosakata N5 (full kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam — tiap kata disertai contoh kalimat.", items:KOTOBA_TIER3}
+    learnVocab: [
+      { tierKey: "tier1", title: { en: "Nouns — Everyday Life", id: "Kata Benda — Sehari-hari" }, desc: { en: "24 basic N5 vocabulary words (full kana, no kanji): people, family, places, and everyday objects — each word comes with an example sentence.", id: "24 kosakata dasar N5 (full kana, tanpa kanji): orang, keluarga, tempat, dan benda sehari-hari — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER1 },
+      { tierKey: "tier2", title: { en: "Verbs & Adjectives", id: "Kata Kerja & Kata Sifat" }, desc: { en: "24 N5 vocabulary words (full kana, no kanji): verbs, -i adjectives, and -na adjectives — each word comes with an example sentence.", id: "24 kosakata N5 (full kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER2 },
+      { tierKey: "tier3", title: { en: "Places, Time & Expressions", id: "Tempat, Waktu & Ekspresi" }, desc: { en: "24 N5 vocabulary words (full kana, no kanji): places, time, question words, and greetings/expressions — each word comes with an example sentence.", id: "24 kosakata N5 (full kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER3 }
     ]
   },
   bunpo: {
-    key:"bunpo", label:"Bunpō", tabGlyph:"文", quizType:"meaning", quizLabel:"Tebak fungsinya",
-    data:{
-      tier1: BUNPO_TIER1.map(([c,,m])=>[c,m]),
-      tier2: BUNPO_TIER2.map(([c,,m])=>[c,m]),
-      tier3: BUNPO_TIER3.map(([c,,m])=>[c,m])
+    key: "bunpo", label: "Bunpō", tabGlyph: "文", quizType: "meaning", quizLabelKey: "quiz.guessFunction",
+    data: {
+      tier1: BUNPO_TIER1.map(([c, , m]) => [c, tf(m)]),
+      tier2: BUNPO_TIER2.map(([c, , m]) => [c, tf(m)]),
+      tier3: BUNPO_TIER3.map(([c, , m]) => [c, tf(m)])
     },
-    levelText:{
-      tier1:{title:"Partikel Dasar", sample:"〜は 〜が 〜を", desc:"12 partikel dasar N5 yang wajib dikuasai."},
-      tier2:{title:"Pola Kalimat", sample:"〜たい 〜てください", desc:"12 pola kalimat N5 untuk percakapan sehari-hari."},
-      tier3:{title:"Struktur Lanjutan", sample:"〜ながら 〜ので", desc:"12 struktur tata bahasa N5 tingkat lanjut."},
-      all:{title:"Semua Campur", sample:"〜つもりです", desc:"Seluruh 36 pola bunpō N5 diacak jadi satu Chapter."}
+    levelText: {
+      tier1: { title: { en: "Basic Particles", id: "Partikel Dasar" }, sample: "〜は 〜が 〜を", desc: { en: "12 essential N5 particles you need to Conquer.", id: "12 partikel dasar N5 yang wajib diTaklukkan." } },
+      tier2: { title: { en: "Sentence Patterns", id: "Pola Kalimat" }, sample: "〜たい 〜てください", desc: { en: "12 N5 sentence patterns for everyday conversation.", id: "12 pola kalimat N5 untuk percakapan sehari-hari." } },
+      tier3: { title: { en: "Advanced Structures", id: "Struktur Lanjutan" }, sample: "〜ながら 〜ので", desc: { en: "12 advanced N5 grammar structures.", id: "12 struktur tata bahasa N5 tingkat lanjut." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "〜つもりです", desc: { en: "All 36 N5 grammar patterns shuffled into one Chapter.", id: "Seluruh 36 pola bunpō N5 diacak menjadi satu Chapter." } }
     },
-    learnGrammar:[
-      {tierKey:"tier1", title:"Partikel Dasar", desc:"12 partikel dasar N5 yang wajib dikuasai.", items:BUNPO_TIER1},
-      {tierKey:"tier2", title:"Pola Kalimat", desc:"12 pola kalimat N5 untuk percakapan sehari-hari.", items:BUNPO_TIER2},
-      {tierKey:"tier3", title:"Struktur Lanjutan", desc:"12 struktur tata bahasa N5 tingkat lanjut.", items:BUNPO_TIER3}
+    learnGrammar: [
+      { tierKey: "tier1", title: { en: "Basic Particles", id: "Partikel Dasar" }, desc: { en: "12 essential N5 particles you need to Conquer.", id: "12 partikel dasar N5 yang wajib diTaklukkan." }, items: BUNPO_TIER1 },
+      { tierKey: "tier2", title: { en: "Sentence Patterns", id: "Pola Kalimat" }, desc: { en: "12 N5 sentence patterns for everyday conversation.", id: "12 pola kalimat N5 untuk percakapan sehari-hari." }, items: BUNPO_TIER2 },
+      { tierKey: "tier3", title: { en: "Advanced Structures", id: "Struktur Lanjutan" }, desc: { en: "12 advanced N5 grammar structures.", id: "12 struktur tata bahasa N5 tingkat lanjut." }, items: BUNPO_TIER3 }
     ]
   }
 };
 
 // build the "all" (Kaisar) pool for every script
-Object.values(SCRIPTS).forEach(s=>{
+Object.values(SCRIPTS).forEach(s => {
   s.data.all = [...s.data.tier1, ...s.data.tier2, ...s.data.tier3];
-  if(s.dataRomaji){
+  if (s.dataRomaji) {
     s.dataRomaji.all = [...s.dataRomaji.tier1, ...s.dataRomaji.tier2, ...s.dataRomaji.tier3];
   }
 });
+
+// kanji/kotoba/bunpo punya "arti" (meaning) yang disimpan sebagai {en,id} di data
+// mentahnya (KANJI_TIER*/KOTOBA_TIER*/BUNPO_TIER*) supaya bisa diresolve ulang
+// tiap kali bahasa diganti — tanpa ini, arti/fungsi di quiz & tabel belajar akan
+// tetap dalam bahasa lama sampai halaman di-reload. Dipanggil sekali di awal
+// (lewat mapping .map(...) di atas) dan lagi setiap kali applyLanguage() jalan.
+function rebuildMeaningPools() {
+  SCRIPTS.kanji.data = {
+    tier1: KANJI_TIER1.map(([c, , m]) => [c, tf(m)]),
+    tier2: KANJI_TIER2.map(([c, , m]) => [c, tf(m)]),
+    tier3: KANJI_TIER3.map(([c, , m]) => [c, tf(m)])
+  };
+  SCRIPTS.kotoba.data = {
+    tier1: KOTOBA_TIER1.map(([c, , m]) => [c, tf(m)]),
+    tier2: KOTOBA_TIER2.map(([c, , m]) => [c, tf(m)]),
+    tier3: KOTOBA_TIER3.map(([c, , m]) => [c, tf(m)])
+  };
+  SCRIPTS.bunpo.data = {
+    tier1: BUNPO_TIER1.map(([c, , m]) => [c, tf(m)]),
+    tier2: BUNPO_TIER2.map(([c, , m]) => [c, tf(m)]),
+    tier3: BUNPO_TIER3.map(([c, , m]) => [c, tf(m)])
+  };
+  [SCRIPTS.kanji, SCRIPTS.kotoba, SCRIPTS.bunpo].forEach(s => {
+    s.data.all = [...s.data.tier1, ...s.data.tier2, ...s.data.tier3];
+  });
+}
 
 // rentang soal: indeks (inklusif) di dalam pool tingkatan yang sedang dipilih,
 // diatur lewat dropdown "Dari" — "Sampai". Direset tiap kali user pilih tingkatan baru.
@@ -865,16 +1173,16 @@ let state = {
 };
 
 /* ---------------- helpers ---------------- */
-function shuffle(arr){
+function shuffle(arr) {
   const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
 
-function buildChoices(correct, pool, count=4){
+function buildChoices(correct, pool, count = 4) {
   const wrongPool = pool.filter(p => p[0] !== correct[0]);
   // hilangkan duplikat jawaban (mis. dua kanji beda yg kebetulan sama bacaannya)
   const uniqueWrongs = [...new Map(wrongPool.map(p => [p[1], p])).values()].filter(p => p[1] !== correct[1]);
@@ -883,32 +1191,32 @@ function buildChoices(correct, pool, count=4){
 }
 
 /* ---------------- render: learn tables (hiragana/katakana) ---------------- */
-function renderGojuonTables(section){
+function renderGojuonTables(section) {
   const wrap = document.createElement("div");
-  const total = section.rows.reduce((sum,r)=> sum + r.chars.filter(Boolean).length, 0);
+  const total = section.rows.reduce((sum, r) => sum + r.chars.filter(Boolean).length, 0);
   const sectionEl = document.createElement("div");
   sectionEl.className = "learn-section";
   sectionEl.innerHTML = `
-    <h2 class="learn-section-title">${section.title} <span class="count">${total} karakter</span></h2>
-    <p class="learn-section-desc">${section.desc}</p>
+    <h2 class="learn-section-title">${tf(section.title)} <span class="count">${total} ${t("learn.characters")}</span></h2>
+    <p class="learn-section-desc">${tf(section.desc)}</p>
   `;
   const table = document.createElement("div");
   table.className = "kana-table";
-  section.rows.forEach(row=>{
+  section.rows.forEach(row => {
     const rowEl = document.createElement("div");
     rowEl.className = `kana-row cols-${row.cols}`;
     const labelEl = document.createElement("div");
     labelEl.className = "kana-row-label";
     labelEl.textContent = row.label;
     rowEl.appendChild(labelEl);
-    row.chars.forEach(pair=>{
+    row.chars.forEach(pair => {
       const cell = document.createElement("div");
-      if(pair){
+      if (pair) {
         cell.className = "kana-cell filled speakable";
         cell.setAttribute("data-speak", pair[0]);
-        cell.setAttribute("role","button");
-        cell.setAttribute("tabindex","0");
-        cell.setAttribute("aria-label", `Dengar ucapan ${pair[0]}, dibaca ${pair[1]}`);
+        cell.setAttribute("role", "button");
+        cell.setAttribute("tabindex", "0");
+        cell.setAttribute("aria-label", t("learn.listenPronunciation", { text: pair[0], reading: pair[1] }));
         cell.innerHTML = `<span class="k">${pair[0]}</span><span class="r">${pair[1]}</span><span class="cell-audio-icon">🔊</span>`;
       } else {
         cell.className = "kana-cell empty";
@@ -922,27 +1230,27 @@ function renderGojuonTables(section){
   return wrap;
 }
 
-function renderKanjiTables(section){
+function renderKanjiTables(section) {
   const wrap = document.createElement("div");
   const sectionEl = document.createElement("div");
   sectionEl.className = "learn-section";
   sectionEl.innerHTML = `
-    <h2 class="learn-section-title">${section.title} <span class="count">${section.items.length} karakter</span></h2>
-    <p class="learn-section-desc">${section.desc}</p>
+    <h2 class="learn-section-title">${tf(section.title)} <span class="count">${section.items.length} ${t("learn.characters")}</span></h2>
+    <p class="learn-section-desc">${tf(section.desc)}</p>
   `;
   const grid = document.createElement("div");
   grid.className = "kanji-grid";
-  section.items.forEach(([char,reading,meaning,kana])=>{
+  section.items.forEach(([char, reading, meaning, kana]) => {
     const cell = document.createElement("div");
     cell.className = "kanji-cell";
     cell.setAttribute("data-speak", kana || char);
-    cell.setAttribute("role","button");
-    cell.setAttribute("tabindex","0");
-    cell.setAttribute("aria-label", `Dengar ucapan ${char}, dibaca ${reading}`);
+    cell.setAttribute("role", "button");
+    cell.setAttribute("tabindex", "0");
+    cell.setAttribute("aria-label", t("learn.listenPronunciation", { text: char, reading: reading }));
     cell.innerHTML = `
       <span class="kj">${char}</span>
       <span class="kj-reading">${reading}</span>
-      <span class="kj-meaning">${meaning}</span>
+      <span class="kj-meaning">${tf(meaning)}</span>
       <span class="cell-audio-icon">🔊</span>
     `;
     grid.appendChild(cell);
@@ -952,31 +1260,31 @@ function renderKanjiTables(section){
   return wrap;
 }
 
-function renderVocabTables(section){
+function renderVocabTables(section) {
   const wrap = document.createElement("div");
   const sectionEl = document.createElement("div");
   sectionEl.className = "learn-section";
   sectionEl.innerHTML = `
-    <h2 class="learn-section-title">${section.title} <span class="count">${section.items.length} kata</span></h2>
-    <p class="learn-section-desc">${section.desc}</p>
+    <h2 class="learn-section-title">${tf(section.title)} <span class="count">${section.items.length} ${t("learn.words")}</span></h2>
+    <p class="learn-section-desc">${tf(section.desc)}</p>
   `;
   const list = document.createElement("div");
   list.className = "grammar-list vocab-list";
-  section.items.forEach(([word,reading,meaning,example,exampleRomaji])=>{
+  section.items.forEach(([word, reading, meaning, example, exampleRomaji]) => {
     const card = document.createElement("div");
     card.className = "grammar-card vocab-card";
     const wordRow = `
-      <button type="button" class="vocab-word-btn" data-speak="${word}" aria-label="Dengar ucapan ${word}, dibaca ${reading}">
+      <button type="button" class="vocab-word-btn" data-speak="${word}" aria-label="${t("learn.listenPronunciation", { text: word, reading: reading })}">
         <span class="grammar-pattern vocab-word">${word}</span>
         <span class="cell-audio-icon">🔊</span>
       </button>
       <span class="vocab-reading">${reading}</span>
-      <span class="grammar-meaning">${meaning}</span>
+      <span class="grammar-meaning">${tf(meaning)}</span>
     `;
     const exampleHtml = example ? `
       <div class="grammar-example-row">
         <span class="grammar-example">${example}</span>
-        <button type="button" class="speak-btn" data-speak="${example}" aria-label="Dengar kalimat contoh">🔊</button>
+        <button type="button" class="speak-btn" data-speak="${example}" aria-label="${t("learn.listenExample")}">🔊</button>
       </div>
       <span class="vocab-example-romaji">${exampleRomaji || ""}</span>
     ` : "";
@@ -988,32 +1296,32 @@ function renderVocabTables(section){
   return wrap;
 }
 
-function renderGrammarCards(section){
+function renderGrammarCards(section) {
   const wrap = document.createElement("div");
   const sectionEl = document.createElement("div");
   sectionEl.className = "learn-section";
   sectionEl.innerHTML = `
-    <h2 class="learn-section-title">${section.title} <span class="count">${section.items.length} pola</span></h2>
-    <p class="learn-section-desc">${section.desc}</p>
+    <h2 class="learn-section-title">${tf(section.title)} <span class="count">${section.items.length} ${t("learn.patterns")}</span></h2>
+    <p class="learn-section-desc">${tf(section.desc)}</p>
   `;
   const list = document.createElement("div");
   list.className = "grammar-list";
-  section.items.forEach(([pattern,example,meaning,segments])=>{
+  section.items.forEach(([pattern, example, meaning, segments]) => {
     const card = document.createElement("div");
     card.className = "grammar-card";
     const segmentsHtml = Array.isArray(segments)
-      ? segments.map(([seg,rom])=>`
-          <button type="button" class="segment-chip" data-speak="${seg}" aria-label="Dengar ${seg}, dibaca ${rom}">
+      ? segments.map(([seg, rom]) => `
+          <button type="button" class="segment-chip" data-speak="${seg}" aria-label="${t("learn.listenSegment", { seg, rom })}">
             <span class="seg-jp">${seg}</span>
             <span class="seg-romaji">${rom}</span>
           </button>`).join("")
       : "";
     card.innerHTML = `
       <span class="grammar-pattern">${pattern}</span>
-      <span class="grammar-meaning">${meaning}</span>
+      <span class="grammar-meaning">${tf(meaning)}</span>
       <div class="grammar-example-row">
         <span class="grammar-example">${example}</span>
-        <button type="button" class="speak-btn" data-speak="${example}" aria-label="Dengar kalimat contoh">🔊</button>
+        <button type="button" class="speak-btn" data-speak="${example}" aria-label="${t("learn.listenExample")}">🔊</button>
       </div>
       <div class="grammar-segments">${segmentsHtml}</div>
     `;
@@ -1024,37 +1332,37 @@ function renderGrammarCards(section){
   return wrap;
 }
 
-function renderLearnTables(scriptKey){
+function renderLearnTables(scriptKey) {
   currentLearnScript = scriptKey;
   const script = SCRIPTS[scriptKey];
   const wrap = document.getElementById("learn-tables");
   wrap.innerHTML = "";
-  if(script.learnSections){
-    script.learnSections.forEach(section=>{
+  if (script.learnSections) {
+    script.learnSections.forEach(section => {
       wrap.appendChild(renderGojuonTables(section));
     });
-  } else if(script.learnVocab){
-    script.learnVocab.forEach(section=>{
+  } else if (script.learnVocab) {
+    script.learnVocab.forEach(section => {
       wrap.appendChild(renderVocabTables(section));
     });
-  } else if(script.learnGrammar){
-    script.learnGrammar.forEach(section=>{
+  } else if (script.learnGrammar) {
+    script.learnGrammar.forEach(section => {
       wrap.appendChild(renderGrammarCards(section));
     });
-  } else if(script.learnCards){
-    script.learnCards.forEach(section=>{
+  } else if (script.learnCards) {
+    script.learnCards.forEach(section => {
       wrap.appendChild(renderKanjiTables(section));
     });
   }
-  document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn=>{
+  document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.script === scriptKey);
   });
 }
 
-document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
+document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
     renderLearnTables(btn.dataset.script);
-    window.scrollTo({top:0, behavior:"instant"});
+    window.scrollTo({ top: 0, behavior: "instant" });
   });
 });
 
@@ -1063,14 +1371,14 @@ const levelsEl = document.getElementById("levels");
 const startBtn = document.getElementById("btn-start");
 const btnOpenLearn = document.getElementById("btn-open-learn");
 
-function renderLevels(scriptKey){
+function renderLevels(scriptKey) {
   currentScript = scriptKey;
   const script = SCRIPTS[scriptKey];
   levelsEl.innerHTML = "";
   state.mode = null;
   startBtn.disabled = true;
-  startBtn.textContent = "Pilih tingkatan dulu";
-  btnOpenLearn.textContent = `📖 Belajar ${script.label} Dulu`;
+  startBtn.textContent = t("start.chooseTierFirst");
+  btnOpenLearn.textContent = t("start.studyScriptFirst", { label: script.label });
   quizVariantPickerEl.classList.toggle("hidden", !script.hasVariants);
   rangePickerEl.classList.add("hidden");
 
@@ -1078,29 +1386,29 @@ function renderLevels(scriptKey){
   const hardBtn = document.querySelector('.difficulty-btn[data-difficulty="hard"]');
   hardBtn.disabled = !supportsHard;
   difficultyHintEl.classList.toggle("hidden", supportsHard);
-  if(!supportsHard && selectedDifficulty === "hard"){
+  if (!supportsHard && selectedDifficulty === "hard") {
     setDifficulty("easy");
   }
 
-  LEVEL_META.forEach(meta=>{
+  LEVEL_META.forEach(meta => {
     const info = script.levelText[meta.id];
     const card = document.createElement("button");
     card.className = "level-card";
     card.type = "button";
-    card.setAttribute("aria-pressed","false");
+    card.setAttribute("aria-pressed", "false");
     card.innerHTML = `
       <span class="tier">
-        <span class="tier-dots">${[1,2,3,4].map(n => `<span class="${n <= meta.tier ? 'filled' : ''}"></span>`).join("")}</span>
+        <span class="tier-dots">${[1, 2, 3, 4].map(n => `<span class="${n <= meta.tier ? 'filled' : ''}"></span>`).join("")}</span>
         ${meta.rank}
       </span>
       <span class="kana-sample">${info.sample}</span>
-      <h3>${info.title}</h3>
-      <p>${info.desc}</p>
+      <h3>${tf(info.title)}</h3>
+      <p>${tf(info.desc)}</p>
     `;
-    card.addEventListener("click", ()=>{
-      document.querySelectorAll(".level-card").forEach(c=>{c.classList.remove("selected"); c.setAttribute("aria-pressed","false");});
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".level-card").forEach(c => { c.classList.remove("selected"); c.setAttribute("aria-pressed", "false"); });
       card.classList.add("selected");
-      card.setAttribute("aria-pressed","true");
+      card.setAttribute("aria-pressed", "true");
       state.mode = meta.id;
       startBtn.disabled = false;
       renderRangePicker(scriptKey, meta.id);
@@ -1111,14 +1419,14 @@ function renderLevels(scriptKey){
   updateConquestCard(scriptKey);
 }
 
-document.querySelectorAll("#script-tabs .script-tab").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll("#script-tabs .script-tab").forEach(b=> b.classList.toggle("active", b === btn));
+document.querySelectorAll("#script-tabs .script-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#script-tabs .script-tab").forEach(b => b.classList.toggle("active", b === btn));
     renderLevels(btn.dataset.script);
   });
 });
 
-startBtn.addEventListener("click", ()=> startQuiz(currentScript, state.mode));
+startBtn.addEventListener("click", () => startQuiz(currentScript, state.mode));
 
 /* ---------------- rentang soal (dari karakter X sampai Y) ---------------- */
 const rangePickerEl = document.getElementById("range-picker");
@@ -1145,13 +1453,13 @@ let currentRangeItems = []; // [{kana, romaji, arti, batch}] utk tingkatan yg se
 // ambil info tampilan (kana/romaji/arti) utk index ke-i pada tingkatan tertentu —
 // beda script py struktur data beda: hiragana/katakana cuma py romaji, bunpo cuma
 // py arti, kotoba/kanji py keduanya (dari data + dataRomaji terpisah).
-function getRangeItemInfo(scriptKey, modeId, i){
+function getRangeItemInfo(scriptKey, modeId, i) {
   const script = SCRIPTS[scriptKey];
   const kana = script.data[modeId][i][0];
-  if(script.dataRomaji){
+  if (script.dataRomaji) {
     return { kana, romaji: script.dataRomaji[modeId][i][1], arti: script.data[modeId][i][1] };
   }
-  if(script.quizType === "meaning"){
+  if (script.quizType === "meaning") {
     return { kana, romaji: "", arti: script.data[modeId][i][1] };
   }
   return { kana, romaji: script.data[modeId][i][1], arti: "" };
@@ -1160,36 +1468,36 @@ function getRangeItemInfo(scriptKey, modeId, i){
 // batch selang-seling: hiragana/katakana pakai grup baris tabel gojūon asli
 // (mis. "a-i-u-e-o" satu batch), script lain (kotoba/bunpō/kanji) dikelompokkan
 // tiap 4 item berurutan supaya tetap ada variasi warna walau tanpa tabel baris.
-function getBatchSizes(scriptKey, modeId){
+function getBatchSizes(scriptKey, modeId) {
   const isKana = scriptKey === "hiragana" || scriptKey === "katakana";
-  if(isKana){
+  if (isKana) {
     const gojuon = scriptKey === "hiragana" ? GOJUON_HIRAGANA : GOJUON_KATAKANA;
-    const tiers = modeId === "all" ? ["tier1","tier2","tier3"] : [modeId];
+    const tiers = modeId === "all" ? ["tier1", "tier2", "tier3"] : [modeId];
     const sizes = [];
-    tiers.forEach(t=>{
-      gojuon[t].forEach(row=>{
+    tiers.forEach(t => {
+      gojuon[t].forEach(row => {
         const n = row.chars.filter(Boolean).length;
-        if(n > 0) sizes.push(n);
+        if (n > 0) sizes.push(n);
       });
     });
     return sizes;
   }
   const total = SCRIPTS[scriptKey].data[modeId].length;
   const sizes = [];
-  for(let remaining = total; remaining > 0; remaining -= 4) sizes.push(Math.min(4, remaining));
+  for (let remaining = total; remaining > 0; remaining -= 4) sizes.push(Math.min(4, remaining));
   return sizes;
 }
 
-function buildBatchIndexArray(sizes){
+function buildBatchIndexArray(sizes) {
   const arr = [];
-  sizes.forEach((size, batchIdx)=>{
-    for(let k=0;k<size;k++) arr.push(batchIdx);
+  sizes.forEach((size, batchIdx) => {
+    for (let k = 0; k < size; k++) arr.push(batchIdx);
   });
   return arr;
 }
 
-function renderRangeOptionsHtml(){
-  return currentRangeItems.map((item, i)=>{
+function renderRangeOptionsHtml() {
+  return currentRangeItems.map((item, i) => {
     const batchClass = item.batch % 2 === 0 ? "batch-a" : "batch-b";
     const romajiHtml = item.romaji ? `<span class="range-opt-romaji">${item.romaji}</span>` : "";
     const artiHtml = item.arti ? `<span class="range-opt-arti">${item.arti}</span>` : "";
@@ -1202,73 +1510,73 @@ function renderRangeOptionsHtml(){
   }).join("");
 }
 
-function closeRangeDropdown(key){
+function closeRangeDropdown(key) {
   const cfg = rangeDdConfig[key];
   cfg.list.classList.add("hidden");
-  cfg.trigger.setAttribute("aria-expanded","false");
+  cfg.trigger.setAttribute("aria-expanded", "false");
 }
-function closeAllRangeDropdowns(){
+function closeAllRangeDropdowns() {
   closeRangeDropdown("from");
   closeRangeDropdown("to");
 }
-function openRangeDropdown(key){
+function openRangeDropdown(key) {
   closeAllRangeDropdowns();
   const cfg = rangeDdConfig[key];
   cfg.list.classList.remove("hidden");
-  cfg.trigger.setAttribute("aria-expanded","true");
+  cfg.trigger.setAttribute("aria-expanded", "true");
   const activeEl = cfg.list.querySelector(".range-option.active");
-  if(activeEl) activeEl.scrollIntoView({block:"nearest"});
+  if (activeEl) activeEl.scrollIntoView({ block: "nearest" });
 }
 
-function updateRangeTrigger(key, index){
+function updateRangeTrigger(key, index) {
   const cfg = rangeDdConfig[key];
   const item = currentRangeItems[index];
   cfg.kanaEl.textContent = item.kana;
   cfg.subEl.textContent = item.romaji || item.arti || "";
-  cfg.list.querySelectorAll(".range-option").forEach(li=>{
-    li.classList.toggle("active", parseInt(li.dataset.index,10) === index);
+  cfg.list.querySelectorAll(".range-option").forEach(li => {
+    li.classList.toggle("active", parseInt(li.dataset.index, 10) === index);
   });
 }
 
-function selectRangeIndex(key, index){
-  if(key === "from"){
+function selectRangeIndex(key, index) {
+  if (key === "from") {
     selectedRangeFrom = index;
-    if(selectedRangeFrom > selectedRangeTo) selectedRangeTo = selectedRangeFrom;
+    if (selectedRangeFrom > selectedRangeTo) selectedRangeTo = selectedRangeFrom;
   } else {
     selectedRangeTo = index;
-    if(selectedRangeTo < selectedRangeFrom) selectedRangeFrom = selectedRangeTo;
+    if (selectedRangeTo < selectedRangeFrom) selectedRangeFrom = selectedRangeTo;
   }
   updateRangeTrigger("from", selectedRangeFrom);
   updateRangeTrigger("to", selectedRangeTo);
   updateRangeHint();
 }
 
-["from","to"].forEach(key=>{
+["from", "to"].forEach(key => {
   const cfg = rangeDdConfig[key];
-  cfg.trigger.addEventListener("click", ()=>{
+  cfg.trigger.addEventListener("click", () => {
     const isOpen = cfg.trigger.getAttribute("aria-expanded") === "true";
-    if(isOpen) closeRangeDropdown(key); else openRangeDropdown(key);
+    if (isOpen) closeRangeDropdown(key); else openRangeDropdown(key);
   });
-  cfg.list.addEventListener("click", (e)=>{
+  cfg.list.addEventListener("click", (e) => {
     const li = e.target.closest(".range-option");
-    if(!li) return;
-    selectRangeIndex(key, parseInt(li.dataset.index,10));
+    if (!li) return;
+    selectRangeIndex(key, parseInt(li.dataset.index, 10));
     closeRangeDropdown(key);
   });
 });
-document.addEventListener("click", (e)=>{
-  if(!e.target.closest(".range-dd")) closeAllRangeDropdowns();
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".range-dd")) closeAllRangeDropdowns();
 });
-document.addEventListener("keydown", (e)=>{
-  if(e.key === "Escape") closeAllRangeDropdowns();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeAllRangeDropdowns();
 });
 
 // isi ulang kedua dropdown "Dari"/"Sampai" sesuai urutan karakter di tingkatan
 // yang baru dipilih, lalu reset rentang ke seluruh tingkatan itu (awal - akhir).
-function renderRangePicker(scriptKey, modeId){
+function renderRangePicker(scriptKey, modeId) {
   const pool = SCRIPTS[scriptKey].data[modeId];
   const batchIdxArr = buildBatchIndexArray(getBatchSizes(scriptKey, modeId));
-  currentRangeItems = pool.map((_,i)=>({
+  currentRangeItems = pool.map((_, i) => ({
     ...getRangeItemInfo(scriptKey, modeId, i),
     batch: batchIdxArr[i] ?? 0
   }));
@@ -1298,51 +1606,52 @@ const rangeRowEl = document.getElementById("range-row");
 const rangeRandomEl = document.getElementById("range-random");
 const rangeRandomOptionsEl = document.getElementById("range-random-options");
 
-function setRangeMode(mode){
+function setRangeMode(mode) {
   rangeMode = mode;
-  document.querySelectorAll(".range-mode-btn").forEach(b=>{
+  document.querySelectorAll(".range-mode-btn").forEach(b => {
     b.classList.toggle("active", b.dataset.rangeMode === mode);
   });
   rangeRowEl.classList.toggle("hidden", mode !== "manual");
   rangeRandomEl.classList.toggle("hidden", mode !== "random");
 }
-rangeModeToggleEl.addEventListener("click", (e)=>{
+rangeModeToggleEl.addEventListener("click", (e) => {
   const btn = e.target.closest(".range-mode-btn");
-  if(!btn) return;
+  if (!btn) return;
   setRangeMode(btn.dataset.rangeMode);
   updateRangeHint();
 });
 
-// opsi kelipatan 5 sampai total soal tingkatan ini, selalu diakhiri "Semua".
-function renderRandomCountOptions(totalCount){
+// opsi kelipatan 5 sampai total soal tingkatan ini, selalu diakhiri "seluruh".
+function renderRandomCountOptions(totalCount) {
   const steps = [];
-  for(let n = 5; n < totalCount; n += 5) steps.push(n);
+  for (let n = 5; n < totalCount; n += 5) steps.push(n);
   steps.push(totalCount);
-  if(!steps.includes(selectedRandomCount)) selectedRandomCount = steps[0];
-  rangeRandomOptionsEl.innerHTML = steps.map(n=>{
-    const label = n === totalCount ? `Semua (${n})` : String(n);
+  if (!steps.includes(selectedRandomCount)) selectedRandomCount = steps[0];
+  rangeRandomOptionsEl.innerHTML = steps.map(n => {
+    const label = n === totalCount ? t("range.all", { n }) : String(n);
     return `<button type="button" class="range-count-btn ${n === selectedRandomCount ? 'active' : ''}" data-count="${n}">${label}</button>`;
   }).join("");
 }
-rangeRandomOptionsEl.addEventListener("click", (e)=>{
+rangeRandomOptionsEl.addEventListener("click", (e) => {
   const btn = e.target.closest(".range-count-btn");
-  if(!btn) return;
+  if (!btn) return;
   selectedRandomCount = parseInt(btn.dataset.count, 10);
-  rangeRandomOptionsEl.querySelectorAll(".range-count-btn").forEach(b=>{
+  rangeRandomOptionsEl.querySelectorAll(".range-count-btn").forEach(b => {
     b.classList.toggle("active", b === btn);
   });
   updateRangeHint();
 });
 
-function updateRangeHint(){
-  if(!state.mode) return;
+function updateRangeHint() {
+  if (!state.mode) return;
   const info = SCRIPTS[currentScript].levelText[state.mode];
+  const title = tf(info.title);
 
-  if(rangeMode === "random"){
+  if (rangeMode === "random") {
     const total = currentRangeItems.length;
     const count = Math.min(selectedRandomCount, total);
-    rangeHintEl.textContent = `🎲 ${count} soal acak dipilih dari total ${total} soal di tingkatan ini`;
-    startBtn.textContent = `Mulai — ${info.title} (${count} Soal Acak)`;
+    rangeHintEl.textContent = t("range.randomHint", { count, total });
+    startBtn.textContent = t("start.startRandomCount", { title, count });
     return;
   }
 
@@ -1350,16 +1659,16 @@ function updateRangeHint(){
   const fromLabel = currentRangeItems[selectedRangeFrom].kana;
   const toLabel = currentRangeItems[selectedRangeTo].kana;
   rangeHintEl.textContent = count === 1
-    ? `1 soal terpilih (${fromLabel})`
-    : `${count} soal terpilih (${fromLabel} → ${toLabel})`;
-  startBtn.textContent = `Mulai — ${info.title} (${count} Soal)`;
+    ? t("range.oneSelected", { from: fromLabel })
+    : t("range.manySelected", { count, from: fromLabel, to: toLabel });
+  startBtn.textContent = t("start.startCount", { title, count });
 }
 
 /* ---------------- tipe soal: arti / romaji / campuran ---------------- */
 const quizVariantPickerEl = document.getElementById("quiz-variant-picker");
-document.querySelectorAll(".quiz-variant-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".quiz-variant-btn").forEach(b=> b.classList.remove("active"));
+document.querySelectorAll(".quiz-variant-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".quiz-variant-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     selectedQuizVariant = btn.dataset.variant;
   });
@@ -1367,47 +1676,49 @@ document.querySelectorAll(".quiz-variant-btn").forEach(btn=>{
 
 /* ---------------- tingkat kesulitan: easy / medium / hard ---------------- */
 const difficultyHintEl = document.getElementById("difficulty-hint");
-document.querySelectorAll(".difficulty-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    if(btn.disabled) return;
-    document.querySelectorAll(".difficulty-btn").forEach(b=> b.classList.remove("active"));
+document.querySelectorAll(".difficulty-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (btn.disabled) return;
+    document.querySelectorAll(".difficulty-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     selectedDifficulty = btn.dataset.difficulty;
   });
 });
-function setDifficulty(value){
+function setDifficulty(value) {
   selectedDifficulty = value;
-  document.querySelectorAll(".difficulty-btn").forEach(b=>{
+  document.querySelectorAll(".difficulty-btn").forEach(b => {
     b.classList.toggle("active", b.dataset.difficulty === value);
   });
 }
 
-/* ---------------- mode penaklukan (conquest) ---------------- */
+/* ---------------- mode penaklukkan (conquest) ---------------- */
 const btnConquest = document.getElementById("btn-conquest");
 const conquestOverlay = document.getElementById("conquest-overlay");
 const conquestModalText = document.getElementById("conquest-modal-text");
 const conquestModalRulesEl = document.getElementById("conquest-modal-rules");
 const btnConquestCancel = document.getElementById("btn-conquest-cancel");
 const btnConquestConfirm = document.getElementById("btn-conquest-confirm");
-const conquestScriptLabelEl = document.getElementById("conquest-script-label");
-const conquestCountEl = document.getElementById("conquest-count");
-
+const conquestDescEl = document.getElementById("conquest-desc");
 const conquestStatusEl = document.getElementById("conquest-status");
 const conquestLockNoteEl = document.getElementById("conquest-lock-note");
+const conquestTitleTextEl = document.getElementById("conquest-title-text");
 
-function updateConquestCard(scriptKey){
+function updateConquestCard(scriptKey) {
   const script = SCRIPTS[scriptKey];
   const total = script.data.all.length;
-  conquestScriptLabelEl.textContent = script.label;
-  conquestCountEl.textContent = total;
+  conquestTitleTextEl.textContent = t("conquest.cardTitleWithLabel", { label: script.label });
+  conquestDescEl.innerHTML = t("conquest.desc", {
+    label: `<b>${script.label}</b>`,
+    count: `<span>${total}</span>`
+  });
   const isConquered = !!getConqueredTitles()[scriptKey];
-  if(conquestStatusEl) conquestStatusEl.classList.toggle("hidden", !isConquered);
+  if (conquestStatusEl) conquestStatusEl.classList.toggle("hidden", !isConquered);
 
   const lockKey = getConquestLockReason(scriptKey);
   btnConquest.classList.toggle("locked", !!lockKey);
   btnConquest.disabled = !!lockKey;
-  if(lockKey){
-    conquestLockNoteEl.textContent = `🔒 Taklukkan ${SCRIPTS[lockKey].label} dulu sebelum bisa menaklukkan ${script.label}.`;
+  if (lockKey) {
+    conquestLockNoteEl.textContent = t("conquest.lockNote", { lockLabel: SCRIPTS[lockKey].label, label: script.label });
     conquestLockNoteEl.classList.remove("hidden");
   } else {
     conquestLockNoteEl.classList.add("hidden");
@@ -1415,53 +1726,55 @@ function updateConquestCard(scriptKey){
   updateScriptConquestBadges();
 }
 
-function openConquestOverlay(){
-  if(getConquestLockReason(currentScript)) return; // terkunci — tombolnya juga sudah disabled
+function openConquestOverlay() {
+  if (getConquestLockReason(currentScript)) return; // locked — button is already disabled too
   const script = SCRIPTS[currentScript];
   const total = script.data.all.length;
   const isThreePhase = currentScript === "hiragana" || currentScript === "katakana";
   const bothConquered = !!getConqueredTitles().hiragana && !!getConqueredTitles().katakana;
 
+  document.getElementById("conquest-modal-title").textContent = t("conquest.modalTitleWithLabel", { label: script.label });
+
   let rules;
-  if(isThreePhase){
-    conquestModalText.textContent = `Ini bukan quest biasa — ini Ujian Ksatria. Penaklukan ${script.label} terbagi jadi 3 Chapter cerita (dasar → bertitik → gabungan), total ${total} soal.`;
+  if (isThreePhase) {
+    conquestModalText.textContent = t("conquestModal.threePhaseIntro", { label: script.label, count: total });
     rules = [
-      `Di <b>semua Chapter</b>, kamu harus <b>mengetik sendiri</b> jawabannya — tidak ada pilihan ganda sama sekali.`,
-      `Salah <b>satu saja</b> jawaban, penaklukan langsung <b>GAGAL</b>.`,
-      `Kalau gagal, kamu harus mengulang lagi dari Chapter 1.`,
+      t("conquestModal.rule.typeOnly"),
+      t("conquestModal.rule.oneWrongFails"),
+      t("conquestModal.rule.failRestartChapter"),
       currentScript === "katakana" && !bothConquered
-        ? `Taklukkan ini sampai tuntas dan kamu akan resmi <b>diangkat jadi Knight (騎士)</b> — ujian Hiragana &amp; Katakana lunas keduanya!`
-        : `Taklukkan Hiragana &amp; Katakana keduanya untuk resmi <b>diangkat jadi Knight (騎士)</b>.`
+        ? t("conquestModal.rule.becomeKnightSolo")
+        : t("conquestModal.rule.becomeKnightBoth")
     ];
   } else {
-    conquestModalText.textContent = `Kamu akan menghadapi seluruh ${total} soal ${script.label} sekaligus, diacak.`;
+    conquestModalText.textContent = t("conquestModal.singleIntro", { count: total, label: script.label });
     rules = [
-      `Semua soal aksara ini akan diacak dan ditampilkan sekaligus, <b>tanpa dipotong</b>.`,
-      `Salah <b>satu saja</b> jawaban, penaklukan langsung <b>GAGAL</b>.`,
-      `Kalau gagal, kamu harus mengulang lagi dari soal pertama.`
+      t("conquestModal.rule.allAtOnce"),
+      t("conquestModal.rule.oneWrongFails"),
+      t("conquestModal.rule.failRestartFirst")
     ];
   }
   conquestModalRulesEl.innerHTML = rules.map(r => `<li>${r}</li>`).join("");
 
   conquestOverlay.classList.add("open");
-  conquestOverlay.setAttribute("aria-hidden","false");
+  conquestOverlay.setAttribute("aria-hidden", "false");
   btnConquestConfirm.focus();
 }
-function closeConquestOverlay(){
+function closeConquestOverlay() {
   conquestOverlay.classList.remove("open");
-  conquestOverlay.setAttribute("aria-hidden","true");
+  conquestOverlay.setAttribute("aria-hidden", "true");
   btnConquest.focus();
 }
 btnConquest.addEventListener("click", openConquestOverlay);
 btnConquestCancel.addEventListener("click", closeConquestOverlay);
-conquestOverlay.addEventListener("click", (e)=>{
-  if(e.target === conquestOverlay) closeConquestOverlay();
+conquestOverlay.addEventListener("click", (e) => {
+  if (e.target === conquestOverlay) closeConquestOverlay();
 });
-document.addEventListener("keydown", (e)=>{
-  if(e.key === "Escape" && conquestOverlay.classList.contains("open")) closeConquestOverlay();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && conquestOverlay.classList.contains("open")) closeConquestOverlay();
 });
-btnConquestConfirm.addEventListener("click", ()=>{
-  if(getConquestLockReason(currentScript)) { closeConquestOverlay(); return; }
+btnConquestConfirm.addEventListener("click", () => {
+  if (getConquestLockReason(currentScript)) { closeConquestOverlay(); return; }
   closeConquestOverlay();
   startQuiz(currentScript, "conquest");
 });
@@ -1472,20 +1785,20 @@ const btnLearnBack = document.getElementById("btn-learn-back");
 const btnLearnToQuiz = document.getElementById("btn-learn-to-quiz");
 const screenStart = document.getElementById("screen-start");
 
-btnOpenLearn.addEventListener("click", ()=>{
+btnOpenLearn.addEventListener("click", () => {
   screenStart.classList.add("hidden");
   screenLearnEl.classList.remove("hidden");
   renderLearnTables(currentScript);
-  window.scrollTo({top:0, behavior:"instant"});
+  window.scrollTo({ top: 0, behavior: "instant" });
 });
-btnLearnBack.addEventListener("click", ()=>{
+btnLearnBack.addEventListener("click", () => {
   screenLearnEl.classList.add("hidden");
   screenStart.classList.remove("hidden");
 });
-btnLearnToQuiz.addEventListener("click", ()=>{
+btnLearnToQuiz.addEventListener("click", () => {
   screenLearnEl.classList.add("hidden");
   screenStart.classList.remove("hidden");
-  window.scrollTo({top:0, behavior:"instant"});
+  window.scrollTo({ top: 0, behavior: "instant" });
 });
 
 /* ---------------- quiz flow ---------------- */
@@ -1511,45 +1824,45 @@ const conquestStoryTextEl = document.getElementById("conquest-story-text");
 const conquestStoryMetaEl = document.getElementById("conquest-story-meta");
 const btnConquestStoryContinue = document.getElementById("btn-conquest-story-continue");
 
-// Mode Penaklukan 3 Chapter: setiap Chapter (Hiragana maupun Katakana) selalu
+// Mode penaklukkan 3 Chapter: setiap Chapter (Hiragana maupun Katakana) selalu
 // mode "hard" — user mengetik sendiri jawabannya, tanpa pilihan ganda sama sekali.
-function getConquestPhaseDifficulty(_phaseIdx){
+function getConquestPhaseDifficulty(_phaseIdx) {
   return "hard";
 }
 
-function startQuiz(scriptKey, mode){
+function startQuiz(scriptKey, mode) {
   const script = SCRIPTS[scriptKey];
   const isConquest = mode === "conquest";
-  // Mode Penaklukan 3 Chapter (cerita) cuma utk Hiragana & Katakana — tier1/tier2/tier3
-  // berturut-turut jadi Chapter 1/2/3, masih satu penaklukan (1x salah = gagal semua).
+  // Mode penaklukkan 3 Chapter (cerita) cuma utk Hiragana & Katakana — tier1/tier2/tier3
+  // berturut-turut menjadi Chapter 1/2/3, masih satu penaklukkan (1x salah = gagal seluruh).
   const isThreePhaseConquest = isConquest && (scriptKey === "hiragana" || scriptKey === "katakana");
 
   let pool, queue, wrongPools;
   let conquestPhaseBoundaries = null;
 
-  if(script.hasVariants){
+  if (script.hasVariants) {
     // kotoba / bunpo / kanji: bisa soal "arti", "romaji", atau "campuran" keduanya
     const meaningPool = isConquest ? script.data.all : script.data[mode];
-    const romajiPool  = isConquest ? script.dataRomaji.all : script.dataRomaji[mode];
+    const romajiPool = isConquest ? script.dataRomaji.all : script.dataRomaji[mode];
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
     pool = meaningPool;
 
-    // di luar penaklukan: mode manual pakai rentang "Dari"—"Sampai", mode acak
+    // di luar penaklukkan: mode manual pakai rentang "Dari"—"Sampai", mode acak
     // mengambil sejumlah `selectedRandomCount` soal random dari seluruh tingkatan.
     let rangeIndices;
-    if(isConquest){
-      rangeIndices = meaningPool.map((_,i)=>i);
-    } else if(rangeMode === "random"){
+    if (isConquest) {
+      rangeIndices = meaningPool.map((_, i) => i);
+    } else if (rangeMode === "random") {
       const count = Math.min(selectedRandomCount, meaningPool.length);
-      rangeIndices = shuffle(meaningPool.map((_,i)=>i)).slice(0, count);
+      rangeIndices = shuffle(meaningPool.map((_, i) => i)).slice(0, count);
     } else {
       const from = Math.max(0, Math.min(selectedRangeFrom, meaningPool.length - 1));
       const to = Math.max(from, Math.min(selectedRangeTo, meaningPool.length - 1));
       rangeIndices = [];
-      for(let i=from; i<=to; i++) rangeIndices.push(i);
+      for (let i = from; i <= to; i++) rangeIndices.push(i);
     }
     const indices = shuffle(rangeIndices);
-    queue = indices.map(i=>{
+    queue = indices.map(i => {
       const type = selectedQuizVariant === "both"
         ? (Math.random() < 0.5 ? "meaning" : "romaji")
         : selectedQuizVariant;
@@ -1559,7 +1872,7 @@ function startQuiz(scriptKey, mode){
       const extra = type === "romaji" ? meaningPool[i][1] : romajiPool[i][1];
       return [src[i][0], src[i][1], type, extra];
     });
-  } else if(isThreePhaseConquest){
+  } else if (isThreePhaseConquest) {
     const t1 = shuffle(script.data.tier1), t2 = shuffle(script.data.tier2), t3 = shuffle(script.data.tier3);
     pool = script.data.all;
     wrongPools = { romaji: pool };
@@ -1569,12 +1882,12 @@ function startQuiz(scriptKey, mode){
     // hiragana / katakana: hanya tebak romaji, seperti semula
     pool = isConquest ? script.data.all : script.data[mode];
     wrongPools = { romaji: pool };
-    // di luar penaklukan: mode manual pakai rentang "Dari"—"Sampai", mode acak
+    // di luar penaklukkan: mode manual pakai rentang "Dari"—"Sampai", mode acak
     // mengambil sejumlah `selectedRandomCount` karakter random dari seluruh tingkatan.
     let rangePool;
-    if(isConquest){
+    if (isConquest) {
       rangePool = pool;
-    } else if(rangeMode === "random"){
+    } else if (rangeMode === "random") {
       const count = Math.min(selectedRandomCount, pool.length);
       rangePool = shuffle(pool).slice(0, count);
     } else {
@@ -1582,11 +1895,11 @@ function startQuiz(scriptKey, mode){
       const to = Math.max(from, Math.min(selectedRangeTo, pool.length - 1));
       rangePool = pool.slice(from, to + 1);
     }
-    queue = shuffle(rangePool).map(p=>[p[0], p[1], "romaji"]);
+    queue = shuffle(rangePool).map(p => [p[0], p[1], "romaji"]);
   }
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
-  // penaklukan 3 Chapter selalu pakai progresi kesulitan otomatis per Chapter,
+  // penaklukkan 3 Chapter selalu pakai progresi kesulitan otomatis per Chapter,
   // mengabaikan pilihan Tingkat Kesulitan di layar awal.
   const difficulty = isThreePhaseConquest
     ? getConquestPhaseDifficulty(0)
@@ -1603,12 +1916,12 @@ function startQuiz(scriptKey, mode){
   };
   cancelArmed = false;
   clearTimeout(cancelTimer);
-  btnCancel.textContent = "← Kembali";
+  btnCancel.textContent = t("common.back");
   btnCancel.classList.remove("armed");
   screenStart.classList.add("hidden");
   screenResults.classList.add("hidden");
 
-  if(isThreePhaseConquest){
+  if (isThreePhaseConquest) {
     screenQuiz.classList.add("hidden");
     renderConquestStory(0);
   } else {
@@ -1620,23 +1933,23 @@ function startQuiz(scriptKey, mode){
   }
 }
 
-function renderConquestStory(phaseIndex){
+function renderConquestStory(phaseIndex) {
   const script = SCRIPTS[state.script];
-  const story = CONQUEST_STORY[state.script];
+  const story = getLocalizedConquestStory(state.script);
   const phase = story.phases[phaseIndex];
   const boundaries = state.conquestPhaseBoundaries;
-  const phaseLen = boundaries[phaseIndex+1] - boundaries[phaseIndex];
+  const phaseLen = boundaries[phaseIndex + 1] - boundaries[phaseIndex];
 
   state.conquestPhaseIndex = phaseIndex;
   state.difficulty = getConquestPhaseDifficulty(phaseIndex);
   const isFinalPhase = phaseIndex === story.phases.length - 1;
-  const diffLabel = "🔥 ketik jawaban sendiri";
+  const diffLabel = t("conquestStory.diffLabel");
   conquestStoryEyebrowEl.textContent = phaseIndex === 0
-    ? "⚔️ Ujian Ksatria dimulai"
-    : isFinalPhase ? "⚔️ Chapter terakhir" : "⚔️ Chapter berikutnya";
-  conquestStoryTitleEl.textContent = `${phase.label} — ${script.label}`;
+    ? t("conquestStory.eyebrowStart")
+    : isFinalPhase ? t("conquestStory.eyebrowFinal") : t("conquestStory.eyebrowNext");
+  conquestStoryTitleEl.textContent = t("conquestStory.titleWithScript", { label: phase.label, script: script.label });
   conquestStoryTextEl.textContent = phase.text;
-  conquestStoryMetaEl.textContent = `${phaseLen} soal di Chapter ini · ${diffLabel} · satu kali salah, seluruh penaklukan gagal.`;
+  conquestStoryMetaEl.textContent = t("conquestStory.meta", { count: phaseLen, diff: diffLabel });
 
   screenQuiz.classList.add("hidden");
   screenResults.classList.add("hidden");
@@ -1644,41 +1957,41 @@ function renderConquestStory(phaseIndex){
   btnConquestStoryContinue.focus();
 }
 
-btnConquestStoryContinue.addEventListener("click", ()=>{
+btnConquestStoryContinue.addEventListener("click", () => {
   screenConquestStory.classList.add("hidden");
   screenQuiz.classList.remove("hidden");
   screenQuiz.classList.toggle("conquest-active", true);
   renderDots();
   renderQuestion();
 });
-document.getElementById("btn-conquest-story-back").addEventListener("click", ()=>{
+document.getElementById("btn-conquest-story-back").addEventListener("click", () => {
   screenConquestStory.classList.add("hidden");
   screenStart.classList.remove("hidden");
   renderProfile();
 });
 
-function renderDots(){
+function renderDots() {
   dotsEl.innerHTML = "";
   let indices;
-  if(state.conquestPhaseBoundaries){
+  if (state.conquestPhaseBoundaries) {
     const b = state.conquestPhaseBoundaries;
     const start = b[state.conquestPhaseIndex], end = b[state.conquestPhaseIndex + 1];
     indices = [];
-    for(let i = start; i < end; i++) indices.push(i);
+    for (let i = start; i < end; i++) indices.push(i);
   } else {
-    indices = state.queue.map((_,i)=>i);
+    indices = state.queue.map((_, i) => i);
   }
-  indices.forEach(i=>{
+  indices.forEach(i => {
     const d = document.createElement("span");
     d.className = "dot";
-    if(i === state.index) d.classList.add("current");
-    if(state.results[i] === true) d.classList.add("correct");
-    if(state.results[i] === false) d.classList.add("wrong");
+    if (i === state.index) d.classList.add("current");
+    if (state.results[i] === true) d.classList.add("correct");
+    if (state.results[i] === false) d.classList.add("wrong");
     dotsEl.appendChild(d);
   });
 }
 
-function renderQuestion(){
+function renderQuestion() {
   feedbackEl.textContent = "";
   feedbackEl.className = "feedback-text";
   feedbackExtraEl.textContent = "";
@@ -1688,21 +2001,21 @@ function renderQuestion(){
   const script = SCRIPTS[state.script];
   const current = state.queue[state.index];
 
-  if(state.conquest){
-    if(state.conquestPhaseBoundaries){
+  if (state.conquest) {
+    if (state.conquestPhaseBoundaries) {
       const b = state.conquestPhaseBoundaries;
       const phaseIdx = state.conquestPhaseIndex;
       const qInPhase = state.index - b[phaseIdx] + 1;
-      const phaseLen = b[phaseIdx+1] - b[phaseIdx];
-      const phaseLabel = CONQUEST_STORY[state.script].phases[phaseIdx].label;
-      quizModeLabelEl.textContent = `⚔️ ${phaseLabel} · Soal ${qInPhase}/${phaseLen}`;
+      const phaseLen = b[phaseIdx + 1] - b[phaseIdx];
+      const phaseLabel = getLocalizedConquestStory(state.script).phases[phaseIdx].label;
+      quizModeLabelEl.textContent = t("quiz.chapterLabel", { phaseLabel, current: qInPhase, total: phaseLen });
     } else {
-      quizModeLabelEl.textContent = `⚔️ Penaklukan — ${script.label} · Soal ${state.index+1}/${state.queue.length}`;
+      quizModeLabelEl.textContent = t("quiz.conquerLabel", { label: script.label, current: state.index + 1, total: state.queue.length });
     }
-  } else if(script.hasVariants){
-    quizModeLabelEl.textContent = current[2] === "romaji" ? script.quizLabelRomaji : script.quizLabel;
+  } else if (script.hasVariants) {
+    quizModeLabelEl.textContent = current[2] === "romaji" ? t(script.quizLabelRomajiKey) : t(script.quizLabelKey);
   } else {
-    quizModeLabelEl.textContent = script.quizLabel;
+    quizModeLabelEl.textContent = t(script.quizLabelKey);
   }
 
   kanaCharEl.textContent = current[0];
@@ -1711,7 +2024,7 @@ function renderQuestion(){
   // meluber dari lingkaran cap — lingkaran hanya untuk 1 karakter kana/kanji tunggal.
   const isWordStamp = script.quizType === "meaning" || current[0].length > 6;
   stampEl.classList.toggle("long-text", isWordStamp);
-  if(isWordStamp){
+  if (isWordStamp) {
     const len = current[0].length;
     // makin panjang katanya, makin kecil hurufnya, supaya tetap rapi & pas di kartu.
     const size = len <= 3 ? 34 : len <= 5 ? 28 : len <= 7 ? 23 : len <= 10 ? 19 : 16;
@@ -1723,7 +2036,7 @@ function renderQuestion(){
   void stampEl.offsetWidth;
   stampEl.classList.add("pop");
 
-  if(state.difficulty === "hard"){
+  if (state.difficulty === "hard") {
     // mode hard: user ketik sendiri jawabannya, tanpa pilihan ganda
     choicesEl.classList.add("hidden");
     choicesEl.innerHTML = "";
@@ -1739,12 +2052,12 @@ function renderQuestion(){
     const count = state.difficulty === "medium" ? 8 : 4;
     const options = buildChoices(current, state.wrongPools[current[2]], count);
     choicesEl.innerHTML = "";
-    options.forEach(opt=>{
+    options.forEach(opt => {
       const btn = document.createElement("button");
       btn.className = "choice";
       btn.type = "button";
       btn.textContent = opt;
-      btn.addEventListener("click", ()=> handleAnswer(opt, btn, current));
+      btn.addEventListener("click", () => handleAnswer(opt, btn, current));
       choicesEl.appendChild(btn);
     });
   }
@@ -1753,38 +2066,38 @@ function renderQuestion(){
   updateStreakUI();
 }
 
-function updateStreakUI(){
+function updateStreakUI() {
   streakCountEl.textContent = state.streak;
   streakEl.classList.toggle("show", state.streak >= 2);
 }
 
-function handleAnswer(chosen, btn, current){
+function handleAnswer(chosen, btn, current) {
   document.querySelectorAll("button.choice").forEach(b => b.disabled = true);
   hardInputEl.disabled = true;
   btnHardSubmit.disabled = true;
   const isCorrect = String(chosen).trim().toLowerCase() === String(current[1]).trim().toLowerCase();
 
-  document.querySelectorAll("button.choice").forEach(b=>{
-    if(b.textContent === current[1]) b.classList.add("correct");
+  document.querySelectorAll("button.choice").forEach(b => {
+    if (b.textContent === current[1]) b.classList.add("correct");
   });
 
-  if(isCorrect){
+  if (isCorrect) {
     state.score++;
     state.streak++;
     state.maxStreak = Math.max(state.maxStreak, state.streak);
-    feedbackEl.textContent = "Tepat!";
+    feedbackEl.textContent = t("quiz.correct");
     feedbackEl.classList.add("correct");
-    if(state.difficulty === "hard") hardInputEl.classList.add("correct");
+    if (state.difficulty === "hard") hardInputEl.classList.add("correct");
   } else {
-    if(btn) btn.classList.add("wrong");
-    if(state.difficulty === "hard") hardInputEl.classList.add("wrong");
+    if (btn) btn.classList.add("wrong");
+    if (state.difficulty === "hard") hardInputEl.classList.add("wrong");
     state.streak = 0;
     state.missed.push(current);
-    if(state.conquest){
+    if (state.conquest) {
       state.conquestFailed = true;
-      feedbackEl.textContent = `Gagal — jawabannya "${current[1]}"`;
+      feedbackEl.textContent = t("quiz.failedAnswerWas", { answer: current[1] });
     } else {
-      feedbackEl.textContent = `Meleset — jawabannya "${current[1]}"`;
+      feedbackEl.textContent = t("quiz.missedAnswerWas", { answer: current[1] });
     }
     feedbackEl.classList.add("wrong");
   }
@@ -1792,26 +2105,26 @@ function handleAnswer(chosen, btn, current){
   renderDots();
   updateStreakUI();
 
-  // tunjukkan "sisi lainnya" (arti kalau tadi soal romaji, romaji kalau tadi soal arti)
-  // sebelum lanjut ke soal berikutnya — khusus Kotoba & Kanji.
-  if(current[3]){
-    feedbackExtraEl.textContent = current[2] === "romaji" ? `Arti: ${current[3]}` : `Romaji: ${current[3]}`;
+  // show the "other side" (meaning if this was a romaji question, romaji if this
+  // was a meaning question) before moving on — Kotoba & Kanji only.
+  if (current[3]) {
+    feedbackExtraEl.textContent = current[2] === "romaji" ? t("quiz.meaningLabel", { value: current[3] }) : t("quiz.romajiLabel", { value: current[3] });
     feedbackExtraEl.classList.remove("hidden");
   }
 
   nextBtn.classList.remove("hidden");
-  if(state.conquest && state.conquestFailed){
-    nextBtn.textContent = "Lihat Hasil →";
+  if (state.conquest && state.conquestFailed) {
+    nextBtn.textContent = t("quiz.seeResults");
   } else {
-    nextBtn.textContent = state.index === state.queue.length - 1 ? "Lihat Hasil →" : "Lanjut →";
+    nextBtn.textContent = state.index === state.queue.length - 1 ? t("quiz.seeResults") : t("quiz.next");
   }
   nextBtn.focus();
 }
 
-btnHardSubmit.addEventListener("click", ()=>{
-  if(hardInputEl.disabled) return;
-  if(hardInputEl.value.trim() === ""){
-    feedbackEl.textContent = "Isi dulu jawabannya sebelum lanjut.";
+btnHardSubmit.addEventListener("click", () => {
+  if (hardInputEl.disabled) return;
+  if (hardInputEl.value.trim() === "") {
+    feedbackEl.textContent = t("quiz.fillAnswerFirst");
     feedbackEl.className = "feedback-text warn";
     hardInputEl.classList.remove("wrong");
     hardInputEl.classList.remove("shake-empty");
@@ -1823,22 +2136,22 @@ btnHardSubmit.addEventListener("click", ()=>{
   const current = state.queue[state.index];
   handleAnswer(hardInputEl.value, null, current);
 });
-hardInputEl.addEventListener("input", ()=>{
+hardInputEl.addEventListener("input", () => {
   // hapus peringatan "isi dulu" begitu user mulai mengetik lagi
-  if(feedbackEl.classList.contains("warn")){
+  if (feedbackEl.classList.contains("warn")) {
     feedbackEl.textContent = "";
     feedbackEl.className = "feedback-text";
   }
 });
-hardInputEl.addEventListener("keydown", (e)=>{
-  if(e.key === "Enter"){
+hardInputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
     e.preventDefault();
     e.stopPropagation(); // jangan sampai keydown ini juga kepick up listener "Enter = lanjut soal"
-    if(!hardInputEl.disabled) btnHardSubmit.click();
+    if (!hardInputEl.disabled) btnHardSubmit.click();
   }
 });
 
-document.getElementById("btn-restart-quiz").addEventListener("click", ()=>{
+document.getElementById("btn-restart-quiz").addEventListener("click", () => {
   startQuiz(state.script, state.mode);
 });
 
@@ -1846,22 +2159,22 @@ const btnCancel = document.getElementById("btn-cancel");
 let cancelArmed = false;
 let cancelTimer = null;
 
-btnCancel.addEventListener("click", ()=>{
-  if(!cancelArmed){
+btnCancel.addEventListener("click", () => {
+  if (!cancelArmed) {
     cancelArmed = true;
-    btnCancel.textContent = "Yakin? Klik lagi untuk batalkan";
+    btnCancel.textContent = t("common.backArmed");
     btnCancel.classList.add("armed");
     clearTimeout(cancelTimer);
-    cancelTimer = setTimeout(()=>{
+    cancelTimer = setTimeout(() => {
       cancelArmed = false;
-      btnCancel.textContent = "← Kembali";
+      btnCancel.textContent = t("common.back");
       btnCancel.classList.remove("armed");
     }, 3000);
     return;
   }
   clearTimeout(cancelTimer);
   cancelArmed = false;
-  btnCancel.textContent = "← Kembali";
+  btnCancel.textContent = t("common.back");
   btnCancel.classList.remove("armed");
   screenQuiz.classList.add("hidden");
   screenResults.classList.add("hidden");
@@ -1869,21 +2182,21 @@ btnCancel.addEventListener("click", ()=>{
   renderProfile();
 });
 
-nextBtn.addEventListener("click", ()=>{
-  if(state.conquest && state.conquestFailed){
+nextBtn.addEventListener("click", () => {
+  if (state.conquest && state.conquestFailed) {
     renderResults();
     return;
   }
   state.index++;
-  if(state.index >= state.queue.length){
+  if (state.index >= state.queue.length) {
     renderResults();
     return;
   }
-  // penaklukan 3 Chapter: begitu masuk indeks awal Chapter baru, tampilkan dulu
+  // penaklukkan 3 Chapter: begitu masuk indeks awal Chapter baru, tampilkan dulu
   // layar cerita transisinya sebelum lanjut ke soal berikutnya.
-  if(state.conquestPhaseBoundaries){
+  if (state.conquestPhaseBoundaries) {
     const nextPhaseIdx = state.conquestPhaseBoundaries.indexOf(state.index);
-    if(nextPhaseIdx > 0 && nextPhaseIdx < state.conquestPhaseBoundaries.length - 1){
+    if (nextPhaseIdx > 0 && nextPhaseIdx < state.conquestPhaseBoundaries.length - 1) {
       renderConquestStory(nextPhaseIdx);
       return;
     }
@@ -1892,14 +2205,14 @@ nextBtn.addEventListener("click", ()=>{
 });
 
 /* keyboard shortcuts 1-4 for choices, enter/space for next */
-document.addEventListener("keydown", (e)=>{
-  if(screenQuiz.classList.contains("hidden")) return;
-  if(settingsOverlay.classList.contains("open")) return;
-  if(["1","2","3","4"].includes(e.key)){
+document.addEventListener("keydown", (e) => {
+  if (screenQuiz.classList.contains("hidden")) return;
+  if (settingsOverlay.classList.contains("open")) return;
+  if (["1", "2", "3", "4"].includes(e.key)) {
     const btns = document.querySelectorAll("button.choice");
-    const idx = parseInt(e.key,10) - 1;
-    if(btns[idx] && !btns[idx].disabled) btns[idx].click();
-  } else if((e.key === "Enter" || e.key === " ") && !nextBtn.classList.contains("hidden")){
+    const idx = parseInt(e.key, 10) - 1;
+    if (btns[idx] && !btns[idx].disabled) btns[idx].click();
+  } else if ((e.key === "Enter" || e.key === " ") && !nextBtn.classList.contains("hidden")) {
     e.preventDefault();
     nextBtn.click();
   }
@@ -1910,29 +2223,29 @@ const promoBannerEl = document.getElementById("promo-banner");
 const resGreetEl = document.getElementById("res-greet");
 const btnResultsLearn = document.getElementById("btn-results-learn");
 
-function renderResults(){
+function renderResults() {
   screenQuiz.classList.add("hidden");
   screenResults.classList.remove("hidden");
 
   document.getElementById("res-score").textContent = `${state.score}/${state.queue.length}`;
   const acc = Math.round((state.score / state.queue.length) * 100);
-  const streakNote = state.maxStreak >= 3 ? ` · beruntun terbaik ${state.maxStreak}` : "";
-  document.getElementById("res-acc").textContent = `Akurasi ${acc}%${streakNote}`;
+  const streakNote = state.maxStreak >= 3 ? t("results.bestStreak", { n: state.maxStreak }) : "";
+  document.getElementById("res-acc").textContent = t("results.accuracy", { acc }) + streakNote;
 
   const nickname = getNickname();
-  if(nickname){
+  if (nickname) {
     let greet;
-    if(state.conquest){
-      // penaklukan: berhasil = otomatis 100% (sekali salah = gagal), jadi tetap layak pujian.
-      greet = state.conquestFailed ? `Semangat, ${nickname}! 💪` : `Sempurna, ${nickname}! 🏆`;
-    } else if(acc === 100){
-      greet = `Sempurna, ${nickname}! 🎉`;
-    } else if(acc >= 80){
-      greet = `Hampir sempurna, ${nickname}! Sedikit lagi.`;
-    } else if(acc >= 50){
-      greet = `Lumayan, ${nickname}! Terus berlatih ya.`;
+    if (state.conquest) {
+      // conquest: success = automatically 100% (one mistake = fail), so praise either way.
+      greet = state.conquestFailed ? t("results.greetConquestFail", { name: nickname }) : t("results.greetConquestSuccess", { name: nickname });
+    } else if (acc === 100) {
+      greet = t("results.greetPerfect", { name: nickname });
+    } else if (acc >= 80) {
+      greet = t("results.greetAlmost", { name: nickname });
+    } else if (acc >= 50) {
+      greet = t("results.greetDecent", { name: nickname });
     } else {
-      greet = `Semangat, ${nickname}! Coba lagi pelan-pelan.`;
+      greet = t("results.greetKeepGoing", { name: nickname });
     }
     resGreetEl.textContent = greet;
     resGreetEl.classList.remove("hidden");
@@ -1944,12 +2257,12 @@ function renderResults(){
   const missedEl = document.getElementById("res-missed");
   const missedTitleEl = document.querySelector(".missed-title");
   missedEl.innerHTML = "";
-  if(state.missed.length === 0){
+  if (state.missed.length === 0) {
     missedWrap.classList.add("hidden");
   } else {
     missedWrap.classList.remove("hidden");
-    if(missedTitleEl) missedTitleEl.textContent = state.conquest ? "Penyebab kegagalan" : "Perlu diulang";
-    state.missed.forEach(m=>{
+    if (missedTitleEl) missedTitleEl.textContent = state.conquest ? t("results.failureReason") : t("results.needsPractice");
+    state.missed.forEach(m => {
       const chip = document.createElement("span");
       chip.className = "chip";
       chip.innerHTML = `<span class="k">${m[0]}</span><span class="r">${m[1]}</span>`;
@@ -1958,53 +2271,53 @@ function renderResults(){
   }
 
   const retryBtn = document.getElementById("btn-retry");
-  promoBannerEl.classList.remove("conquest-success","conquest-fail");
+  promoBannerEl.classList.remove("conquest-success", "conquest-fail");
 
-  if(state.conquest){
+  if (state.conquest) {
     const script = SCRIPTS[state.script];
-    if(state.conquestFailed){
+    if (state.conquestFailed) {
       const phaseNote = state.conquestPhaseBoundaries
-        ? ` di ${CONQUEST_STORY[state.script].phases[state.conquestPhaseIndex].label}`
+        ? t("results.conquestFailPhaseNote", { phase: getLocalizedConquestStory(state.script).phases[state.conquestPhaseIndex].label })
         : "";
-      promoBannerEl.innerHTML = `💀 <b>Penaklukan Gagal</b> — meleset${phaseNote} (soal ke-${state.index+1} dari ${state.queue.length}). ${script.label} belum takluk, coba lagi dari awal!`;
+      promoBannerEl.innerHTML = t("results.conquestFailBanner", { phaseNote, current: state.index + 1, total: state.queue.length, label: script.label });
       promoBannerEl.classList.add("conquest-fail");
       promoBannerEl.classList.remove("hidden");
-      retryBtn.textContent = "⚔️ Coba Lagi dari Awal";
+      retryBtn.textContent = t("results.tryAgainFromStart");
       btnResultsLearn.classList.remove("hidden");
     } else {
       btnResultsLearn.classList.add("hidden");
       const promoted = promoteIfHigher(state.script, "all");
       const newTitle = earnConquestTitle(state.script);
       const opening = state.conquestPhaseBoundaries
-        ? `🏆 <b>Penaklukan Berhasil!</b> ${CONQUEST_STORY[state.script].epilogue}`
-        : `🏆 <b>Penaklukan Berhasil!</b> Kamu resmi menaklukkan seluruh ${script.label}!`;
+        ? t("results.conquestSuccessOpening", { epilogue: getLocalizedConquestStory(state.script).epilogue })
+        : t("results.conquestSuccessOpeningPlain", { label: script.label });
       let msg = opening;
-      if(newTitle){
+      if (newTitle) {
         const ct = CONQUEST_TITLES[state.script];
-        msg += ` Title baru didapat: <b>${ct.emoji} ${ct.title}</b> — cek koleksimu di Settings.`;
+        msg += t("results.newTitleEarned", { emoji: ct.emoji, title: ct.title });
       }
-      if(promoted){
+      if (promoted) {
         const rank = RANK_LEVELS[getRankIndex()];
-        if(rank.title === "Knight"){
-          msg += ` <br><br>⚔️ <b>Upacara Pengangkatan Ksatria!</b> Hiragana dan Katakana sudah kau taklukkan sepenuhnya — Kapten Ksatria meletakkan pedangnya di kedua bahumu di hadapan seluruh warga kota. Mulai hari ini kau resmi menyandang gelar <b>${rank.emoji} ${rank.title} (${rank.subtitle})</b>!`;
+        if (rank.title === "Knight") {
+          msg += t("results.knightCeremony", { emoji: rank.emoji, title: rank.title, subtitle: rank.subtitle });
         } else {
-          msg += ` Tingkatanmu naik jadi <b>${rank.emoji} ${rank.title} (${rank.subtitle})</b>`;
+          msg += t("results.rankUp", { emoji: rank.emoji, title: rank.title, subtitle: rank.subtitle });
         }
       }
       promoBannerEl.innerHTML = msg;
       promoBannerEl.classList.add("conquest-success");
       promoBannerEl.classList.remove("hidden");
-      retryBtn.textContent = "⚔️ Taklukkan Lagi";
+      retryBtn.textContent = t("results.conquerAgain");
       renderTitleCollection();
       updateScriptConquestBadges();
     }
   } else {
     btnResultsLearn.classList.add("hidden");
-    retryBtn.textContent = "Ulangi Set Ini";
+    retryBtn.textContent = t("results.retrySet");
     const promoted = promoteIfHigher(state.script, state.mode);
-    if(promoted){
+    if (promoted) {
       const rank = RANK_LEVELS[getRankIndex()];
-      promoBannerEl.innerHTML = `Tingkatanmu naik! Sekarang kamu adalah <b>${rank.emoji} ${rank.title} (${rank.subtitle})</b>`;
+      promoBannerEl.innerHTML = t("results.rankUpPlain", { emoji: rank.emoji, title: rank.title, subtitle: rank.subtitle });
       promoBannerEl.classList.remove("hidden");
     } else {
       promoBannerEl.classList.add("hidden");
@@ -2014,31 +2327,36 @@ function renderResults(){
   renderProfile();
 }
 
-document.getElementById("btn-retry").addEventListener("click", ()=> startQuiz(state.script, state.mode));
-document.getElementById("btn-change").addEventListener("click", ()=>{
+document.getElementById("btn-retry").addEventListener("click", () => startQuiz(state.script, state.mode));
+document.getElementById("btn-change").addEventListener("click", () => {
   screenResults.classList.add("hidden");
   screenStart.classList.remove("hidden");
 });
-btnResultsLearn.addEventListener("click", ()=>{
+btnResultsLearn.addEventListener("click", () => {
   screenResults.classList.add("hidden");
   screenLearnEl.classList.remove("hidden");
   renderLearnTables(state.script);
-  window.scrollTo({top:0, behavior:"instant"});
+  window.scrollTo({ top: 0, behavior: "instant" });
 });
 
 /* ---------------- kirim masukan (email) ---------------- */
 const feedbackTextEl = document.getElementById("feedback-text");
 const btnSendFeedback = document.getElementById("btn-send-feedback");
-if(btnSendFeedback){
-  btnSendFeedback.addEventListener("click", ()=>{
+if (btnSendFeedback) {
+  btnSendFeedback.addEventListener("click", () => {
     const msg = (feedbackTextEl.value || "").trim();
-    const subject = encodeURIComponent("Masukan — Learning Japanese App");
-    const body = encodeURIComponent(msg || "Tulis masukanmu di sini...");
+    const subject = encodeURIComponent(t("feedback.subject"));
+    const body = encodeURIComponent(msg || t("feedback.bodyDefault"));
     window.location.href = `mailto:ferlisuganda29@gmail.com?subject=${subject}&body=${body}`;
   });
 }
 
 /* ---------------- init ---------------- */
+document.documentElement.setAttribute("lang", LANG);
+applyStaticTranslations();
+document.querySelectorAll(".lang-btn").forEach(b => {
+  b.classList.toggle("active", b.dataset.lang === LANG);
+});
 document.querySelector('#script-tabs .script-tab[data-script="hiragana"]').classList.add("active");
 document.querySelector('#learn-script-tabs .script-tab[data-script="hiragana"]').classList.add("active");
 renderLevels("hiragana");

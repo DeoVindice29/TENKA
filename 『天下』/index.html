@@ -1,328 +1,377 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#EDE4D0">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>『天下』 — Learning Japanese</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700;900&family=Kosugi+Maru&family=Sawarabi+Mincho&family=Yusei+Magic&family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#EDE4D0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>『天下』 — Learning Japanese</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=BIZ+UDGothic:wght@400;700&family=Zen+Maru+Gothic:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700;900&family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@400;600;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="washi-noise"></div>
+  <div class="washi-noise"></div>
 
-<div class="top-controls">
-  <button class="icon-btn" id="settings-toggle" type="button" aria-label="Buka pengaturan" aria-haspopup="dialog">⚙️</button>
-</div>
+  <div class="top-controls">
+    <button class="icon-btn" id="settings-toggle" type="button" aria-label="Open settings"
+      data-i18n-aria="aria.openSettings" aria-haspopup="dialog">⚙️</button>
+  </div>
 
-<!-- ===== SETTINGS PANEL ===== -->
-<div class="settings-overlay" id="settings-overlay" aria-hidden="true">
-  <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
-    <h2 id="settings-title">
-      Settings
-      <button class="close-x" id="settings-close" type="button" aria-label="Tutup pengaturan">✕</button>
-    </h2>
+  <!-- ===== SETTINGS PANEL ===== -->
+  <div class="settings-overlay" id="settings-overlay" aria-hidden="true">
+    <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <h2 id="settings-title">
+        Settings
+        <button class="close-x" id="settings-close" type="button" aria-label="Close settings"
+          data-i18n-aria="aria.closeSettings">✕</button>
+      </h2>
 
-    <div class="settings-group">
-      <span class="settings-label">Profile</span>
-      <div class="profile-card" id="profile-card">
-        <button class="profile-avatar" id="profile-avatar-btn" type="button" aria-label="Ganti foto profil">
-          <img class="profile-avatar-img hidden" id="profile-avatar-img" alt="">
-          <span class="profile-avatar-placeholder" id="profile-avatar-placeholder">🧑</span>
-          <span class="profile-avatar-edit">✎</span>
-        </button>
-        <input type="file" id="profile-photo-input" accept="image/*" class="hidden">
-        <div class="profile-info">
-          <div class="profile-nickname-wrap" id="profile-nickname-wrap">
-            <button type="button" class="profile-nickname-btn" id="profile-nickname-btn" aria-label="Atur nickname kamu">
-              <span id="profile-nickname-text">+ Tambah nickname</span>
-              <span class="profile-nickname-edit-icon">✎</span>
-            </button>
-            <input type="text" id="profile-nickname-input" class="profile-nickname-input hidden" maxlength="18" autocomplete="off" placeholder="Nickname kamu...">
+      <div class="settings-group">
+        <span class="settings-label">Profile</span>
+        <div class="profile-card" id="profile-card">
+          <button class="profile-avatar" id="profile-avatar-btn" type="button" aria-label="Change profile photo"
+            data-i18n-aria="aria.changePhoto">
+            <img class="profile-avatar-img hidden" id="profile-avatar-img" alt="">
+            <span class="profile-avatar-placeholder" id="profile-avatar-placeholder">🧑</span>
+            <span class="profile-avatar-edit">✎</span>
+          </button>
+          <input type="file" id="profile-photo-input" accept="image/*" class="hidden">
+          <div class="profile-info">
+            <div class="profile-nickname-wrap" id="profile-nickname-wrap">
+              <button type="button" class="profile-nickname-btn" id="profile-nickname-btn"
+                aria-label="Set your nickname" data-i18n-aria="aria.setNickname">
+                <span id="profile-nickname-text" data-i18n="profile.addNickname">+ Add nickname</span>
+                <span class="profile-nickname-edit-icon">✎</span>
+              </button>
+              <input type="text" id="profile-nickname-input" class="profile-nickname-input hidden" maxlength="18"
+                autocomplete="off" placeholder="Your nickname..." data-i18n-placeholder="profile.nicknamePlaceholder">
+            </div>
+            <div class="profile-title-row">
+              <span class="profile-emoji" id="profile-emoji">🌾</span>
+              <span class="profile-title" id="profile-title">Commoner</span>
+              <span class="profile-subtitle" id="profile-subtitle">平民</span>
+            </div>
+            <div class="profile-dots" id="profile-dots"></div>
+            <div class="profile-next" id="profile-next"></div>
           </div>
-          <div class="profile-title-row">
-            <span class="profile-emoji" id="profile-emoji">🌾</span>
-            <span class="profile-title" id="profile-title">Heimin</span>
-            <span class="profile-subtitle" id="profile-subtitle">平民</span>
-          </div>
-          <div class="profile-dots" id="profile-dots"></div>
-          <div class="profile-next" id="profile-next"></div>
         </div>
       </div>
-    </div>
 
-    <div class="settings-group">
-      <span class="settings-label">🏅 Koleksi Title Penaklukan</span>
-      <p class="title-collection-hint">Menangkan Mode Penaklukan ⚔️ pada tiap aksara untuk mendapatkan titlenya.</p>
-      <div class="title-collection" id="title-collection"></div>
-    </div>
-
-    <div class="settings-group">
-      <label class="settings-label" for="font-select">Change Font</label>
-      <select class="settings-select" id="font-select">
-        <option value="noto">Noto Sans JP</option>
-        <option value="hiragino">Hiragino Sans</option>
-        <option value="zenkaku">Zen Kaku Gothic New</option>
-        <option value="mplus">M PLUS Rounded 1c</option>
-        <option value="kosugi">Kosugi Maru</option>
-        <option value="sawarabi">Sawarabi Mincho</option>
-        <option value="yusei">Yusei Magic</option>
-        <option value="klee">Klee One</option>
-        <option value="mincho">Shippori Mincho</option>
-      </select>
-      <div class="font-preview" id="font-preview">あ ア 日</div>
-    </div>
-
-    <div class="settings-group">
-      <span class="settings-label">Appearance</span>
-      <div class="theme-row">
-        <span id="theme-toggle-label">Light Mode</span>
-        <label class="switch">
-          <input type="checkbox" id="theme-switch-input" aria-labelledby="theme-toggle-label">
-          <span class="track"></span>
-          <span class="thumb" id="theme-toggle">🌙</span>
-        </label>
+      <div class="settings-group">
+        <span class="settings-label" data-i18n="about.heading">About</span>
+        <details class="about-details" id="about-details">
+          <summary data-i18n="about.summary">👑 Noble Ranks</summary>
+          <p class="about-intro" data-i18n="about.intro">Conquer every Chapter Trial to climb from commoner to emperor.
+          </p>
+          <ol class="rank-ladder" id="rank-ladder"></ol>
+        </details>
       </div>
-    </div>
 
-    <div class="settings-group">
-      <span class="settings-label">Tentang</span>
-      <details class="about-details" id="about-details">
-        <summary>👑 Tingkatan Kebangsawanan</summary>
-        <p class="about-intro">Taklukkan tiap Chapter Quest untuk rangkak naik dari rakyat jelata sampai kaisar.</p>
-        <ol class="rank-ladder" id="rank-ladder"></ol>
-      </details>
-    </div>
+      <div class="settings-group">
+        <span class="settings-label" data-i18n="titles.heading">🏅 Conquest Title Collection</span>
+        <p class="title-collection-hint" data-i18n="titles.hint">Complete every conquest ⚔️ to claim the title of Conqueror!
+        </p>
+        <div class="title-collection" id="title-collection"></div>
+      </div>
 
-    <div class="settings-group">
-      <span class="settings-label">Kirim Masukan</span>
-      <textarea class="feedback-textarea" id="feedback-text" rows="3" placeholder="Ada saran, ide, atau nemu bug? Tulis di sini..."></textarea>
-      <button class="secondary" id="btn-send-feedback" type="button">✉️ Kirim Masukan</button>
+      <div class="settings-group">
+        <span class="settings-label">Appearance</span>
+        <div class="theme-row">
+          <span id="theme-toggle-label">Light Mode</span>
+          <label class="switch">
+            <input type="checkbox" id="theme-switch-input" aria-labelledby="theme-toggle-label">
+            <span class="track"></span>
+            <span class="thumb" id="theme-toggle">🌙</span>
+          </label>
+        </div>
+        <div class="lang-row">
+          <span data-i18n="appearance.language">Language</span>
+          <div class="lang-options" id="lang-options" role="group" aria-label="Choose language"
+            data-i18n-aria="aria.chooseLanguage">
+            <button type="button" class="lang-btn" data-lang="en">EN</button>
+            <button type="button" class="lang-btn" data-lang="id">ID</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <label class="settings-label" for="font-select">Change Font</label>
+        <select class="settings-select" id="font-select">
+          <option value="noto">Noto Sans JP</option>
+          <option value="bizud">BIZ UDGothic</option>
+          <option value="zenmaru">Zen Maru Gothic</option>
+          <option value="mplusrounded">M PLUS Rounded 1c</option>
+          <option value="klee">Klee One</option>
+          <option value="mincho">Shippori Mincho</option>
+        </select>
+        <div class="font-preview" id="font-preview">あ ア 日</div>
+      </div>
+
+      <div class="settings-group">
+        <span class="settings-label" data-i18n="feedback.heading">Send Feedback</span>
+        <textarea class="feedback-textarea" id="feedback-text" rows="3"
+          placeholder="Got a suggestion, idea, or found a bug? Write it here..."
+          data-i18n-placeholder="feedback.placeholder"></textarea>
+        <button class="secondary" id="btn-send-feedback" type="button" data-i18n="feedback.button">✉️ Send
+          Feedback</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ===== CONQUEST WARNING MODAL ===== -->
-<div class="modal-overlay" id="conquest-overlay" aria-hidden="true">
-  <div class="modal-panel" role="alertdialog" aria-modal="true" aria-labelledby="conquest-modal-title">
-    <h2 id="conquest-modal-title">⚔️ Mode Penaklukan</h2>
-    <p class="modal-text" id="conquest-modal-text"></p>
-    <ul class="modal-rules" id="conquest-modal-rules"></ul>
-    <div class="modal-actions">
-      <button class="ghost" id="btn-conquest-cancel" type="button">Batal</button>
-      <button class="primary danger" id="btn-conquest-confirm" type="button">Mulai Penaklukan</button>
+  <!-- ===== CONQUEST WARNING MODAL ===== -->
+  <div class="modal-overlay" id="conquest-overlay" aria-hidden="true">
+    <div class="modal-panel" role="alertdialog" aria-modal="true" aria-labelledby="conquest-modal-title">
+      <h2 id="conquest-modal-title">⚔️ Conquer Mode</h2>
+      <p class="modal-text" id="conquest-modal-text"></p>
+      <ul class="modal-rules" id="conquest-modal-rules"></ul>
+      <div class="modal-actions">
+        <button class="ghost" id="btn-conquest-cancel" type="button" data-i18n="common.cancel">Cancel</button>
+        <button class="primary danger" id="btn-conquest-confirm" type="button" data-i18n="conquestModal.confirm">Start
+          Conquering</button>
+      </div>
     </div>
   </div>
-</div>
 
-<svg width="0" height="0" style="position:absolute">
-  <filter id="roughen">
-    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="7" result="noise"/>
-    <feDisplacementMap in="SourceGraphic" in2="noise" scale="9"/>
-  </filter>
-</svg>
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="roughen">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" />
+    </filter>
+  </svg>
 
-<div class="stage">
+  <div class="stage">
 
-  <!-- ===== START SCREEN ===== -->
-  <section id="screen-start">
-    <header>
-      <div class="eyebrow">Learning Japanese — Zero to Hero</div>
-      <h1>From Heimin 『平民』 To Emperor 『天皇』
-        <svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M2 8 C 80 2, 220 12, 298 6" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
-      </h1>
-      <p class="sub">Belajar bahasa Jepang dari nol lewat Quest.<br> Taklukkan tiap Chapter, kuasai aksaranya, dan rangkak naik dari rakyat jelata sampai kaisar.</p>
-    </header>
+    <!-- ===== START SCREEN ===== -->
+    <section id="screen-start">
+      <header>
+        <div class="eyebrow">Learning Japanese — From Zero to Hero</div>
+        <h1>From Commoner 『平民』 To Emperor 『天皇』
+          <svg viewBox="0 0 300 14" preserveAspectRatio="none">
+            <path d="M2 8 C 80 2, 220 12, 298 6" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round" />
+          </svg>
+        </h1>
+        <p class="sub">"You are an ordinary person with a dream.<br>Train hard, conquer every trial in your way, and
+          claim your throne as <b>Emperor</b>."</p>
+      </header>
 
-    <!-- ===== SCRIPT TABS ===== -->
-    <div class="script-tabs" id="script-tabs" role="tablist" aria-label="Pilih aksara">
-      <button class="script-tab" data-script="hiragana" type="button" role="tab">あ<span>Hiragana</span><span class="tab-conquered-badge">✓</span></button>
-      <button class="script-tab" data-script="katakana" type="button" role="tab">ア<span>Katakana</span><span class="tab-conquered-badge">✓</span></button>
-      <button class="script-tab" data-script="kotoba" type="button" role="tab">語<span>Kotoba</span><span class="tab-conquered-badge">✓</span></button>
-      <button class="script-tab" data-script="bunpo" type="button" role="tab">文<span>Bunpō</span><span class="tab-conquered-badge">✓</span></button>
-      <button class="script-tab" data-script="kanji" type="button" role="tab">漢<span>Kanji N5</span><span class="tab-conquered-badge">✓</span></button>
-    </div>
-
-    <!-- Learn CTA sits above the quiz/level picker on purpose -->
-    <button class="secondary" id="btn-open-learn" type="button">📖 Belajar Dulu</button>
-
-    <div class="levels" id="levels"></div>
-
-    <div class="quiz-variant-picker hidden" id="quiz-variant-picker">
-      <span class="settings-label">Tipe Soal</span>
-      <div class="quiz-variant-options" id="quiz-variant-options">
-        <button class="quiz-variant-btn" data-variant="romaji" type="button">🔤 Romaji</button>
-        <button class="quiz-variant-btn active" data-variant="meaning" type="button">🈺 Arti</button>
-        <button class="quiz-variant-btn" data-variant="both" type="button">🎲 Campuran</button>
-      </div>
-    </div>
-
-    <div class="difficulty-picker" id="difficulty-picker">
-      <span class="settings-label">Tingkat Kesulitan</span>
-      <div class="difficulty-options" id="difficulty-options">
-        <button class="difficulty-btn active" data-difficulty="easy" type="button">😌 Easy<span class="difficulty-sub">4 pilihan</span></button>
-        <button class="difficulty-btn" data-difficulty="medium" type="button">😅 Medium<span class="difficulty-sub">8 pilihan</span></button>
-        <button class="difficulty-btn" data-difficulty="hard" type="button">🔥 Hard<span class="difficulty-sub">ketik sendiri</span></button>
-      </div>
-      <p class="difficulty-hint hidden" id="difficulty-hint">🔥 Hard cuma tersedia untuk Hiragana &amp; Katakana.</p>
-    </div>
-
-    <div class="range-picker hidden" id="range-picker">
-      <span class="settings-label">Rentang Soal</span>
-      <div class="range-mode-toggle" id="range-mode-toggle">
-        <button class="range-mode-btn active" data-range-mode="manual" type="button">🎯 Pilih Rentang</button>
-        <button class="range-mode-btn" data-range-mode="random" type="button">🎲 Acak</button>
+      <!-- ===== SCRIPT TABS ===== -->
+      <div class="script-tabs" id="script-tabs" role="tablist" aria-label="Choose a script"
+        data-i18n-aria="aria.chooseScript">
+        <button class="script-tab" data-script="hiragana" type="button" role="tab">あ<span>Hiragana</span><span
+            class="tab-conquered-badge">✓</span></button>
+        <button class="script-tab" data-script="katakana" type="button" role="tab">ア<span>Katakana</span><span
+            class="tab-conquered-badge">✓</span></button>
+        <button class="script-tab" data-script="kotoba" type="button" role="tab">語<span>Kotoba</span><span
+            class="tab-conquered-badge">✓</span></button>
+        <button class="script-tab" data-script="bunpo" type="button" role="tab">文<span>Bunpō</span><span
+            class="tab-conquered-badge">✓</span></button>
+        <button class="script-tab" data-script="kanji" type="button" role="tab">漢<span>Kanji N5</span><span
+            class="tab-conquered-badge">✓</span></button>
       </div>
 
-      <div class="range-row" id="range-row">
-        <div class="range-field">
-          <label id="range-from-label">Dari</label>
-          <div class="range-dd" id="range-from-dd">
-            <button type="button" class="range-dd-trigger" id="range-from-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="range-from-label">
-              <span class="range-dd-kana" id="range-from-kana"></span>
-              <span class="range-dd-sub" id="range-from-sub"></span>
-              <span class="range-dd-caret">▾</span>
-            </button>
-            <ul class="range-dd-list hidden" id="range-from-list" role="listbox" tabindex="-1"></ul>
-          </div>
-        </div>
-        <span class="range-arrow">→</span>
-        <div class="range-field">
-          <label id="range-to-label">Sampai</label>
-          <div class="range-dd" id="range-to-dd">
-            <button type="button" class="range-dd-trigger" id="range-to-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="range-to-label">
-              <span class="range-dd-kana" id="range-to-kana"></span>
-              <span class="range-dd-sub" id="range-to-sub"></span>
-              <span class="range-dd-caret">▾</span>
-            </button>
-            <ul class="range-dd-list hidden" id="range-to-list" role="listbox" tabindex="-1"></ul>
-          </div>
+      <!-- Learn CTA sits above the quiz/level picker on purpose -->
+      <button class="secondary" id="btn-open-learn" type="button" data-i18n="start.studyFirst">📖 Study First</button>
+
+      <div class="levels" id="levels"></div>
+
+      <div class="quiz-variant-picker hidden" id="quiz-variant-picker">
+        <span class="settings-label" data-i18n="quiz.typeLabel">Question Type</span>
+        <div class="quiz-variant-options" id="quiz-variant-options">
+          <button class="quiz-variant-btn" data-variant="romaji" type="button">🔤 Romaji</button>
+          <button class="quiz-variant-btn active" data-variant="meaning" type="button">🈺 <span
+              data-i18n="quiz.meaning">Meaning</span></button>
+          <button class="quiz-variant-btn" data-variant="both" type="button">🎲 <span
+              data-i18n="quiz.mixed">Mixed</span></button>
         </div>
       </div>
 
-      <div class="range-random hidden" id="range-random">
-        <label class="range-random-label">Jumlah soal (diambil acak dari seluruh tingkatan ini)</label>
-        <div class="range-random-options" id="range-random-options"></div>
+      <div class="difficulty-picker" id="difficulty-picker">
+        <span class="settings-label" data-i18n="quiz.difficultyLabel">Difficulty</span>
+        <div class="difficulty-options" id="difficulty-options">
+          <button class="difficulty-btn active" data-difficulty="easy" type="button">😌 Easy<span class="difficulty-sub"
+              data-i18n="quiz.choices4">4 choices</span></button>
+          <button class="difficulty-btn" data-difficulty="medium" type="button">😅 Medium<span class="difficulty-sub"
+              data-i18n="quiz.choices8">8 choices</span></button>
+          <button class="difficulty-btn" data-difficulty="hard" type="button">🔥 Hard<span class="difficulty-sub"
+              data-i18n="quiz.typeItYourself">type it yourself</span></button>
+        </div>
+        <p class="difficulty-hint hidden" id="difficulty-hint" data-i18n="quiz.hardHint">🔥 Hard is only available for
+          Hiragana &amp; Katakana.</p>
       </div>
 
-      <p class="range-hint" id="range-hint"></p>
-    </div>
+      <div class="range-picker hidden" id="range-picker">
+        <span class="settings-label" data-i18n="range.label">Question Range</span>
+        <div class="range-mode-toggle" id="range-mode-toggle">
+          <button class="range-mode-btn active" data-range-mode="manual" type="button">🎯 <span
+              data-i18n="range.chooseRange">Choose Range</span></button>
+          <button class="range-mode-btn" data-range-mode="random" type="button">🎲 <span
+              data-i18n="range.random">Random</span></button>
+        </div>
 
-    <button class="primary" id="btn-start" disabled>Pilih tingkatan dulu</button>
+        <div class="range-row" id="range-row">
+          <div class="range-field">
+            <label id="range-from-label" data-i18n="range.from">From</label>
+            <div class="range-dd" id="range-from-dd">
+              <button type="button" class="range-dd-trigger" id="range-from-trigger" aria-haspopup="listbox"
+                aria-expanded="false" aria-labelledby="range-from-label">
+                <span class="range-dd-kana" id="range-from-kana"></span>
+                <span class="range-dd-sub" id="range-from-sub"></span>
+                <span class="range-dd-caret">▾</span>
+              </button>
+              <ul class="range-dd-list hidden" id="range-from-list" role="listbox" tabindex="-1"></ul>
+            </div>
+          </div>
+          <span class="range-arrow">→</span>
+          <div class="range-field">
+            <label id="range-to-label" data-i18n="range.to">To</label>
+            <div class="range-dd" id="range-to-dd">
+              <button type="button" class="range-dd-trigger" id="range-to-trigger" aria-haspopup="listbox"
+                aria-expanded="false" aria-labelledby="range-to-label">
+                <span class="range-dd-kana" id="range-to-kana"></span>
+                <span class="range-dd-sub" id="range-to-sub"></span>
+                <span class="range-dd-caret">▾</span>
+              </button>
+              <ul class="range-dd-list hidden" id="range-to-list" role="listbox" tabindex="-1"></ul>
+            </div>
+          </div>
+        </div>
 
-    <button class="conquest-card" id="btn-conquest" type="button">
-      <span class="conquest-icon">⚔️</span>
-      <span class="conquest-body">
-        <span class="conquest-title">Mode Penaklukan <span class="conquest-status hidden" id="conquest-status">✓ Ditaklukkan</span></span>
-        <span class="conquest-desc" id="conquest-desc">Taklukkan seluruh <b id="conquest-script-label">Hiragana</b> sekaligus — <span id="conquest-count">0</span> soal, satu kali salah langsung gagal.</span>
-        <span class="conquest-lock-note hidden" id="conquest-lock-note"></span>
-      </span>
-      <span class="conquest-arrow">→</span>
-    </button>
-  </section>
+        <div class="range-random hidden" id="range-random">
+          <label class="range-random-label" data-i18n="range.randomCountLabel">Number of questions (picked randomly from
+            this whole tier)</label>
+          <div class="range-random-options" id="range-random-options"></div>
+        </div>
 
-  <!-- ===== LEARN SCREEN ===== -->
-  <section id="screen-learn" class="hidden">
-    <div class="quiz-back-row">
-      <button class="quiz-back" id="btn-learn-back" type="button">← Kembali</button>
-    </div>
-    <header class="learn-header">
-      <div class="eyebrow">mode belajar</div>
-      <h1 class="learn-title">Tabel Aksara</h1>
-      <p class="sub">Hafalkan dulu bentuk dan cara baca tiap karakter sebelum mulai Quest. Pilih aksaranya di bawah.</p>
-    </header>
-
-    <div class="script-tabs" id="learn-script-tabs" role="tablist" aria-label="Pilih aksara untuk belajar">
-      <button class="script-tab" data-script="hiragana" type="button" role="tab">あ<span>Hiragana</span></button>
-      <button class="script-tab" data-script="katakana" type="button" role="tab">ア<span>Katakana</span></button>
-      <button class="script-tab" data-script="kotoba" type="button" role="tab">語<span>Kotoba</span></button>
-      <button class="script-tab" data-script="bunpo" type="button" role="tab">文<span>Bunpō</span></button>
-      <button class="script-tab" data-script="kanji" type="button" role="tab">漢<span>Kanji N5</span></button>
-    </div>
-
-    <div id="learn-tables"></div>
-
-    <button class="primary" id="btn-learn-to-quiz">Sudah Siap — Mulai Quest</button>
-  </section>
-
-
-  <!-- ===== CONQUEST STORY SCREEN (transisi antar chapter) ===== -->
-  <section id="screen-conquest-story" class="hidden conquest-story">
-    <div class="quiz-back-row">
-      <button class="quiz-back" id="btn-conquest-story-back" type="button">← Batalkan Penaklukan</button>
-    </div>
-    <div class="conquest-story-card">
-      <div class="eyebrow" id="conquest-story-eyebrow">⚔️ Mode Penaklukan</div>
-      <h2 class="conquest-story-title" id="conquest-story-title">Chapter 1 — Gerbang Desa</h2>
-      <p class="conquest-story-text" id="conquest-story-text"></p>
-      <p class="conquest-story-meta" id="conquest-story-meta"></p>
-    </div>
-    <button class="primary danger" id="btn-conquest-story-continue" type="button">⚔️ Mulai Chapter Ini</button>
-  </section>
-
-  <!-- ===== QUIZ SCREEN ===== -->
-  <section id="screen-quiz" class="hidden">
-    <div class="quiz-back-row">
-      <button class="quiz-back" id="btn-cancel" type="button">← Kembali</button>
-      <button class="quiz-back" id="btn-restart-quiz" type="button">🔁 Restart</button>
-    </div>
-    <div class="quiz-top">
-      <div class="dots" id="dots"></div>
-      <div class="streak" id="streak"><span class="flame">🔥</span> <span id="streak-count">0</span> beruntun</div>
-    </div>
-
-    <div class="stamp-wrap">
-      <div class="stamp" id="stamp"><span class="kana" id="kana-char">あ</span></div>
-    </div>
-    <div class="quiz-mode-label" id="quiz-mode-label">Tebak romaji</div>
-
-    <div class="choices" id="choices"></div>
-
-    <div class="hard-input-row hidden" id="hard-input-row">
-      <input type="text" id="hard-input" class="hard-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Ketik romaji-nya di sini...">
-      <button class="primary" id="btn-hard-submit" type="button">Jawab</button>
-    </div>
-
-    <div class="feedback-row">
-      <div class="feedback-col">
-        <div class="feedback-text" id="feedback"></div>
-        <div class="feedback-extra hidden" id="feedback-extra"></div>
+        <p class="range-hint" id="range-hint"></p>
       </div>
-      <button class="ghost hidden" id="btn-next">Lanjut →</button>
-    </div>
-  </section>
 
-  <!-- ===== RESULTS SCREEN ===== -->
-  <section id="screen-results" class="hidden results">
-    <div class="promo-banner hidden" id="promo-banner"></div>
-    <p class="res-greet hidden" id="res-greet"></p>
-    <div class="score-stamp">
-      <div class="num" id="res-score">0/10</div>
-      <div class="of">tepat</div>
-    </div>
-    <p class="acc" id="res-acc">Akurasi 0%</p>
+      <button class="primary" id="btn-start" disabled data-i18n="start.chooseTierFirst">Choose a tier first</button>
 
-    <div id="res-missed-wrap">
-      <p class="missed-title">Perlu diulang</p>
-      <div class="chips" id="res-missed"></div>
-    </div>
+      <button class="conquest-card" id="btn-conquest" type="button">
+        <span class="conquest-icon">⚔️</span>
+        <span class="conquest-body">
+          <span class="conquest-title"><span id="conquest-title-text">Conquer Mode</span> <span
+              class="conquest-status hidden" id="conquest-status" data-i18n="conquest.conquered">✓
+              Conquered</span></span>
+          <span class="conquest-desc" id="conquest-desc"></span>
+          <span class="conquest-lock-note hidden" id="conquest-lock-note"></span>
+        </span>
+        <span class="conquest-arrow">→</span>
+      </button>
+    </section>
 
-    <div class="result-actions">
-      <button class="primary" id="btn-retry">Ulangi Set Ini</button>
-      <button class="ghost hidden" id="btn-results-learn">📖 Belajar Dulu</button>
-      <button class="ghost" id="btn-change">← Kembali</button>
-    </div>
-  </section>
+    <!-- ===== LEARN SCREEN ===== -->
+    <section id="screen-learn" class="hidden">
+      <div class="quiz-back-row">
+        <button class="quiz-back" id="btn-learn-back" type="button" data-i18n="common.back">← Back</button>
+      </div>
+      <header class="learn-header">
+        <div class="eyebrow" data-i18n="learn.eyebrow">study mode</div>
+        <h1 class="learn-title" data-i18n="learn.title">Character Tables</h1>
+        <p class="sub" data-i18n="learn.sub">Memorize the shape and reading of each character before starting a Trial.
+          Choose a script below.</p>
+      </header>
 
-  <footer class="site-footer">© 2026 Deo Vindice. All Rights Reserved.</footer>
+      <div class="script-tabs" id="learn-script-tabs" role="tablist" aria-label="Choose a script to study"
+        data-i18n-aria="aria.chooseScriptStudy">
+        <button class="script-tab" data-script="hiragana" type="button" role="tab">あ<span>Hiragana</span></button>
+        <button class="script-tab" data-script="katakana" type="button" role="tab">ア<span>Katakana</span></button>
+        <button class="script-tab" data-script="kotoba" type="button" role="tab">語<span>Kotoba</span></button>
+        <button class="script-tab" data-script="bunpo" type="button" role="tab">文<span>Bunpō</span></button>
+        <button class="script-tab" data-script="kanji" type="button" role="tab">漢<span>Kanji N5</span></button>
+      </div>
 
-</div>
+      <div id="learn-tables"></div>
 
-<script src="script.js"></script>
+      <button class="primary" id="btn-learn-to-quiz" data-i18n="learn.readyStart">Ready — Start Trial</button>
+    </section>
+
+
+    <!-- ===== CONQUEST STORY SCREEN (transisi antar chapter) ===== -->
+    <section id="screen-conquest-story" class="hidden conquest-story">
+      <div class="quiz-back-row">
+        <button class="quiz-back" id="btn-conquest-story-back" type="button" data-i18n="conquest.cancelConquest">←
+          Cancel Conquest</button>
+      </div>
+      <div class="conquest-story-card">
+        <div class="eyebrow" id="conquest-story-eyebrow">⚔️ Conquer Mode</div>
+        <h2 class="conquest-story-title" id="conquest-story-title">Chapter 1 — Village Gate</h2>
+        <p class="conquest-story-text" id="conquest-story-text"></p>
+        <p class="conquest-story-meta" id="conquest-story-meta"></p>
+      </div>
+      <button class="primary danger" id="btn-conquest-story-continue" type="button"
+        data-i18n="conquest.startThisChapter">⚔️ Start This Chapter</button>
+    </section>
+
+    <!-- ===== QUIZ SCREEN ===== -->
+    <section id="screen-quiz" class="hidden">
+      <div class="quiz-back-row">
+        <button class="quiz-back" id="btn-cancel" type="button" data-i18n="common.back">← Back</button>
+        <button class="quiz-back" id="btn-restart-quiz" type="button">🔁 Restart</button>
+      </div>
+      <div class="quiz-top">
+        <div class="dots" id="dots"></div>
+        <div class="streak" id="streak"><span class="flame">🔥</span> <span id="streak-count">0</span> <span
+            data-i18n="quiz.streak">streak</span></div>
+      </div>
+
+      <div class="stamp-wrap">
+        <div class="stamp" id="stamp"><span class="kana" id="kana-char">あ</span></div>
+      </div>
+      <div class="quiz-mode-label" id="quiz-mode-label" data-i18n="quiz.guessRomaji">Guess the romaji</div>
+
+      <div class="choices" id="choices"></div>
+
+      <div class="hard-input-row hidden" id="hard-input-row">
+        <input type="text" id="hard-input" class="hard-input" autocomplete="off" autocapitalize="off" autocorrect="off"
+          spellcheck="false" placeholder="Type the romaji here..." data-i18n-placeholder="quiz.typeRomajiPlaceholder">
+        <button class="primary" id="btn-hard-submit" type="button" data-i18n="quiz.answer">Answer</button>
+      </div>
+
+      <div class="feedback-row">
+        <div class="feedback-col">
+          <div class="feedback-text" id="feedback"></div>
+          <div class="feedback-extra hidden" id="feedback-extra"></div>
+        </div>
+        <button class="ghost hidden" id="btn-next" data-i18n="quiz.next">Next →</button>
+      </div>
+    </section>
+
+    <!-- ===== RESULTS SCREEN ===== -->
+    <section id="screen-results" class="hidden results">
+      <div class="promo-banner hidden" id="promo-banner"></div>
+      <p class="res-greet hidden" id="res-greet"></p>
+      <div class="score-stamp">
+        <div class="num" id="res-score">0/10</div>
+        <div class="of" data-i18n="results.correct">correct</div>
+      </div>
+      <p class="acc" id="res-acc" data-i18n="results.accuracy">Accuracy 0%</p>
+
+      <div id="res-missed-wrap">
+        <p class="missed-title" data-i18n="results.needsPractice">Needs practice</p>
+        <div class="chips" id="res-missed"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="primary" id="btn-retry" data-i18n="results.retrySet">Retry This Set</button>
+        <button class="ghost hidden" id="btn-results-learn" data-i18n="start.studyFirst">📖 Study First</button>
+        <button class="ghost" id="btn-change" data-i18n="common.back">← Back</button>
+      </div>
+    </section>
+
+    <footer class="site-footer">© 2026 Deo Vindice. All Rights Reserved.</footer>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
+
 </html>
