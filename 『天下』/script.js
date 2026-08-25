@@ -657,9 +657,6 @@ function renderProfile() {
   renderRankLadder(idx);
   renderSpeedrunRecords();
 }
-renderProfile();
-renderTitleCollection();
-renderSpeedrunRecords();
 
 /* ---- daftar tingkatan kebangsawanan di panel About ---- */
 function renderRankLadder(idx) {
@@ -1176,6 +1173,12 @@ Object.values(SCRIPTS).forEach(s => {
     s.dataRomaji.all = [...s.dataRomaji.tier1, ...s.dataRomaji.tier2, ...s.dataRomaji.tier3];
   }
 });
+
+// dipindah ke sini (dari dekat definisi renderProfile) karena renderProfile ->
+// renderSpeedrunRecords butuh SCRIPTS, yang baru selesai dibangun di titik ini.
+renderProfile();
+renderTitleCollection();
+renderSpeedrunRecords();
 
 // kanji/kotoba/bunpo punya "arti" (meaning) yang disimpan sebagai {en,id} di data
 // mentahnya (KANJI_TIER*/KOTOBA_TIER*/BUNPO_TIER*) supaya bisa diresolve ulang
