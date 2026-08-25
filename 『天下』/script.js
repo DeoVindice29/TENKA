@@ -136,11 +136,12 @@ const I18N = {
   "speedrun.descNoRecord": { en: "Race through all {count} {label} questions as fast as you can — no record yet.", id: "Balapan menjawab seluruh {count} soal {label} secepat mungkin — belum ada record." },
   "speedrun.descWithRecord": { en: "Race through all {count} {label} questions as fast as you can — your best: <b>{time}</b>.", id: "Balapan menjawab seluruh {count} soal {label} secepat mungkin — rekormu: <b>{time}</b>." },
   "speedrun.modalTitleWithLabel": { en: "⚡ Speedrun {label}", id: "⚡ Speedrun {label}" },
-  "speedrun.confirm": { en: "Start Speedrun", id: "Mulai Speedrun" },
-  "speedrun.intro": { en: "You'll face all {count} {label} questions at once, shuffled — multiple choice, timed from the moment you start.", id: "Kamu akan menghadapi seluruh {count} soal {label} sekaligus, diacak — pilihan ganda, waktu berjalan sejak kamu mulai." },
+  "speedrun.confirm": { en: "Ready?", id: "Siap?" },
+  "speedrun.intro": { en: "You'll face all {count} {label} questions at once, shuffled — type the answer yourself, timed from the moment the countdown ends.", id: "Kamu akan menghadapi seluruh {count} soal {label} sekaligus, diacak — ketik sendiri jawabannya, waktu berjalan begitu hitung mundur selesai." },
   "speedrun.rule.timed": { en: "A timer runs the whole way through — answer as fast as you can!", id: "Timer berjalan dari awal sampai akhir — jawab secepat mungkin!" },
   "speedrun.rule.mistakesCost": { en: "Wrong answers don't fail the run, but the clock keeps ticking.", id: "Jawaban salah tidak menggagalkan run-nya, tapi jam tetap terus berjalan." },
   "speedrun.rule.recordSaved": { en: "Only your fastest completed run is saved as your personal record.", id: "Hanya waktu tercepatmu yang berhasil diselesaikan yang disimpan sebagai record pribadimu." },
+  "speedrun.rule.autoNext": { en: "Correct answer auto-advances to the next question — no need to press Enter.", id: "Jawaban benar otomatis lanjut ke soal berikutnya — nggak perlu pencet Enter." },
   "quiz.speedrunLabel": { en: "⚡ Speedrun — {label} · Question {current}/{total}", id: "⚡ Speedrun — {label} · Soal {current}/{total}" },
   "results.speedrunTime": { en: "Time: {time}", id: "Waktu: {time}" },
   "results.speedrunNewRecord": { en: "⚡ <b>New Record!</b> You finished {label} in <b>{time}</b>.", id: "⚡ <b>Rekor Baru!</b> Kamu menyelesaikan {label} dalam <b>{time}</b>." },
@@ -150,7 +151,8 @@ const I18N = {
   "speedrunRecords.heading": { en: "⚡ Speedrun Records", id: "⚡ Rekor Speedrun" },
   "speedrunRecords.hint": { en: "Your fastest completed run for each conquered script.", id: "Waktu tercepatmu untuk tiap aksara yang sudah ditaklukkan." },
   "speedrunRecords.empty": { en: "Conquer a script ⚔️ to unlock Speedrun Mode for it.", id: "Taklukkan sebuah aksara ⚔️ untuk membuka Mode Speedrun-nya." },
-  "speedrunRecords.notPlayedYet": { en: "Not run yet", id: "Belum pernah dicoba" }
+  "speedrunRecords.notPlayedYet": { en: "Not run yet", id: "Belum pernah dicoba" },
+  "speedrun.countdownGo": { en: "GO!", id: "MULAI!" }
 };
 
 function getLang() {
@@ -1818,6 +1820,7 @@ function openConquestOverlay() {
     const rules = [
       t("speedrun.rule.timed"),
       t("speedrun.rule.mistakesCost"),
+      t("speedrun.rule.autoNext"),
       t("speedrun.rule.recordSaved")
     ];
     conquestModalRulesEl.innerHTML = rules.map(r => `<li>${r}</li>`).join("");
@@ -1874,7 +1877,53 @@ btnConquestConfirm.addEventListener("click", () => {
   if (getConquestLockReason(currentScript)) { closeConquestOverlay(); return; }
   const isConquered = !!getConqueredTitles()[currentScript];
   closeConquestOverlay();
-  startQuiz(currentScript, isConquered ? "speedrun" : "conquest");
+  if (isConquered) {
+    startSpeedrunCountdown(currentScript);
+  } else {
+    startQuiz(currentScript, "conquest");
+  }
+});
+
+/* ---------------- speedrun "ready?" countdown (3-2-1-GO) ---------------- */
+const speedrunCountdownOverlay = document.getElementById("speedrun-countdown-overlay");
+const speedrunCountdownNumberEl = document.getElementById("speedrun-countdown-number");
+let speedrunCountdownTimer = null;
+
+function startSpeedrunCountdown(scriptKey) {
+  clearTimeout(speedrunCountdownTimer);  const steps = ["3", "2", "1", t("speedrun.countdownGo")];
+  let i = 0;
+
+  speedrunCountdownOverlay.classList.add("open");
+  speedrunCountdownOverlay.setAttribute("aria-hidden", "false");
+
+  const showStep = () => {
+    const label = steps[i];
+    speedrunCountdownNumberEl.textContent = label;
+    speedrunCountdownNumberEl.classList.toggle("go", i === steps.length - 1);
+    speedrunCountdownNumberEl.classList.remove("tick");
+    void speedrunCountdownNumberEl.offsetWidth; // restart animasi tiap tick
+    speedrunCountdownNumberEl.classList.add("tick");
+    i++;
+    if (i < steps.length) {
+      speedrunCountdownTimer = setTimeout(showStep, 700);
+    } else {
+      speedrunCountdownTimer = setTimeout(() => {
+        speedrunCountdownOverlay.classList.remove("open");
+        speedrunCountdownOverlay.setAttribute("aria-hidden", "true");
+        speedrunCountdownNumberEl.classList.remove("go", "tick");
+        startQuiz(scriptKey, "speedrun");
+      }, 550);
+    }
+  };
+  showStep();
+}
+
+speedrunCountdownOverlay.addEventListener("click", () => {
+  // klik di mana saja membatalkan hitung mundur & kembali seperti semula.
+  clearTimeout(speedrunCountdownTimer);
+  speedrunCountdownOverlay.classList.remove("open");
+  speedrunCountdownOverlay.setAttribute("aria-hidden", "true");
+  speedrunCountdownNumberEl.classList.remove("go", "tick");
 });
 
 /* ---------------- learn screen navigation ---------------- */
@@ -2024,12 +2073,13 @@ function startQuiz(scriptKey, mode) {
   }
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
-  // penaklukkan 3 Chapter selalu pakai progresi kesulitan otomatis per Chapter,
-  // mengabaikan pilihan Tingkat Kesulitan di layar awal. Speedrun selalu pilihan
-  // ganda 4 opsi (easy) supaya waktu antar percobaan bisa dibandingkan secara adil.
+  // penaklukkan 3 Chapter selalu pakai progresi kesulitan otomatis per Chapter.
+  // Speedrun sekarang pakai mode hard (ketik jawaban) supaya lebih menantang &
+  // auto-lanjut pas jawaban benar terasa jelas manfaatnya — tapi cuma utk aksara
+  // yang memang mendukung hard (Hiragana/Katakana); selain itu tetap fallback easy.
   const difficulty = isThreePhaseConquest
     ? getConquestPhaseDifficulty(0)
-    : isSpeedrun ? "easy"
+    : isSpeedrun ? (supportsHard ? "hard" : "easy")
       : (selectedDifficulty === "hard" && !supportsHard) ? "easy" : selectedDifficulty;
 
   state = {
@@ -2044,6 +2094,7 @@ function startQuiz(scriptKey, mode) {
   };
   cancelArmed = false;
   clearTimeout(cancelTimer);
+  clearSpeedrunAutoNext();
   btnCancel.textContent = t("common.back");
   btnCancel.classList.remove("armed");
   screenStart.classList.add("hidden");
@@ -2203,7 +2254,14 @@ function updateStreakUI() {
   streakEl.classList.toggle("show", state.streak >= 2);
 }
 
+let speedrunAutoNextTimer = null;
+function clearSpeedrunAutoNext() {
+  clearTimeout(speedrunAutoNextTimer);
+  speedrunAutoNextTimer = null;
+}
+
 function handleAnswer(chosen, btn, current) {
+  clearSpeedrunAutoNext();
   document.querySelectorAll("button.choice").forEach(b => b.disabled = true);
   hardInputEl.disabled = true;
   btnHardSubmit.disabled = true;
@@ -2251,6 +2309,16 @@ function handleAnswer(chosen, btn, current) {
     nextBtn.textContent = state.index === state.queue.length - 1 ? t("quiz.seeResults") : t("quiz.next");
   }
   nextBtn.focus();
+
+  // Mode Speedrun: jawaban BENAR langsung lanjut otomatis ke soal berikutnya
+  // tanpa perlu pencet Enter/klik Next — biar makin ngebut. Jawaban salah tetap
+  // butuh konfirmasi manual (biar sempat lihat jawaban yang benar).
+  if (isCorrect && state.speedrun) {
+    speedrunAutoNextTimer = setTimeout(() => {
+      speedrunAutoNextTimer = null;
+      goToNextQuestion();
+    }, 350);
+  }
 }
 
 btnHardSubmit.addEventListener("click", () => {
@@ -2308,6 +2376,7 @@ btnCancel.addEventListener("click", () => {
   cancelArmed = false;
   btnCancel.textContent = t("common.back");
   btnCancel.classList.remove("armed");
+  clearSpeedrunAutoNext();
   stopSpeedrunTimer();
   speedrunTimerEl.classList.add("hidden");
   screenQuiz.classList.add("hidden");
@@ -2316,7 +2385,8 @@ btnCancel.addEventListener("click", () => {
   renderProfile();
 });
 
-nextBtn.addEventListener("click", () => {
+function goToNextQuestion() {
+  clearSpeedrunAutoNext();
   if (state.conquest && state.conquestFailed) {
     renderResults();
     return;
@@ -2336,7 +2406,9 @@ nextBtn.addEventListener("click", () => {
     }
   }
   renderQuestion();
-});
+}
+
+nextBtn.addEventListener("click", goToNextQuestion);
 
 /* keyboard shortcuts 1-4 for choices, enter/space for next */
 document.addEventListener("keydown", (e) => {
