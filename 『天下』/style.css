@@ -1504,6 +1504,70 @@ button.secondary:focus-visible {
   display: none;
 }
 
+/* ---------- mode speedrun (unlocked after a script is conquered) ---------- */
+.conquest-card.speedrun-mode {
+  background: linear-gradient(135deg, rgba(180, 140, 20, 0.12), rgba(180, 140, 20, 0.03));
+  border-color: var(--gold);
+}
+
+.conquest-card.speedrun-mode .conquest-title,
+.conquest-card.speedrun-mode .conquest-arrow {
+  color: var(--gold);
+}
+
+.conquest-card.speedrun-mode .conquest-status {
+  background: var(--vermillion);
+}
+
+/* ---------- daftar rekor speedrun (settings panel, di bawah profile) ---------- */
+.speedrun-records {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.speedrun-record-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+}
+
+.speedrun-record-emoji {
+  font-size: 17px;
+  flex: 0 0 auto;
+}
+
+.speedrun-record-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  flex: 1;
+  min-width: 0;
+}
+
+.speedrun-record-time {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--gold);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.speedrun-record-time.no-record {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.speedrun-records-empty {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
 /* ---------- koleksi title (achievement badges) ---------- */
 .title-collection-hint {
   margin: 2px 0 10px;
@@ -1771,6 +1835,21 @@ button.secondary:focus-visible {
   transform: scale(1);
 }
 
+.speedrun-timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gold);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.speedrun-timer.hidden {
+  display: none;
+}
+
 .stamp-wrap {
   display: flex;
   justify-content: center;
@@ -1849,6 +1928,10 @@ button.secondary:focus-visible {
 
 #screen-quiz.conquest-active .quiz-mode-label {
   color: var(--vermillion);
+}
+
+#screen-quiz.speedrun-active .quiz-mode-label {
+  color: var(--gold);
 }
 
 .choices {

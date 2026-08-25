@@ -130,7 +130,27 @@ const I18N = {
   "conquestModal.rule.becomeKnightBoth": { en: "Conquer both Hiragana &amp; Katakana to officially be <b>knighted (騎士)</b>.", id: "Taklukkan Hiragana &amp; Katakana keduanya untuk resmi <b>diangkat menjadi Knight (騎士)</b>." },
   "conquestModal.singleIntro": { en: "You'll face all {count} {label} questions at once, shuffled.", id: "Kamu akan menghadapi seluruh {count} soal {label} sekaligus, diacak." },
   "conquestModal.rule.allAtOnce": { en: "All questions for this script will be shuffled and shown all at once, <b>without breaks</b>.", id: "seluruh soal aksara ini akan diacak dan ditampilkan sekaligus, <b>tanpa dipotong</b>." },
-  "conquestModal.rule.failRestartFirst": { en: "If you fail, you'll have to start over from the first question.", id: "Kalau gagal, kamu harus mengulang lagi dari soal pertama." }
+  "conquestModal.rule.failRestartFirst": { en: "If you fail, you'll have to start over from the first question.", id: "Kalau gagal, kamu harus mengulang lagi dari soal pertama." },
+
+  "speedrun.cardTitleWithLabel": { en: "Speedrun {label}", id: "Speedrun {label}" },
+  "speedrun.descNoRecord": { en: "Race through all {count} {label} questions as fast as you can — no record yet.", id: "Balapan menjawab seluruh {count} soal {label} secepat mungkin — belum ada record." },
+  "speedrun.descWithRecord": { en: "Race through all {count} {label} questions as fast as you can — your best: <b>{time}</b>.", id: "Balapan menjawab seluruh {count} soal {label} secepat mungkin — rekormu: <b>{time}</b>." },
+  "speedrun.modalTitleWithLabel": { en: "⚡ Speedrun {label}", id: "⚡ Speedrun {label}" },
+  "speedrun.confirm": { en: "Start Speedrun", id: "Mulai Speedrun" },
+  "speedrun.intro": { en: "You'll face all {count} {label} questions at once, shuffled — multiple choice, timed from the moment you start.", id: "Kamu akan menghadapi seluruh {count} soal {label} sekaligus, diacak — pilihan ganda, waktu berjalan sejak kamu mulai." },
+  "speedrun.rule.timed": { en: "A timer runs the whole way through — answer as fast as you can!", id: "Timer berjalan dari awal sampai akhir — jawab secepat mungkin!" },
+  "speedrun.rule.mistakesCost": { en: "Wrong answers don't fail the run, but the clock keeps ticking.", id: "Jawaban salah tidak menggagalkan run-nya, tapi jam tetap terus berjalan." },
+  "speedrun.rule.recordSaved": { en: "Only your fastest completed run is saved as your personal record.", id: "Hanya waktu tercepatmu yang berhasil diselesaikan yang disimpan sebagai record pribadimu." },
+  "quiz.speedrunLabel": { en: "⚡ Speedrun — {label} · Question {current}/{total}", id: "⚡ Speedrun — {label} · Soal {current}/{total}" },
+  "results.speedrunTime": { en: "Time: {time}", id: "Waktu: {time}" },
+  "results.speedrunNewRecord": { en: "⚡ <b>New Record!</b> You finished {label} in <b>{time}</b>.", id: "⚡ <b>Rekor Baru!</b> Kamu menyelesaikan {label} dalam <b>{time}</b>." },
+  "results.speedrunFirstRecord": { en: "⚡ <b>First record set!</b> You finished {label} in <b>{time}</b>.", id: "⚡ <b>Rekor pertama tercatat!</b> Kamu menyelesaikan {label} dalam <b>{time}</b>." },
+  "results.speedrunNoRecord": { en: "You finished {label} in <b>{time}</b> — your best is still {best}.", id: "Kamu menyelesaikan {label} dalam <b>{time}</b> — rekor terbaikmu masih {best}." },
+  "results.speedrunAgain": { en: "⚡ Speedrun Again", id: "⚡ Speedrun Lagi" },
+  "speedrunRecords.heading": { en: "⚡ Speedrun Records", id: "⚡ Rekor Speedrun" },
+  "speedrunRecords.hint": { en: "Your fastest completed run for each conquered script.", id: "Waktu tercepatmu untuk tiap aksara yang sudah ditaklukkan." },
+  "speedrunRecords.empty": { en: "Conquer a script ⚔️ to unlock Speedrun Mode for it.", id: "Taklukkan sebuah aksara ⚔️ untuk membuka Mode Speedrun-nya." },
+  "speedrunRecords.notPlayedYet": { en: "Not run yet", id: "Belum pernah dicoba" }
 };
 
 function getLang() {
@@ -166,10 +186,6 @@ function applyStaticTranslations() {
   });
 }
 
-/* =========================================================
-   AUDIO PENGUCAPAN — Web Speech API (ja-JP)
-   dipakai oleh seluruh elemen ber-atribut data-speak di mode Belajar
-   ========================================================= */
 const speechSupported = "speechSynthesis" in window;
 let jaVoice = null;
 function pickJaVoice() {
@@ -182,10 +198,6 @@ if (speechSupported) {
   speechSynthesis.addEventListener("voiceschanged", pickJaVoice);
 }
 
-// token pembanding: memastikan hanya klik TERAKHIR yang benar-benar diucapkan.
-// Tanpa ini, cancel()+speak() yang dipanggil beruntun (mis. saat mengetuk beberapa
-// huruf dengan cepat) rawan bug di beberapa browser: teks yang terdengar menjadi teks
-// klik SEBELUMNYA, bukan klik yang baru — itulah penyebab audio "tidak sesuai huruf".
 let speakRequestId = 0;
 
 function clearSpeakingHighlight() {
@@ -196,19 +208,14 @@ function speakJapanese(text, btn) {
   if (!speechSupported || !text) return;
   const requestId = ++speakRequestId;
 
-  // highlight target yang benar SEKARANG JUGA (sinkron), sebelum delay apa pun,
-  // supaya walau audio sedikit tertunda, elemen yang disorot selalu yang baru diklik.
   clearSpeakingHighlight();
   if (btn) btn.classList.add("speaking");
 
   speechSynthesis.cancel();
   if (!jaVoice) pickJaVoice();
 
-  // jeda singkat setelah cancel() sebelum speak() — menghindari race condition
-  // pada beberapa browser (terutama Chrome) yang membuat ucapan sebelumnya masih
-  // "nyangkut" dan terdengar bercampur/salah dengan permintaan baru.
   setTimeout(() => {
-    if (requestId !== speakRequestId) return; // sudah dikalahkan oleh klik yang lebih baru
+    if (requestId !== speakRequestId) return;
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "ja-JP";
     if (jaVoice) utter.voice = jaVoice;
@@ -219,7 +226,6 @@ function speakJapanese(text, btn) {
   }, 80);
 }
 
-// event delegation: satu listener untuk seluruh tombol/sel yang punya data-speak
 document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-speak]");
   if (!el) return;
@@ -321,8 +327,6 @@ if (langOptionsEl) {
   });
 }
 
-// re-renders pieces of UI that are always present in the DOM (profile card,
-// title collection, script-tab badges) so they pick up the new language.
 function rebuildLocalizedContent() {
   rebuildMeaningPools();
   applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
@@ -333,8 +337,6 @@ function rebuildLocalizedContent() {
   if (conquestOverlay.classList.contains("open")) openConquestOverlay();
 }
 
-// re-renders whichever screen the user currently has open, so in-progress
-// dynamic text (level cards, quiz labels, results, etc.) updates too.
 function refreshVisibleScreenText() {
   if (!screenStart.classList.contains("hidden")) {
     renderLevels(currentScript);
@@ -353,16 +355,12 @@ function refreshVisibleScreenText() {
   }
 }
 
-/* =========================================================
-   PROFILE / TINGKATAN — "dari Commoner menuju Tennō" (tanpa XP)
-   ========================================================= */
+
 const RANK_KEY = "tebakAksara_rank_v1";
 const PHOTO_KEY = "tebakAksara_photo_v1";
 const ConquerY_KEY = "tebakAksara_Conquery_v1";
 const NICKNAME_KEY = "tebakAksara_nickname_v1";
 
-// Tingkatan kebangsawanan — dari rakyat jelata sampai kaisar.
-// Setiap tingkat butuh menuntaskan Chapter "Kaisar" (seluruh Campur) pada aksara terkait.
 const RANK_LEVELS = [
   { title: "Commoner", subtitle: "平民", emoji: "🌾", req: "The starting point of your journey." },
   { title: "Knight", subtitle: "騎士", emoji: "⚔️", req: "Conquer all of Hiragana & Katakana." },
@@ -391,8 +389,6 @@ function loc(str) {
   return LANG === "id" ? (RANK_REQ_ID[str] || str) : str;
 }
 
-// resolves an inline {en,id} translation object (used for content data like
-// level descriptions, learn-section titles, etc.) — falls back gracefully.
 function tf(entry) {
   if (entry == null) return "";
   if (typeof entry === "string") return entry;
@@ -576,6 +572,67 @@ function updateScriptConquestBadges() {
   });
 }
 
+/* =========================================================
+   MODE SPEEDRUN — dibuka per-aksara begitu Mode penaklukkan (conquest)
+   untuk aksara itu berhasil ditaklukkan. Rekor waktu tercepat (ms)
+   disimpan per-aksara di localStorage.
+   ========================================================= */
+const SPEEDRUN_KEY = "tebakAksara_speedrun_v1";
+
+function getSpeedrunRecords() {
+  try { return JSON.parse(localStorage.getItem(SPEEDRUN_KEY) || "{}"); }
+  catch (e) { return {}; }
+}
+function getSpeedrunBest(scriptKey) {
+  const r = getSpeedrunRecords();
+  return typeof r[scriptKey] === "number" ? r[scriptKey] : null;
+}
+// simpan waktu (ms) kalau ini lebih cepat dari rekor sebelumnya (atau rekor pertama).
+// return { isNewRecord, prevBest (ms|null) }
+function saveSpeedrunTime(scriptKey, timeMs) {
+  const r = getSpeedrunRecords();
+  const prevBest = typeof r[scriptKey] === "number" ? r[scriptKey] : null;
+  const isNewRecord = prevBest === null || timeMs < prevBest;
+  if (isNewRecord) {
+    r[scriptKey] = timeMs;
+    localStorage.setItem(SPEEDRUN_KEY, JSON.stringify(r));
+  }
+  return { isNewRecord, prevBest };
+}
+function formatSpeedrunTime(ms) {
+  if (typeof ms !== "number") return null;
+  const totalCs = Math.floor(ms / 10);
+  const minutes = Math.floor(totalCs / 6000);
+  const seconds = Math.floor((totalCs % 6000) / 100);
+  const cs = totalCs % 100;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(cs).padStart(2, "0")}`;
+}
+
+// daftar rekor speedrun, ditampilkan di panel Settings tepat di bawah kartu Profile.
+// hanya menampilkan aksara yang sudah ditaklukkan (speedrun-nya baru terbuka setelah itu).
+function renderSpeedrunRecords() {
+  const el = document.getElementById("speedrun-records");
+  if (!el) return;
+  const earned = getConqueredTitles();
+  const conqueredKeys = Object.keys(CONQUEST_TITLES).filter(key => !!earned[key]);
+  if (conqueredKeys.length === 0) {
+    el.innerHTML = `<p class="speedrun-records-empty">${t("speedrunRecords.empty")}</p>`;
+    return;
+  }
+  el.innerHTML = conqueredKeys.map(key => {
+    const ct = CONQUEST_TITLES[key];
+    const script = SCRIPTS[key];
+    const best = getSpeedrunBest(key);
+    const timeText = best !== null ? formatSpeedrunTime(best) : t("speedrunRecords.notPlayedYet");
+    return `
+      <div class="speedrun-record-row">
+        <span class="speedrun-record-emoji">${ct.emoji}</span>
+        <span class="speedrun-record-label">${script ? script.label : key}</span>
+        <span class="speedrun-record-time ${best === null ? "no-record" : ""}">${timeText}</span>
+      </div>`;
+  }).join("");
+}
+
 const profileEmojiEl = document.getElementById("profile-emoji");
 const profileTitleEl = document.getElementById("profile-title");
 const profileSubtitleEl = document.getElementById("profile-subtitle");
@@ -598,9 +655,11 @@ function renderProfile() {
     profileNextEl.textContent = t("profile.highestReached");
   }
   renderRankLadder(idx);
+  renderSpeedrunRecords();
 }
 renderProfile();
 renderTitleCollection();
+renderSpeedrunRecords();
 
 /* ---- daftar tingkatan kebangsawanan di panel About ---- */
 function renderRankLadder(idx) {
@@ -1703,16 +1762,33 @@ const conquestStatusEl = document.getElementById("conquest-status");
 const conquestLockNoteEl = document.getElementById("conquest-lock-note");
 const conquestTitleTextEl = document.getElementById("conquest-title-text");
 
+const conquestIconEl = document.getElementById("conquest-icon");
+
 function updateConquestCard(scriptKey) {
   const script = SCRIPTS[scriptKey];
   const total = script.data.all.length;
-  conquestTitleTextEl.textContent = t("conquest.cardTitleWithLabel", { label: script.label });
-  conquestDescEl.innerHTML = t("conquest.desc", {
-    label: `<b>${script.label}</b>`,
-    count: `<span>${total}</span>`
-  });
   const isConquered = !!getConqueredTitles()[scriptKey];
+
+  // begitu sebuah aksara berhasil ditaklukkan, kartu Mode penaklukkan-nya
+  // berubah menjadi Mode Speedrun — status "✓ Conquered" tidak perlu lagi
+  // ditampilkan karena ikon & warna kartu sudah menandakannya.
+  btnConquest.classList.toggle("speedrun-mode", isConquered);
+  if (conquestIconEl) conquestIconEl.textContent = isConquered ? "⚡" : "⚔️";
   if (conquestStatusEl) conquestStatusEl.classList.toggle("hidden", !isConquered);
+
+  if (isConquered) {
+    conquestTitleTextEl.textContent = t("speedrun.cardTitleWithLabel", { label: script.label });
+    const best = getSpeedrunBest(scriptKey);
+    conquestDescEl.innerHTML = best !== null
+      ? t("speedrun.descWithRecord", { label: `<b>${script.label}</b>`, count: `<span>${total}</span>`, time: formatSpeedrunTime(best) })
+      : t("speedrun.descNoRecord", { label: `<b>${script.label}</b>`, count: `<span>${total}</span>` });
+  } else {
+    conquestTitleTextEl.textContent = t("conquest.cardTitleWithLabel", { label: script.label });
+    conquestDescEl.innerHTML = t("conquest.desc", {
+      label: `<b>${script.label}</b>`,
+      count: `<span>${total}</span>`
+    });
+  }
 
   const lockKey = getConquestLockReason(scriptKey);
   btnConquest.classList.toggle("locked", !!lockKey);
@@ -1730,31 +1806,49 @@ function openConquestOverlay() {
   if (getConquestLockReason(currentScript)) return; // locked — button is already disabled too
   const script = SCRIPTS[currentScript];
   const total = script.data.all.length;
-  const isThreePhase = currentScript === "hiragana" || currentScript === "katakana";
-  const bothConquered = !!getConqueredTitles().hiragana && !!getConqueredTitles().katakana;
+  const isConquered = !!getConqueredTitles()[currentScript];
 
-  document.getElementById("conquest-modal-title").textContent = t("conquest.modalTitleWithLabel", { label: script.label });
-
-  let rules;
-  if (isThreePhase) {
-    conquestModalText.textContent = t("conquestModal.threePhaseIntro", { label: script.label, count: total });
-    rules = [
-      t("conquestModal.rule.typeOnly"),
-      t("conquestModal.rule.oneWrongFails"),
-      t("conquestModal.rule.failRestartChapter"),
-      currentScript === "katakana" && !bothConquered
-        ? t("conquestModal.rule.becomeKnightSolo")
-        : t("conquestModal.rule.becomeKnightBoth")
+  if (isConquered) {
+    // aksara ini sudah ditaklukkan — kartu & modal-nya sekarang untuk Mode Speedrun.
+    document.getElementById("conquest-modal-title").textContent = t("speedrun.modalTitleWithLabel", { label: script.label });
+    conquestModalText.textContent = t("speedrun.intro", { count: total, label: script.label });
+    const rules = [
+      t("speedrun.rule.timed"),
+      t("speedrun.rule.mistakesCost"),
+      t("speedrun.rule.recordSaved")
     ];
+    conquestModalRulesEl.innerHTML = rules.map(r => `<li>${r}</li>`).join("");
+    btnConquestConfirm.textContent = t("speedrun.confirm");
+    btnConquestConfirm.classList.remove("danger");
   } else {
-    conquestModalText.textContent = t("conquestModal.singleIntro", { count: total, label: script.label });
-    rules = [
-      t("conquestModal.rule.allAtOnce"),
-      t("conquestModal.rule.oneWrongFails"),
-      t("conquestModal.rule.failRestartFirst")
-    ];
+    const isThreePhase = currentScript === "hiragana" || currentScript === "katakana";
+    const bothConquered = !!getConqueredTitles().hiragana && !!getConqueredTitles().katakana;
+
+    document.getElementById("conquest-modal-title").textContent = t("conquest.modalTitleWithLabel", { label: script.label });
+
+    let rules;
+    if (isThreePhase) {
+      conquestModalText.textContent = t("conquestModal.threePhaseIntro", { label: script.label, count: total });
+      rules = [
+        t("conquestModal.rule.typeOnly"),
+        t("conquestModal.rule.oneWrongFails"),
+        t("conquestModal.rule.failRestartChapter"),
+        currentScript === "katakana" && !bothConquered
+          ? t("conquestModal.rule.becomeKnightSolo")
+          : t("conquestModal.rule.becomeKnightBoth")
+      ];
+    } else {
+      conquestModalText.textContent = t("conquestModal.singleIntro", { count: total, label: script.label });
+      rules = [
+        t("conquestModal.rule.allAtOnce"),
+        t("conquestModal.rule.oneWrongFails"),
+        t("conquestModal.rule.failRestartFirst")
+      ];
+    }
+    conquestModalRulesEl.innerHTML = rules.map(r => `<li>${r}</li>`).join("");
+    btnConquestConfirm.textContent = t("conquestModal.confirm");
+    btnConquestConfirm.classList.add("danger");
   }
-  conquestModalRulesEl.innerHTML = rules.map(r => `<li>${r}</li>`).join("");
 
   conquestOverlay.classList.add("open");
   conquestOverlay.setAttribute("aria-hidden", "false");
@@ -1775,8 +1869,9 @@ document.addEventListener("keydown", (e) => {
 });
 btnConquestConfirm.addEventListener("click", () => {
   if (getConquestLockReason(currentScript)) { closeConquestOverlay(); return; }
+  const isConquered = !!getConqueredTitles()[currentScript];
   closeConquestOverlay();
-  startQuiz(currentScript, "conquest");
+  startQuiz(currentScript, isConquered ? "speedrun" : "conquest");
 });
 
 /* ---------------- learn screen navigation ---------------- */
@@ -1817,6 +1912,29 @@ const feedbackEl = document.getElementById("feedback");
 const feedbackExtraEl = document.getElementById("feedback-extra");
 const nextBtn = document.getElementById("btn-next");
 const quizModeLabelEl = document.getElementById("quiz-mode-label");
+const speedrunTimerEl = document.getElementById("speedrun-timer");
+const speedrunTimerValueEl = document.getElementById("speedrun-timer-value");
+let speedrunInterval = null;
+
+function startSpeedrunTimer() {
+  clearInterval(speedrunInterval);
+  if (!state.speedrun) {
+    speedrunTimerEl.classList.add("hidden");
+    return;
+  }
+  speedrunTimerEl.classList.remove("hidden");
+  speedrunTimerValueEl.textContent = formatSpeedrunTime(0);
+  speedrunInterval = setInterval(() => {
+    speedrunTimerValueEl.textContent = formatSpeedrunTime(Date.now() - state.speedrunStart);
+  }, 100);
+}
+function stopSpeedrunTimer() {
+  clearInterval(speedrunInterval);
+  speedrunInterval = null;
+  if (state.speedrun && state.speedrunStart) {
+    state.speedrunElapsedMs = Date.now() - state.speedrunStart;
+  }
+}
 const screenConquestStory = document.getElementById("screen-conquest-story");
 const conquestStoryEyebrowEl = document.getElementById("conquest-story-eyebrow");
 const conquestStoryTitleEl = document.getElementById("conquest-story-title");
@@ -1833,6 +1951,10 @@ function getConquestPhaseDifficulty(_phaseIdx) {
 function startQuiz(scriptKey, mode) {
   const script = SCRIPTS[scriptKey];
   const isConquest = mode === "conquest";
+  const isSpeedrun = mode === "speedrun";
+  // speedrun: sama seperti penaklukkan dari sisi soal (seluruh materi aksara
+  // sekaligus), tapi tanpa gagal-instan & tanpa cerita Chapter — cuma dikejar waktu.
+  const usesAllPool = isConquest || isSpeedrun;
   // Mode penaklukkan 3 Chapter (cerita) cuma utk Hiragana & Katakana — tier1/tier2/tier3
   // berturut-turut menjadi Chapter 1/2/3, masih satu penaklukkan (1x salah = gagal seluruh).
   const isThreePhaseConquest = isConquest && (scriptKey === "hiragana" || scriptKey === "katakana");
@@ -1842,15 +1964,15 @@ function startQuiz(scriptKey, mode) {
 
   if (script.hasVariants) {
     // kotoba / bunpo / kanji: bisa soal "arti", "romaji", atau "campuran" keduanya
-    const meaningPool = isConquest ? script.data.all : script.data[mode];
-    const romajiPool = isConquest ? script.dataRomaji.all : script.dataRomaji[mode];
+    const meaningPool = usesAllPool ? script.data.all : script.data[mode];
+    const romajiPool = usesAllPool ? script.dataRomaji.all : script.dataRomaji[mode];
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
     pool = meaningPool;
 
-    // di luar penaklukkan: mode manual pakai rentang "Dari"—"Sampai", mode acak
+    // di luar penaklukkan/speedrun: mode manual pakai rentang "Dari"—"Sampai", mode acak
     // mengambil sejumlah `selectedRandomCount` soal random dari seluruh tingkatan.
     let rangeIndices;
-    if (isConquest) {
+    if (usesAllPool) {
       rangeIndices = meaningPool.map((_, i) => i);
     } else if (rangeMode === "random") {
       const count = Math.min(selectedRandomCount, meaningPool.length);
@@ -1880,12 +2002,12 @@ function startQuiz(scriptKey, mode) {
     conquestPhaseBoundaries = [0, t1.length, t1.length + t2.length, t1.length + t2.length + t3.length];
   } else {
     // hiragana / katakana: hanya tebak romaji, seperti semula
-    pool = isConquest ? script.data.all : script.data[mode];
+    pool = usesAllPool ? script.data.all : script.data[mode];
     wrongPools = { romaji: pool };
-    // di luar penaklukkan: mode manual pakai rentang "Dari"—"Sampai", mode acak
+    // di luar penaklukkan/speedrun: mode manual pakai rentang "Dari"—"Sampai", mode acak
     // mengambil sejumlah `selectedRandomCount` karakter random dari seluruh tingkatan.
     let rangePool;
-    if (isConquest) {
+    if (usesAllPool) {
       rangePool = pool;
     } else if (rangeMode === "random") {
       const count = Math.min(selectedRandomCount, pool.length);
@@ -1900,10 +2022,12 @@ function startQuiz(scriptKey, mode) {
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
   // penaklukkan 3 Chapter selalu pakai progresi kesulitan otomatis per Chapter,
-  // mengabaikan pilihan Tingkat Kesulitan di layar awal.
+  // mengabaikan pilihan Tingkat Kesulitan di layar awal. Speedrun selalu pilihan
+  // ganda 4 opsi (easy) supaya waktu antar percobaan bisa dibandingkan secara adil.
   const difficulty = isThreePhaseConquest
     ? getConquestPhaseDifficulty(0)
-    : (selectedDifficulty === "hard" && !supportsHard) ? "easy" : selectedDifficulty;
+    : isSpeedrun ? "easy"
+      : (selectedDifficulty === "hard" && !supportsHard) ? "easy" : selectedDifficulty;
 
   state = {
     script: scriptKey, mode, pool, wrongPools,
@@ -1912,7 +2036,8 @@ function startQuiz(scriptKey, mode) {
     conquestPhaseBoundaries, conquestPhaseIndex: 0,
     index: 0, score: 0, streak: 0, maxStreak: 0, missed: [], results: [],
     rankIndexBefore: getRankIndex(),
-    conquest: isConquest, conquestFailed: false
+    conquest: isConquest, conquestFailed: false,
+    speedrun: isSpeedrun, speedrunStart: isSpeedrun ? Date.now() : null, speedrunElapsedMs: 0
   };
   cancelArmed = false;
   clearTimeout(cancelTimer);
@@ -1928,9 +2053,11 @@ function startQuiz(scriptKey, mode) {
     screenConquestStory.classList.add("hidden");
     screenQuiz.classList.remove("hidden");
     screenQuiz.classList.toggle("conquest-active", isConquest);
+    screenQuiz.classList.toggle("speedrun-active", isSpeedrun);
     renderDots();
     renderQuestion();
   }
+  startSpeedrunTimer();
 }
 
 function renderConquestStory(phaseIndex) {
@@ -2012,6 +2139,8 @@ function renderQuestion() {
     } else {
       quizModeLabelEl.textContent = t("quiz.conquerLabel", { label: script.label, current: state.index + 1, total: state.queue.length });
     }
+  } else if (state.speedrun) {
+    quizModeLabelEl.textContent = t("quiz.speedrunLabel", { label: script.label, current: state.index + 1, total: state.queue.length });
   } else if (script.hasVariants) {
     quizModeLabelEl.textContent = current[2] === "romaji" ? t(script.quizLabelRomajiKey) : t(script.quizLabelKey);
   } else {
@@ -2176,6 +2305,8 @@ btnCancel.addEventListener("click", () => {
   cancelArmed = false;
   btnCancel.textContent = t("common.back");
   btnCancel.classList.remove("armed");
+  stopSpeedrunTimer();
+  speedrunTimerEl.classList.add("hidden");
   screenQuiz.classList.add("hidden");
   screenResults.classList.add("hidden");
   screenStart.classList.remove("hidden");
@@ -2224,6 +2355,8 @@ const resGreetEl = document.getElementById("res-greet");
 const btnResultsLearn = document.getElementById("btn-results-learn");
 
 function renderResults() {
+  stopSpeedrunTimer();
+  speedrunTimerEl.classList.add("hidden");
   screenQuiz.classList.add("hidden");
   screenResults.classList.remove("hidden");
 
@@ -2311,6 +2444,25 @@ function renderResults() {
       renderTitleCollection();
       updateScriptConquestBadges();
     }
+  } else if (state.speedrun) {
+    btnResultsLearn.classList.add("hidden");
+    retryBtn.textContent = t("results.speedrunAgain");
+    const script = SCRIPTS[state.script];
+    const timeText = formatSpeedrunTime(state.speedrunElapsedMs);
+    const { isNewRecord, prevBest } = saveSpeedrunTime(state.script, state.speedrunElapsedMs);
+    let msg = t("results.speedrunTime", { time: timeText }) + " — ";
+    if (isNewRecord && prevBest === null) {
+      msg = t("results.speedrunFirstRecord", { label: script.label, time: timeText });
+      promoBannerEl.classList.add("conquest-success");
+    } else if (isNewRecord) {
+      msg = t("results.speedrunNewRecord", { label: script.label, time: timeText });
+      promoBannerEl.classList.add("conquest-success");
+    } else {
+      msg = t("results.speedrunNoRecord", { label: script.label, time: timeText, best: formatSpeedrunTime(prevBest) });
+    }
+    promoBannerEl.innerHTML = msg;
+    promoBannerEl.classList.remove("hidden");
+    renderSpeedrunRecords();
   } else {
     btnResultsLearn.classList.add("hidden");
     retryBtn.textContent = t("results.retrySet");
