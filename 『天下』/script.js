@@ -371,7 +371,7 @@ const RANK_LEVELS = [
   { title: "Count", subtitle: "伯爵", emoji: "🏛️", req: "Conquer all N5 Kanji." },
   { title: "Marquis", subtitle: "侯爵", emoji: "🏯", req: "Conquer all N5 material — Hiragana, Katakana, Kotoba, Bunpō, and Kanji." },
   { title: "Duke", subtitle: "公爵", emoji: "🦅", req: "Conquer all N4 material.", locked: true },
-  { title: "Prince", subtitle: "親王", emoji: "🌟", req: "Conquer all N3 material.", locked: true },
+  { title: "Archduke", subtitle: "大公", emoji: "🌟", req: "Conquer all N3 material.", locked: true },
   { title: "King", subtitle: "国王", emoji: "🏵️", req: "Conquer all N2 material.", locked: true },
   { title: "Emperor", subtitle: "天皇", emoji: "👑", req: "Conquer all N1 material.", locked: true }
 ];
