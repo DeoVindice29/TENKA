@@ -139,7 +139,7 @@ const I18N = {
   "speedrun.confirm": { en: "Ready?", id: "Siap?" },
   "speedrun.intro": { en: "You'll face all {count} {label} questions at once, shuffled — type the answer yourself, timed from the moment the countdown ends.", id: "Kamu akan menghadapi seluruh {count} soal {label} sekaligus, diacak — ketik sendiri jawabannya, waktu berjalan begitu hitung mundur selesai." },
   "speedrun.rule.timed": { en: "A timer runs the whole way through — answer as fast as you can!", id: "Timer berjalan dari awal sampai akhir — jawab secepat mungkin!" },
-  "speedrun.rule.mistakesCost": { en: "Wrong answers don't fail the run, but the clock keeps ticking.", id: "Jawaban salah tidak menggagalkan run-nya, tapi jam tetap terus berjalan." },
+  "speedrun.rule.mistakesCost": { en: "Get more than 3 wrong and the run instantly fails.", id: "Salah lebih dari 3 kali, run langsung gagal." },
   "speedrun.rule.recordSaved": { en: "Only your fastest completed run is saved as your personal record.", id: "Hanya waktu tercepatmu yang berhasil diselesaikan yang disimpan sebagai record pribadimu." },
   "speedrun.rule.autoNext": { en: "Correct answer auto-advances to the next question — no need to press Enter.", id: "Jawaban benar otomatis lanjut ke soal berikutnya — nggak perlu pencet Enter." },
   "quiz.speedrunLabel": { en: "⚡ Speedrun — {label} · Question {current}/{total}", id: "⚡ Speedrun — {label} · Soal {current}/{total}" },
@@ -147,6 +147,7 @@ const I18N = {
   "results.speedrunNewRecord": { en: "⚡ <b>New Record!</b> You finished {label} in <b>{time}</b>.", id: "⚡ <b>Rekor Baru!</b> Kamu menyelesaikan {label} dalam <b>{time}</b>." },
   "results.speedrunFirstRecord": { en: "⚡ <b>First record set!</b> You finished {label} in <b>{time}</b>.", id: "⚡ <b>Rekor pertama tercatat!</b> Kamu menyelesaikan {label} dalam <b>{time}</b>." },
   "results.speedrunNoRecord": { en: "You finished {label} in <b>{time}</b> — your best is still {best}.", id: "Kamu menyelesaikan {label} dalam <b>{time}</b> — rekor terbaikmu masih {best}." },
+  "results.speedrunFailBanner": { en: "💀 <b>Speedrun Failed</b> — too many mistakes (question {current} of {total}). Try again!", id: "💀 <b>Speedrun Gagal</b> — kebanyakan salah (soal ke-{current} dari {total}). Coba lagi!" },
   "results.speedrunAgain": { en: "⚡ Speedrun Again", id: "⚡ Speedrun Lagi" },
   "speedrunRecords.heading": { en: "⚡ Speedrun Records", id: "⚡ Rekor Speedrun" },
   "speedrunRecords.hint": { en: "Your fastest completed run for each conquered script.", id: "Waktu tercepatmu untuk tiap aksara yang sudah ditaklukkan." },
@@ -1905,14 +1906,14 @@ function startSpeedrunCountdown(scriptKey) {
     speedrunCountdownNumberEl.classList.add("tick");
     i++;
     if (i < steps.length) {
-      speedrunCountdownTimer = setTimeout(showStep, 700);
+      speedrunCountdownTimer = setTimeout(showStep, 1000);
     } else {
       speedrunCountdownTimer = setTimeout(() => {
         speedrunCountdownOverlay.classList.remove("open");
         speedrunCountdownOverlay.setAttribute("aria-hidden", "true");
         speedrunCountdownNumberEl.classList.remove("go", "tick");
         startQuiz(scriptKey, "speedrun");
-      }, 550);
+      }, 1000);
     }
   };
   showStep();
@@ -2090,7 +2091,8 @@ function startQuiz(scriptKey, mode) {
     index: 0, score: 0, streak: 0, maxStreak: 0, missed: [], results: [],
     rankIndexBefore: getRankIndex(),
     conquest: isConquest, conquestFailed: false,
-    speedrun: isSpeedrun, speedrunStart: isSpeedrun ? Date.now() : null, speedrunElapsedMs: 0
+    speedrun: isSpeedrun, speedrunStart: isSpeedrun ? Date.now() : null, speedrunElapsedMs: 0,
+    speedrunMistakes: 0, speedrunFailed: false
   };
   cancelArmed = false;
   clearTimeout(cancelTimer);
@@ -2286,6 +2288,14 @@ function handleAnswer(chosen, btn, current) {
     if (state.conquest) {
       state.conquestFailed = true;
       feedbackEl.textContent = t("quiz.failedAnswerWas", { answer: current[1] });
+    } else if (state.speedrun) {
+      state.speedrunMistakes++;
+      if (state.speedrunMistakes > 3) {
+        state.speedrunFailed = true;
+        feedbackEl.textContent = t("quiz.failedAnswerWas", { answer: current[1] });
+      } else {
+        feedbackEl.textContent = t("quiz.missedAnswerWas", { answer: current[1] });
+      }
     } else {
       feedbackEl.textContent = t("quiz.missedAnswerWas", { answer: current[1] });
     }
@@ -2303,7 +2313,7 @@ function handleAnswer(chosen, btn, current) {
   }
 
   nextBtn.classList.remove("hidden");
-  if (state.conquest && state.conquestFailed) {
+  if ((state.conquest && state.conquestFailed) || (state.speedrun && state.speedrunFailed)) {
     nextBtn.textContent = t("quiz.seeResults");
   } else {
     nextBtn.textContent = state.index === state.queue.length - 1 ? t("quiz.seeResults") : t("quiz.next");
@@ -2341,6 +2351,16 @@ hardInputEl.addEventListener("input", () => {
   if (feedbackEl.classList.contains("warn")) {
     feedbackEl.textContent = "";
     feedbackEl.className = "feedback-text";
+  }
+  // Mode Speedrun: begitu ketikan user sudah persis sama dengan jawaban yang
+  // benar, langsung submit otomatis — tanpa perlu pencet Enter atau klik Jawab
+  // sama sekali, biar makin ngebut.
+  if (state.speedrun && !hardInputEl.disabled) {
+    const current = state.queue[state.index];
+    const typed = hardInputEl.value.trim().toLowerCase();
+    if (typed !== "" && typed === String(current[1]).trim().toLowerCase()) {
+      handleAnswer(hardInputEl.value, null, current);
+    }
   }
 });
 hardInputEl.addEventListener("keydown", (e) => {
@@ -2387,7 +2407,7 @@ btnCancel.addEventListener("click", () => {
 
 function goToNextQuestion() {
   clearSpeedrunAutoNext();
-  if (state.conquest && state.conquestFailed) {
+  if ((state.conquest && state.conquestFailed) || (state.speedrun && state.speedrunFailed)) {
     renderResults();
     return;
   }
@@ -2523,21 +2543,28 @@ function renderResults() {
     btnResultsLearn.classList.add("hidden");
     retryBtn.textContent = t("results.speedrunAgain");
     const script = SCRIPTS[state.script];
-    const timeText = formatSpeedrunTime(state.speedrunElapsedMs);
-    const { isNewRecord, prevBest } = saveSpeedrunTime(state.script, state.speedrunElapsedMs);
-    let msg = t("results.speedrunTime", { time: timeText }) + " — ";
-    if (isNewRecord && prevBest === null) {
-      msg = t("results.speedrunFirstRecord", { label: script.label, time: timeText });
-      promoBannerEl.classList.add("conquest-success");
-    } else if (isNewRecord) {
-      msg = t("results.speedrunNewRecord", { label: script.label, time: timeText });
-      promoBannerEl.classList.add("conquest-success");
+    if (state.speedrunFailed) {
+      promoBannerEl.innerHTML = t("results.speedrunFailBanner", { current: state.index + 1, total: state.queue.length });
+      promoBannerEl.classList.add("conquest-fail");
+      promoBannerEl.classList.remove("hidden");
+      renderSpeedrunRecords();
     } else {
-      msg = t("results.speedrunNoRecord", { label: script.label, time: timeText, best: formatSpeedrunTime(prevBest) });
+      const timeText = formatSpeedrunTime(state.speedrunElapsedMs);
+      const { isNewRecord, prevBest } = saveSpeedrunTime(state.script, state.speedrunElapsedMs);
+      let msg = t("results.speedrunTime", { time: timeText }) + " — ";
+      if (isNewRecord && prevBest === null) {
+        msg = t("results.speedrunFirstRecord", { label: script.label, time: timeText });
+        promoBannerEl.classList.add("conquest-success");
+      } else if (isNewRecord) {
+        msg = t("results.speedrunNewRecord", { label: script.label, time: timeText });
+        promoBannerEl.classList.add("conquest-success");
+      } else {
+        msg = t("results.speedrunNoRecord", { label: script.label, time: timeText, best: formatSpeedrunTime(prevBest) });
+      }
+      promoBannerEl.innerHTML = msg;
+      promoBannerEl.classList.remove("hidden");
+      renderSpeedrunRecords();
     }
-    promoBannerEl.innerHTML = msg;
-    promoBannerEl.classList.remove("hidden");
-    renderSpeedrunRecords();
   } else {
     btnResultsLearn.classList.add("hidden");
     retryBtn.textContent = t("results.retrySet");
