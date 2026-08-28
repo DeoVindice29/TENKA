@@ -2658,6 +2658,7 @@ function renderResults() {
   }
 
   const retryBtn = document.getElementById("btn-retry");
+  retryBtn.classList.remove("hidden");
   promoBannerEl.classList.remove("conquest-success", "conquest-fail");
 
   if (state.conquest) {
@@ -2694,7 +2695,9 @@ function renderResults() {
       promoBannerEl.innerHTML = msg;
       promoBannerEl.classList.add("conquest-success");
       promoBannerEl.classList.remove("hidden");
-      retryBtn.textContent = t("results.conquerAgain");
+      // aksara ini sudah takluk — kartunya sudah berubah jadi Mode Speedrun,
+      // jadi tombol "Taklukkan Lagi" tidak relevan lagi di sini.
+      retryBtn.classList.add("hidden");
       renderTitleCollection();
       updateScriptConquestBadges();
     }
