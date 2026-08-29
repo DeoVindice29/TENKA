@@ -56,6 +56,9 @@ const I18N = {
   "quiz.guessRomaji": { en: "Guess the romaji", id: "Tebak romaji" },
   "quiz.guessMeaning": { en: "Guess the meaning", id: "Tebak artinya" },
   "quiz.guessFunction": { en: "Guess the function", id: "Tebak fungsinya" },
+  "quiz.guessKalimat": { en: "Guess the Particle!", id: "Tebak Partikel!" },
+  "quiz.function": { en: "Function", id: "Fungsi" },
+  "quiz.kalimat": { en: "Particle", id: "Partikel" },
   "quiz.conquerLabel": { en: "⚔️ Conquer — {label} · Question {current}/{total}", id: "⚔️ penaklukkan — {label} · Soal {current}/{total}" },
   "quiz.chapterLabel": { en: "⚔️ {phaseLabel} · Question {current}/{total}", id: "⚔️ {phaseLabel} · Soal {current}/{total}" },
   "quiz.correct": { en: "Correct!", id: "Tepat!" },
@@ -63,6 +66,8 @@ const I18N = {
   "quiz.missedAnswerWas": { en: 'Missed — the answer was "{answer}"', id: 'Meleset — jawabannya "{answer}"' },
   "quiz.meaningLabel": { en: "Meaning: {value}", id: "Arti: {value}" },
   "quiz.romajiLabel": { en: "Romaji: {value}", id: "Romaji: {value}" },
+  "quiz.functionLabel": { en: "Function: {value}", id: "Fungsi: {value}" },
+  "quiz.kalimatLabel": { en: "Example: {value}", id: "Kalimat: {value}" },
   "quiz.fillAnswerFirst": { en: "Fill in your answer before continuing.", id: "Isi dulu jawabannya sebelum lanjut." },
   "range.label": { en: "Question Range", id: "Rentang Soal" },
   "range.chooseRange": { en: "Choose Range", id: "Pilih Rentang" },
@@ -199,6 +204,31 @@ function pickJaVoice() {
 if (speechSupported) {
   pickJaVoice();
   speechSynthesis.addEventListener("voiceschanged", pickJaVoice);
+
+  // iOS Safari & some Android WebViews suspend the speech engine after a
+  // period of inactivity, and it needs to be "unlocked" by a real user
+  // gesture before it will ever produce sound. Nudge it once on the very
+  // first tap/click anywhere in the app so later data-speak calls work.
+  let speechUnlocked = false;
+  const unlockSpeech = () => {
+    if (speechUnlocked) return;
+    speechUnlocked = true;
+    try {
+      speechSynthesis.resume();
+      const primer = new SpeechSynthesisUtterance("");
+      primer.volume = 0;
+      speechSynthesis.speak(primer);
+    } catch (err) { /* no-op */ }
+  };
+  document.addEventListener("pointerdown", unlockSpeech, { once: true, capture: true });
+
+  // Some mobile browsers auto-pause the engine ~15s in; keep it alive.
+  setInterval(() => {
+    if (speechSynthesis.speaking) {
+      speechSynthesis.pause();
+      speechSynthesis.resume();
+    }
+  }, 10000);
 }
 
 let speakRequestId = 0;
@@ -214,19 +244,20 @@ function speakJapanese(text, btn) {
   clearSpeakingHighlight();
   if (btn) btn.classList.add("speaking");
 
+  // IMPORTANT: speak() must run synchronously inside the user-gesture
+  // handler (no setTimeout/await before it) or mobile Safari silently
+  // drops the audio with no error at all.
   speechSynthesis.cancel();
+  speechSynthesis.resume();
   if (!jaVoice) pickJaVoice();
 
-  setTimeout(() => {
-    if (requestId !== speakRequestId) return;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "ja-JP";
-    if (jaVoice) utter.voice = jaVoice;
-    utter.rate = 0.85;
-    utter.onend = () => { if (btn) btn.classList.remove("speaking"); };
-    utter.onerror = () => { if (btn) btn.classList.remove("speaking"); };
-    speechSynthesis.speak(utter);
-  }, 80);
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "ja-JP";
+  if (jaVoice) utter.voice = jaVoice;
+  utter.rate = 0.85;
+  utter.onend = () => { if (requestId === speakRequestId && btn) btn.classList.remove("speaking"); };
+  utter.onerror = () => { if (requestId === speakRequestId && btn) btn.classList.remove("speaking"); };
+  speechSynthesis.speak(utter);
 }
 
 document.addEventListener("click", (e) => {
@@ -1154,47 +1185,54 @@ const KOTOBA_TIER3 = [
 
 /* ---- Bunpō N5 (pattern, example sentence, function/meaning-for-quiz) ---- */
 /* 4th element = romaji broken into segments: [[jp_text, romaji], ...] so it's easy to learn & can be spoken one at a time */
+/* 5th element = "blank" — versi hiragana/katakana TANPA kanji dengan
+   partikel/pola-nya diganti "..." supaya bisa dipakai sebagai soal
+   "Tebak Partikel!" (mis. "わたし ... がくせい ...."), tanpa membocorkan
+   jawabannya lewat kanji. */
+/* 6th element = terjemahan contoh kalimatnya (bukan arti pola-nya), dipakai
+   di mode Belajar supaya user tau arti kalimat contohnya, sama kayak di
+   Kotoba Dasar. */
 const BUNPO_TIER1 = [
-  ["〜は〜です", "私は学生です。", { en: "states that A is B", id: "menyatakan A adalah B" }, [["私", "Watashi"], ["は", "wa"], ["学生", "gakusei"], ["です。", "desu."]]],
-  ["〜が", "雨が降っています。", { en: "marks the sentence subject", id: "menandai subjek kalimat" }, [["雨", "Ame"], ["が", "ga"], ["降っています。", "futte imasu."]]],
-  ["〜を", "水を飲みます。", { en: "marks the direct object", id: "menandai objek langsung" }, [["水", "Mizu"], ["を", "wo"], ["飲みます。", "nomimasu."]]],
-  ["〜に", "7時に起きます。", { en: "indicates time or destination", id: "menunjukkan waktu atau tujuan" }, [["7時", "Shichi-ji"], ["に", "ni"], ["起きます。", "okimasu."]]],
-  ["〜で", "電車で行きます。", { en: "indicates the place/means of doing something", id: "menunjukkan tempat/cara melakukan sesuatu" }, [["電車", "Densha"], ["で", "de"], ["行きます。", "ikimasu."]]],
-  ["〜と", "友達と話します。", { en: "and / together with", id: "dan / bersama dengan" }, [["友達", "Tomodachi"], ["と", "to"], ["話します。", "hanashimasu."]]],
-  ["〜も", "私も学生です。", { en: "also / too", id: "juga" }, [["私", "Watashi"], ["も", "mo"], ["学生です。", "gakusei desu."]]],
-  ["〜の", "これは私の本です。", { en: "indicates possession", id: "menunjukkan kepemilikan" }, [["これ", "Kore"], ["は", "wa"], ["私の", "watashi no"], ["本です。", "hon desu."]]],
-  ["〜へ", "学校へ行きます。", { en: "toward / in the direction of", id: "menuju / ke arah" }, [["学校", "Gakkou"], ["へ", "e"], ["行きます。", "ikimasu."]]],
-  ["〜か", "これは何ですか。", { en: "question particle", id: "partikel tanya" }, [["これ", "Kore"], ["は", "wa"], ["何ですか。", "nan desu ka."]]],
-  ["〜ね", "今日は暑いですね。", { en: "seeking agreement, roughly 'isn't it?'", id: "mencari persetujuan, kira-kira 'bukan?'" }, [["今日", "Kyou"], ["は", "wa"], ["暑いですね。", "atsui desu ne."]]],
-  ["〜よ", "もう6時ですよ。", { en: "emphasizes new information", id: "menegaskan informasi baru" }, [["もう", "Mou"], ["6時", "roku-ji"], ["ですよ。", "desu yo."]]]
+  ["〜は〜です", "私は学生です。", { en: "states that A is B", id: "menyatakan A adalah B" }, [["私", "Watashi"], ["は", "wa"], ["学生", "gakusei"], ["です。", "desu."]], "わたし ... がくせい ....", { en: "I am a student.", id: "Saya adalah murid/siswa." }],
+  ["〜が", "雨が降っています。", { en: "marks the sentence subject", id: "menandai subjek kalimat" }, [["雨", "Ame"], ["が", "ga"], ["降っています。", "futte imasu."]], "あめ ... ふっています。", { en: "It is raining.", id: "Sedang turun hujan." }],
+  ["〜を", "水を飲みます。", { en: "marks the direct object", id: "menandai objek langsung" }, [["水", "Mizu"], ["を", "wo"], ["飲みます。", "nomimasu."]], "みず ... のみます。", { en: "I drink water.", id: "Saya minum air." }],
+  ["〜に", "7時に起きます。", { en: "indicates time or destination", id: "menunjukkan waktu atau tujuan" }, [["7時", "Shichi-ji"], ["に", "ni"], ["起きます。", "okimasu."]], "しちじ ... おきます。", { en: "I wake up at 7 o'clock.", id: "Saya bangun jam 7." }],
+  ["〜で", "電車で行きます。", { en: "indicates the place/means of doing something", id: "menunjukkan tempat/cara melakukan sesuatu" }, [["電車", "Densha"], ["で", "de"], ["行きます。", "ikimasu."]], "でんしゃ ... いきます。", { en: "I go by train.", id: "Saya pergi naik kereta." }],
+  ["〜と", "友達と話します。", { en: "and / together with", id: "dan / bersama dengan" }, [["友達", "Tomodachi"], ["と", "to"], ["話します。", "hanashimasu."]], "ともだち ... はなします。", { en: "I talk with my friend.", id: "Saya berbicara dengan teman." }],
+  ["〜も", "私も学生です。", { en: "also / too", id: "juga" }, [["私", "Watashi"], ["も", "mo"], ["学生です。", "gakusei desu."]], "わたし ... がくせいです。", { en: "I am also a student.", id: "Saya juga murid/siswa." }],
+  ["〜の", "これは私の本です。", { en: "indicates possession", id: "menunjukkan kepemilikan" }, [["これ", "Kore"], ["は", "wa"], ["私の", "watashi no"], ["本です。", "hon desu."]], "これは わたし ... ほんです。", { en: "This is my book.", id: "Ini buku saya." }],
+  ["〜へ", "学校へ行きます。", { en: "toward / in the direction of", id: "menuju / ke arah" }, [["学校", "Gakkou"], ["へ", "e"], ["行きます。", "ikimasu."]], "がっこう ... いきます。", { en: "I go to school.", id: "Saya pergi ke sekolah." }],
+  ["〜か", "これは何ですか。", { en: "question particle", id: "partikel tanya" }, [["これ", "Kore"], ["は", "wa"], ["何ですか。", "nan desu ka."]], "これは なんです ....", { en: "What is this?", id: "Ini apa?" }],
+  ["〜ね", "今日は暑いですね。", { en: "seeking agreement, roughly 'isn't it?'", id: "mencari persetujuan, kira-kira 'bukan?'" }, [["今日", "Kyou"], ["は", "wa"], ["暑いですね。", "atsui desu ne."]], "きょうは あついです ....", { en: "It's hot today, isn't it?", id: "Hari ini panas, ya." }],
+  ["〜よ", "もう6時ですよ。", { en: "emphasizes new information", id: "menegaskan informasi baru" }, [["もう", "Mou"], ["6時", "roku-ji"], ["ですよ。", "desu yo."]], "もう ろくじです ....", { en: "It's already 6 o'clock!", id: "Sudah jam 6, lho!" }]
 ];
 const BUNPO_TIER2 = [
-  ["〜ませんか", "一緒に行きませんか。", { en: "inviting, 'would you like to...?'", id: "mengajak, 'mau...?'" }, [["一緒に", "Issho ni"], ["行きませんか。", "ikimasen ka."]]],
-  ["〜ましょう", "一緒に食べましょう。", { en: "let's / shall we", id: "ayo / mari kita" }, [["一緒に", "Issho ni"], ["食べましょう。", "tabemashou."]]],
-  ["〜たい", "日本へ行きたいです。", { en: "want to do something", id: "ingin melakukan sesuatu" }, [["日本へ", "Nihon e"], ["行きたいです。", "ikitai desu."]]],
-  ["〜ないでください", "写真を撮らないでください。", { en: "please don't do", id: "tolong jangan lakukan" }, [["写真を", "Shashin wo"], ["撮らないでください。", "toranaide kudasai."]]],
-  ["〜てください", "ここに座ってください。", { en: "please do", id: "tolong lakukan" }, [["ここに", "Koko ni"], ["座ってください。", "suwatte kudasai."]]],
-  ["〜ています", "今、勉強しています。", { en: "doing right now (progressive)", id: "sedang dilakukan (progresif)" }, [["今、", "Ima,"], ["勉強しています。", "benkyou shite imasu."]]],
-  ["〜ました", "昨日、映画を見ました。", { en: "past tense, positive", id: "bentuk lampau, positif" }, [["昨日、", "Kinou,"], ["映画を", "eiga wo"], ["見ました。", "mimashita."]]],
-  ["〜ませんでした", "昨日、行きませんでした。", { en: "past tense, negative", id: "bentuk lampau, negatif" }, [["昨日、", "Kinou,"], ["行きませんでした。", "ikimasen deshita."]]],
-  ["〜から〜まで", "9時から5時まで働きます。", { en: "from...to", id: "dari...sampai" }, [["9時から", "Ku-ji kara"], ["5時まで", "go-ji made"], ["働きます。", "hatarakimasu."]]],
-  ["〜より", "犬より猫が好きです。", { en: "compared to", id: "dibandingkan dengan" }, [["犬より", "Inu yori"], ["猫が", "neko ga"], ["好きです。", "suki desu."]]],
-  ["〜ほうがいい", "早く寝たほうがいいです。", { en: "better to do", id: "lebih baik melakukan" }, [["早く", "Hayaku"], ["寝たほうが", "neta hou ga"], ["いいです。", "ii desu."]]],
-  ["〜てもいいです", "ここに座ってもいいです。", { en: "allowed to do", id: "boleh melakukan" }, [["ここに", "Koko ni"], ["座ってもいいです。", "suwattemo ii desu."]]]
+  ["〜ませんか", "一緒に行きませんか。", { en: "inviting, 'would you like to...?'", id: "mengajak, 'mau...?'" }, [["一緒に", "Issho ni"], ["行きませんか。", "ikimasen ka."]], "いっしょに ....", { en: "Would you like to go together?", id: "Mau pergi bersama-sama?" }],
+  ["〜ましょう", "一緒に食べましょう。", { en: "let's / shall we", id: "ayo / mari kita" }, [["一緒に", "Issho ni"], ["食べましょう。", "tabemashou."]], "いっしょに ....", { en: "Let's eat together.", id: "Ayo makan bersama-sama." }],
+  ["〜たい", "日本へ行きたいです。", { en: "want to do something", id: "ingin melakukan sesuatu" }, [["日本へ", "Nihon e"], ["行きたいです。", "ikitai desu."]], "にほんへ ... です。", { en: "I want to go to Japan.", id: "Saya ingin pergi ke Jepang." }],
+  ["〜ないでください", "写真を撮らないでください。", { en: "please don't do", id: "tolong jangan lakukan" }, [["写真を", "Shashin wo"], ["撮らないでください。", "toranaide kudasai."]], "しゃしんを ....", { en: "Please don't take photos.", id: "Tolong jangan mengambil foto." }],
+  ["〜てください", "ここに座ってください。", { en: "please do", id: "tolong lakukan" }, [["ここに", "Koko ni"], ["座ってください。", "suwatte kudasai."]], "ここに ....", { en: "Please sit here.", id: "Tolong duduk di sini." }],
+  ["〜ています", "今、勉強しています。", { en: "doing right now (progressive)", id: "sedang dilakukan (progresif)" }, [["今、", "Ima,"], ["勉強しています。", "benkyou shite imasu."]], "いま、べんきょう ....", { en: "I am studying right now.", id: "Sedang belajar sekarang." }],
+  ["〜ました", "昨日、映画を見ました。", { en: "past tense, positive", id: "bentuk lampau, positif" }, [["昨日、", "Kinou,"], ["映画を", "eiga wo"], ["見ました。", "mimashita."]], "きのう、えいがを ....", { en: "I watched a movie yesterday.", id: "Kemarin saya menonton film." }],
+  ["〜ませんでした", "昨日、行きませんでした。", { en: "past tense, negative", id: "bentuk lampau, negatif" }, [["昨日、", "Kinou,"], ["行きませんでした。", "ikimasen deshita."]], "きのう、....", { en: "I didn't go yesterday.", id: "Kemarin saya tidak pergi." }],
+  ["〜から〜まで", "9時から5時まで働きます。", { en: "from...to", id: "dari...sampai" }, [["9時から", "Ku-ji kara"], ["5時まで", "go-ji made"], ["働きます。", "hatarakimasu."]], "くじ ... ごじ ... はたらきます。", { en: "I work from 9 to 5.", id: "Saya bekerja dari jam 9 sampai jam 5." }],
+  ["〜より", "犬より猫が好きです。", { en: "compared to", id: "dibandingkan dengan" }, [["犬より", "Inu yori"], ["猫が", "neko ga"], ["好きです。", "suki desu."]], "いぬ ... ねこが すきです。", { en: "I like cats more than dogs.", id: "Saya lebih suka kucing daripada anjing." }],
+  ["〜ほうがいい", "早く寝たほうがいいです。", { en: "better to do", id: "lebih baik melakukan" }, [["早く", "Hayaku"], ["寝たほうが", "neta hou ga"], ["いいです。", "ii desu."]], "はやく ねた ... です。", { en: "You'd better sleep early.", id: "Lebih baik tidur lebih awal." }],
+  ["〜てもいいです", "ここに座ってもいいです。", { en: "allowed to do", id: "boleh melakukan" }, [["ここに", "Koko ni"], ["座ってもいいです。", "suwattemo ii desu."]], "ここに ....", { en: "You may sit here.", id: "Boleh duduk di sini." }]
 ];
 const BUNPO_TIER3 = [
-  ["〜なければなりません", "薬を飲まなければなりません。", { en: "must do", id: "harus melakukan" }, [["薬を", "Kusuri wo"], ["飲まなければなりません。", "nomanakereba narimasen."]]],
-  ["〜前に", "寝る前に歯を磨きます。", { en: "before doing", id: "sebelum melakukan" }, [["寝る前に", "Neru mae ni"], ["歯を", "ha wo"], ["磨きます。", "migakimasu."]]],
-  ["〜後で", "食べた後で薬を飲みます。", { en: "after doing", id: "setelah melakukan" }, [["食べた後で", "Tabeta ato de"], ["薬を", "kusuri wo"], ["飲みます。", "nomimasu."]]],
-  ["〜ながら", "音楽を聞きながら勉強します。", { en: "while doing", id: "sambil melakukan" }, [["音楽を", "Ongaku wo"], ["聞きながら", "kikinagara"], ["勉強します。", "benkyou shimasu."]]],
-  ["〜ので", "雨なので、行きません。", { en: "because (reason)", id: "karena (alasan)" }, [["雨なので、", "Ame nanode,"], ["行きません。", "ikimasen."]]],
-  ["〜のに", "勉強したのに、忘れました。", { en: "even though / despite", id: "meskipun / walaupun" }, [["勉強したのに、", "Benkyou shita noni,"], ["忘れました。", "wasuremashita."]]],
-  ["〜と思います", "明日雨が降ると思います。", { en: "I think / in my opinion", id: "menurut saya / saya pikir" }, [["明日", "Ashita"], ["雨が", "ame ga"], ["降ると思います。", "furu to omoimasu."]]],
-  ["〜と言いました", "先生は明日休むと言いました。", { en: "said that", id: "mengatakan bahwa" }, [["先生は", "Sensei wa"], ["明日", "ashita"], ["休むと言いました。", "yasumu to iimashita."]]],
-  ["〜ことができます", "漢字を読むことができます。", { en: "can / is able to do", id: "bisa / mampu melakukan" }, [["漢字を", "Kanji wo"], ["読むことができます。", "yomu koto ga dekimasu."]]],
-  ["〜つもりです", "来年日本へ行くつもりです。", { en: "intend to / plan to", id: "berniat / berencana" }, [["来年", "Rainen"], ["日本へ", "Nihon e"], ["行くつもりです。", "iku tsumori desu."]]],
-  ["〜でしょう", "明日は晴れでしょう。", { en: "probably / likely", id: "mungkin / kemungkinan besar" }, [["明日は", "Ashita wa"], ["晴れでしょう。", "hare deshou."]]],
-  ["〜すぎる", "食べすぎました。", { en: "too much (excessive)", id: "terlalu banyak (berlebihan)" }, [["食べすぎました。", "Tabesugimashita."]]]
+  ["〜なければなりません", "薬を飲まなければなりません。", { en: "must do", id: "harus melakukan" }, [["薬を", "Kusuri wo"], ["飲まなければなりません。", "nomanakereba narimasen."]], "くすりを ....", { en: "I must take medicine.", id: "Saya harus minum obat." }],
+  ["〜前に", "寝る前に歯を磨きます。", { en: "before doing", id: "sebelum melakukan" }, [["寝る前に", "Neru mae ni"], ["歯を", "ha wo"], ["磨きます。", "migakimasu."]], "ねる ... はを みがきます。", { en: "I brush my teeth before sleeping.", id: "Saya menyikat gigi sebelum tidur." }],
+  ["〜後で", "食べた後で薬を飲みます。", { en: "after doing", id: "setelah melakukan" }, [["食べた後で", "Tabeta ato de"], ["薬を", "kusuri wo"], ["飲みます。", "nomimasu."]], "たべた ... くすりを のみます。", { en: "I take medicine after eating.", id: "Saya minum obat setelah makan." }],
+  ["〜ながら", "音楽を聞きながら勉強します。", { en: "while doing", id: "sambil melakukan" }, [["音楽を", "Ongaku wo"], ["聞きながら", "kikinagara"], ["勉強します。", "benkyou shimasu."]], "おんがくを きき... べんきょうします。", { en: "I study while listening to music.", id: "Saya belajar sambil mendengarkan musik." }],
+  ["〜ので", "雨なので、行きません。", { en: "because (reason)", id: "karena (alasan)" }, [["雨なので、", "Ame nanode,"], ["行きません。", "ikimasen."]], "あめ ...、いきません。", { en: "Because it's raining, I won't go.", id: "Karena hujan, saya tidak pergi." }],
+  ["〜のに", "勉強したのに、忘れました。", { en: "even though / despite", id: "meskipun / walaupun" }, [["勉強したのに、", "Benkyou shita noni,"], ["忘れました。", "wasuremashita."]], "べんきょうした ...、わすれました。", { en: "Even though I studied, I forgot.", id: "Meskipun sudah belajar, saya lupa." }],
+  ["〜と思います", "明日雨が降ると思います。", { en: "I think / in my opinion", id: "menurut saya / saya pikir" }, [["明日", "Ashita"], ["雨が", "ame ga"], ["降ると思います。", "furu to omoimasu."]], "あした あめが ふる ....", { en: "I think it will rain tomorrow.", id: "Saya pikir besok akan hujan." }],
+  ["〜と言いました", "先生は明日休むと言いました。", { en: "said that", id: "mengatakan bahwa" }, [["先生は", "Sensei wa"], ["明日", "ashita"], ["休むと言いました。", "yasumu to iimashita."]], "せんせいは あした やすむ ....", { en: "The teacher said they would be off tomorrow.", id: "Guru bilang besok akan libur." }],
+  ["〜ことができます", "漢字を読むことができます。", { en: "can / is able to do", id: "bisa / mampu melakukan" }, [["漢字を", "Kanji wo"], ["読むことができます。", "yomu koto ga dekimasu."]], "かんじを よむ ....", { en: "I can read kanji.", id: "Saya bisa membaca kanji." }],
+  ["〜つもりです", "来年日本へ行くつもりです。", { en: "intend to / plan to", id: "berniat / berencana" }, [["来年", "Rainen"], ["日本へ", "Nihon e"], ["行くつもりです。", "iku tsumori desu."]], "らいねん にほんへ いく ....", { en: "I plan to go to Japan next year.", id: "Saya berencana pergi ke Jepang tahun depan." }],
+  ["〜でしょう", "明日は晴れでしょう。", { en: "probably / likely", id: "mungkin / kemungkinan besar" }, [["明日は", "Ashita wa"], ["晴れでしょう。", "hare deshou."]], "あしたは はれ ....", { en: "It will probably be sunny tomorrow.", id: "Besok mungkin cerah." }],
+  ["〜すぎる", "食べすぎました。", { en: "too much (excessive)", id: "terlalu banyak (berlebihan)" }, [["食べすぎました。", "Tabesugimashita."]], "たべ ....", { en: "I ate too much.", id: "Saya makan terlalu banyak." }]
 ];
 
 /* =========================================================
@@ -1246,6 +1284,13 @@ const SCRIPTS = {
   kanji: {
     key: "kanji", label: "Kanji N5", tabGlyph: "漢", quizType: "meaning",
     quizLabelKey: "quiz.guessMeaning", quizLabelRomajiKey: "quiz.guessRomaji", hasVariants: true,
+    quizLabelKeys: { meaning: "quiz.guessMeaning", romaji: "quiz.guessRomaji" },
+    extraLabelKeys: { meaning: "quiz.romajiLabel", romaji: "quiz.meaningLabel" },
+    variantButtons: [
+      { key: "meaning", icon: "🈺", i18nKey: "quiz.meaning" },
+      { key: "romaji", icon: "🔤", label: "Romaji" },
+      { key: "both", icon: "🎲", i18nKey: "quiz.mixed" }
+    ],
     data: {
       tier1: KANJI_TIER1.map(([c, , m]) => [c, tf(m)]),
       tier2: KANJI_TIER2.map(([c, , m]) => [c, tf(m)]),
@@ -1271,6 +1316,13 @@ const SCRIPTS = {
   kotoba: {
     key: "kotoba", label: "Basic Kotoba", tabGlyph: "語", quizType: "meaning",
     quizLabelKey: "quiz.guessMeaning", quizLabelRomajiKey: "quiz.guessRomaji", hasVariants: true,
+    quizLabelKeys: { meaning: "quiz.guessMeaning", romaji: "quiz.guessRomaji" },
+    extraLabelKeys: { meaning: "quiz.romajiLabel", romaji: "quiz.meaningLabel" },
+    variantButtons: [
+      { key: "meaning", icon: "🈺", i18nKey: "quiz.meaning" },
+      { key: "romaji", icon: "🔤", label: "Romaji" },
+      { key: "both", icon: "🎲", i18nKey: "quiz.mixed" }
+    ],
     data: {
       tier1: KOTOBA_TIER1.map(([c, , m]) => [c, tf(m)]),
       tier2: KOTOBA_TIER2.map(([c, , m]) => [c, tf(m)]),
@@ -1295,10 +1347,39 @@ const SCRIPTS = {
   },
   bunpo: {
     key: "bunpo", label: "Bunpō", tabGlyph: "文", quizType: "meaning", quizLabelKey: "quiz.guessFunction",
+    // "hasVariants" + "variantMode: sentence" mengaktifkan mode soal ke-2 khusus
+    // Bunpō, "Kalimat" — kebalikan dari "Fungsi": bukannya menunjukkan pola lalu
+    // menebak fungsinya, di sini yang ditunjukkan adalah contoh kalimatnya, dan
+    // yang harus ditebak adalah pola/partikel mana yang cocok dipakai di situ.
+    hasVariants: true, variantMode: "sentence",
+    quizLabelKeys: { meaning: "quiz.guessFunction", kalimat: "quiz.guessKalimat" },
+    extraLabelKeys: { meaning: "quiz.kalimatLabel", kalimat: "quiz.functionLabel" },
+    variantButtons: [
+      { key: "meaning", icon: "🈺", i18nKey: "quiz.function" },
+      { key: "kalimat", icon: "📝", i18nKey: "quiz.kalimat" },
+      { key: "both", icon: "🎲", i18nKey: "quiz.mixed" }
+    ],
     data: {
       tier1: BUNPO_TIER1.map(([c, , m]) => [c, tf(m)]),
       tier2: BUNPO_TIER2.map(([c, , m]) => [c, tf(m)]),
       tier3: BUNPO_TIER3.map(([c, , m]) => [c, tf(m)])
+    },
+    // dataKalimat: soal "Kalimat" — [contoh_kalimat, pola] per tingkatan. Tidak
+    // perlu di-resolve ulang tiap ganti bahasa karena isinya murni bahasa Jepang.
+    dataKalimat: {
+      tier1: BUNPO_TIER1.map(([c, ex]) => [ex, c]),
+      tier2: BUNPO_TIER2.map(([c, ex]) => [ex, c]),
+      tier3: BUNPO_TIER3.map(([c, ex]) => [ex, c])
+    },
+    // dataKalimatBlank: sama seperti dataKalimat tapi soalnya versi romaji
+    // tanpa kanji dengan partikel/pola-nya dikosongkan "..." — dipakai khusus
+    // sebagai teks SOAL mode "Tebak Partikel!" supaya jawabannya (kanji/pola)
+    // tidak kebocoran. dataKalimat aslinya tetap dipakai buat info "extra"
+    // (contoh kalimat lengkap) yang muncul setelah jawab soal mode "Fungsi".
+    dataKalimatBlank: {
+      tier1: BUNPO_TIER1.map(([c, , , , blank]) => [blank, c]),
+      tier2: BUNPO_TIER2.map(([c, , , , blank]) => [blank, c]),
+      tier3: BUNPO_TIER3.map(([c, , , , blank]) => [blank, c])
     },
     levelText: {
       tier1: { title: { en: "Basic Particles", id: "Partikel Dasar" }, sample: "〜は 〜が 〜を", desc: { en: "12 essential N5 particles you need to Conquer.", id: "12 partikel dasar N5 yang wajib diTaklukkan." } },
@@ -1319,6 +1400,12 @@ Object.values(SCRIPTS).forEach(s => {
   s.data.all = [...s.data.tier1, ...s.data.tier2, ...s.data.tier3];
   if (s.dataRomaji) {
     s.dataRomaji.all = [...s.dataRomaji.tier1, ...s.dataRomaji.tier2, ...s.dataRomaji.tier3];
+  }
+  if (s.dataKalimat) {
+    s.dataKalimat.all = [...s.dataKalimat.tier1, ...s.dataKalimat.tier2, ...s.dataKalimat.tier3];
+  }
+  if (s.dataKalimatBlank) {
+    s.dataKalimatBlank.all = [...s.dataKalimatBlank.tier1, ...s.dataKalimatBlank.tier2, ...s.dataKalimatBlank.tier3];
   }
 });
 
@@ -1390,6 +1477,23 @@ function shuffle(arr) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+// indeks soal yg dipakai dari sebuah pool, sesuai mode rentang yg aktif:
+// seluruh pool (penaklukkan/speedrun), rentang manual "Dari"—"Sampai", atau
+// sejumlah `selectedRandomCount` indeks acak. Dipakai bareng oleh semua script
+// ber-hasVariants (kanji/kotoba/bunpo) supaya logikanya tidak diulang 2-3x.
+function computeRangeIndices(length, usesAllPool) {
+  if (usesAllPool) return Array.from({ length }, (_, i) => i);
+  if (rangeMode === "random") {
+    const count = Math.min(selectedRandomCount, length);
+    return shuffle(Array.from({ length }, (_, i) => i)).slice(0, count);
+  }
+  const from = Math.max(0, Math.min(selectedRangeFrom, length - 1));
+  const to = Math.max(from, Math.min(selectedRangeTo, length - 1));
+  const indices = [];
+  for (let i = from; i <= to; i++) indices.push(i);
+  return indices;
 }
 
 function buildChoices(correct, pool, count = 4) {
@@ -1524,7 +1628,7 @@ function renderGrammarCards(section) {
   `;
   const list = document.createElement("div");
   list.className = "grammar-list";
-  section.items.forEach(([pattern, example, meaning, segments]) => {
+  section.items.forEach(([pattern, example, meaning, segments, , exampleTranslation]) => {
     const card = document.createElement("div");
     card.className = "grammar-card";
     const segmentsHtml = Array.isArray(segments)
@@ -1542,6 +1646,7 @@ function renderGrammarCards(section) {
         <button type="button" class="speak-btn" data-speak="${example}" aria-label="${t("learn.listenExample")}">🔊</button>
       </div>
       <div class="grammar-segments">${segmentsHtml}</div>
+      ${exampleTranslation ? `<span class="vocab-example-translation">${tf(exampleTranslation)}</span>` : ""}
     `;
     list.appendChild(card);
   });
@@ -1598,6 +1703,7 @@ function renderLevels(scriptKey) {
   startBtn.textContent = t("start.chooseTierFirst");
   btnOpenLearn.textContent = t("start.studyScriptFirst", { label: script.label });
   quizVariantPickerEl.classList.toggle("hidden", !script.hasVariants);
+  if (script.hasVariants) renderVariantButtons(script);
   rangePickerEl.classList.add("hidden");
 
   const supportsHard = scriptKey === "hiragana" || scriptKey === "katakana";
@@ -1882,8 +1988,13 @@ function updateRangeHint() {
   startBtn.textContent = t("start.startCount", { title, count });
 }
 
-/* ---------------- tipe soal: arti / romaji / campuran ---------------- */
+/* ---------------- tipe soal: arti / romaji / campuran (atau fungsi / kalimat utk Bunpō) ---------------- */
 const quizVariantPickerEl = document.getElementById("quiz-variant-picker");
+const quizVariantBtnEls = [
+  document.getElementById("quiz-variant-btn-a"),
+  document.getElementById("quiz-variant-btn-b"),
+  document.getElementById("quiz-variant-btn-c")
+];
 document.querySelectorAll(".quiz-variant-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".quiz-variant-btn").forEach(b => b.classList.remove("active"));
@@ -1891,6 +2002,25 @@ document.querySelectorAll(".quiz-variant-btn").forEach(btn => {
     selectedQuizVariant = btn.dataset.variant;
   });
 });
+
+// isi ulang label/ikon/nilai tombol pilihan tipe soal sesuai script yg dipilih
+// (mis. kanji/kotoba pakai Romaji/Arti/Campuran, sedangkan Bunpō pakai
+// Fungsi/Kalimat/Campuran) — dipanggil tiap kali tab aksara diganti.
+function renderVariantButtons(script) {
+  const config = (script && script.variantButtons) || [];
+  quizVariantBtnEls.forEach((btn, i) => {
+    if (!btn) return;
+    const cfg = config[i];
+    if (!cfg) { btn.classList.add("hidden"); return; }
+    btn.classList.remove("hidden");
+    btn.dataset.variant = cfg.key;
+    btn.innerHTML = cfg.i18nKey
+      ? `${cfg.icon} <span data-i18n="${cfg.i18nKey}">${t(cfg.i18nKey)}</span>`
+      : `${cfg.icon} ${cfg.label}`;
+    btn.classList.toggle("active", i === 0);
+  });
+  selectedQuizVariant = config[0] ? config[0].key : "meaning";
+}
 
 /* ---------------- tingkat kesulitan: easy / medium / hard ---------------- */
 const difficultyHintEl = document.getElementById("difficulty-hint");
@@ -2168,28 +2298,40 @@ function startQuiz(scriptKey, mode) {
   let pool, queue, wrongPools;
   let conquestPhaseBoundaries = null;
 
-  if (script.hasVariants) {
-    // kotoba / bunpo / kanji: bisa soal "arti", "romaji", atau "campuran" keduanya
+  if (script.hasVariants && script.variantMode === "sentence") {
+    // bunpo: dua tipe soal —
+    // "meaning" (Fungsi): tunjukkan polanya, tebak fungsinya (seperti semula)
+    // "kalimat" (Kalimat): tunjukkan contoh kalimatnya, tebak pola/partikel mana
+    // yang cocok dipakai di situ — kebalikan dari "meaning"
+    const meaningPool = usesAllPool ? script.data.all : script.data[mode];
+    const kalimatPool = usesAllPool ? script.dataKalimat.all : script.dataKalimat[mode];
+    // kalimatBlankPool: versi romaji-tanpa-kanji dari kalimatPool (partikel/pola
+    // dikosongkan "...") — dipakai sebagai teks SOAL "Tebak Partikel!" supaya
+    // jawabannya tidak kebocoran. kalimatPool aslinya tetap dipakai apa adanya
+    // buat "extra" (contoh kalimat lengkap, muncul setelah jawab soal "Fungsi").
+    const kalimatBlankPool = usesAllPool ? script.dataKalimatBlank.all : script.dataKalimatBlank[mode];
+    wrongPools = { meaning: meaningPool, kalimat: kalimatPool };
+    pool = meaningPool;
+
+    const indices = shuffle(computeRangeIndices(meaningPool.length, usesAllPool));
+    queue = indices.map(i => {
+      const type = selectedQuizVariant === "both"
+        ? (Math.random() < 0.5 ? "meaning" : "kalimat")
+        : selectedQuizVariant;
+      return type === "kalimat"
+        // soal = kalimat contoh (versi blank, tanpa kanji), jawaban = pola/partikelnya, extra = fungsinya
+        ? [kalimatBlankPool[i][0], kalimatPool[i][1], type, meaningPool[i][1]]
+        // soal = pola, jawaban = fungsinya, extra = kalimat contoh lengkap
+        : [meaningPool[i][0], meaningPool[i][1], type, kalimatPool[i][0]];
+    });
+  } else if (script.hasVariants) {
+    // kotoba / kanji: bisa soal "arti", "romaji", atau "campuran" keduanya
     const meaningPool = usesAllPool ? script.data.all : script.data[mode];
     const romajiPool = usesAllPool ? script.dataRomaji.all : script.dataRomaji[mode];
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
     pool = meaningPool;
 
-    // di luar penaklukkan/speedrun: mode manual pakai rentang "Dari"—"Sampai", mode acak
-    // mengambil sejumlah `selectedRandomCount` soal random dari seluruh tingkatan.
-    let rangeIndices;
-    if (usesAllPool) {
-      rangeIndices = meaningPool.map((_, i) => i);
-    } else if (rangeMode === "random") {
-      const count = Math.min(selectedRandomCount, meaningPool.length);
-      rangeIndices = shuffle(meaningPool.map((_, i) => i)).slice(0, count);
-    } else {
-      const from = Math.max(0, Math.min(selectedRangeFrom, meaningPool.length - 1));
-      const to = Math.max(from, Math.min(selectedRangeTo, meaningPool.length - 1));
-      rangeIndices = [];
-      for (let i = from; i <= to; i++) rangeIndices.push(i);
-    }
-    const indices = shuffle(rangeIndices);
+    const indices = shuffle(computeRangeIndices(meaningPool.length, usesAllPool));
     queue = indices.map(i => {
       const type = selectedQuizVariant === "both"
         ? (Math.random() < 0.5 ? "meaning" : "romaji")
@@ -2351,7 +2493,9 @@ function renderQuestion() {
   } else if (state.speedrun) {
     quizModeLabelEl.textContent = t("quiz.speedrunLabel", { label: script.label, current: state.index + 1, total: state.queue.length });
   } else if (script.hasVariants) {
-    quizModeLabelEl.textContent = current[2] === "romaji" ? t(script.quizLabelRomajiKey) : t(script.quizLabelKey);
+    const labelKey = (script.quizLabelKeys && script.quizLabelKeys[current[2]])
+      || (current[2] === "romaji" ? script.quizLabelRomajiKey : script.quizLabelKey);
+    quizModeLabelEl.textContent = t(labelKey);
   } else {
     quizModeLabelEl.textContent = t(script.quizLabelKey);
   }
@@ -2458,10 +2602,14 @@ function handleAnswer(chosen, btn, current) {
   renderDots();
   updateStreakUI();
 
-  // show the "other side" (meaning if this was a romaji question, romaji if this
-  // was a meaning question) before moving on — Kotoba & Kanji only.
+  // show the "other side" (e.g. meaning if this was a romaji question, romaji if
+  // this was a meaning question; or the example sentence/function for Bunpō's
+  // Kalimat mode) before moving on — Kotoba, Kanji & Bunpō only.
   if (current[3]) {
-    feedbackExtraEl.textContent = current[2] === "romaji" ? t("quiz.meaningLabel", { value: current[3] }) : t("quiz.romajiLabel", { value: current[3] });
+    const script = SCRIPTS[state.script];
+    const extraKey = (script.extraLabelKeys && script.extraLabelKeys[current[2]])
+      || (current[2] === "romaji" ? "quiz.meaningLabel" : "quiz.romajiLabel");
+    feedbackExtraEl.textContent = t(extraKey, { value: current[3] });
     feedbackExtraEl.classList.remove("hidden");
   }
 
