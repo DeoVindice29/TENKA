@@ -2804,12 +2804,19 @@ button.ghost {
   }
 
   .eyebrow {
-    font-size: 11px;
+    font-size: 10px;
+    gap: 6px;
     margin-bottom: 8px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .eyebrow::before {
+    font-size: 12px;
   }
 
   h1 {
-    font-size: clamp(11px, 4.4vw, 22px);
+    font-size: clamp(9px, 3.8vw, 22px);
   }
 
   h1 svg {
@@ -2998,6 +3005,20 @@ button.ghost {
 }
 
 @media (max-width:380px) {
+  .eyebrow {
+    font-size: 9px;
+    gap: 5px;
+    letter-spacing: 0.08em;
+  }
+
+  .eyebrow::before {
+    font-size: 11px;
+  }
+
+  h1 {
+    font-size: clamp(8px, 3.4vw, 20px);
+  }
+
   .choices {
     gap: 8px;
   }
