@@ -2054,6 +2054,7 @@ button.choice.wrong {
 
 .hard-input {
   flex: 1;
+  min-width: 0;
   font-family: inherit;
   font-size: 17px;
   font-weight: 700;
@@ -2097,6 +2098,8 @@ button.choice.wrong {
 
 .hard-input-row button.primary {
   flex: 0 0 auto;
+  width: auto;
+  margin-top: 0;
   padding: 12px 20px;
 }
 
