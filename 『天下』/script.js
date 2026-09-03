@@ -2331,11 +2331,17 @@ function startQuiz(scriptKey, mode) {
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
     pool = meaningPool;
 
+    // Basic Kotoba di Mode Penaklukan & Speedrun: tipe soal dikunci ke "arti" (meaning)
+    // saja, tidak ikut pengaturan selectedQuizVariant milik user.
+    const forceKotobaMeaning = scriptKey === "kotoba" && (isConquest || isSpeedrun);
+
     const indices = shuffle(computeRangeIndices(meaningPool.length, usesAllPool));
     queue = indices.map(i => {
-      const type = selectedQuizVariant === "both"
-        ? (Math.random() < 0.5 ? "meaning" : "romaji")
-        : selectedQuizVariant;
+      const type = forceKotobaMeaning
+        ? "meaning"
+        : selectedQuizVariant === "both"
+          ? (Math.random() < 0.5 ? "meaning" : "romaji")
+          : selectedQuizVariant;
       const src = type === "romaji" ? romajiPool : meaningPool;
       // simpan juga sisi "lainnya" (kalau soalnya arti, simpan romaji-nya, dan
       // sebaliknya) supaya bisa ditunjukkan begitu user selesai jawab soal ini.
@@ -2373,10 +2379,16 @@ function startQuiz(scriptKey, mode) {
   // Speedrun sekarang pakai mode hard (ketik jawaban) supaya lebih menantang &
   // auto-lanjut pas jawaban benar terasa jelas manfaatnya — tapi cuma utk aksara
   // yang memang mendukung hard (Hiragana/Katakana); selain itu tetap fallback easy.
-  const difficulty = isThreePhaseConquest
-    ? getConquestPhaseDifficulty(0)
-    : isSpeedrun ? (supportsHard ? "hard" : "easy")
-      : (selectedDifficulty === "hard" && !supportsHard) ? "easy" : selectedDifficulty;
+  // Basic Kotoba di Mode Penaklukan & Speedrun: tingkat kesulitan dikunci ke "medium",
+  // tidak ikut pengaturan selectedDifficulty milik user maupun aturan hard/easy default speedrun.
+  const forceKotobaMedium = scriptKey === "kotoba" && (isConquest || isSpeedrun);
+
+  const difficulty = forceKotobaMedium
+    ? "medium"
+    : isThreePhaseConquest
+      ? getConquestPhaseDifficulty(0)
+      : isSpeedrun ? (supportsHard ? "hard" : "easy")
+        : (selectedDifficulty === "hard" && !supportsHard) ? "easy" : selectedDifficulty;
 
   state = {
     script: scriptKey, mode, pool, wrongPools,
