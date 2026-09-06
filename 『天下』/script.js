@@ -9,6 +9,7 @@ const I18N = {
   "aria.changePhoto": { en: "Change profile photo", id: "Ganti foto profil" },
   "aria.setNickname": { en: "Set your nickname", id: "Atur nickname kamu" },
   "aria.chooseLanguage": { en: "Choose language", id: "Pilih bahasa" },
+  "aria.chooseBorderStyle": { en: "Choose answer border style", id: "Pilih gaya border jawaban" },
   "aria.chooseScript": { en: "Choose a script", id: "Pilih aksara" },
   "aria.chooseScriptStudy": { en: "Choose a script to study", id: "Pilih aksara untuk belajar" },
   "profile.addNickname": { en: "+ Add nickname", id: "+ Tambah nickname" },
@@ -16,6 +17,17 @@ const I18N = {
   "titles.heading": { en: "🏅 Conquest Title Collection", id: "🏅 Koleksi Title penaklukkan" },
   "titles.hint": { en: "Complete every conquest ⚔️ to claim the title of Conqueror!", id: "Selesaikan setiap penaklukan ⚔️ untuk meraih gelar Penakluk!" },
   "appearance.language": { en: "Language", id: "Bahasa" },
+  "borderStyle.heading": { en: "Answer Border Color", id: "Warna Border Jawaban" },
+  "borderStyle.none": { en: "No Border", id: "Tanpa Border" },
+  "borderStyle.rainbow": { en: "Rainbow", id: "Rainbow" },
+  "borderStyle.pink": { en: "Pink", id: "Pink" },
+  "borderStyle.purple": { en: "Purple", id: "Ungu" },
+  "borderStyle.cyan": { en: "Cyan", id: "Cyan" },
+  "borderStyle.blue": { en: "Blue", id: "Biru" },
+  "borderStyle.green": { en: "Green", id: "Hijau" },
+  "borderStyle.yellow": { en: "Yellow", id: "Kuning" },
+  "borderStyle.orange": { en: "Orange", id: "Oranye" },
+  "borderStyle.rose": { en: "Rose", id: "Merah Muda Tua" },
   "about.heading": { en: "About", id: "Tentang" },
   "about.summary": { en: "👑 Noble Ranks", id: "👑 Tingkatan Kebangsawanan" },
   "about.intro": { en: "Conquer every Chapter Trial to climb from commoner to emperor.", id: "Taklukkan tiap Chapter Trial untuk rangkak naik dari rakyat jelata sampai kaisar." },
@@ -320,6 +332,29 @@ function applyFont(key) {
   fontSelect.value = key;
 }
 applyFont("noto");
+
+/* ---------------- answer border style (none / solid / rainbow) ---------------- */
+const BORDER_STYLE_KEY = "tebakAksara_choiceBorderStyle_v1";
+const borderStyleOptionsEl = document.getElementById("border-style-options");
+
+const VALID_BORDER_STYLES = ["none", "rainbow", "pink", "purple", "cyan", "blue", "green", "yellow", "orange", "rose"];
+function getBorderStyle() {
+  const stored = localStorage.getItem(BORDER_STYLE_KEY);
+  return VALID_BORDER_STYLES.includes(stored) ? stored : "rainbow";
+}
+function applyBorderStyle(style) {
+  document.documentElement.setAttribute("data-choice-border", style);
+  borderStyleOptionsEl.querySelectorAll(".border-style-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-border-style") === style);
+  });
+  localStorage.setItem(BORDER_STYLE_KEY, style);
+}
+applyBorderStyle(getBorderStyle());
+borderStyleOptionsEl.addEventListener("click", (e) => {
+  const btn = e.target.closest(".border-style-btn");
+  if (!btn) return;
+  applyBorderStyle(btn.getAttribute("data-border-style"));
+});
 
 function openSettings() {
   settingsOverlay.classList.add("open");
@@ -2545,6 +2580,7 @@ function renderQuestion() {
     choicesEl.classList.remove("hidden");
     const count = state.difficulty === "medium" ? 8 : 4;
     const options = buildChoices(current, state.wrongPools[current[2]], count);
+    choicesEl.classList.toggle("choices-2col", count === 8);
     choicesEl.innerHTML = "";
     options.forEach(opt => {
       const btn = document.createElement("button");

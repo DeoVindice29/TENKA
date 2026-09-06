@@ -25,6 +25,16 @@
 
   /* kana font stack — swapped via the settings panel */
   --kana-font: "Noto Sans JP", "Hiragino Sans", sans-serif;
+
+  /* warna border pilihan jawaban (rainbow/warna tunggal) — versi gelap, lebih kontras di mode terang */
+  --rb-pink: #C2185B;
+  --rb-purple: #7C3AED;
+  --rb-cyan: #0E7490;
+  --rb-blue: #1E40AF;
+  --rb-green: #047857;
+  --rb-yellow: #A16207;
+  --rb-orange: #C2410C;
+  --rb-rose: #9D174D;
 }
 
 [data-theme="dark"] {
@@ -47,6 +57,16 @@
   --line: rgba(241, 236, 224, 0.14);
   --batch-a: #211E2C;
   --batch-b: #14121C;
+
+  /* mode gelap: warna cerah/neon seperti sebelumnya, sudah cukup kontras */
+  --rb-pink: #FF4FA3;
+  --rb-purple: #A855F7;
+  --rb-cyan: #22D3EE;
+  --rb-blue: #60A5FA;
+  --rb-green: #34D399;
+  --rb-yellow: #FACC15;
+  --rb-orange: #FB923C;
+  --rb-rose: #F472B6;
 }
 
 * {
@@ -366,6 +386,77 @@ body {
   outline-offset: 2px;
 }
 
+/* ---------- pilihan warna border jawaban ---------- */
+.border-style-options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.border-style-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+
+.border-style-btn:hover {
+  border-color: var(--indigo);
+  color: var(--indigo);
+}
+
+.border-style-btn.active {
+  border-color: var(--indigo);
+  color: var(--indigo);
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--indigo) inset;
+}
+
+.border-style-btn:focus-visible {
+  outline: 2px solid var(--vermillion);
+  outline-offset: 2px;
+}
+
+.border-style-swatch {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+.swatch-none {
+  border: 1px dashed var(--line);
+}
+
+.swatch-rainbow {
+  border: 1px solid var(--line);
+  background: conic-gradient(
+    var(--rb-pink) 0deg, var(--rb-cyan) 51deg, var(--rb-purple) 103deg, var(--rb-orange) 154deg,
+    var(--rb-green) 206deg, var(--rb-yellow) 257deg, var(--rb-blue) 309deg, var(--rb-rose) 360deg);
+}
+
+.swatch-pink { border: 1px solid var(--rb-pink); background: var(--rb-pink); }
+.swatch-purple { border: 1px solid var(--rb-purple); background: var(--rb-purple); }
+.swatch-cyan { border: 1px solid var(--rb-cyan); background: var(--rb-cyan); }
+.swatch-blue { border: 1px solid var(--rb-blue); background: var(--rb-blue); }
+.swatch-green { border: 1px solid var(--rb-green); background: var(--rb-green); }
+.swatch-yellow { border: 1px solid var(--rb-yellow); background: var(--rb-yellow); }
+.swatch-orange { border: 1px solid var(--rb-orange); background: var(--rb-orange); }
+.swatch-rose { border: 1px solid var(--rb-rose); background: var(--rb-rose); }
+
 /* ---------- about: rank ladder ---------- */
 .about-details {
   border: 1px solid var(--line);
@@ -616,7 +707,7 @@ h1 svg {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 2px solid var(--indigo);
+  border: 1px solid var(--indigo);
   background: var(--paper);
   cursor: pointer;
   display: flex;
@@ -660,7 +751,7 @@ h1 svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--card);
+  border: 1px solid var(--card);
 }
 
 .profile-info {
@@ -843,7 +934,7 @@ h1 svg {
   border-radius: 50%;
   background: var(--gold);
   color: var(--ink);
-  border: 2px solid var(--card);
+  border: 1px solid var(--card);
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 10px;
   font-weight: 900;
@@ -951,7 +1042,7 @@ h1 svg {
 button.primary {
   margin-top: 28px;
   width: 100%;
-  border: none;
+  border: 1px solid var(--indigo-deep);
   cursor: pointer;
   background: var(--indigo);
   color: var(--on-accent);
@@ -975,6 +1066,7 @@ button.primary:not(:disabled):hover {
 
 button.primary.danger {
   background: var(--vermillion);
+  border-color: #B91C1C;
 }
 
 button.primary.danger:hover {
@@ -2001,8 +2093,12 @@ button.secondary:focus-visible {
 
 .choices {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
+}
+
+.choices.choices-2col {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 button.choice {
@@ -2022,6 +2118,27 @@ button.choice {
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+/* warna border cerah bergilir per pilihan, biar tidak polos */
+button.choice:nth-child(1) { border-color: var(--rb-pink); }
+button.choice:nth-child(2) { border-color: var(--rb-cyan); }
+button.choice:nth-child(3) { border-color: var(--rb-purple); }
+button.choice:nth-child(4) { border-color: var(--rb-orange); }
+button.choice:nth-child(5) { border-color: var(--rb-green); }
+button.choice:nth-child(6) { border-color: var(--rb-yellow); }
+button.choice:nth-child(7) { border-color: var(--rb-blue); }
+button.choice:nth-child(8) { border-color: var(--rb-rose); }
+
+/* pengaturan warna border jawaban dari settings: none / solid / rainbow (default) */
+[data-choice-border="none"] button.choice { border-color: transparent; }
+[data-choice-border="pink"] button.choice { border-color: var(--rb-pink); }
+[data-choice-border="purple"] button.choice { border-color: var(--rb-purple); }
+[data-choice-border="cyan"] button.choice { border-color: var(--rb-cyan); }
+[data-choice-border="blue"] button.choice { border-color: var(--rb-blue); }
+[data-choice-border="green"] button.choice { border-color: var(--rb-green); }
+[data-choice-border="yellow"] button.choice { border-color: var(--rb-yellow); }
+[data-choice-border="orange"] button.choice { border-color: var(--rb-orange); }
+[data-choice-border="rose"] button.choice { border-color: var(--rb-rose); }
 
 button.choice:hover:not(:disabled) {
   border-color: var(--indigo);
@@ -2222,7 +2339,7 @@ button.ghost {
   box-sizing: border-box;
   margin: 0 auto 22px;
   border-radius: 50%;
-  border: 3px solid var(--indigo);
+  border: 1px solid var(--indigo);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2938,8 +3055,12 @@ button.ghost {
   }
 
   .choices {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
+  }
+
+  .choices.choices-2col {
+    grid-template-columns: 1fr 1fr;
   }
 
   button.choice {
