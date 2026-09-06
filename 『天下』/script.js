@@ -981,13 +981,16 @@ const KANJI_TIER2 = [
   ["金", "kin", { en: "gold / money", id: "emas / uang" }, "きん"], ["土", "tsuchi", { en: "earth / soil", id: "tanah" }, "つち"], ["年", "toshi", { en: "year", id: "tahun" }, "とし"], ["本", "hon", { en: "book / origin", id: "buku / asal" }, "ほん"],
   ["中", "naka", { en: "middle / inside", id: "tengah / dalam" }, "なか"], ["大", "ookii", { en: "big", id: "besar" }, "おおきい"], ["小", "chiisai", { en: "small", id: "kecil" }, "ちいさい"], ["上", "ue", { en: "up / above", id: "atas" }, "うえ"],
   ["下", "shita", { en: "down / below", id: "bawah" }, "した"], ["左", "hidari", { en: "left", id: "kiri" }, "ひだり"], ["右", "migi", { en: "right", id: "kanan" }, "みぎ"], ["山", "yama", { en: "mountain", id: "gunung" }, "やま"],
-  ["川", "kawa", { en: "river", id: "sungai" }, "かわ"], ["田", "ta", { en: "rice field", id: "sawah" }, "た"], ["女", "onna", { en: "woman", id: "perempuan" }, "おんな"], ["男", "otoko", { en: "man", id: "laki-laki" }, "おとこ"]
+  ["川", "kawa", { en: "river", id: "sungai" }, "かわ"], ["田", "ta", { en: "rice field", id: "sawah" }, "た"], ["女", "onna", { en: "woman", id: "perempuan" }, "おんな"], ["男", "otoko", { en: "man", id: "laki-laki" }, "おとこ"],
+  ["赤", "akai", { en: "red", id: "merah" }, "あかい"], ["青", "aoi", { en: "blue", id: "biru" }, "あおい"], ["白", "shiroi", { en: "white", id: "putih" }, "しろい"], ["黒", "kuroi", { en: "black", id: "hitam" }, "くろい"]
 ];
 const KANJI_TIER3 = [
   ["子", "ko", { en: "child", id: "anak" }, "こ"], ["学", "gaku", { en: "study / learning", id: "belajar / ilmu" }, "がく"], ["校", "kou", { en: "school", id: "sekolah" }, "こう"], ["先", "sen", { en: "before / previous", id: "sebelum / sebelumnya" }, "せん"],
   ["生", "sei", { en: "life / born", id: "hidup / lahir" }, "せい"], ["私", "watashi", { en: "I / me", id: "saya / aku" }, "わたし"], ["今", "ima", { en: "now", id: "sekarang" }, "いま"], ["何", "nani", { en: "what", id: "apa" }, "なに"],
   ["時", "ji", { en: "time / o'clock", id: "waktu / jam" }, "じ"], ["分", "fun", { en: "minute / part", id: "menit / bagian" }, "ふん"], ["半", "han", { en: "half", id: "setengah" }, "はん"], ["週", "shuu", { en: "week", id: "minggu" }, "しゅう"],
-  ["毎", "mai", { en: "every", id: "setiap" }, "まい"], ["食", "shoku", { en: "eat", id: "makan" }, "しょく"], ["飲", "in", { en: "drink", id: "minum" }, "いん"], ["見", "ken", { en: "see", id: "lihat" }, "けん"]
+  ["毎", "mai", { en: "every", id: "setiap" }, "まい"], ["食", "shoku", { en: "eat", id: "makan" }, "しょく"], ["飲", "in", { en: "drink", id: "minum" }, "いん"], ["見", "ken", { en: "see", id: "lihat" }, "けん"],
+  ["曜", "you", { en: "day of the week", id: "hari (dalam seminggu)" }, "よう"], ["目", "me", { en: "eye", id: "mata" }, "め"], ["耳", "mimi", { en: "ear", id: "telinga" }, "みみ"], ["口", "kuchi", { en: "mouth", id: "mulut" }, "くち"],
+  ["手", "te", { en: "hand", id: "tangan" }, "て"], ["足", "ashi", { en: "leg / foot", id: "kaki" }, "あし"], ["頭", "atama", { en: "head", id: "kepala" }, "あたま"]
 ];
 // reading lookup used only in Learn mode + as a quiz hint
 const KANJI_READING = {};
@@ -1069,7 +1072,49 @@ const KOTOBA_TIER1 = [
     { en: "The cat is on the chair.", id: "Kucing itu ada di atas kursi." }, "猫"],
   ["テレビ", "terebi", { en: "television", id: "televisi" }, "よる テレビを みます。",
     [["よる", "Yoru"], ["テレビ", "terebi"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch TV at night.", id: "Saya menonton TV di malam hari." }, ""]
+    { en: "I watch TV at night.", id: "Saya menonton TV di malam hari." }, ""],
+  ["あたま", "atama", { en: "head", id: "kepala" }, "あたまが いたいです。",
+    [["あたま", "Atama"], ["が", "ga"], ["いたい", "itai"], ["です", "desu"]],
+    { en: "My head hurts.", id: "Kepala saya sakit." }, "頭"],
+  ["め", "me", { en: "eye", id: "mata" }, "めを とじて ください。",
+    [["め", "Me"], ["を", "wo"], ["とじて", "tojite"], ["ください", "kudasai"]],
+    { en: "Please close your eyes.", id: "Tolong tutup matamu." }, "目"],
+  ["みみ", "mimi", { en: "ear", id: "telinga" }, "みみが いたいです。",
+    [["みみ", "Mimi"], ["が", "ga"], ["いたい", "itai"], ["です", "desu"]],
+    { en: "My ear hurts.", id: "Telinga saya sakit." }, "耳"],
+  ["くち", "kuchi", { en: "mouth", id: "mulut" }, "くちを あけて ください。",
+    [["くち", "Kuchi"], ["を", "wo"], ["あけて", "akete"], ["ください", "kudasai"]],
+    { en: "Please open your mouth.", id: "Tolong buka mulutmu." }, "口"],
+  ["て", "te", { en: "hand", id: "tangan" }, "てを あらいます。",
+    [["て", "Te"], ["を", "wo"], ["あらいます", "araimasu"]],
+    { en: "I wash my hands.", id: "Saya mencuci tangan." }, "手"],
+  ["あし", "ashi", { en: "leg / foot", id: "kaki" }, "あしが いたいです。",
+    [["あし", "Ashi"], ["が", "ga"], ["いたい", "itai"], ["です", "desu"]],
+    { en: "My leg hurts.", id: "Kaki saya sakit." }, "足"],
+  ["かお", "kao", { en: "face", id: "wajah" }, "かおを あらいます。",
+    [["かお", "Kao"], ["を", "wo"], ["あらいます", "araimasu"]],
+    { en: "I wash my face.", id: "Saya mencuci wajah." }, "顔"],
+  ["からだ", "karada", { en: "body", id: "tubuh / badan" }, "からだが つよいです。",
+    [["からだ", "Karada"], ["が", "ga"], ["つよい", "tsuyoi"], ["です", "desu"]],
+    { en: "My body is strong.", id: "Tubuh saya kuat." }, "体"],
+  ["あかい", "akai", { en: "red", id: "merah" }, "これは あかい りんごです。",
+    [["これ", "Kore"], ["は", "wa"], ["あかい", "akai"], ["りんご", "ringo"], ["です", "desu"]],
+    { en: "This is a red apple.", id: "Ini apel merah." }, "赤い"],
+  ["あおい", "aoi", { en: "blue", id: "biru" }, "そらは あおいです。",
+    [["そら", "Sora"], ["は", "wa"], ["あおい", "aoi"], ["です", "desu"]],
+    { en: "The sky is blue.", id: "Langitnya biru." }, "青い"],
+  ["しろい", "shiroi", { en: "white", id: "putih" }, "ねこは しろいです。",
+    [["ねこ", "Neko"], ["は", "wa"], ["しろい", "shiroi"], ["です", "desu"]],
+    { en: "The cat is white.", id: "Kucingnya putih." }, "白い"],
+  ["くろい", "kuroi", { en: "black", id: "hitam" }, "くろい かばんを かいました。",
+    [["くろい", "Kuroi"], ["かばん", "kaban"], ["を", "wo"], ["かいました", "kaimashita"]],
+    { en: "I bought a black bag.", id: "Saya membeli tas hitam." }, "黒い"],
+  ["きいろい", "kiiroi", { en: "yellow", id: "kuning" }, "これは きいろい はなです。",
+    [["これ", "Kore"], ["は", "wa"], ["きいろい", "kiiroi"], ["はな", "hana"], ["です", "desu"]],
+    { en: "This is a yellow flower.", id: "Ini bunga kuning." }, "黄色い"],
+  ["みどり", "midori", { en: "green", id: "hijau" }, "やまは みどりです。",
+    [["やま", "Yama"], ["は", "wa"], ["みどり", "midori"], ["です", "desu"]],
+    { en: "The mountain is green.", id: "Gunungnya hijau." }, "緑"]
 ];
 const KOTOBA_TIER2 = [
   ["たべる", "taberu", { en: "eat", id: "makan" }, "あさごはんを たべます。",
@@ -1217,7 +1262,64 @@ const KOTOBA_TIER3 = [
     { en: "Thank you for helping me.", id: "Terima kasih sudah membantu." }, ""],
   ["すみません", "sumimasen", { en: "excuse me / sorry", id: "permisi / maaf" }, "すみません、といれは どこですか。",
     [["すみません", "Sumimasen"], ["といれ", "toire"], ["は", "wa"], ["どこ", "doko"], ["です", "desu"], ["か", "ka"]],
-    { en: "Excuse me, where is the toilet?", id: "Permisi, di mana toilet?" }, ""]
+    { en: "Excuse me, where is the toilet?", id: "Permisi, di mana toilet?" }, ""],
+  ["にちようび", "nichiyoubi", { en: "Sunday", id: "hari Minggu" }, "にちようびは やすみです。",
+    [["にちようび", "Nichiyoubi"], ["は", "wa"], ["やすみ", "yasumi"], ["です", "desu"]],
+    { en: "Sunday is a day off.", id: "Hari Minggu libur." }, "日曜日"],
+  ["げつようび", "getsuyoubi", { en: "Monday", id: "hari Senin" }, "げつようびに がっこうへ いきます。",
+    [["げつようび", "Getsuyoubi"], ["に", "ni"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to school on Monday.", id: "Saya pergi ke sekolah hari Senin." }, "月曜日"],
+  ["かようび", "kayoubi", { en: "Tuesday", id: "hari Selasa" }, "かようびに テストが あります。",
+    [["かようび", "Kayoubi"], ["に", "ni"], ["テスト", "tesuto"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a test on Tuesday.", id: "Ada tes hari Selasa." }, "火曜日"],
+  ["すいようび", "suiyoubi", { en: "Wednesday", id: "hari Rabu" }, "すいようびに ともだちと あいます。",
+    [["すいようび", "Suiyoubi"], ["に", "ni"], ["ともだち", "tomodachi"], ["と", "to"], ["あいます", "aimasu"]],
+    { en: "I meet a friend on Wednesday.", id: "Saya bertemu teman hari Rabu." }, "水曜日"],
+  ["もくようび", "mokuyoubi", { en: "Thursday", id: "hari Kamis" }, "もくようびは いそがしいです。",
+    [["もくようび", "Mokuyoubi"], ["は", "wa"], ["いそがしい", "isogashii"], ["です", "desu"]],
+    { en: "Thursday is busy.", id: "Hari Kamis sibuk." }, "木曜日"],
+  ["きんようび", "kinyoubi", { en: "Friday", id: "hari Jumat" }, "きんようびの よるは たのしいです。",
+    [["きんようび", "Kinyoubi"], ["の", "no"], ["よる", "yoru"], ["は", "wa"], ["たのしい", "tanoshii"], ["です", "desu"]],
+    { en: "Friday night is fun.", id: "Malam Jumat menyenangkan." }, "金曜日"],
+  ["どようび", "doyoubi", { en: "Saturday", id: "hari Sabtu" }, "どようびに かいものを します。",
+    [["どようび", "Doyoubi"], ["に", "ni"], ["かいもの", "kaimono"], ["を", "wo"], ["します", "shimasu"]],
+    { en: "I go shopping on Saturday.", id: "Saya belanja hari Sabtu." }, "土曜日"],
+  ["いちがつ", "ichigatsu", { en: "January", id: "bulan Januari" }, "たんじょうびは いちがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["いちがつ", "ichigatsu"], ["です", "desu"]],
+    { en: "My birthday is in January.", id: "Ulang tahun saya bulan Januari." }, "一月"],
+  ["にがつ", "nigatsu", { en: "February", id: "bulan Februari" }, "たんじょうびは にがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["にがつ", "nigatsu"], ["です", "desu"]],
+    { en: "My birthday is in February.", id: "Ulang tahun saya bulan Februari." }, "二月"],
+  ["さんがつ", "sangatsu", { en: "March", id: "bulan Maret" }, "たんじょうびは さんがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["さんがつ", "sangatsu"], ["です", "desu"]],
+    { en: "My birthday is in March.", id: "Ulang tahun saya bulan Maret." }, "三月"],
+  ["しがつ", "shigatsu", { en: "April", id: "bulan April" }, "たんじょうびは しがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["しがつ", "shigatsu"], ["です", "desu"]],
+    { en: "My birthday is in April.", id: "Ulang tahun saya bulan April." }, "四月"],
+  ["ごがつ", "gogatsu", { en: "May", id: "bulan Mei" }, "たんじょうびは ごがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["ごがつ", "gogatsu"], ["です", "desu"]],
+    { en: "My birthday is in May.", id: "Ulang tahun saya bulan Mei." }, "五月"],
+  ["ろくがつ", "rokugatsu", { en: "June", id: "bulan Juni" }, "たんじょうびは ろくがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["ろくがつ", "rokugatsu"], ["です", "desu"]],
+    { en: "My birthday is in June.", id: "Ulang tahun saya bulan Juni." }, "六月"],
+  ["しちがつ", "shichigatsu", { en: "July", id: "bulan Juli" }, "たんじょうびは しちがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["しちがつ", "shichigatsu"], ["です", "desu"]],
+    { en: "My birthday is in July.", id: "Ulang tahun saya bulan Juli." }, "七月"],
+  ["はちがつ", "hachigatsu", { en: "August", id: "bulan Agustus" }, "たんじょうびは はちがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["はちがつ", "hachigatsu"], ["です", "desu"]],
+    { en: "My birthday is in August.", id: "Ulang tahun saya bulan Agustus." }, "八月"],
+  ["くがつ", "kugatsu", { en: "September", id: "bulan September" }, "たんじょうびは くがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["くがつ", "kugatsu"], ["です", "desu"]],
+    { en: "My birthday is in September.", id: "Ulang tahun saya bulan September." }, "九月"],
+  ["じゅうがつ", "juugatsu", { en: "October", id: "bulan Oktober" }, "たんじょうびは じゅうがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["じゅうがつ", "juugatsu"], ["です", "desu"]],
+    { en: "My birthday is in October.", id: "Ulang tahun saya bulan Oktober." }, "十月"],
+  ["じゅういちがつ", "juuichigatsu", { en: "November", id: "bulan November" }, "たんじょうびは じゅういちがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["じゅういちがつ", "juuichigatsu"], ["です", "desu"]],
+    { en: "My birthday is in November.", id: "Ulang tahun saya bulan November." }, "十一月"],
+  ["じゅうにがつ", "juunigatsu", { en: "December", id: "bulan Desember" }, "たんじょうびは じゅうにがつです。",
+    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["じゅうにがつ", "juunigatsu"], ["です", "desu"]],
+    { en: "My birthday is in December.", id: "Ulang tahun saya bulan Desember." }, "十二月"]
 ];
 
 /* ---- Bunpō N5 (pattern, example sentence, function/meaning-for-quiz) ---- */
@@ -1347,14 +1449,14 @@ const SCRIPTS = {
     },
     levelText: {
       tier1: { title: { en: "Numbers & Nature", id: "Angka & Alam" }, sample: "一 二 日", desc: { en: "16 basic kanji: numbers and elements of nature.", id: "16 kanji dasar: angka dan unsur alam." } },
-      tier2: { title: { en: "Size & Direction", id: "Ukuran & Arah" }, sample: "大 小 上", desc: { en: "16 kanji: size, direction, and family.", id: "16 kanji: ukuran, arah, dan keluarga." } },
-      tier3: { title: { en: "School & Time", id: "Sekolah & Waktu" }, sample: "学 校 今", desc: { en: "16 kanji: school, time, and daily activities.", id: "16 kanji: sekolah, waktu, dan kegiatan sehari-hari." } },
-      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "私 何 見", desc: { en: "All 48 N5 kanji shuffled into one Chapter.", id: "Seluruh 48 kanji N5 diacak menjadi satu Chapter." } }
+      tier2: { title: { en: "Size, Direction & Colors", id: "Ukuran, Arah & Warna" }, sample: "大 小 赤", desc: { en: "20 kanji: size, direction, family, and colors.", id: "20 kanji: ukuran, arah, keluarga, dan warna." } },
+      tier3: { title: { en: "School, Time & Body", id: "Sekolah, Waktu & Tubuh" }, sample: "学 校 目", desc: { en: "23 kanji: school, time, days of the week, and body parts.", id: "23 kanji: sekolah, waktu, hari, dan anggota tubuh." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "私 何 見", desc: { en: "All 59 N5 kanji shuffled into one Chapter.", id: "Seluruh 59 kanji N5 diacak menjadi satu Chapter." } }
     },
     learnCards: [
       { tierKey: "tier1", title: { en: "Numbers & Nature", id: "Angka & Alam" }, desc: { en: "16 basic kanji: numbers and elements of nature.", id: "16 kanji dasar: angka dan unsur alam." }, items: KANJI_TIER1 },
-      { tierKey: "tier2", title: { en: "Size & Direction", id: "Ukuran & Arah" }, desc: { en: "16 kanji: size, direction, and family.", id: "16 kanji: ukuran, arah, dan keluarga." }, items: KANJI_TIER2 },
-      { tierKey: "tier3", title: { en: "School & Time", id: "Sekolah & Waktu" }, desc: { en: "16 kanji: school, time, and daily activities.", id: "16 kanji: sekolah, waktu, dan kegiatan sehari-hari." }, items: KANJI_TIER3 }
+      { tierKey: "tier2", title: { en: "Size, Direction & Colors", id: "Ukuran, Arah & Warna" }, desc: { en: "20 kanji: size, direction, family, and colors.", id: "20 kanji: ukuran, arah, keluarga, dan warna." }, items: KANJI_TIER2 },
+      { tierKey: "tier3", title: { en: "School, Time & Body", id: "Sekolah, Waktu & Tubuh" }, desc: { en: "23 kanji: school, time, days of the week, and body parts.", id: "23 kanji: sekolah, waktu, hari, dan anggota tubuh." }, items: KANJI_TIER3 }
     ]
   },
   kotoba: {
@@ -1386,15 +1488,15 @@ const SCRIPTS = {
       tier3: KOTOBA_TIER3.map(([c, , , , , , k]) => [c, k || ""])
     },
     levelText: {
-      tier1: { title: { en: "Nouns", id: "Kata Benda" }, sample: "わたし がっこう ともだち", desc: { en: "24 N5 vocabulary words (kana only, no kanji): people, places, and everyday objects, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): orang, tempat, dan benda sehari-hari, lengkap dengan contoh kalimat." } },
+      tier1: { title: { en: "Nouns, Body & Colors", id: "Kata Benda, Tubuh & Warna" }, sample: "わたし あたま あかい", desc: { en: "38 N5 vocabulary words (kana only, no kanji): people, places, everyday objects, body parts, and colors, each with an example sentence.", id: "38 kosakata N5 (kana, tanpa kanji): orang, tempat, benda sehari-hari, anggota tubuh, dan warna, lengkap dengan contoh kalimat." } },
       tier2: { title: { en: "Verbs & Adjectives", id: "Kerja & Sifat" }, sample: "たべる おおきい すき", desc: { en: "24 N5 vocabulary words (kana only, no kanji): verbs, -i adjectives, and -na adjectives, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na, lengkap dengan contoh kalimat." } },
-      tier3: { title: { en: "Time & Expressions", id: "Waktu & Ekspresi" }, sample: "えき あした ありがとう", desc: { en: "24 N5 vocabulary words (kana only, no kanji): places, time, question words, and greetings/expressions, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam, lengkap dengan contoh kalimat." } },
-      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "しごと あたらしい かえる", desc: { en: "All 72 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 72 kosakata N5 diacak menjadi satu Chapter." } }
+      tier3: { title: { en: "Time, Days & Months", id: "Waktu, Hari & Bulan" }, sample: "にちようび いちがつ あした", desc: { en: "43 N5 vocabulary words (kana only, no kanji): places, time, days of the week, months, question words, and greetings/expressions, each with an example sentence.", id: "43 kosakata N5 (kana, tanpa kanji): tempat, waktu, hari, bulan, kata tanya, dan ekspresi/salam, lengkap dengan contoh kalimat." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "しごと あたらしい かえる", desc: { en: "All 105 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 105 kosakata N5 diacak menjadi satu Chapter." } }
     },
     learnVocab: [
-      { tierKey: "tier1", title: { en: "Nouns — Everyday Life", id: "Kata Benda — Sehari-hari" }, desc: { en: "24 basic N5 vocabulary words (full kana, no kanji): people, family, places, and everyday objects — each word comes with an example sentence.", id: "24 kosakata dasar N5 (full kana, tanpa kanji): orang, keluarga, tempat, dan benda sehari-hari — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER1 },
+      { tierKey: "tier1", title: { en: "Nouns, Body & Colors", id: "Kata Benda, Tubuh & Warna" }, desc: { en: "38 basic N5 vocabulary words (full kana, no kanji): people, family, places, everyday objects, body parts, and colors — each word comes with an example sentence.", id: "38 kosakata dasar N5 (full kana, tanpa kanji): orang, keluarga, tempat, benda sehari-hari, anggota tubuh, dan warna — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER1 },
       { tierKey: "tier2", title: { en: "Verbs & Adjectives", id: "Kata Kerja & Kata Sifat" }, desc: { en: "24 N5 vocabulary words (full kana, no kanji): verbs, -i adjectives, and -na adjectives — each word comes with an example sentence.", id: "24 kosakata N5 (full kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER2 },
-      { tierKey: "tier3", title: { en: "Places, Time & Expressions", id: "Tempat, Waktu & Ekspresi" }, desc: { en: "24 N5 vocabulary words (full kana, no kanji): places, time, question words, and greetings/expressions — each word comes with an example sentence.", id: "24 kosakata N5 (full kana, tanpa kanji): tempat, waktu, kata tanya, dan ekspresi/salam — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER3 }
+      { tierKey: "tier3", title: { en: "Places, Time, Days & Months", id: "Tempat, Waktu, Hari & Bulan" }, desc: { en: "43 N5 vocabulary words (full kana, no kanji): places, time, days of the week, months, question words, and greetings/expressions — each word comes with an example sentence.", id: "43 kosakata N5 (full kana, tanpa kanji): tempat, waktu, hari, bulan, kata tanya, dan ekspresi/salam — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER3 }
     ]
   },
   bunpo: {
