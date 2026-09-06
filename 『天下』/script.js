@@ -80,6 +80,8 @@ const I18N = {
   "quiz.romajiLabel": { en: "Romaji: {value}", id: "Romaji: {value}" },
   "quiz.functionLabel": { en: "Function: {value}", id: "Fungsi: {value}" },
   "quiz.kalimatLabel": { en: "Example: {value}", id: "Kalimat: {value}" },
+  "quiz.hiraganaLabel": { en: "Hiragana: {value}", id: "Hiragana: {value}" },
+  "quiz.kanjiLabel": { en: "Kanji: {value}", id: "Kanji: {value}" },
   "quiz.fillAnswerFirst": { en: "Fill in your answer before continuing.", id: "Isi dulu jawabannya sebelum lanjut." },
   "range.label": { en: "Question Range", id: "Rentang Soal" },
   "range.chooseRange": { en: "Choose Range", id: "Pilih Rentang" },
@@ -998,224 +1000,224 @@ const KANJI_READING = {};
 const KOTOBA_TIER1 = [
   ["わたし", "watashi", { en: "I / me", id: "saya / aku" }, "わたしは がくせいです。",
     [["わたし", "Watashi"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
-    { en: "I am a student.", id: "Saya adalah murid/siswa." }],
+    { en: "I am a student.", id: "Saya adalah murid/siswa." }, "私"],
   ["あなた", "anata", { en: "you", id: "kamu" }, "あなたの なまえは なんですか。",
     [["あなた", "Anata"], ["の", "no"], ["なまえ", "namae"], ["は", "wa"], ["なん", "nan"], ["です", "desu"], ["か", "ka"]],
-    { en: "What is your name?", id: "Siapa namamu?" }],
+    { en: "What is your name?", id: "Siapa namamu?" }, ""],
   ["せんせい", "sensei", { en: "teacher", id: "guru" }, "せんせいは とても やさしいです。",
     [["せんせい", "Sensei"], ["は", "wa"], ["とても", "totemo"], ["やさしい", "yasashii"], ["です", "desu"]],
-    { en: "The teacher is very kind.", id: "Guru itu sangat baik." }],
+    { en: "The teacher is very kind.", id: "Guru itu sangat baik." }, "先生"],
   ["がくせい", "gakusei", { en: "student", id: "murid / siswa" }, "がくせいは まいにち べんきょうします。",
     [["がくせい", "Gakusei"], ["は", "wa"], ["まいにち", "mainichi"], ["べんきょう", "benkyou"], ["します", "shimasu"]],
-    { en: "Students study every day.", id: "Murid belajar setiap hari." }],
+    { en: "Students study every day.", id: "Murid belajar setiap hari." }, "学生"],
   ["がっこう", "gakkou", { en: "school", id: "sekolah" }, "がっこうは とても おおきいです。",
     [["がっこう", "Gakkou"], ["は", "wa"], ["とても", "totemo"], ["おおきい", "ookii"], ["です", "desu"]],
-    { en: "The school is very big.", id: "Sekolahnya sangat besar." }],
+    { en: "The school is very big.", id: "Sekolahnya sangat besar." }, "学校"],
   ["かいしゃ", "kaisha", { en: "company", id: "perusahaan" }, "ちちは かいしゃで はたらきます。",
     [["ちち", "Chichi"], ["は", "wa"], ["かいしゃ", "kaisha"], ["で", "de"], ["はたらきます", "hatarakimasu"]],
-    { en: "My father works at a company.", id: "Ayah saya bekerja di perusahaan." }],
+    { en: "My father works at a company.", id: "Ayah saya bekerja di perusahaan." }, "会社"],
   ["いえ", "ie", { en: "house", id: "rumah" }, "わたしの いえは えきの ちかくです。",
     [["わたし", "Watashi"], ["の", "no"], ["いえ", "ie"], ["は", "wa"], ["えき", "eki"], ["の", "no"], ["ちかく", "chikaku"], ["です", "desu"]],
-    { en: "My house is near the station.", id: "Rumah saya dekat stasiun." }],
+    { en: "My house is near the station.", id: "Rumah saya dekat stasiun." }, "家"],
   ["ともだち", "tomodachi", { en: "friend", id: "teman" }, "ともだちと えいがを みます。",
     [["ともだち", "Tomodachi"], ["と", "to"], ["えいが", "eiga"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch a movie with a friend.", id: "Saya menonton film bersama teman." }],
+    { en: "I watch a movie with a friend.", id: "Saya menonton film bersama teman." }, "友達"],
   ["かぞく", "kazoku", { en: "family", id: "keluarga" }, "わたしの かぞくは よにんです。",
     [["わたし", "Watashi"], ["の", "no"], ["かぞく", "kazoku"], ["は", "wa"], ["よにん", "yonin"], ["です", "desu"]],
-    { en: "My family has four people.", id: "Keluarga saya berjumlah empat orang." }],
+    { en: "My family has four people.", id: "Keluarga saya berjumlah empat orang." }, "家族"],
   ["ちち", "chichi", { en: "father (my own)", id: "ayah (sendiri)" }, "ちちは あさ はやく おきます。",
     [["ちち", "Chichi"], ["は", "wa"], ["あさ", "asa"], ["はやく", "hayaku"], ["おきます", "okimasu"]],
-    { en: "My father wakes up early in the morning.", id: "Ayah saya bangun pagi-pagi sekali." }],
+    { en: "My father wakes up early in the morning.", id: "Ayah saya bangun pagi-pagi sekali." }, "父"],
   ["はは", "haha", { en: "mother (my own)", id: "ibu (sendiri)" }, "ははは りょうりが じょうずです。",
     [["はは", "Haha"], ["は", "wa"], ["りょうり", "ryouri"], ["が", "ga"], ["じょうず", "jouzu"], ["です", "desu"]],
-    { en: "My mother is good at cooking.", id: "Ibu saya pandai memasak." }],
+    { en: "My mother is good at cooking.", id: "Ibu saya pandai memasak." }, "母"],
   ["こども", "kodomo", { en: "child", id: "anak" }, "こどもたちは こうえんで あそびます。",
     [["こどもたち", "Kodomotachi"], ["は", "wa"], ["こうえん", "kouen"], ["で", "de"], ["あそびます", "asobimasu"]],
-    { en: "The children play at the park.", id: "Anak-anak bermain di taman." }],
+    { en: "The children play at the park.", id: "Anak-anak bermain di taman." }, "子供"],
   ["なまえ", "namae", { en: "name", id: "nama" }, "あなたの なまえを おしえてください。",
     [["あなた", "Anata"], ["の", "no"], ["なまえ", "namae"], ["を", "wo"], ["おしえて", "oshiete"], ["ください", "kudasai"]],
-    { en: "Please tell me your name.", id: "Tolong beritahu saya namamu." }],
+    { en: "Please tell me your name.", id: "Tolong beritahu saya namamu." }, "名前"],
   ["でんわ", "denwa", { en: "telephone", id: "telepon" }, "でんわで はなしましょう。",
     [["でんわ", "Denwa"], ["で", "de"], ["はなしましょう", "hanashimashou"]],
-    { en: "Let's talk on the phone.", id: "Ayo kita bicara lewat telepon." }],
+    { en: "Let's talk on the phone.", id: "Ayo kita bicara lewat telepon." }, "電話"],
   ["くるま", "kuruma", { en: "car", id: "mobil" }, "くるまで がっこうへ いきます。",
     [["くるま", "Kuruma"], ["で", "de"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
-    { en: "I go to school by car.", id: "Saya pergi ke sekolah naik mobil." }],
+    { en: "I go to school by car.", id: "Saya pergi ke sekolah naik mobil." }, "車"],
   ["ほん", "hon", { en: "book", id: "buku" }, "この ほんは とても おもしろいです。",
     [["この", "Kono"], ["ほん", "hon"], ["は", "wa"], ["とても", "totemo"], ["おもしろい", "omoshiroi"], ["です", "desu"]],
-    { en: "This book is very interesting.", id: "Buku ini sangat menarik." }],
+    { en: "This book is very interesting.", id: "Buku ini sangat menarik." }, "本"],
   ["みず", "mizu", { en: "water", id: "air" }, "みずを いっぱい のみます。",
     [["みず", "Mizu"], ["を", "wo"], ["いっぱい", "ippai"], ["のみます", "nomimasu"]],
-    { en: "I drink a lot of water.", id: "Saya minum banyak air." }],
+    { en: "I drink a lot of water.", id: "Saya minum banyak air." }, "水"],
   ["たべもの", "tabemono", { en: "food", id: "makanan" }, "すきな たべものは なんですか。",
     [["すきな", "Sukina"], ["たべもの", "tabemono"], ["は", "wa"], ["なん", "nan"], ["です", "desu"], ["か", "ka"]],
-    { en: "What food do you like?", id: "Makanan apa yang kamu suka?" }],
+    { en: "What food do you like?", id: "Makanan apa yang kamu suka?" }, "食べ物"],
   ["のみもの", "nomimono", { en: "drink", id: "minum" }, "のみものは なにに しますか。",
     [["のみもの", "Nomimono"], ["は", "wa"], ["なに", "nani"], ["に", "ni"], ["します", "shimasu"], ["か", "ka"]],
-    { en: "What will you have to drink?", id: "Mau minum apa?" }],
+    { en: "What will you have to drink?", id: "Mau minum apa?" }, "飲み物"],
   ["てんき", "tenki", { en: "weather", id: "cuaca" }, "きょうの てんきは いいです。",
     [["きょう", "Kyou"], ["の", "no"], ["てんき", "tenki"], ["は", "wa"], ["いい", "ii"], ["です", "desu"]],
-    { en: "Today's weather is nice.", id: "Cuaca hari ini bagus." }],
+    { en: "Today's weather is nice.", id: "Cuaca hari ini bagus." }, "天気"],
   ["きょう", "kyou", { en: "today", id: "hari ini" }, "きょうは とても あついです。",
     [["きょう", "Kyou"], ["は", "wa"], ["とても", "totemo"], ["あつい", "atsui"], ["です", "desu"]],
-    { en: "Today is very hot.", id: "Hari ini sangat panas." }],
+    { en: "Today is very hot.", id: "Hari ini sangat panas." }, "今日"],
   ["いぬ", "inu", { en: "dog", id: "anjing" }, "いぬと さんぽします。",
     [["いぬ", "Inu"], ["と", "to"], ["さんぽ", "sanpo"], ["します", "shimasu"]],
-    { en: "I take a walk with the dog.", id: "Saya jalan-jalan bersama anjing." }],
+    { en: "I take a walk with the dog.", id: "Saya jalan-jalan bersama anjing." }, "犬"],
   ["ねこ", "neko", { en: "cat", id: "kucing" }, "ねこが いすの うえに います。",
     [["ねこ", "Neko"], ["が", "ga"], ["いす", "isu"], ["の", "no"], ["うえ", "ue"], ["に", "ni"], ["います", "imasu"]],
-    { en: "The cat is on the chair.", id: "Kucing itu ada di atas kursi." }],
+    { en: "The cat is on the chair.", id: "Kucing itu ada di atas kursi." }, "猫"],
   ["テレビ", "terebi", { en: "television", id: "televisi" }, "よる テレビを みます。",
     [["よる", "Yoru"], ["テレビ", "terebi"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch TV at night.", id: "Saya menonton TV di malam hari." }]
+    { en: "I watch TV at night.", id: "Saya menonton TV di malam hari." }, ""]
 ];
 const KOTOBA_TIER2 = [
   ["たべる", "taberu", { en: "eat", id: "makan" }, "あさごはんを たべます。",
     [["あさごはん", "Asagohan"], ["を", "wo"], ["たべます", "tabemasu"]],
-    { en: "I eat breakfast.", id: "Saya makan sarapan." }],
+    { en: "I eat breakfast.", id: "Saya makan sarapan." }, "食べる"],
   ["のむ", "nomu", { en: "drink", id: "minum" }, "コーヒーを のみます。",
     [["コーヒー", "Koohii"], ["を", "wo"], ["のみます", "nomimasu"]],
-    { en: "I drink coffee.", id: "Saya minum kopi." }],
+    { en: "I drink coffee.", id: "Saya minum kopi." }, "飲む"],
   ["みる", "miru", { en: "see / watch", id: "lihat / menonton" }, "えいがを みるのが すきです。",
     [["えいが", "Eiga"], ["を", "wo"], ["みる", "miru"], ["の", "no"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
-    { en: "I like watching movies.", id: "Saya suka menonton film." }],
+    { en: "I like watching movies.", id: "Saya suka menonton film." }, "見る"],
   ["きく", "kiku", { en: "listen / hear", id: "dengar" }, "おんがくを きくのが すきです。",
     [["おんがく", "Ongaku"], ["を", "wo"], ["きく", "kiku"], ["の", "no"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
-    { en: "I like listening to music.", id: "Saya suka mendengarkan musik." }],
+    { en: "I like listening to music.", id: "Saya suka mendengarkan musik." }, "聞く"],
   ["はなす", "hanasu", { en: "speak", id: "bicara" }, "にほんごで はなします。",
     [["にほんご", "Nihongo"], ["で", "de"], ["はなします", "hanashimasu"]],
-    { en: "I speak in Japanese.", id: "Saya berbicara dalam bahasa Jepang." }],
+    { en: "I speak in Japanese.", id: "Saya berbicara dalam bahasa Jepang." }, "話す"],
   ["いく", "iku", { en: "go", id: "pergi" }, "がっこうへ いきます。",
     [["がっこう", "Gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
-    { en: "I go to school.", id: "Saya pergi ke sekolah." }],
+    { en: "I go to school.", id: "Saya pergi ke sekolah." }, "行く"],
   ["くる", "kuru", { en: "come", id: "datang" }, "ともだちが うちへ きます。",
     [["ともだち", "Tomodachi"], ["が", "ga"], ["うち", "uchi"], ["へ", "e"], ["きます", "kimasu"]],
-    { en: "A friend is coming to my house.", id: "Teman datang ke rumah." }],
+    { en: "A friend is coming to my house.", id: "Teman datang ke rumah." }, "来る"],
   ["かえる", "kaeru", { en: "go home", id: "pulang" }, "はやく いえへ かえります。",
     [["はやく", "Hayaku"], ["いえ", "ie"], ["へ", "e"], ["かえります", "kaerimasu"]],
-    { en: "I go home early.", id: "Saya pulang ke rumah lebih awal." }],
+    { en: "I go home early.", id: "Saya pulang ke rumah lebih awal." }, "帰る"],
   ["かう", "kau", { en: "buy", id: "beli" }, "あたらしい くつを かいます。",
     [["あたらしい", "Atarashii"], ["くつ", "kutsu"], ["を", "wo"], ["かいます", "kaimasu"]],
-    { en: "I buy new shoes.", id: "Saya membeli sepatu baru." }],
+    { en: "I buy new shoes.", id: "Saya membeli sepatu baru." }, "買う"],
   ["よむ", "yomu", { en: "read", id: "baca" }, "ほんを よむのが すきです。",
     [["ほん", "Hon"], ["を", "wo"], ["よむ", "yomu"], ["の", "no"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
-    { en: "I like reading books.", id: "Saya suka membaca buku." }],
+    { en: "I like reading books.", id: "Saya suka membaca buku." }, "読む"],
   ["かく", "kaku", { en: "write", id: "tulis" }, "てがみを かきます。",
     [["てがみ", "Tegami"], ["を", "wo"], ["かきます", "kakimasu"]],
-    { en: "I write a letter.", id: "Saya menulis surat." }],
+    { en: "I write a letter.", id: "Saya menulis surat." }, "書く"],
   ["ねる", "neru", { en: "sleep", id: "tidur" }, "よる はやく ねます。",
     [["よる", "Yoru"], ["はやく", "hayaku"], ["ねます", "nemasu"]],
-    { en: "I go to sleep early at night.", id: "Saya tidur lebih awal di malam hari." }],
+    { en: "I go to sleep early at night.", id: "Saya tidur lebih awal di malam hari." }, "寝る"],
   ["おきる", "okiru", { en: "wake up", id: "bangun" }, "まいあさ ろくじに おきます。",
     [["まいあさ", "Maiasa"], ["ろくじ", "rokuji"], ["に", "ni"], ["おきます", "okimasu"]],
-    { en: "I wake up at six every morning.", id: "Saya bangun jam enam setiap pagi." }],
+    { en: "I wake up at six every morning.", id: "Saya bangun jam enam setiap pagi." }, "起きる"],
   ["わかる", "wakaru", { en: "understand", id: "mengerti" }, "にほんごが すこし わかります。",
     [["にほんご", "Nihongo"], ["が", "ga"], ["すこし", "sukoshi"], ["わかります", "wakarimasu"]],
-    { en: "I understand a little Japanese.", id: "Saya mengerti sedikit bahasa Jepang." }],
+    { en: "I understand a little Japanese.", id: "Saya mengerti sedikit bahasa Jepang." }, "分かる"],
   ["おおきい", "ookii", { en: "big", id: "besar" }, "この いえは おおきいです。",
     [["この", "Kono"], ["いえ", "ie"], ["は", "wa"], ["おおきい", "ookii"], ["です", "desu"]],
-    { en: "This house is big.", id: "Rumah ini besar." }],
+    { en: "This house is big.", id: "Rumah ini besar." }, "大きい"],
   ["ちいさい", "chiisai", { en: "small", id: "kecil" }, "あの いぬは ちいさいです。",
     [["あの", "Ano"], ["いぬ", "inu"], ["は", "wa"], ["ちいさい", "chiisai"], ["です", "desu"]],
-    { en: "That dog is small.", id: "Anjing itu kecil." }],
+    { en: "That dog is small.", id: "Anjing itu kecil." }, "小さい"],
   ["たかい", "takai", { en: "tall / expensive", id: "tinggi / mahal" }, "この かばんは たかいです。",
     [["この", "Kono"], ["かばん", "kaban"], ["は", "wa"], ["たかい", "takai"], ["です", "desu"]],
-    { en: "This bag is expensive.", id: "Tas ini mahal." }],
+    { en: "This bag is expensive.", id: "Tas ini mahal." }, "高い"],
   ["やすい", "yasui", { en: "cheap", id: "murah" }, "やおやの やさいは やすいです。",
     [["やおや", "Yaoya"], ["の", "no"], ["やさい", "yasai"], ["は", "wa"], ["やすい", "yasui"], ["です", "desu"]],
-    { en: "The vegetables at the greengrocer are cheap.", id: "Sayuran di toko sayur itu murah." }],
+    { en: "The vegetables at the greengrocer are cheap.", id: "Sayuran di toko sayur itu murah." }, "安い"],
   ["あたらしい", "atarashii", { en: "new", id: "baru" }, "あたらしい くるまが ほしいです。",
     [["あたらしい", "Atarashii"], ["くるま", "kuruma"], ["が", "ga"], ["ほしい", "hoshii"], ["です", "desu"]],
-    { en: "I want a new car.", id: "Saya ingin mobil baru." }],
+    { en: "I want a new car.", id: "Saya ingin mobil baru." }, "新しい"],
   ["ふるい", "furui", { en: "old", id: "lama / tua" }, "これは ふるい たてものです。",
     [["これ", "Kore"], ["は", "wa"], ["ふるい", "furui"], ["たてもの", "tatemono"], ["です", "desu"]],
-    { en: "This is an old building.", id: "Ini adalah bangunan tua." }],
+    { en: "This is an old building.", id: "Ini adalah bangunan tua." }, "古い"],
   ["いい", "ii", { en: "good", id: "bagus" }, "きょうは いい てんきですね。",
     [["きょう", "Kyou"], ["は", "wa"], ["いい", "ii"], ["てんき", "tenki"], ["です", "desu"], ["ね", "ne"]],
-    { en: "The weather is nice today, isn't it?", id: "Cuaca hari ini bagus, ya?" }],
+    { en: "The weather is nice today, isn't it?", id: "Cuaca hari ini bagus, ya?" }, ""],
   ["たのしい", "tanoshii", { en: "fun", id: "menyenangkan" }, "りょこうは とても たのしかったです。",
     [["りょこう", "Ryokou"], ["は", "wa"], ["とても", "totemo"], ["たのしかった", "tanoshikatta"], ["です", "desu"]],
-    { en: "The trip was a lot of fun.", id: "Perjalanannya sangat menyenangkan." }],
+    { en: "The trip was a lot of fun.", id: "Perjalanannya sangat menyenangkan." }, "楽しい"],
   ["きれい", "kirei (na)", { en: "pretty / clean", id: "cantik / bersih" }, "この はなは きれいです。",
     [["この", "Kono"], ["はな", "hana"], ["は", "wa"], ["きれい", "kirei"], ["です", "desu"]],
-    { en: "This flower is pretty.", id: "Bunga ini cantik." }],
+    { en: "This flower is pretty.", id: "Bunga ini cantik." }, "綺麗"],
   ["すき", "suki (na)", { en: "like", id: "suka" }, "わたしは すしが すきです。",
     [["わたし", "Watashi"], ["は", "wa"], ["すし", "sushi"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
-    { en: "I like sushi.", id: "Saya suka sushi." }]
+    { en: "I like sushi.", id: "Saya suka sushi." }, "好き"]
 ];
 const KOTOBA_TIER3 = [
   ["えき", "eki", { en: "station", id: "stasiun" }, "えきまで あるいて いきます。",
     [["えき", "Eki"], ["まで", "made"], ["あるいて", "aruite"], ["いきます", "ikimasu"]],
-    { en: "I walk to the station.", id: "Saya berjalan kaki ke stasiun." }],
+    { en: "I walk to the station.", id: "Saya berjalan kaki ke stasiun." }, "駅"],
   ["びょういん", "byouin", { en: "hospital", id: "rumah sakit" }, "びょういんで くすりを もらいます。",
     [["びょういん", "Byouin"], ["で", "de"], ["くすり", "kusuri"], ["を", "wo"], ["もらいます", "moraimasu"]],
-    { en: "I get medicine at the hospital.", id: "Saya mendapat obat di rumah sakit." }],
+    { en: "I get medicine at the hospital.", id: "Saya mendapat obat di rumah sakit." }, "病院"],
   ["ぎんこう", "ginkou", { en: "bank", id: "bank" }, "ぎんこうで おかねを おろします。",
     [["ぎんこう", "Ginkou"], ["で", "de"], ["おかね", "okane"], ["を", "wo"], ["おろします", "oroshimasu"]],
-    { en: "I withdraw money at the bank.", id: "Saya menarik uang di bank." }],
+    { en: "I withdraw money at the bank.", id: "Saya menarik uang di bank." }, "銀行"],
   ["ゆうびんきょく", "yuubinkyoku", { en: "post office", id: "kantor pos" }, "ゆうびんきょくで きってを かいます。",
     [["ゆうびんきょく", "Yuubinkyoku"], ["で", "de"], ["きって", "kitte"], ["を", "wo"], ["かいます", "kaimasu"]],
-    { en: "I buy stamps at the post office.", id: "Saya membeli perangko di kantor pos." }],
+    { en: "I buy stamps at the post office.", id: "Saya membeli perangko di kantor pos." }, "郵便局"],
   ["としょかん", "toshokan", { en: "library", id: "perpustakaan" }, "としょかんで ほんを よみます。",
     [["としょかん", "Toshokan"], ["で", "de"], ["ほん", "hon"], ["を", "wo"], ["よみます", "yomimasu"]],
-    { en: "I read books at the library.", id: "Saya membaca buku di perpustakaan." }],
+    { en: "I read books at the library.", id: "Saya membaca buku di perpustakaan." }, "図書館"],
   ["こうえん", "kouen", { en: "park", id: "taman" }, "こうえんで さんぽします。",
     [["こうえん", "Kouen"], ["で", "de"], ["さんぽ", "sanpo"], ["します", "shimasu"]],
-    { en: "I take a walk in the park.", id: "Saya jalan-jalan di taman." }],
+    { en: "I take a walk in the park.", id: "Saya jalan-jalan di taman." }, "公園"],
   ["えいが", "eiga", { en: "movie", id: "film" }, "しゅうまつに えいがを みます。",
     [["しゅうまつ", "Shuumatsu"], ["に", "ni"], ["えいが", "eiga"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch a movie on the weekend.", id: "Saya menonton film di akhir pekan." }],
+    { en: "I watch a movie on the weekend.", id: "Saya menonton film di akhir pekan." }, "映画"],
   ["おんがく", "ongaku", { en: "music", id: "musik" }, "おんがくを きくのが たのしいです。",
     [["おんがく", "Ongaku"], ["を", "wo"], ["きく", "kiku"], ["の", "no"], ["が", "ga"], ["たのしい", "tanoshii"], ["です", "desu"]],
-    { en: "Listening to music is fun.", id: "Mendengarkan musik itu menyenangkan." }],
+    { en: "Listening to music is fun.", id: "Mendengarkan musik itu menyenangkan." }, "音楽"],
   ["しごと", "shigoto", { en: "job / work", id: "pekerjaan" }, "しごとは なんじに おわりますか。",
     [["しごと", "Shigoto"], ["は", "wa"], ["なんじ", "nanji"], ["に", "ni"], ["おわります", "owarimasu"], ["か", "ka"]],
-    { en: "What time does work end?", id: "Jam berapa pekerjaan selesai?" }],
+    { en: "What time does work end?", id: "Jam berapa pekerjaan selesai?" }, "仕事"],
   ["やすみ", "yasumi", { en: "holiday / rest", id: "libur / istirahat" }, "あしたは やすみです。",
     [["あした", "Ashita"], ["は", "wa"], ["やすみ", "yasumi"], ["です", "desu"]],
-    { en: "Tomorrow is a day off.", id: "Besok libur." }],
+    { en: "Tomorrow is a day off.", id: "Besok libur." }, "休み"],
   ["あさ", "asa", { en: "morning", id: "pagi" }, "あさ ろくじに おきます。",
     [["あさ", "Asa"], ["ろくじ", "rokuji"], ["に", "ni"], ["おきます", "okimasu"]],
-    { en: "I wake up at six in the morning.", id: "Saya bangun jam enam pagi." }],
+    { en: "I wake up at six in the morning.", id: "Saya bangun jam enam pagi." }, "朝"],
   ["ひる", "hiru", { en: "noon", id: "siang" }, "ひるに ごはんを たべます。",
     [["ひる", "Hiru"], ["に", "ni"], ["ごはん", "gohan"], ["を", "wo"], ["たべます", "tabemasu"]],
-    { en: "I eat a meal at noon.", id: "Saya makan siang." }],
+    { en: "I eat a meal at noon.", id: "Saya makan siang." }, "昼"],
   ["よる", "yoru", { en: "night", id: "malam" }, "よるは しずかです。",
     [["よる", "Yoru"], ["は", "wa"], ["しずか", "shizuka"], ["です", "desu"]],
-    { en: "The night is quiet.", id: "Malam hari itu sunyi." }],
+    { en: "The night is quiet.", id: "Malam hari itu sunyi." }, "夜"],
   ["あした", "ashita", { en: "tomorrow", id: "besok" }, "あした がっこうへ いきます。",
     [["あした", "Ashita"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
-    { en: "I will go to school tomorrow.", id: "Besok saya akan pergi ke sekolah." }],
+    { en: "I will go to school tomorrow.", id: "Besok saya akan pergi ke sekolah." }, "明日"],
   ["きのう", "kinou", { en: "yesterday", id: "kemarin" }, "きのう えいがを みました。",
     [["きのう", "Kinou"], ["えいが", "eiga"], ["を", "wo"], ["みました", "mimashita"]],
-    { en: "I watched a movie yesterday.", id: "Kemarin saya menonton film." }],
+    { en: "I watched a movie yesterday.", id: "Kemarin saya menonton film." }, "昨日"],
   ["いま", "ima", { en: "now", id: "sekarang" }, "いま なんじですか。",
     [["いま", "Ima"], ["なんじ", "nanji"], ["です", "desu"], ["か", "ka"]],
-    { en: "What time is it now?", id: "Sekarang jam berapa?" }],
+    { en: "What time is it now?", id: "Sekarang jam berapa?" }, "今"],
   ["どこ", "doko", { en: "where", id: "di mana" }, "としょかんは どこですか。",
     [["としょかん", "Toshokan"], ["は", "wa"], ["どこ", "doko"], ["です", "desu"], ["か", "ka"]],
-    { en: "Where is the library?", id: "Di mana perpustakaan?" }],
+    { en: "Where is the library?", id: "Di mana perpustakaan?" }, ""],
   ["だれ", "dare", { en: "who", id: "siapa" }, "あのひとは だれですか。",
     [["あの", "Ano"], ["ひと", "hito"], ["は", "wa"], ["だれ", "dare"], ["です", "desu"], ["か", "ka"]],
-    { en: "Who is that person?", id: "Siapa orang itu?" }],
+    { en: "Who is that person?", id: "Siapa orang itu?" }, "誰"],
   ["いつ", "itsu", { en: "when", id: "kapan" }, "たんじょうびは いつですか。",
     [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["いつ", "itsu"], ["です", "desu"], ["か", "ka"]],
-    { en: "When is your birthday?", id: "Kapan ulang tahunmu?" }],
+    { en: "When is your birthday?", id: "Kapan ulang tahunmu?" }, ""],
   ["なぜ", "naze", { en: "why", id: "kenapa / mengapa" }, "なぜ がっこうを やすみましたか。",
     [["なぜ", "Naze"], ["がっこう", "gakkou"], ["を", "wo"], ["やすみました", "yasumimashita"], ["か", "ka"]],
-    { en: "Why did you miss school?", id: "Kenapa kamu tidak masuk sekolah?" }],
+    { en: "Why did you miss school?", id: "Kenapa kamu tidak masuk sekolah?" }, "何故"],
   ["おはよう", "ohayou", { en: "good morning", id: "selamat pagi" }, "おはよう ございます。",
     [["おはよう", "Ohayou"], ["ございます", "gozaimasu"]],
-    { en: "Good morning.", id: "Selamat pagi." }],
+    { en: "Good morning.", id: "Selamat pagi." }, ""],
   ["こんにちは", "konnichiwa", { en: "good afternoon / hello", id: "selamat siang / halo" }, "こんにちは、げんきですか。",
     [["こんにちは", "Konnichiwa"], ["げんき", "genki"], ["です", "desu"], ["か", "ka"]],
-    { en: "Hello, how are you?", id: "Halo, apa kabar?" }],
+    { en: "Hello, how are you?", id: "Halo, apa kabar?" }, ""],
   ["ありがとう", "arigatou", { en: "thank you", id: "terima kasih" }, "てつだって くれて ありがとう。",
     [["てつだって", "Tetsudatte"], ["くれて", "kurete"], ["ありがとう", "arigatou"]],
-    { en: "Thank you for helping me.", id: "Terima kasih sudah membantu." }],
+    { en: "Thank you for helping me.", id: "Terima kasih sudah membantu." }, ""],
   ["すみません", "sumimasen", { en: "excuse me / sorry", id: "permisi / maaf" }, "すみません、といれは どこですか。",
     [["すみません", "Sumimasen"], ["といれ", "toire"], ["は", "wa"], ["どこ", "doko"], ["です", "desu"], ["か", "ka"]],
-    { en: "Excuse me, where is the toilet?", id: "Permisi, di mana toilet?" }]
+    { en: "Excuse me, where is the toilet?", id: "Permisi, di mana toilet?" }, ""]
 ];
 
 /* ---- Bunpō N5 (pattern, example sentence, function/meaning-for-quiz) ---- */
@@ -1336,6 +1338,13 @@ const SCRIPTS = {
       tier2: KANJI_TIER2.map(([c, r]) => [c, primaryReading(r)]),
       tier3: KANJI_TIER3.map(([c, r]) => [c, primaryReading(r)])
     },
+    // dataKana: bacaan hiragana tiap kanji (elemen ke-4 di KANJI_TIER*), ditampilkan
+    // sebagai furigana pendamping di feedback kuis setelah user menjawab.
+    dataKana: {
+      tier1: KANJI_TIER1.map(([c, , , k]) => [c, k]),
+      tier2: KANJI_TIER2.map(([c, , , k]) => [c, k]),
+      tier3: KANJI_TIER3.map(([c, , , k]) => [c, k])
+    },
     levelText: {
       tier1: { title: { en: "Numbers & Nature", id: "Angka & Alam" }, sample: "一 二 日", desc: { en: "16 basic kanji: numbers and elements of nature.", id: "16 kanji dasar: angka dan unsur alam." } },
       tier2: { title: { en: "Size & Direction", id: "Ukuran & Arah" }, sample: "大 小 上", desc: { en: "16 kanji: size, direction, and family.", id: "16 kanji: ukuran, arah, dan keluarga." } },
@@ -1367,6 +1376,14 @@ const SCRIPTS = {
       tier1: KOTOBA_TIER1.map(([c, r]) => [c, r]),
       tier2: KOTOBA_TIER2.map(([c, r]) => [c, r]),
       tier3: KOTOBA_TIER3.map(([c, r]) => [c, r])
+    },
+    // dataKanji: bentuk kanji tiap kata (elemen ke-7 di KOTOBA_TIER*, "" kalau
+    // katanya memang biasa ditulis kana saja), ditampilkan sebagai info tambahan
+    // di feedback kuis setelah user menjawab.
+    dataKanji: {
+      tier1: KOTOBA_TIER1.map(([c, , , , , , k]) => [c, k || ""]),
+      tier2: KOTOBA_TIER2.map(([c, , , , , , k]) => [c, k || ""]),
+      tier3: KOTOBA_TIER3.map(([c, , , , , , k]) => [c, k || ""])
     },
     levelText: {
       tier1: { title: { en: "Nouns", id: "Kata Benda" }, sample: "わたし がっこう ともだち", desc: { en: "24 N5 vocabulary words (kana only, no kanji): people, places, and everyday objects, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): orang, tempat, dan benda sehari-hari, lengkap dengan contoh kalimat." } },
@@ -1435,6 +1452,12 @@ Object.values(SCRIPTS).forEach(s => {
   s.data.all = [...s.data.tier1, ...s.data.tier2, ...s.data.tier3];
   if (s.dataRomaji) {
     s.dataRomaji.all = [...s.dataRomaji.tier1, ...s.dataRomaji.tier2, ...s.dataRomaji.tier3];
+  }
+  if (s.dataKana) {
+    s.dataKana.all = [...s.dataKana.tier1, ...s.dataKana.tier2, ...s.dataKana.tier3];
+  }
+  if (s.dataKanji) {
+    s.dataKanji.all = [...s.dataKanji.tier1, ...s.dataKanji.tier2, ...s.dataKanji.tier3];
   }
   if (s.dataKalimat) {
     s.dataKalimat.all = [...s.dataKalimat.tier1, ...s.dataKalimat.tier2, ...s.dataKalimat.tier3];
@@ -2366,6 +2389,14 @@ function startQuiz(scriptKey, mode) {
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
     pool = meaningPool;
 
+    // bacaan/tulisan tambahan yang ditampilkan bareng feedback jawaban:
+    // Kanji N5 -> furigana hiragananya, Basic Kotoba -> tulisan kanjinya.
+    const extraReadingPool = scriptKey === "kanji"
+      ? (usesAllPool ? script.dataKana.all : script.dataKana[mode])
+      : scriptKey === "kotoba"
+        ? (usesAllPool ? script.dataKanji.all : script.dataKanji[mode])
+        : null;
+
     // Basic Kotoba di Mode Penaklukan & Speedrun: tipe soal dikunci ke "arti" (meaning)
     // saja, tidak ikut pengaturan selectedQuizVariant milik user.
     const forceKotobaMeaning = scriptKey === "kotoba" && (isConquest || isSpeedrun);
@@ -2381,7 +2412,8 @@ function startQuiz(scriptKey, mode) {
       // simpan juga sisi "lainnya" (kalau soalnya arti, simpan romaji-nya, dan
       // sebaliknya) supaya bisa ditunjukkan begitu user selesai jawab soal ini.
       const extra = type === "romaji" ? meaningPool[i][1] : romajiPool[i][1];
-      return [src[i][0], src[i][1], type, extra];
+      const extraReading = extraReadingPool ? extraReadingPool[i][1] : null;
+      return [src[i][0], src[i][1], type, extra, extraReading];
     });
   } else if (isThreePhaseConquest) {
     const t1 = shuffle(script.data.tier1), t2 = shuffle(script.data.tier2), t3 = shuffle(script.data.tier3);
@@ -2657,7 +2689,14 @@ function handleAnswer(chosen, btn, current) {
     const script = SCRIPTS[state.script];
     const extraKey = (script.extraLabelKeys && script.extraLabelKeys[current[2]])
       || (current[2] === "romaji" ? "quiz.meaningLabel" : "quiz.romajiLabel");
-    feedbackExtraEl.textContent = t(extraKey, { value: current[3] });
+    let extraText = t(extraKey, { value: current[3] });
+    // tambahan: furigana hiragana utk Kanji N5, atau tulisan kanji utk Basic
+    // Kotoba (current[4]) — muncul bareng info romaji/arti di atas.
+    if (current[4]) {
+      const readingKey = state.script === "kanji" ? "quiz.hiraganaLabel" : "quiz.kanjiLabel";
+      extraText += " · " + t(readingKey, { value: current[4] });
+    }
+    feedbackExtraEl.textContent = extraText;
     feedbackExtraEl.classList.remove("hidden");
   }
 
