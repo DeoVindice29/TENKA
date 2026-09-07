@@ -103,6 +103,35 @@ const I18N = {
   "learn.listenPronunciation": { en: "Listen to {text}, read {reading}", id: "Dengar ucapan {text}, dibaca {reading}" },
   "learn.listenExample": { en: "Listen to the example sentence", id: "Dengar kalimat contoh" },
   "learn.listenSegment": { en: "Listen to {seg}, read {rom}", id: "Dengar {seg}, dibaca {rom}" },
+  "aria.openFlashcards": { en: "Open Flashcards", id: "Buka Flashcard" },
+  "flash.eyebrow": { en: "flashcard mode", id: "mode flashcard" },
+  "flash.title": { en: "🎴 Flashcards", id: "🎴 Flashcard" },
+  "flash.sub": { en: "Anki-style flip cards with built-in spaced repetition. Pick a deck below, or import your own .apkg file.", id: "Kartu balik ala Anki dengan pengulangan berjarak bawaan. Pilih deck di bawah, atau impor file .apkg milikmu sendiri." },
+  "flash.builtinHeading": { en: "📚 Built-in Decks", id: "📚 Deck Bawaan" },
+  "flash.myDecksHeading": { en: "📦 My Imported Decks", id: "📦 Deck Impor Saya" },
+  "flash.noCustomDecks": { en: "No decks imported yet.", id: "Belum ada deck yang diimpor." },
+  "flash.importBtn": { en: "📥 Import .apkg Deck", id: "📥 Impor Deck .apkg" },
+  "flash.importHint": { en: "Your .apkg file is read entirely in your browser — nothing is uploaded anywhere. Only text fields are imported; images/audio embedded in the deck aren't shown.", id: "File .apkg kamu dibaca sepenuhnya di browser — tidak ada yang diunggah ke mana pun. Hanya field teks yang diimpor; gambar/audio di dalam deck tidak ditampilkan." },
+  "flash.dueNow": { en: "due now", id: "jatuh tempo" },
+  "flash.cards": { en: "cards", id: "kartu" },
+  "flash.deleteDeck": { en: "Delete deck", id: "Hapus deck" },
+  "flash.confirmDelete": { en: 'Delete the deck "{name}"? This can\'t be undone.', id: 'Hapus deck "{name}"? Ini tidak bisa dibatalkan.' },
+  "flash.progress": { en: "Card {current}/{total} · {label}", id: "Kartu {current}/{total} · {label}" },
+  "flash.again": { en: "Again", id: "Lagi" },
+  "flash.hard": { en: "Hard", id: "Sulit" },
+  "flash.good": { en: "Good", id: "Bagus" },
+  "flash.easy": { en: "Easy", id: "Mudah" },
+  "flash.showAnswer": { en: "Show Answer", id: "Tampilkan Jawaban" },
+  "flash.restart": { en: "🔁 Restart Deck", id: "🔁 Ulangi Deck" },
+  "flash.doneTitle": { en: "🎉 Deck complete for now!", id: "🎉 Deck selesai untuk sekarang!" },
+  "flash.doneSub": { en: "You reviewed {count} card(s) from {label}.", id: "Kamu sudah mengulang {count} kartu dari {label}." },
+  "flash.reviewAgain": { en: "Review This Deck Again", id: "Ulangi Deck Ini Lagi" },
+  "flash.chooseAnother": { en: "← Choose Another Deck", id: "← Pilih Deck Lain" },
+  "flash.importing": { en: "Reading your .apkg file…", id: "Membaca file .apkg kamu…" },
+  "flash.importSuccess": { en: "✅ Imported \"{name}\" — {count} card(s) added.", id: "✅ \"{name}\" diimpor — {count} kartu ditambahkan." },
+  "flash.importFailed": { en: "❌ Import failed: {msg}", id: "❌ Impor gagal: {msg}" },
+  "flash.storageFull": { en: "not enough space in this browser's storage", id: "ruang penyimpanan browser ini tidak cukup" },
+  "flash.studyThisAsFlashcards": { en: "🎴 Study This as Flashcards", id: "🎴 Belajar Ini Sebagai Flashcard" },
   "results.correct": { en: "correct", id: "tepat" },
   "results.accuracy": { en: "Accuracy {acc}%", id: "Akurasi {acc}%" },
   "results.bestStreak": { en: " · best streak {n}", id: " · beruntun terbaik {n}" },
@@ -172,7 +201,8 @@ const I18N = {
   "speedrunRecords.hint": { en: "Your fastest completed run for each conquered script.", id: "Waktu tercepatmu untuk tiap aksara yang sudah ditaklukkan." },
   "speedrunRecords.empty": { en: "Conquer a script ⚔️ to unlock Speedrun Mode for it.", id: "Taklukkan sebuah aksara ⚔️ untuk membuka Mode Speedrun-nya." },
   "speedrunRecords.notPlayedYet": { en: "Not run yet", id: "Belum pernah dicoba" },
-  "speedrun.countdownGo": { en: "GO!", id: "MULAI!" }
+  "speedrun.countdownGo": { en: "GO!", id: "MULAI!" },
+
 };
 
 function getLang() {
@@ -423,6 +453,13 @@ function refreshVisibleScreenText() {
   }
   if (!screenResults.classList.contains("hidden") && state.queue && state.queue.length) {
     renderResults();
+  }
+  if (!screenFlashDeck.classList.contains("hidden")) {
+    renderFlashBuiltinDecks();
+    renderFlashCustomDecks();
+  }
+  if (!screenFlashcard.classList.contains("hidden") && flashState.queue && flashState.queue.length) {
+    renderCurrentFlashcard();
   }
 }
 
@@ -970,31 +1007,62 @@ const GOJUON_KATAKANA = {
    elemen ke-4 (kana) WAJIB diisi untuk kanji tunggal — TTS browser sering "menebak"
    cara baca sendiri kalau cuma dikasih 1 karakter kanji mentah (mis. 四 dibaca "shi"
    padahal yang diajarkan "yon", 七 dibaca "shichi" padahal "nana", 土 dibaca "do"
-   padahal "tsuchi"). Dengan mengucapkan kana-nya langsung, audio selalu cocok teks. */
-const KANJI_TIER1 = [
+   padahal "tsuchi"). Dengan mengucapkan kana-nya langsung, audio selalu cocok teks.
+
+   Kanji N5 dikelompokkan berdasarkan JLPT N5 Full Syllabus (100 Kanji), dipecah
+   jadi 9 Chapter tematik — bukan lagi tier "Warrior→Immortal" acak. Pola ini
+   (level JLPT -> beberapa Chapter tematik sebagai subtier) yang nanti dilanjutkan
+   untuk N4, N3, N2, N1. */
+const KANJI_N5_CH1 = [ // Chapter 1: Angka & Jumlah (14)
   ["一", "ichi", { en: "one (1)", id: "satu (1)" }, "いち"], ["二", "ni", { en: "two (2)", id: "dua (2)" }, "に"], ["三", "san", { en: "three (3)", id: "tiga (3)" }, "さん"], ["四", "yon", { en: "four (4)", id: "empat (4)" }, "よん"],
   ["五", "go", { en: "five (5)", id: "lima (5)" }, "ご"], ["六", "roku", { en: "six (6)", id: "enam (6)" }, "ろく"], ["七", "nana", { en: "seven (7)", id: "tujuh (7)" }, "なな"], ["八", "hachi", { en: "eight (8)", id: "delapan (8)" }, "はち"],
-  ["九", "kyuu", { en: "nine (9)", id: "sembilan (9)" }, "きゅう"], ["十", "juu", { en: "ten (10)", id: "sepuluh (10)" }, "じゅう"], ["人", "hito", { en: "person", id: "orang" }, "ひと"], ["日", "hi / nichi", { en: "day / sun", id: "hari / matahari" }, "ひ"],
-  ["月", "tsuki", { en: "moon / month", id: "bulan (langit) / bulan (kalender)" }, "つき"], ["火", "hi / ka", { en: "fire", id: "api" }, "ひ"], ["水", "mizu", { en: "water", id: "air" }, "みず"], ["木", "ki", { en: "tree / wood", id: "pohon / kayu" }, "き"]
+  ["九", "kyuu", { en: "nine (9)", id: "sembilan (9)" }, "きゅう"], ["十", "juu", { en: "ten (10)", id: "sepuluh (10)" }, "じゅう"], ["百", "hyaku", { en: "hundred (100)", id: "seratus (100)" }, "ひゃく"], ["千", "sen", { en: "thousand (1,000)", id: "seribu (1.000)" }, "せん"],
+  ["万", "man", { en: "ten thousand (10,000)", id: "sepuluh ribu (10.000)" }, "まん"], ["円", "en", { en: "yen (currency)", id: "yen (mata uang)" }, "えん"]
 ];
-const KANJI_TIER2 = [
-  ["金", "kin", { en: "gold / money", id: "emas / uang" }, "きん"], ["土", "tsuchi", { en: "earth / soil", id: "tanah" }, "つち"], ["年", "toshi", { en: "year", id: "tahun" }, "とし"], ["本", "hon", { en: "book / origin", id: "buku / asal" }, "ほん"],
-  ["中", "naka", { en: "middle / inside", id: "tengah / dalam" }, "なか"], ["大", "ookii", { en: "big", id: "besar" }, "おおきい"], ["小", "chiisai", { en: "small", id: "kecil" }, "ちいさい"], ["上", "ue", { en: "up / above", id: "atas" }, "うえ"],
-  ["下", "shita", { en: "down / below", id: "bawah" }, "した"], ["左", "hidari", { en: "left", id: "kiri" }, "ひだり"], ["右", "migi", { en: "right", id: "kanan" }, "みぎ"], ["山", "yama", { en: "mountain", id: "gunung" }, "やま"],
-  ["川", "kawa", { en: "river", id: "sungai" }, "かわ"], ["田", "ta", { en: "rice field", id: "sawah" }, "た"], ["女", "onna", { en: "woman", id: "perempuan" }, "おんな"], ["男", "otoko", { en: "man", id: "laki-laki" }, "おとこ"],
-  ["赤", "akai", { en: "red", id: "merah" }, "あかい"], ["青", "aoi", { en: "blue", id: "biru" }, "あおい"], ["白", "shiroi", { en: "white", id: "putih" }, "しろい"], ["黒", "kuroi", { en: "black", id: "hitam" }, "くろい"]
+const KANJI_N5_CH2 = [ // Chapter 2: Alam, Elemen & Cuaca (11)
+  ["日", "hi / nichi", { en: "day / sun", id: "hari / matahari" }, "ひ"], ["月", "tsuki", { en: "moon / month", id: "bulan (langit) / bulan (kalender)" }, "つき"], ["木", "ki", { en: "tree / wood", id: "pohon / kayu" }, "き"], ["火", "hi / ka", { en: "fire", id: "api" }, "ひ"],
+  ["水", "mizu", { en: "water", id: "air" }, "みず"], ["土", "tsuchi", { en: "earth / soil", id: "tanah" }, "つち"], ["金", "kin", { en: "gold / money", id: "emas / uang" }, "きん"], ["山", "yama", { en: "mountain", id: "gunung" }, "やま"],
+  ["川", "kawa", { en: "river", id: "sungai" }, "かわ"], ["田", "ta", { en: "rice field", id: "sawah" }, "た"], ["天", "ten", { en: "heaven / sky", id: "langit / surga" }, "てん"]
 ];
-const KANJI_TIER3 = [
-  ["子", "ko", { en: "child", id: "anak" }, "こ"], ["学", "gaku", { en: "study / learning", id: "belajar / ilmu" }, "がく"], ["校", "kou", { en: "school", id: "sekolah" }, "こう"], ["先", "sen", { en: "before / previous", id: "sebelum / sebelumnya" }, "せん"],
-  ["生", "sei", { en: "life / born", id: "hidup / lahir" }, "せい"], ["私", "watashi", { en: "I / me", id: "saya / aku" }, "わたし"], ["今", "ima", { en: "now", id: "sekarang" }, "いま"], ["何", "nani", { en: "what", id: "apa" }, "なに"],
-  ["時", "ji", { en: "time / o'clock", id: "waktu / jam" }, "じ"], ["分", "fun", { en: "minute / part", id: "menit / bagian" }, "ふん"], ["半", "han", { en: "half", id: "setengah" }, "はん"], ["週", "shuu", { en: "week", id: "minggu" }, "しゅう"],
-  ["毎", "mai", { en: "every", id: "setiap" }, "まい"], ["食", "shoku", { en: "eat", id: "makan" }, "しょく"], ["飲", "in", { en: "drink", id: "minum" }, "いん"], ["見", "ken", { en: "see", id: "lihat" }, "けん"],
-  ["曜", "you", { en: "day of the week", id: "hari (dalam seminggu)" }, "よう"], ["目", "me", { en: "eye", id: "mata" }, "め"], ["耳", "mimi", { en: "ear", id: "telinga" }, "みみ"], ["口", "kuchi", { en: "mouth", id: "mulut" }, "くち"],
-  ["手", "te", { en: "hand", id: "tangan" }, "て"], ["足", "ashi", { en: "leg / foot", id: "kaki" }, "あし"], ["頭", "atama", { en: "head", id: "kepala" }, "あたま"]
+const KANJI_N5_CH3 = [ // Chapter 3: Waktu & Musim (11)
+  ["年", "toshi", { en: "year", id: "tahun" }, "とし"], ["時", "ji", { en: "time / o'clock", id: "waktu / jam" }, "じ"], ["分", "fun", { en: "minute / part", id: "menit / bagian" }, "ふん"], ["半", "han", { en: "half", id: "setengah" }, "はん"],
+  ["午", "go", { en: "noon", id: "tengah hari" }, "ご"], ["前", "mae", { en: "before / front", id: "sebelum / depan" }, "まえ"], ["後", "ato", { en: "after / behind", id: "sesudah / belakang" }, "あと"], ["今", "ima", { en: "now", id: "sekarang" }, "いま"],
+  ["朝", "asa", { en: "morning", id: "pagi" }, "あさ"], ["昼", "hiru", { en: "daytime / noon", id: "siang" }, "ひる"], ["夜", "yoru", { en: "night", id: "malam" }, "よる"]
 ];
+const KANJI_N5_CH4 = [ // Chapter 4: Arah & Posisi (10)
+  ["上", "ue", { en: "up / above", id: "atas" }, "うえ"], ["下", "shita", { en: "down / below", id: "bawah" }, "した"], ["左", "hidari", { en: "left", id: "kiri" }, "ひだり"], ["右", "migi", { en: "right", id: "kanan" }, "みぎ"],
+  ["中", "naka", { en: "middle / inside", id: "tengah / dalam" }, "なか"], ["外", "soto", { en: "outside", id: "luar" }, "そと"], ["北", "kita", { en: "north", id: "utara" }, "きた"], ["南", "minami", { en: "south", id: "selatan" }, "みなみ"],
+  ["東", "higashi", { en: "east", id: "timur" }, "ひがし"], ["西", "nishi", { en: "west", id: "barat" }, "にし"]
+];
+const KANJI_N5_CH5 = [ // Chapter 5: Manusia, Keluarga & Hubungan (12)
+  ["人", "hito", { en: "person", id: "orang" }, "ひと"], ["男", "otoko", { en: "man", id: "laki-laki" }, "おとこ"], ["女", "onna", { en: "woman", id: "perempuan" }, "おんな"], ["子", "ko", { en: "child", id: "anak" }, "こ"],
+  ["目", "me", { en: "eye", id: "mata" }, "め"], ["耳", "mimi", { en: "ear", id: "telinga" }, "みみ"], ["口", "kuchi", { en: "mouth", id: "mulut" }, "くち"], ["手", "te", { en: "hand", id: "tangan" }, "て"],
+  ["足", "ashi", { en: "leg / foot", id: "kaki" }, "あし"], ["父", "chichi", { en: "father", id: "ayah" }, "ちち"], ["母", "haha", { en: "mother", id: "ibu" }, "はは"], ["友", "tomo", { en: "friend", id: "teman" }, "とも"]
+];
+const KANJI_N5_CH6 = [ // Chapter 6: Sifat, Ukuran & Warna (12)
+  ["大", "ookii", { en: "big", id: "besar" }, "おおきい"], ["小", "chiisai", { en: "small", id: "kecil" }, "ちいさい"], ["高", "takai", { en: "tall / high / expensive", id: "tinggi / mahal" }, "たかい"], ["長", "nagai", { en: "long", id: "panjang" }, "ながい"],
+  ["新", "atarashii", { en: "new", id: "baru" }, "あたらしい"], ["古", "furui", { en: "old (things)", id: "lama / kuno" }, "ふるい"], ["多", "ooi", { en: "many / much", id: "banyak" }, "おおい"], ["少", "sukunai", { en: "few / little", id: "sedikit" }, "すくない"],
+  ["白", "shiroi", { en: "white", id: "putih" }, "しろい"], ["赤", "akai", { en: "red", id: "merah" }, "あかい"], ["青", "aoi", { en: "blue", id: "biru" }, "あおい"], ["気", "ki", { en: "spirit / feeling / air", id: "semangat / perasaan / udara" }, "き"]
+];
+const KANJI_N5_CH7 = [ // Chapter 7: Tempat, Bangunan & Transportasi (11)
+  ["国", "kuni", { en: "country", id: "negara" }, "くに"], ["会", "kai", { en: "meeting / association", id: "pertemuan / perkumpulan" }, "かい"], ["社", "sha", { en: "company / shrine", id: "perusahaan / kuil" }, "しゃ"], ["校", "kou", { en: "school", id: "sekolah" }, "こう"],
+  ["店", "mise", { en: "shop / store", id: "toko" }, "みせ"], ["駅", "eki", { en: "station", id: "stasiun" }, "えき"], ["電", "den", { en: "electricity", id: "listrik" }, "でん"], ["車", "kuruma", { en: "car / vehicle", id: "mobil / kendaraan" }, "くるま"],
+  ["道", "michi", { en: "road / way", id: "jalan" }, "みち"], ["門", "mon", { en: "gate", id: "gerbang" }, "もん"], ["空", "sora", { en: "sky / empty", id: "langit / kosong" }, "そら"]
+];
+const KANJI_N5_CH8 = [ // Chapter 8: Kata Kerja Dasar & Aktivitas (10)
+  ["行", "iku", { en: "go", id: "pergi" }, "いく"], ["来", "kuru", { en: "come", id: "datang" }, "くる"], ["出", "deru", { en: "go out / exit", id: "keluar" }, "でる"], ["入", "hairu", { en: "enter", id: "masuk" }, "はいる"],
+  ["見", "ken", { en: "see", id: "lihat" }, "けん"], ["聞", "kiku", { en: "hear / listen", id: "mendengar" }, "きく"], ["食", "shoku", { en: "eat", id: "makan" }, "しょく"], ["飲", "in", { en: "drink", id: "minum" }, "いん"],
+  ["書", "kaku", { en: "write", id: "menulis" }, "かく"], ["読", "yomu", { en: "read", id: "membaca" }, "よむ"]
+];
+const KANJI_N5_CH9 = [ // Chapter 9: Konsep Kehidupan & Kata Kerja Tambahan (9)
+  ["買", "kau", { en: "buy", id: "membeli" }, "かう"], ["休", "yasumu", { en: "rest / holiday", id: "istirahat / libur" }, "やすむ"], ["立", "tatsu", { en: "stand", id: "berdiri" }, "たつ"], ["生", "sei", { en: "life / born", id: "hidup / lahir" }, "せい"],
+  ["学", "gaku", { en: "study / learning", id: "belajar / ilmu" }, "がく"], ["花", "hana", { en: "flower", id: "bunga" }, "はな"], ["魚", "sakana", { en: "fish", id: "ikan" }, "さかな"], ["名", "na", { en: "name", id: "nama" }, "な"],
+  ["何", "nani", { en: "what", id: "apa" }, "なに"]
+];
+const KANJI_N5_CHAPTERS = [KANJI_N5_CH1, KANJI_N5_CH2, KANJI_N5_CH3, KANJI_N5_CH4, KANJI_N5_CH5, KANJI_N5_CH6, KANJI_N5_CH7, KANJI_N5_CH8, KANJI_N5_CH9];
 // reading lookup used only in Learn mode + as a quiz hint
 const KANJI_READING = {};
-[...KANJI_TIER1, ...KANJI_TIER2, ...KANJI_TIER3].forEach(([c, r]) => { KANJI_READING[c] = r; });
+KANJI_N5_CHAPTERS.forEach(ch => ch.forEach(([c, r]) => { KANJI_READING[c] = r; }));
 
 /* ---- Basic Kotoba N5 (word-in-kana, romaji, meaning-for-quiz, contoh kalimat-in-kana,
    segments = contoh kalimat dipecah per-kata [kana, romaji], translation = arti kalimat) ----
@@ -1388,6 +1456,13 @@ const LEVEL_META = [
   { id: "tier3", tier: 3, rank: "Mythical" },
   { id: "all", tier: 4, rank: "Immortal" }
 ];
+// Kanji dikelompokkan per level JLPT (N5 dulu; N4→N1 menyusul), bukan lagi
+// tier "Warrior→Immortal" — subtier di dalamnya adalah 9 Chapter tematik N5.
+const KANJI_TIER_KEYS = ["tier1", "tier2", "tier3", "tier4", "tier5", "tier6", "tier7", "tier8", "tier9"];
+const KANJI_LEVEL_META = [
+  ...KANJI_TIER_KEYS.map((id, i) => ({ id, tier: i + 1, rank: "N5" })),
+  { id: "all", tier: KANJI_TIER_KEYS.length, rank: "N5" }
+];
 
 const SCRIPTS = {
   hiragana: {
@@ -1430,33 +1505,37 @@ const SCRIPTS = {
       { key: "romaji", icon: "🔤", label: "Romaji" },
       { key: "both", icon: "🎲", i18nKey: "quiz.mixed" }
     ],
-    data: {
-      tier1: KANJI_TIER1.map(([c, , m]) => [c, tf(m)]),
-      tier2: KANJI_TIER2.map(([c, , m]) => [c, tf(m)]),
-      tier3: KANJI_TIER3.map(([c, , m]) => [c, tf(m)])
-    },
-    dataRomaji: {
-      tier1: KANJI_TIER1.map(([c, r]) => [c, primaryReading(r)]),
-      tier2: KANJI_TIER2.map(([c, r]) => [c, primaryReading(r)]),
-      tier3: KANJI_TIER3.map(([c, r]) => [c, primaryReading(r)])
-    },
-    // dataKana: bacaan hiragana tiap kanji (elemen ke-4 di KANJI_TIER*), ditampilkan
+    // Kanji punya 9 subtier (Chapter N5, bukan lagi cuma tier1/2/3) — levelMeta
+    // custom ini dipakai renderLevels() sebagai pengganti LEVEL_META global.
+    tierKeys: KANJI_TIER_KEYS,
+    levelMeta: KANJI_LEVEL_META,
+    data: Object.fromEntries(KANJI_TIER_KEYS.map((tk, i) => [tk, KANJI_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])])),
+    dataRomaji: Object.fromEntries(KANJI_TIER_KEYS.map((tk, i) => [tk, KANJI_N5_CHAPTERS[i].map(([c, r]) => [c, primaryReading(r)])])),
+    // dataKana: bacaan hiragana tiap kanji (elemen ke-4 di KANJI_N5_CH*), ditampilkan
     // sebagai furigana pendamping di feedback kuis setelah user menjawab.
-    dataKana: {
-      tier1: KANJI_TIER1.map(([c, , , k]) => [c, k]),
-      tier2: KANJI_TIER2.map(([c, , , k]) => [c, k]),
-      tier3: KANJI_TIER3.map(([c, , , k]) => [c, k])
-    },
+    dataKana: Object.fromEntries(KANJI_TIER_KEYS.map((tk, i) => [tk, KANJI_N5_CHAPTERS[i].map(([c, , , k]) => [c, k])])),
     levelText: {
-      tier1: { title: { en: "Numbers & Nature", id: "Angka & Alam" }, sample: "一 二 日", desc: { en: "16 basic kanji: numbers and elements of nature.", id: "16 kanji dasar: angka dan unsur alam." } },
-      tier2: { title: { en: "Size, Direction & Colors", id: "Ukuran, Arah & Warna" }, sample: "大 小 赤", desc: { en: "20 kanji: size, direction, family, and colors.", id: "20 kanji: ukuran, arah, keluarga, dan warna." } },
-      tier3: { title: { en: "School, Time & Body", id: "Sekolah, Waktu & Tubuh" }, sample: "学 校 目", desc: { en: "23 kanji: school, time, days of the week, and body parts.", id: "23 kanji: sekolah, waktu, hari, dan anggota tubuh." } },
-      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "私 何 見", desc: { en: "All 59 N5 kanji shuffled into one Chapter.", id: "Seluruh 59 kanji N5 diacak menjadi satu Chapter." } }
+      tier1: { title: { en: "Chapter 1 — Numbers & Counting", id: "Chapter 1 — Angka & Jumlah" }, sample: "一 二 十", desc: { en: "14 kanji: numbers and counting.", id: "14 kanji: angka dan hitungan." } },
+      tier2: { title: { en: "Chapter 2 — Nature, Elements & Weather", id: "Chapter 2 — Alam, Elemen & Cuaca" }, sample: "日 山 天", desc: { en: "11 kanji: nature and the elements.", id: "11 kanji: alam dan unsur-unsurnya." } },
+      tier3: { title: { en: "Chapter 3 — Time & Seasons", id: "Chapter 3 — Waktu & Musim" }, sample: "年 朝 夜", desc: { en: "11 kanji: time of day and calendar words.", id: "11 kanji: waktu dalam sehari dan kalender." } },
+      tier4: { title: { en: "Chapter 4 — Direction & Position", id: "Chapter 4 — Arah & Posisi" }, sample: "上 東 西", desc: { en: "10 kanji: directions and positions.", id: "10 kanji: arah dan posisi." } },
+      tier5: { title: { en: "Chapter 5 — People, Family & Relationships", id: "Chapter 5 — Manusia, Keluarga & Hubungan" }, sample: "人 父 友", desc: { en: "12 kanji: people, family, and body parts.", id: "12 kanji: orang, keluarga, dan anggota tubuh." } },
+      tier6: { title: { en: "Chapter 6 — Traits, Size & Colors", id: "Chapter 6 — Sifat, Ukuran & Warna" }, sample: "大 高 青", desc: { en: "12 kanji: traits, sizes, and colors.", id: "12 kanji: sifat, ukuran, dan warna." } },
+      tier7: { title: { en: "Chapter 7 — Places, Buildings & Transportation", id: "Chapter 7 — Tempat, Bangunan & Transportasi" }, sample: "国 駅 空", desc: { en: "11 kanji: places, buildings, and transportation.", id: "11 kanji: tempat, bangunan, dan transportasi." } },
+      tier8: { title: { en: "Chapter 8 — Basic Verbs & Activities", id: "Chapter 8 — Kata Kerja Dasar & Aktivitas" }, sample: "行 見 読", desc: { en: "10 kanji: basic everyday verbs.", id: "10 kanji: kata kerja dasar sehari-hari." } },
+      tier9: { title: { en: "Chapter 9 — Life Concepts & More Verbs", id: "Chapter 9 — Konsep Kehidupan & Kata Kerja Tambahan" }, sample: "買 学 花", desc: { en: "9 kanji: everyday life concepts and more verbs.", id: "9 kanji: konsep kehidupan sehari-hari dan kata kerja tambahan." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "一 学 会", desc: { en: "All 100 N5 kanji shuffled into one Chapter.", id: "Seluruh 100 kanji N5 diacak menjadi satu Chapter." } }
     },
     learnCards: [
-      { tierKey: "tier1", title: { en: "Numbers & Nature", id: "Angka & Alam" }, desc: { en: "16 basic kanji: numbers and elements of nature.", id: "16 kanji dasar: angka dan unsur alam." }, items: KANJI_TIER1 },
-      { tierKey: "tier2", title: { en: "Size, Direction & Colors", id: "Ukuran, Arah & Warna" }, desc: { en: "20 kanji: size, direction, family, and colors.", id: "20 kanji: ukuran, arah, keluarga, dan warna." }, items: KANJI_TIER2 },
-      { tierKey: "tier3", title: { en: "School, Time & Body", id: "Sekolah, Waktu & Tubuh" }, desc: { en: "23 kanji: school, time, days of the week, and body parts.", id: "23 kanji: sekolah, waktu, hari, dan anggota tubuh." }, items: KANJI_TIER3 }
+      { tierKey: "tier1", title: { en: "Chapter 1 — Numbers & Counting", id: "Chapter 1 — Angka & Jumlah" }, desc: { en: "14 kanji: numbers and counting.", id: "14 kanji: angka dan hitungan." }, items: KANJI_N5_CH1 },
+      { tierKey: "tier2", title: { en: "Chapter 2 — Nature, Elements & Weather", id: "Chapter 2 — Alam, Elemen & Cuaca" }, desc: { en: "11 kanji: nature and the elements.", id: "11 kanji: alam dan unsur-unsurnya." }, items: KANJI_N5_CH2 },
+      { tierKey: "tier3", title: { en: "Chapter 3 — Time & Seasons", id: "Chapter 3 — Waktu & Musim" }, desc: { en: "11 kanji: time of day and calendar words.", id: "11 kanji: waktu dalam sehari dan kalender." }, items: KANJI_N5_CH3 },
+      { tierKey: "tier4", title: { en: "Chapter 4 — Direction & Position", id: "Chapter 4 — Arah & Posisi" }, desc: { en: "10 kanji: directions and positions.", id: "10 kanji: arah dan posisi." }, items: KANJI_N5_CH4 },
+      { tierKey: "tier5", title: { en: "Chapter 5 — People, Family & Relationships", id: "Chapter 5 — Manusia, Keluarga & Hubungan" }, desc: { en: "12 kanji: people, family, and body parts.", id: "12 kanji: orang, keluarga, dan anggota tubuh." }, items: KANJI_N5_CH5 },
+      { tierKey: "tier6", title: { en: "Chapter 6 — Traits, Size & Colors", id: "Chapter 6 — Sifat, Ukuran & Warna" }, desc: { en: "12 kanji: traits, sizes, and colors.", id: "12 kanji: sifat, ukuran, dan warna." }, items: KANJI_N5_CH6 },
+      { tierKey: "tier7", title: { en: "Chapter 7 — Places, Buildings & Transportation", id: "Chapter 7 — Tempat, Bangunan & Transportasi" }, desc: { en: "11 kanji: places, buildings, and transportation.", id: "11 kanji: tempat, bangunan, dan transportasi." }, items: KANJI_N5_CH7 },
+      { tierKey: "tier8", title: { en: "Chapter 8 — Basic Verbs & Activities", id: "Chapter 8 — Kata Kerja Dasar & Aktivitas" }, desc: { en: "10 kanji: basic everyday verbs.", id: "10 kanji: kata kerja dasar sehari-hari." }, items: KANJI_N5_CH8 },
+      { tierKey: "tier9", title: { en: "Chapter 9 — Life Concepts & More Verbs", id: "Chapter 9 — Konsep Kehidupan & Kata Kerja Tambahan" }, desc: { en: "9 kanji: everyday life concepts and more verbs.", id: "9 kanji: konsep kehidupan sehari-hari dan kata kerja tambahan." }, items: KANJI_N5_CH9 }
     ]
   },
   kotoba: {
@@ -1549,23 +1628,27 @@ const SCRIPTS = {
   }
 };
 
-// build the "all" (Kaisar) pool for every script
+// build the "all" (Kaisar) pool for every script — pakai s.tierKeys kalau
+// script itu punya jumlah subtier custom (mis. Kanji N5 = 9 Chapter),
+// selain itu default ke tier1/2/3 seperti sebelumnya.
 Object.values(SCRIPTS).forEach(s => {
-  s.data.all = [...s.data.tier1, ...s.data.tier2, ...s.data.tier3];
+  const tks = s.tierKeys || ["tier1", "tier2", "tier3"];
+  const cat = (obj) => tks.reduce((acc, tk) => acc.concat(obj[tk]), []);
+  s.data.all = cat(s.data);
   if (s.dataRomaji) {
-    s.dataRomaji.all = [...s.dataRomaji.tier1, ...s.dataRomaji.tier2, ...s.dataRomaji.tier3];
+    s.dataRomaji.all = cat(s.dataRomaji);
   }
   if (s.dataKana) {
-    s.dataKana.all = [...s.dataKana.tier1, ...s.dataKana.tier2, ...s.dataKana.tier3];
+    s.dataKana.all = cat(s.dataKana);
   }
   if (s.dataKanji) {
-    s.dataKanji.all = [...s.dataKanji.tier1, ...s.dataKanji.tier2, ...s.dataKanji.tier3];
+    s.dataKanji.all = cat(s.dataKanji);
   }
   if (s.dataKalimat) {
-    s.dataKalimat.all = [...s.dataKalimat.tier1, ...s.dataKalimat.tier2, ...s.dataKalimat.tier3];
+    s.dataKalimat.all = cat(s.dataKalimat);
   }
   if (s.dataKalimatBlank) {
-    s.dataKalimatBlank.all = [...s.dataKalimatBlank.tier1, ...s.dataKalimatBlank.tier2, ...s.dataKalimatBlank.tier3];
+    s.dataKalimatBlank.all = cat(s.dataKalimatBlank);
   }
 });
 
@@ -1581,11 +1664,7 @@ renderSpeedrunRecords();
 // tetap dalam bahasa lama sampai halaman di-reload. Dipanggil sekali di awal
 // (lewat mapping .map(...) di atas) dan lagi setiap kali applyLanguage() jalan.
 function rebuildMeaningPools() {
-  SCRIPTS.kanji.data = {
-    tier1: KANJI_TIER1.map(([c, , m]) => [c, tf(m)]),
-    tier2: KANJI_TIER2.map(([c, , m]) => [c, tf(m)]),
-    tier3: KANJI_TIER3.map(([c, , m]) => [c, tf(m)])
-  };
+  SCRIPTS.kanji.data = Object.fromEntries(KANJI_TIER_KEYS.map((tk, i) => [tk, KANJI_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])]));
   SCRIPTS.kotoba.data = {
     tier1: KOTOBA_TIER1.map(([c, , m]) => [c, tf(m)]),
     tier2: KOTOBA_TIER2.map(([c, , m]) => [c, tf(m)]),
@@ -1597,7 +1676,8 @@ function rebuildMeaningPools() {
     tier3: BUNPO_TIER3.map(([c, , m]) => [c, tf(m)])
   };
   [SCRIPTS.kanji, SCRIPTS.kotoba, SCRIPTS.bunpo].forEach(s => {
-    s.data.all = [...s.data.tier1, ...s.data.tier2, ...s.data.tier3];
+    const tks = s.tierKeys || ["tier1", "tier2", "tier3"];
+    s.data.all = tks.reduce((acc, tk) => acc.concat(s.data[tk]), []);
   });
 }
 
@@ -1840,6 +1920,8 @@ function renderLearnTables(scriptKey) {
   document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.script === scriptKey);
   });
+  const learnFlashBtn = document.getElementById("btn-learn-flashcards");
+  if (learnFlashBtn) learnFlashBtn.classList.toggle("hidden", scriptKey !== "kotoba" && scriptKey !== "kanji");
 }
 
 document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn => {
@@ -1874,15 +1956,34 @@ function renderLevels(scriptKey) {
     setDifficulty("easy");
   }
 
-  LEVEL_META.forEach(meta => {
+  // script.levelMeta (mis. Kanji N5 dgn 9 Chapter) menggantikan LEVEL_META
+  // global kalau ada — jumlah titik "tier-dots" ikut menyesuaikan panjangnya.
+  const levelMeta = script.levelMeta || LEVEL_META;
+  const dotCount = Math.max(...levelMeta.map(m => m.tier));
+  levelMeta.forEach(meta => {
     const info = script.levelText[meta.id];
     const card = document.createElement("button");
     card.className = "level-card";
     card.type = "button";
     card.setAttribute("aria-pressed", "false");
-    card.innerHTML = `
+    // Kanji punya 9 Chapter (rank-nya selalu "N5" jadi tier-dots ga informatif) —
+    // label "Chapter N" dipindah ke atas gantiin tier-dots (N5 tetap ditampilkan),
+    // sisa judulnya ("Numbers & Counting" dst) tetap di posisi h3 semula.
+    const kanjiTitleText = tf(info.title);
+    const kanjiDashIdx = kanjiTitleText.indexOf("—");
+    const kanjiChapterLabel = kanjiDashIdx >= 0 ? kanjiTitleText.slice(0, kanjiDashIdx).trim() : kanjiTitleText;
+    const kanjiTitleRest = kanjiDashIdx >= 0 ? kanjiTitleText.slice(kanjiDashIdx + 1).trim() : "";
+    card.innerHTML = scriptKey === "kanji" ? `
       <span class="tier">
-        <span class="tier-dots">${[1, 2, 3, 4].map(n => `<span class="${n <= meta.tier ? 'filled' : ''}"></span>`).join("")}</span>
+        <span class="tier-chapter-label">${kanjiChapterLabel}</span>
+        ${meta.rank}
+      </span>
+      <span class="kana-sample">${info.sample}</span>
+      <h3>${kanjiTitleRest}</h3>
+      <p>${tf(info.desc)}</p>
+    ` : `
+      <span class="tier">
+        <span class="tier-dots">${Array.from({ length: dotCount }, (_, i) => i + 1).map(n => `<span class="${n <= meta.tier ? 'filled' : ''}"></span>`).join("")}</span>
         ${meta.rank}
       </span>
       <span class="kana-sample">${info.sample}</span>
@@ -3103,6 +3204,494 @@ if (btnSendFeedback) {
     window.location.href = `mailto:ferlisuganda29@gmail.com?subject=${subject}&body=${body}`;
   });
 }
+
+/* =========================================================
+   FLASHCARDS — Anki-style flip-card study mode, built in.
+   Covers Basic Kotoba + Kanji N5 out of the box, plus lets
+   users import their own .apkg deck (parsed 100% client-side
+   with JSZip + sql.js, loaded lazily from CDN on first use —
+   nothing is ever uploaded anywhere). A lightweight SM-2-ish
+   algorithm schedules reviews per card via localStorage, same
+   spirit as real Anki (again/hard/good/easy).
+   ========================================================= */
+function escapeHtml(str) {
+  return String(str == null ? "" : str).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+/* ---- per-card spaced-repetition state (localStorage) ---- */
+const FLASH_SRS_KEY = "tebakAksara_flashSRS_v1";
+const FLASH_DAY_MS = 24 * 60 * 60 * 1000;
+function getFlashSRS() {
+  try { return JSON.parse(localStorage.getItem(FLASH_SRS_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function saveFlashSRS(all) {
+  try { localStorage.setItem(FLASH_SRS_KEY, JSON.stringify(all)); } catch (e) { /* storage full — non-fatal */ }
+}
+function getCardState(all, id) {
+  return all[id] || { ef: 2.5, interval: 0, due: 0, reps: 0, lapses: 0 };
+}
+function rateFlashCard(cardId, rating) {
+  const all = getFlashSRS();
+  const st = getCardState(all, cardId);
+  const now = Date.now();
+  if (rating === "again") {
+    st.lapses = (st.lapses || 0) + 1;
+    st.reps = 0;
+    st.interval = 0;
+    st.ef = Math.max(1.3, st.ef - 0.2);
+    st.due = now;
+  } else if (rating === "hard") {
+    st.ef = Math.max(1.3, st.ef - 0.15);
+    st.interval = st.reps === 0 ? 1 : Math.max(1, Math.round(st.interval * 1.2));
+    st.reps += 1;
+    st.due = now + st.interval * FLASH_DAY_MS;
+  } else if (rating === "good") {
+    st.interval = st.reps === 0 ? 1 : Math.max(1, Math.round(st.interval * st.ef));
+    st.reps += 1;
+    st.due = now + st.interval * FLASH_DAY_MS;
+  } else if (rating === "easy") {
+    st.ef = Math.min(3.2, st.ef + 0.15);
+    st.interval = st.reps === 0 ? 4 : Math.max(1, Math.round(st.interval * st.ef * 1.3));
+    st.reps += 1;
+    st.due = now + st.interval * FLASH_DAY_MS;
+  }
+  st.lastRating = rating;
+  st.lastReviewed = now;
+  all[cardId] = st;
+  saveFlashSRS(all);
+  return st;
+}
+
+/* ---- custom (.apkg-imported) decks (localStorage) ---- */
+const FLASH_CUSTOM_DECKS_KEY = "tebakAksara_flashCustomDecks_v1";
+function getCustomDecks() {
+  try { return JSON.parse(localStorage.getItem(FLASH_CUSTOM_DECKS_KEY)) || []; }
+  catch (e) { return []; }
+}
+function saveCustomDecks(decks) {
+  try { localStorage.setItem(FLASH_CUSTOM_DECKS_KEY, JSON.stringify(decks)); return true; }
+  catch (e) { return false; }
+}
+function addCustomDeck(name, cards) {
+  const decks = getCustomDecks();
+  const id = "d" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  decks.push({ id, name, cards, createdAt: Date.now() });
+  return saveCustomDecks(decks) ? id : null;
+}
+function deleteCustomDeck(id) {
+  saveCustomDecks(getCustomDecks().filter(d => d.id !== id));
+  const srs = getFlashSRS();
+  let changed = false;
+  Object.keys(srs).forEach(k => {
+    if (k.indexOf(`custom:${id}:`) === 0) { delete srs[k]; changed = true; }
+  });
+  if (changed) saveFlashSRS(srs);
+}
+
+/* ---- card content builders (resolved live so language switches work) ---- */
+function kotobaTierArr(tierKey) {
+  return tierKey === "tier1" ? KOTOBA_TIER1 : tierKey === "tier2" ? KOTOBA_TIER2 : KOTOBA_TIER3;
+}
+function kanjiTierArr(tierKey) {
+  const i = KANJI_TIER_KEYS.indexOf(tierKey);
+  return i >= 0 ? KANJI_N5_CHAPTERS[i] : KANJI_N5_CH1;
+}
+function kotobaCardContent(tierKey, idx) {
+  const item = kotobaTierArr(tierKey)[idx];
+  if (!item) return { front: "", back: "" };
+  const [kana, romaji, meaning, example, segments, translation, kanji] = item;
+  const exRomaji = (segments || []).map(s => s[1]).join(" ");
+  const front = `
+    <div class="fc-kana">${escapeHtml(kana)}</div>`;
+  const back = `
+    <div class="fc-kana fc-kana-sm" data-speak="${escapeHtml(kana)}">${escapeHtml(kana)}<span class="fc-audio-icon">🔊</span></div>
+    <div class="fc-romaji">${escapeHtml(romaji)}</div>
+    <hr>
+    <div class="fc-meaning">${escapeHtml(tf(meaning))}</div>
+    ${kanji ? `<div class="fc-kanji-form">${escapeHtml(kanji)}</div>` : ""}
+    ${example ? `<div class="fc-example" data-speak="${escapeHtml(example)}">${escapeHtml(example)}<span class="fc-audio-icon">🔊</span></div>` : ""}
+    ${exRomaji ? `<div class="fc-example-sub">${escapeHtml(exRomaji)}</div>` : ""}
+    ${translation ? `<div class="fc-translation">${escapeHtml(tf(translation))}</div>` : ""}`;
+  return { front, back };
+}
+function kanjiCardContent(tierKey, idx) {
+  const item = kanjiTierArr(tierKey)[idx];
+  if (!item) return { front: "", back: "" };
+  const [char, reading, meaning, kana] = item;
+  const front = `<div class="fc-kanji-char">${escapeHtml(char)}</div>`;
+  const back = `
+    <div class="fc-kanji-char fc-kanji-char-sm">${escapeHtml(char)}</div>
+    <hr>
+    <div class="fc-reading">${escapeHtml(reading)}</div>
+    ${kana ? `<div class="fc-kana-reading" data-speak="${escapeHtml(kana)}">${escapeHtml(kana)}<span class="fc-audio-icon">🔊</span></div>` : ""}
+    <div class="fc-meaning">${escapeHtml(tf(meaning))}</div>`;
+  return { front, back };
+}
+function customCardContent(deckId, idx) {
+  const deck = getCustomDecks().find(d => d.id === deckId);
+  const c = deck && deck.cards[idx];
+  if (!c) return { front: "", back: "" };
+  const toHtml = (s) => escapeHtml(s).split("\n").join("<br>");
+  return {
+    front: `<div class="fc-custom-text">${toHtml(c.front)}</div>`,
+    back: `<div class="fc-custom-text">${toHtml(c.back)}</div>`
+  };
+}
+function getCardContent(desc) {
+  if (desc.kind === "kotoba") return kotobaCardContent(desc.tierKey, desc.idx);
+  if (desc.kind === "kanji") return kanjiCardContent(desc.tierKey, desc.idx);
+  if (desc.kind === "custom") return customCardContent(desc.deckId, desc.idx);
+  return { front: "", back: "" };
+}
+
+/* ---- deck descriptor -> list of card ids/refs ---- */
+function buildDeckCardDescriptors(deckRef) {
+  if (deckRef.kind === "custom") {
+    const deck = getCustomDecks().find(d => d.id === deckRef.deckId);
+    if (!deck) return [];
+    return deck.cards.map((_, idx) => ({ id: `custom:${deck.id}:${idx}`, kind: "custom", deckId: deck.id, idx }));
+  }
+  const allTierKeys = SCRIPTS[deckRef.kind].tierKeys || ["tier1", "tier2", "tier3"];
+  const tierKeys = deckRef.tierKey === "all" ? allTierKeys : [deckRef.tierKey];
+  const out = [];
+  tierKeys.forEach(tk => {
+    const arr = deckRef.kind === "kotoba" ? kotobaTierArr(tk) : kanjiTierArr(tk);
+    arr.forEach((_, idx) => out.push({ id: `${deckRef.kind}:${tk}:${idx}`, kind: deckRef.kind, tierKey: tk, idx }));
+  });
+  return out;
+}
+function deckDueSummary(descs) {
+  const all = getFlashSRS();
+  const now = Date.now();
+  let due = 0;
+  descs.forEach(d => {
+    const st = all[d.id];
+    if (!st || st.due <= now) due++;
+  });
+  return { total: descs.length, due };
+}
+
+/* ---- .apkg import (JSZip + sql.js, both lazy-loaded from CDN) ---- */
+function loadExternalScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("Failed to load " + src));
+    document.head.appendChild(s);
+  });
+}
+async function ensureJSZip() {
+  if (window.JSZip) return;
+  await loadExternalScript("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");
+}
+let sqlJsInstancePromise = null;
+function getSqlJsInstance() {
+  if (!sqlJsInstancePromise) {
+    sqlJsInstancePromise = (async () => {
+      if (!window.initSqlJs) {
+        await loadExternalScript("https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js");
+      }
+      return window.initSqlJs({
+        locateFile: (file) => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`
+      });
+    })();
+  }
+  return sqlJsInstancePromise;
+}
+function stripAnkiHTML(html) {
+  if (!html) return "";
+  let s = String(html);
+  s = s.replace(/<style[\s\S]*?<\/style>/gi, "");
+  s = s.replace(/<script[\s\S]*?<\/script>/gi, "");
+  s = s.replace(/\[sound:[^\]]*\]/gi, "");
+  s = s.replace(/<img[^>]*>/gi, " 🖼️ ");
+  s = s.replace(/<br\s*\/?>/gi, "\n");
+  s = s.replace(/<\/(p|div|li|tr)>/gi, "\n");
+  s = s.replace(/<[^>]+>/g, "");
+  const ta = document.createElement("textarea");
+  ta.innerHTML = s;
+  s = ta.value;
+  s = s.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  return s;
+}
+function renderClozeFront(text) { return text.replace(/\{\{c\d+::(.*?)(::.*?)?\}\}/g, "[...]"); }
+function renderClozeBack(text) { return text.replace(/\{\{c\d+::(.*?)(::.*?)?\}\}/g, "$1"); }
+
+async function parseApkgFile(file) {
+  await ensureJSZip();
+  if (!window.JSZip) throw new Error("Couldn't load the .apkg reader (JSZip) — check your connection.");
+  const zip = await window.JSZip.loadAsync(file);
+  const dbEntry = zip.file("collection.anki21") || zip.file("collection.anki2") || zip.file("collection.anki21b");
+  if (!dbEntry) throw new Error("This doesn't look like a valid .apkg file (no collection database found inside).");
+  const dbBuf = await dbEntry.async("uint8array");
+
+  const SQL = await getSqlJsInstance();
+  if (!SQL) throw new Error("Couldn't load the SQLite reader (sql.js) — check your connection.");
+  const db = new SQL.Database(dbBuf);
+  let cards = [];
+  try {
+    const colRes = db.exec("SELECT models FROM col LIMIT 1");
+    if (!colRes.length) throw new Error("This .apkg file has no readable collection data.");
+    const models = JSON.parse(colRes[0].values[0][0]);
+
+    const notesRes = db.exec("SELECT mid, flds FROM notes");
+    const rows = notesRes.length ? notesRes[0].values : [];
+    rows.forEach(([mid, flds]) => {
+      const model = models[String(mid)];
+      const fieldValues = String(flds).split("\x1f");
+      const isCloze = model && /cloze/i.test(model.name || "");
+      let front, back;
+      if (isCloze) {
+        const raw = stripAnkiHTML(fieldValues[0] || "");
+        front = renderClozeFront(raw);
+        back = renderClozeBack(raw);
+        const extra = stripAnkiHTML(fieldValues[1] || "");
+        if (extra) back += "\n\n" + extra;
+      } else {
+        front = stripAnkiHTML(fieldValues[0] || "");
+        back = fieldValues.slice(1).map(stripAnkiHTML).filter(Boolean).join("\n\n");
+        if (!back) back = front;
+      }
+      if (front.trim()) cards.push({ front: front.trim(), back: (back || "").trim() });
+    });
+  } finally {
+    db.close();
+  }
+  if (!cards.length) throw new Error("No readable cards were found in this deck.");
+  return { name: file.name.replace(/\.apkg$/i, ""), cards };
+}
+
+/* ---- screens & session state ---- */
+const screenFlashDeck = document.getElementById("screen-flashdeck");
+const screenFlashcard = document.getElementById("screen-flashcard");
+const flashcardsToggleBtn = document.getElementById("flashcards-toggle");
+const flashcardStageEl = document.getElementById("flashcard-stage");
+const flashcardEl = document.getElementById("flashcard");
+const flashcardInnerEl = document.getElementById("flashcard-inner");
+const flashDotsEl = document.getElementById("flash-dots");
+const flashProgressTextEl = document.getElementById("flash-progress-text");
+const flashShowAnswerBtn = document.getElementById("flash-show-answer-btn");
+const flashRateRowEl = document.getElementById("flash-rate-row");
+const flashDoneEl = document.getElementById("flash-done");
+const flashDoneSubEl = document.getElementById("flash-done-sub");
+
+const FLASH_BUILTIN_DECK_DEFS = [
+  { kind: "kotoba", tierKey: "tier1" }, { kind: "kotoba", tierKey: "tier2" },
+  { kind: "kotoba", tierKey: "tier3" }, { kind: "kotoba", tierKey: "all" },
+  // Kanji N5 sekarang punya 9 Chapter (bukan cuma tier1-3) + "all"
+  ...KANJI_TIER_KEYS.map(tierKey => ({ kind: "kanji", tierKey })),
+  { kind: "kanji", tierKey: "all" }
+];
+
+let flashState = { deckRef: null, deckLabel: "", queue: [], index: 0, total: 0, ratedCount: 0 };
+
+function hideAllMainScreens() {
+  [screenStart, screenLearnEl, screenConquestStory, screenQuiz, screenResults, screenFlashDeck, screenFlashcard]
+    .forEach(s => s && s.classList.add("hidden"));
+}
+
+function renderFlashBuiltinDecks() {
+  const wrap = document.getElementById("flash-builtin-decks");
+  wrap.innerHTML = "";
+  FLASH_BUILTIN_DECK_DEFS.forEach(defn => {
+    const script = SCRIPTS[defn.kind];
+    const meta = script.levelText[defn.tierKey];
+    const descs = buildDeckCardDescriptors(defn);
+    const stat = deckDueSummary(descs);
+    const label = `${script.label} — ${tf(meta.title)}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "flash-deck-card";
+    btn.innerHTML = `
+      <span class="flash-deck-glyph">${script.tabGlyph}</span>
+      <span class="flash-deck-info">
+        <span class="flash-deck-name">${escapeHtml(label)}</span>
+        <span class="flash-deck-count">${stat.total} ${t(defn.kind === "kotoba" ? "learn.words" : "learn.characters")} · <b>${stat.due}</b> ${t("flash.dueNow")}</span>
+      </span>
+      <span class="flash-deck-arrow">→</span>`;
+    btn.addEventListener("click", () => startFlashcardSession(defn, label));
+    wrap.appendChild(btn);
+  });
+}
+
+function renderFlashCustomDecks() {
+  const wrap = document.getElementById("flash-custom-decks");
+  const emptyHint = document.getElementById("flash-no-custom");
+  wrap.innerHTML = "";
+  const decks = getCustomDecks();
+  emptyHint.classList.toggle("hidden", decks.length > 0);
+  decks.forEach(deck => {
+    const descs = buildDeckCardDescriptors({ kind: "custom", deckId: deck.id });
+    const stat = deckDueSummary(descs);
+    const row = document.createElement("div");
+    row.className = "flash-deck-card flash-deck-custom";
+    row.innerHTML = `
+      <button type="button" class="flash-deck-main">
+        <span class="flash-deck-glyph">📦</span>
+        <span class="flash-deck-info">
+          <span class="flash-deck-name">${escapeHtml(deck.name)}</span>
+          <span class="flash-deck-count">${stat.total} ${t("flash.cards")} · <b>${stat.due}</b> ${t("flash.dueNow")}</span>
+        </span>
+        <span class="flash-deck-arrow">→</span>
+      </button>
+      <button type="button" class="flash-deck-delete" aria-label="${t("flash.deleteDeck")}">🗑️</button>`;
+    row.querySelector(".flash-deck-main").addEventListener("click", () =>
+      startFlashcardSession({ kind: "custom", deckId: deck.id }, deck.name));
+    row.querySelector(".flash-deck-delete").addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (confirm(t("flash.confirmDelete", { name: deck.name }))) {
+        deleteCustomDeck(deck.id);
+        renderFlashCustomDecks();
+      }
+    });
+    wrap.appendChild(row);
+  });
+}
+
+function openFlashDeckPicker() {
+  hideAllMainScreens();
+  screenFlashDeck.classList.remove("hidden");
+  renderFlashBuiltinDecks();
+  renderFlashCustomDecks();
+  document.getElementById("flash-import-status").textContent = "";
+  document.getElementById("flash-import-status").className = "flash-import-status";
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function startFlashcardSession(deckRef, label, forceAll) {
+  const all = buildDeckCardDescriptors(deckRef);
+  if (!all.length) return;
+  const srs = getFlashSRS();
+  const now = Date.now();
+  let queue = forceAll ? all.slice() : all.filter(d => { const st = srs[d.id]; return !st || st.due <= now; });
+  if (!queue.length) queue = all.slice();
+  queue = shuffle(queue.slice());
+  flashState = { deckRef, deckLabel: label, queue, index: 0, total: queue.length, ratedCount: 0 };
+  hideAllMainScreens();
+  screenFlashcard.classList.remove("hidden");
+  flashcardStageEl.classList.remove("hidden");
+  flashDoneEl.classList.add("hidden");
+  renderCurrentFlashcard();
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function updateFlashProgress() {
+  flashProgressTextEl.textContent = t("flash.progress", {
+    current: flashState.index + 1, total: flashState.total, label: flashState.deckLabel
+  });
+  flashDotsEl.innerHTML = "";
+  const cap = 24;
+  const n = Math.min(flashState.total, cap);
+  for (let i = 0; i < n; i++) {
+    const dot = document.createElement("span");
+    dot.className = "dot" + (i < flashState.index ? " done" : i === flashState.index ? " current" : "");
+    flashDotsEl.appendChild(dot);
+  }
+}
+
+function renderCurrentFlashcard() {
+  if (flashState.index >= flashState.queue.length) {
+    showFlashDone();
+    return;
+  }
+  const desc = flashState.queue[flashState.index];
+  const content = getCardContent(desc);
+  document.getElementById("flashcard-front").innerHTML = content.front;
+  document.getElementById("flashcard-back").innerHTML = content.back;
+  flashcardInnerEl.classList.remove("flipped");
+  flashRateRowEl.classList.add("hidden");
+  flashShowAnswerBtn.classList.remove("hidden");
+  updateFlashProgress();
+}
+
+function revealFlashAnswer() {
+  if (flashState.index >= flashState.queue.length) return;
+  if (flashcardInnerEl.classList.contains("flipped")) return;
+  flashcardInnerEl.classList.add("flipped");
+  flashShowAnswerBtn.classList.add("hidden");
+  flashRateRowEl.classList.remove("hidden");
+}
+flashShowAnswerBtn.addEventListener("click", revealFlashAnswer);
+
+function showFlashDone() {
+  flashcardStageEl.classList.add("hidden");
+  flashShowAnswerBtn.classList.add("hidden");
+  flashRateRowEl.classList.add("hidden");
+  flashDotsEl.innerHTML = "";
+  flashProgressTextEl.textContent = "";
+  flashDoneSubEl.textContent = t("flash.doneSub", { count: flashState.ratedCount, label: flashState.deckLabel });
+  flashDoneEl.classList.remove("hidden");
+}
+
+flashRateRowEl.addEventListener("click", (e) => {
+  const btn = e.target.closest(".flash-rate-btn");
+  if (!btn) return;
+  const rating = btn.dataset.rating;
+  const desc = flashState.queue[flashState.index];
+  rateFlashCard(desc.id, rating);
+  flashState.ratedCount++;
+  if (rating === "again") {
+    const reinsertAt = Math.min(flashState.queue.length, flashState.index + 4);
+    flashState.queue.splice(reinsertAt, 0, desc);
+    flashState.total = flashState.queue.length;
+  }
+  flashState.index++;
+  renderCurrentFlashcard();
+});
+
+document.getElementById("btn-flashdeck-back").addEventListener("click", () => {
+  hideAllMainScreens();
+  screenStart.classList.remove("hidden");
+});
+document.getElementById("btn-flashcard-back").addEventListener("click", openFlashDeckPicker);
+document.getElementById("btn-flashcard-restart").addEventListener("click", () => {
+  if (flashState.deckRef) startFlashcardSession(flashState.deckRef, flashState.deckLabel, true);
+});
+document.getElementById("btn-flash-review-again").addEventListener("click", () => {
+  if (flashState.deckRef) startFlashcardSession(flashState.deckRef, flashState.deckLabel, true);
+});
+document.getElementById("btn-flash-choose-another").addEventListener("click", openFlashDeckPicker);
+flashcardsToggleBtn.addEventListener("click", openFlashDeckPicker);
+
+const btnLearnFlashcards = document.getElementById("btn-learn-flashcards");
+btnLearnFlashcards.addEventListener("click", () => {
+  const kind = currentLearnScript;
+  if (kind !== "kotoba" && kind !== "kanji") return;
+  const meta = SCRIPTS[kind].levelText.all;
+  startFlashcardSession({ kind, tierKey: "all" }, `${SCRIPTS[kind].label} — ${tf(meta.title)}`);
+});
+
+/* ---- .apkg import wiring ---- */
+const btnFlashImport = document.getElementById("btn-flash-import");
+const flashApkgInput = document.getElementById("flash-apkg-input");
+btnFlashImport.addEventListener("click", () => flashApkgInput.click());
+flashApkgInput.addEventListener("change", async () => {
+  const file = flashApkgInput.files && flashApkgInput.files[0];
+  flashApkgInput.value = "";
+  if (!file) return;
+  const statusEl = document.getElementById("flash-import-status");
+  btnFlashImport.disabled = true;
+  statusEl.textContent = t("flash.importing");
+  statusEl.className = "flash-import-status pending";
+  try {
+    const { name, cards } = await parseApkgFile(file);
+    const id = addCustomDeck(name, cards);
+    if (!id) throw new Error(t("flash.storageFull"));
+    statusEl.textContent = t("flash.importSuccess", { count: cards.length, name });
+    statusEl.className = "flash-import-status ok";
+    renderFlashCustomDecks();
+  } catch (err) {
+    statusEl.textContent = t("flash.importFailed", { msg: (err && err.message) || String(err) });
+    statusEl.className = "flash-import-status err";
+  } finally {
+    btnFlashImport.disabled = false;
+  }
+});
 
 /* ---------------- init ---------------- */
 document.documentElement.setAttribute("lang", LANG);

@@ -21,6 +21,8 @@
   <div class="washi-noise"></div>
 
   <div class="top-controls">
+    <button class="icon-btn" id="flashcards-toggle" type="button" aria-label="Open Flashcards"
+      data-i18n-aria="aria.openFlashcards">🎴</button>
     <button class="icon-btn" id="settings-toggle" type="button" aria-label="Open settings"
       data-i18n-aria="aria.openSettings" aria-haspopup="dialog">⚙️</button>
   </div>
@@ -350,7 +352,85 @@
 
       <div id="learn-tables"></div>
 
+      <button class="secondary hidden" id="btn-learn-flashcards" type="button"
+        data-i18n="flash.studyThisAsFlashcards">🎴 Study This as Flashcards</button>
       <button class="primary" id="btn-learn-to-quiz" data-i18n="learn.readyStart">Ready — Start Trial</button>
+    </section>
+
+    <!-- ===== FLASHCARD DECK PICKER SCREEN ===== -->
+    <section id="screen-flashdeck" class="hidden">
+      <div class="quiz-back-row">
+        <button class="quiz-back" id="btn-flashdeck-back" type="button" data-i18n="common.back">← Back</button>
+      </div>
+      <header class="learn-header">
+        <div class="eyebrow" data-i18n="flash.eyebrow">flashcard mode</div>
+        <h1 class="learn-title" data-i18n="flash.title">🎴 Flashcards</h1>
+        <p class="sub" data-i18n="flash.sub">Anki-style flip cards with built-in spaced repetition. Pick a deck below,
+          or import your own .apkg file.</p>
+      </header>
+
+      <div class="flash-section-label" data-i18n="flash.builtinHeading">📚 Built-in Decks</div>
+      <div class="flash-deck-grid" id="flash-builtin-decks"></div>
+
+      <div class="flash-section-label" data-i18n="flash.myDecksHeading">📦 My Imported Decks</div>
+      <div class="flash-deck-grid" id="flash-custom-decks"></div>
+      <p class="flash-empty-hint hidden" id="flash-no-custom" data-i18n="flash.noCustomDecks">No decks imported yet.
+      </p>
+
+      <div class="flash-import-box">
+        <button class="secondary" id="btn-flash-import" type="button" data-i18n="flash.importBtn">📥 Import .apkg
+          Deck</button>
+        <input type="file" id="flash-apkg-input" accept=".apkg" class="hidden">
+        <p class="flash-import-status" id="flash-import-status"></p>
+        <p class="flash-import-hint" data-i18n="flash.importHint">Your .apkg file is read entirely in your browser —
+          nothing is uploaded anywhere. Only text fields are imported; images/audio embedded in the deck aren't
+          shown.</p>
+      </div>
+    </section>
+
+    <!-- ===== FLASHCARD STUDY SCREEN ===== -->
+    <section id="screen-flashcard" class="hidden">
+      <div class="quiz-back-row">
+        <button class="quiz-back" id="btn-flashcard-back" type="button" data-i18n="common.back">← Back</button>
+        <button class="quiz-back" id="btn-flashcard-restart" type="button" data-i18n="flash.restart">🔁 Restart
+          Deck</button>
+      </div>
+
+      <div class="quiz-top">
+        <div class="dots" id="flash-dots"></div>
+        <div class="flash-progress" id="flash-progress-text"></div>
+      </div>
+
+      <div class="flashcard-stage" id="flashcard-stage">
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-inner" id="flashcard-inner">
+            <div class="flashcard-face flashcard-front" id="flashcard-front"></div>
+            <div class="flashcard-face flashcard-back" id="flashcard-back"></div>
+          </div>
+        </div>
+      </div>
+      <button class="flash-show-answer-btn" id="flash-show-answer-btn" type="button" data-i18n="flash.showAnswer">Show
+        Answer</button>
+
+      <div class="flash-rate-row hidden" id="flash-rate-row">
+        <button class="flash-rate-btn again" data-rating="again" type="button"><span class="fr-emoji">😖</span><span
+            data-i18n="flash.again">Again</span></button>
+        <button class="flash-rate-btn hard" data-rating="hard" type="button"><span class="fr-emoji">😕</span><span
+            data-i18n="flash.hard">Hard</span></button>
+        <button class="flash-rate-btn good" data-rating="good" type="button"><span class="fr-emoji">🙂</span><span
+            data-i18n="flash.good">Good</span></button>
+        <button class="flash-rate-btn easy" data-rating="easy" type="button"><span class="fr-emoji">😄</span><span
+            data-i18n="flash.easy">Easy</span></button>
+      </div>
+
+      <div class="flash-done hidden" id="flash-done">
+        <p class="flash-done-title" data-i18n="flash.doneTitle">🎉 Deck complete for now!</p>
+        <p class="flash-done-sub" id="flash-done-sub"></p>
+        <button class="primary" id="btn-flash-review-again" data-i18n="flash.reviewAgain">Review This Deck
+          Again</button>
+        <button class="ghost" id="btn-flash-choose-another" data-i18n="flash.chooseAnother">← Choose Another
+          Deck</button>
+      </div>
     </section>
 
 

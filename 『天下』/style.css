@@ -1031,6 +1031,10 @@ h1 svg {
   font-weight: 700;
 }
 
+.tier-chapter-label {
+  color: var(--vermillion);
+}
+
 .level-card p {
   margin: 0;
   font-size: 13px;
@@ -3200,5 +3204,448 @@ button.ghost {
 
   .learn-section {
     margin-bottom: 26px;
+  }
+}
+/* =========================================================
+   FLASHCARDS — Anki-style deck picker + flip-card study mode
+   ========================================================= */
+.dot.done {
+  background: var(--moss);
+}
+
+.flash-section-label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 26px 0 10px;
+}
+
+.flash-section-label:first-of-type {
+  margin-top: 8px;
+}
+
+.flash-deck-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.flash-deck-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 6px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.flash-deck-card:hover {
+  border-color: var(--indigo);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px var(--shadow-soft);
+}
+
+.flash-deck-card:focus-visible {
+  outline: 2px solid var(--vermillion);
+  outline-offset: 2px;
+}
+
+.flash-deck-glyph {
+  font-family: var(--kana-font);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--indigo);
+  width: 34px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.flash-deck-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.flash-deck-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  overflow-wrap: break-word;
+}
+
+.flash-deck-count {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.flash-deck-count b {
+  color: var(--vermillion);
+}
+
+.flash-deck-arrow {
+  color: var(--ink-soft);
+  flex-shrink: 0;
+}
+
+.flash-deck-custom {
+  padding: 0;
+  overflow: hidden;
+  cursor: default;
+}
+
+.flash-deck-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  background: none;
+  padding: 12px 14px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.flash-deck-delete {
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 12px 14px;
+  flex-shrink: 0;
+  transition: color .15s ease;
+}
+
+.flash-deck-delete:hover {
+  color: var(--quiz-wrong);
+}
+
+.flash-empty-hint {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 4px 2px 0;
+}
+
+.flash-import-box {
+  margin-top: 28px;
+  border-top: 1px dashed var(--line);
+  padding-top: 20px;
+}
+
+.flash-import-status {
+  font-size: 12.5px;
+  font-weight: 700;
+  margin: 10px 2px 0;
+  min-height: 1em;
+}
+
+.flash-import-status.ok {
+  color: var(--moss);
+}
+
+.flash-import-status.err {
+  color: var(--quiz-wrong);
+}
+
+.flash-import-status.pending {
+  color: var(--ink-soft);
+}
+
+.flash-import-hint {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin: 8px 2px 0;
+  line-height: 1.5;
+}
+
+/* ---------- flashcard study screen ---------- */
+.flash-progress {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.flashcard-stage {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 22px;
+  perspective: 1400px;
+}
+
+.flashcard {
+  width: 100%;
+  max-width: 420px;
+  min-height: 260px;
+  outline: none;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  min-height: 260px;
+  transition: transform .5s cubic-bezier(.2, .9, .3, 1.1);
+  transform-style: preserve-3d;
+}
+
+.flashcard-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  box-shadow: 0 14px 30px var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 26px 20px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+}
+
+.flashcard:focus-visible .flashcard-face.flashcard-front {
+  outline: 2px solid var(--vermillion);
+  outline-offset: 3px;
+}
+
+.fc-kana {
+  font-family: var(--kana-font);
+  font-weight: 700;
+  font-size: clamp(38px, 10vw, 54px);
+  color: var(--indigo);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fc-kana-sm {
+  font-size: clamp(26px, 7vw, 34px);
+}
+
+.fc-romaji {
+  font-size: 15px;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.fc-kanji-char {
+  font-family: var(--kana-font);
+  font-weight: 700;
+  font-size: clamp(64px, 18vw, 96px);
+  color: var(--indigo);
+}
+
+.fc-kanji-char-sm {
+  font-size: clamp(36px, 10vw, 48px);
+}
+
+.flashcard-face hr {
+  width: 60%;
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2px 0;
+}
+
+.fc-meaning {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.fc-kanji-form {
+  font-family: var(--kana-font);
+  font-size: 20px;
+  color: var(--gold);
+}
+
+.fc-reading {
+  font-size: 15px;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.fc-kana-reading {
+  font-family: var(--kana-font);
+  font-size: 16px;
+  color: var(--indigo);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fc-example {
+  font-family: var(--kana-font);
+  font-size: 15px;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fc-example-sub {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.fc-translation {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.fc-audio-icon {
+  font-size: 13px;
+  opacity: .7;
+}
+
+.fc-custom-text {
+  font-size: 16px;
+  line-height: 1.6;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.flash-show-answer-btn {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--indigo, #3f4b8c);
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 0 0 20px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.flash-show-answer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
+}
+.flash-show-answer-btn:focus-visible {
+  outline: 2px solid var(--vermillion);
+  outline-offset: 2px;
+}
+.flash-show-answer-btn.hidden {
+  display: none;
+}
+
+.flash-rate-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.flash-rate-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 12px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  cursor: pointer;
+  color: var(--ink-soft);
+  transition: transform .12s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.flash-rate-btn .fr-emoji {
+  font-size: 20px;
+}
+
+.flash-rate-btn:hover {
+  transform: translateY(-2px);
+}
+
+.flash-rate-btn:focus-visible {
+  outline: 2px solid var(--vermillion);
+  outline-offset: 2px;
+}
+
+.flash-rate-btn.again {
+  border-color: var(--quiz-wrong);
+  color: var(--quiz-wrong);
+}
+
+.flash-rate-btn.hard {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.flash-rate-btn.good {
+  border-color: var(--indigo);
+  color: var(--indigo);
+}
+
+.flash-rate-btn.easy {
+  border-color: var(--moss);
+  color: var(--moss);
+}
+
+.flash-done {
+  text-align: center;
+  padding: 30px 10px 10px;
+}
+
+.flash-done-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.flash-done-sub {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+}
+
+@media (max-width:520px) {
+  .flashcard-stage {
+    perspective: 900px;
+  }
+
+  .flashcard,
+  .flashcard-inner {
+    min-height: 230px;
+  }
+
+  .flash-rate-btn {
+    font-size: 10.5px;
+    padding: 10px 4px;
+  }
+
+  .flash-rate-btn .fr-emoji {
+    font-size: 18px;
   }
 }
