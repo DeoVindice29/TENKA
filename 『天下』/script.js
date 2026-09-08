@@ -3003,7 +3003,7 @@ function handleAnswer(chosen, btn, current) {
       const readingKey = current[2] === "kanjiForm"
         ? "quiz.romajiLabel"
         : state.script === "kanji" ? "quiz.hiraganaLabel" : "quiz.kanjiLabel";
-      extraText += " · " + t(readingKey, { value: current[4] });
+      extraText += "\n" + t(readingKey, { value: current[4] });
     }
     feedbackExtraEl.textContent = extraText;
     feedbackExtraEl.classList.remove("hidden");
