@@ -1,4 +1,5 @@
 :root {
+  --app-bg: #EDE4D0;
   --paper: #EDE4D0;
   --paper-dark: #E1D4B6;
   --card: #F7F1E1;
@@ -15,9 +16,17 @@
   color-scheme: light;
   --line: rgba(36, 31, 26, 0.14);
 
-  /* warna khusus feedback quest: benar = biru, salah = merah */
-  --quiz-correct: #1D4ED8;
-  --quiz-wrong: #DC2626;
+  /* warna khusus feedback quest: benar = hijau, salah = merah */
+  --quiz-correct: #227A4D;
+  --quiz-wrong: #B23A2E;
+
+  /* emerald tua dipakai khusus utk kotak jawaban benar/matched yg terisi penuh (quiz & match mode) */
+  --quiz-correct-fill: #065F46;
+  --quiz-correct-fill-text: #F2FBF6;
+
+  /* emerald cerah dipakai saat ubin match mode lagi "dipilih" (belum dikonfirmasi) */
+  --match-selecting: #10B981;
+  --match-selecting-text: #06281D;
 
   /* batch selang-seling untuk daftar rentang soal (dari-sampai) */
   --batch-a: #F7F1E1;
@@ -34,10 +43,16 @@
   --rb-green: #047857;
   --rb-yellow: #A16207;
   --rb-orange: #C2410C;
-  --rb-rose: #9D174D;
+  --rb-rose: #B91C1C;
+  --rb-teal: #0F766E;
+
+  /* seberapa banyak warna border yg dicampur ke background gelap tombol pilihan */
+  --choice-tint-mix: 55%;
+  --choice-tint-text: #FBF8EF;
 }
 
 [data-theme="dark"] {
+  --app-bg: #0B1220;
   --paper: #17151F;
   --paper-dark: #1E1B29;
   --card: #211E2C;
@@ -51,8 +66,12 @@
   --on-accent: #17151F;
   --shadow: rgba(0, 0, 0, 0.45);
   --shadow-soft: rgba(0, 0, 0, 0.3);
-  --quiz-correct: #5B8DEF;
-  --quiz-wrong: #F1685E;
+  --quiz-correct: #3ECF8E;
+  --quiz-wrong: #F2685C;
+  --quiz-correct-fill: #065F46;
+  --quiz-correct-fill-text: #F2FBF6;
+  --match-selecting: #10B981;
+  --match-selecting-text: #06281D;
   color-scheme: dark;
   --line: rgba(241, 236, 224, 0.14);
   --batch-a: #211E2C;
@@ -66,7 +85,11 @@
   --rb-green: #34D399;
   --rb-yellow: #FACC15;
   --rb-orange: #FB923C;
-  --rb-rose: #F472B6;
+  --rb-rose: #F87171;
+  --rb-teal: #2DD4BF;
+
+  --choice-tint-mix: 22%;
+  --choice-tint-text: #FBF8EF;
 }
 
 * {
@@ -90,10 +113,7 @@ html {
 body {
   min-height: 100vh;
   min-height: 100dvh;
-  background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(29, 78, 216, 0.08), transparent 60%),
-    radial-gradient(1000px 700px at 110% 10%, rgba(46, 98, 166, 0.10), transparent 55%),
-    var(--paper);
+  background: var(--app-bg);
   font-family: 'Noto Sans JP', sans-serif;
   color: var(--ink);
   display: flex;
@@ -151,7 +171,7 @@ body {
   padding: 16px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .18s ease;
+  transition: opacity .28s cubic-bezier(.4, 0, .2, 1);
 }
 
 [data-theme="dark"] .settings-overlay {
@@ -166,14 +186,14 @@ body {
 .settings-panel {
   width: 100%;
   max-width: 340px;
-  background: var(--card);
+  background: var(--app-bg);
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: 0 20px 45px var(--shadow);
   padding: 22px 20px 24px;
-  transform: translateY(-8px) scale(0.98);
+  transform: translateY(-14px) scale(0.96);
   opacity: 0;
-  transition: transform .18s ease, opacity .18s ease;
+  transition: transform .32s cubic-bezier(.16, 1, .3, 1), opacity .24s ease;
   margin-top: 64px;
   max-height: min(78vh, 640px);
   overflow-y: auto;
@@ -437,15 +457,11 @@ body {
   background: var(--paper);
 }
 
-.swatch-none {
-  border: 1px dashed var(--line);
-}
-
 .swatch-rainbow {
   border: 1px solid var(--line);
   background: conic-gradient(
-    var(--rb-pink) 0deg, var(--rb-cyan) 51deg, var(--rb-purple) 103deg, var(--rb-orange) 154deg,
-    var(--rb-green) 206deg, var(--rb-yellow) 257deg, var(--rb-blue) 309deg, var(--rb-rose) 360deg);
+    var(--rb-pink) 0deg, var(--rb-cyan) 45deg, var(--rb-purple) 90deg, var(--rb-orange) 135deg,
+    var(--rb-green) 180deg, var(--rb-yellow) 225deg, var(--rb-blue) 270deg, var(--rb-rose) 315deg, var(--rb-teal) 360deg);
 }
 
 .swatch-pink { border: 1px solid var(--rb-pink); background: var(--rb-pink); }
@@ -456,6 +472,7 @@ body {
 .swatch-yellow { border: 1px solid var(--rb-yellow); background: var(--rb-yellow); }
 .swatch-orange { border: 1px solid var(--rb-orange); background: var(--rb-orange); }
 .swatch-rose { border: 1px solid var(--rb-rose); background: var(--rb-rose); }
+.swatch-teal { border: 1px solid var(--rb-teal); background: var(--rb-teal); }
 
 /* ---------- about: rank ladder ---------- */
 .about-details {
@@ -1762,11 +1779,31 @@ button.match-tile {
   font-size: clamp(15px, 4.4vw, 19px);
 }
 
-button.match-tile:nth-child(1) { border-color: var(--rb-pink); }
-button.match-tile:nth-child(2) { border-color: var(--rb-cyan); }
-button.match-tile:nth-child(3) { border-color: var(--rb-purple); }
-button.match-tile:nth-child(4) { border-color: var(--rb-orange); }
-button.match-tile:nth-child(5) { border-color: var(--rb-green); }
+button.match-tile:nth-child(1) { border-color: var(--rb-pink); background: color-mix(in srgb, var(--rb-pink) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.match-tile:nth-child(2) { border-color: var(--rb-cyan); background: color-mix(in srgb, var(--rb-cyan) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.match-tile:nth-child(3) { border-color: var(--rb-purple); background: color-mix(in srgb, var(--rb-purple) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.match-tile:nth-child(4) { border-color: var(--rb-orange); background: color-mix(in srgb, var(--rb-orange) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.match-tile:nth-child(5) { border-color: var(--rb-green); background: color-mix(in srgb, var(--rb-green) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+
+/* pengaturan warna tema dari settings: solid color / rainbow (default) */
+[data-choice-border="pink"] button.match-tile { border-color: var(--rb-pink); background: color-mix(in srgb, var(--rb-pink) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="purple"] button.match-tile { border-color: var(--rb-purple); background: color-mix(in srgb, var(--rb-purple) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="cyan"] button.match-tile { border-color: var(--rb-cyan); background: color-mix(in srgb, var(--rb-cyan) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="blue"] button.match-tile { border-color: var(--rb-blue); background: color-mix(in srgb, var(--rb-blue) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="green"] button.match-tile { border-color: var(--rb-green); background: color-mix(in srgb, var(--rb-green) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="yellow"] button.match-tile { border-color: var(--rb-yellow); background: color-mix(in srgb, var(--rb-yellow) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="orange"] button.match-tile { border-color: var(--rb-orange); background: color-mix(in srgb, var(--rb-orange) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="rose"] button.match-tile { border-color: var(--rb-rose); background: color-mix(in srgb, var(--rb-rose) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="teal"] button.match-tile { border-color: var(--rb-teal); background: color-mix(in srgb, var(--rb-teal) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+
+/* mode rainbow di match: tiap ubin dikasih warna acak sendiri lewat JS (custom property),
+   bukan lewat inline border-color/background langsung — supaya state .selected/.matched/.wrong
+   di bawah tetap bisa nimpa tampilannya */
+[data-choice-border="rainbow"] button.match-tile {
+  border-color: var(--tile-rainbow, var(--rb-pink));
+  background: color-mix(in srgb, var(--tile-rainbow, var(--rb-pink)) var(--choice-tint-mix), black);
+  color: var(--choice-tint-text);
+}
 
 button.match-tile:hover:not(:disabled) {
   border-color: var(--indigo);
@@ -1774,15 +1811,15 @@ button.match-tile:hover:not(:disabled) {
 }
 
 button.match-tile.selected {
-  background: var(--indigo);
-  border-color: var(--indigo);
-  color: var(--on-accent);
+  background: var(--match-selecting);
+  border-color: var(--match-selecting);
+  color: var(--match-selecting-text);
 }
 
 button.match-tile.matched {
-  background: var(--quiz-correct);
-  border-color: var(--quiz-correct);
-  color: var(--on-accent);
+  background: var(--quiz-correct-fill);
+  border-color: var(--quiz-correct-fill);
+  color: var(--quiz-correct-fill-text);
   opacity: 0.55;
   cursor: default;
 }
@@ -2329,26 +2366,26 @@ button.choice {
   word-break: break-word;
 }
 
-/* warna border cerah bergilir per pilihan, biar tidak polos */
-button.choice:nth-child(1) { border-color: var(--rb-pink); }
-button.choice:nth-child(2) { border-color: var(--rb-cyan); }
-button.choice:nth-child(3) { border-color: var(--rb-purple); }
-button.choice:nth-child(4) { border-color: var(--rb-orange); }
-button.choice:nth-child(5) { border-color: var(--rb-green); }
-button.choice:nth-child(6) { border-color: var(--rb-yellow); }
-button.choice:nth-child(7) { border-color: var(--rb-blue); }
-button.choice:nth-child(8) { border-color: var(--rb-rose); }
+/* warna border cerah bergilir per pilihan, biar tidak polos — bg-nya versi gelap dari warna border */
+button.choice:nth-child(1) { border-color: var(--rb-pink); background: color-mix(in srgb, var(--rb-pink) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.choice:nth-child(2) { border-color: var(--rb-cyan); background: color-mix(in srgb, var(--rb-cyan) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.choice:nth-child(3) { border-color: var(--rb-purple); background: color-mix(in srgb, var(--rb-purple) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.choice:nth-child(4) { border-color: var(--rb-orange); background: color-mix(in srgb, var(--rb-orange) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.choice:nth-child(5) { border-color: var(--rb-green); background: color-mix(in srgb, var(--rb-green) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.choice:nth-child(6) { border-color: var(--rb-yellow); background: color-mix(in srgb, var(--rb-yellow) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.choice:nth-child(7) { border-color: var(--rb-blue); background: color-mix(in srgb, var(--rb-blue) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+button.choice:nth-child(8) { border-color: var(--rb-rose); background: color-mix(in srgb, var(--rb-rose) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
 
-/* pengaturan warna border jawaban dari settings: none / solid / rainbow (default) */
-[data-choice-border="none"] button.choice { border-color: transparent; }
-[data-choice-border="pink"] button.choice { border-color: var(--rb-pink); }
-[data-choice-border="purple"] button.choice { border-color: var(--rb-purple); }
-[data-choice-border="cyan"] button.choice { border-color: var(--rb-cyan); }
-[data-choice-border="blue"] button.choice { border-color: var(--rb-blue); }
-[data-choice-border="green"] button.choice { border-color: var(--rb-green); }
-[data-choice-border="yellow"] button.choice { border-color: var(--rb-yellow); }
-[data-choice-border="orange"] button.choice { border-color: var(--rb-orange); }
-[data-choice-border="rose"] button.choice { border-color: var(--rb-rose); }
+/* pengaturan warna tema dari settings: solid color / rainbow (default) */
+[data-choice-border="pink"] button.choice { border-color: var(--rb-pink); background: color-mix(in srgb, var(--rb-pink) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="purple"] button.choice { border-color: var(--rb-purple); background: color-mix(in srgb, var(--rb-purple) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="cyan"] button.choice { border-color: var(--rb-cyan); background: color-mix(in srgb, var(--rb-cyan) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="blue"] button.choice { border-color: var(--rb-blue); background: color-mix(in srgb, var(--rb-blue) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="green"] button.choice { border-color: var(--rb-green); background: color-mix(in srgb, var(--rb-green) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="yellow"] button.choice { border-color: var(--rb-yellow); background: color-mix(in srgb, var(--rb-yellow) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="orange"] button.choice { border-color: var(--rb-orange); background: color-mix(in srgb, var(--rb-orange) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="rose"] button.choice { border-color: var(--rb-rose); background: color-mix(in srgb, var(--rb-rose) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
+[data-choice-border="teal"] button.choice { border-color: var(--rb-teal); background: color-mix(in srgb, var(--rb-teal) var(--choice-tint-mix), black); color: var(--choice-tint-text); }
 
 button.choice:hover:not(:disabled) {
   border-color: var(--indigo);
@@ -2360,9 +2397,9 @@ button.choice:disabled {
 }
 
 button.choice.correct {
-  background: var(--quiz-correct);
-  border-color: var(--quiz-correct);
-  color: var(--on-accent);
+  background: var(--quiz-correct-fill);
+  border-color: var(--quiz-correct-fill);
+  color: var(--quiz-correct-fill-text);
 }
 
 button.choice.wrong {
@@ -3323,6 +3360,7 @@ button.ghost {
     border-radius: 20px 20px 0 0;
     padding: 20px 20px calc(22px + env(safe-area-inset-bottom));
     transform: translateY(100%);
+    transition: transform .34s cubic-bezier(.32, .72, 0, 1), opacity .22s ease;
     box-shadow: 0 -12px 30px var(--shadow);
   }
 

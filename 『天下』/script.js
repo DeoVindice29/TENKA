@@ -9,7 +9,7 @@ const I18N = {
   "aria.changePhoto": { en: "Change profile photo", id: "Ganti foto profil" },
   "aria.setNickname": { en: "Set your nickname", id: "Atur nickname kamu" },
   "aria.chooseLanguage": { en: "Choose language", id: "Pilih bahasa" },
-  "aria.chooseBorderStyle": { en: "Choose answer border style", id: "Pilih gaya border jawaban" },
+  "aria.chooseBorderStyle": { en: "Choose theme color", id: "Pilih warna tema" },
   "aria.chooseScript": { en: "Choose a script", id: "Pilih aksara" },
   "aria.chooseScriptStudy": { en: "Choose a script to study", id: "Pilih aksara untuk belajar" },
   "profile.addNickname": { en: "+ Add nickname", id: "+ Tambah nickname" },
@@ -17,9 +17,8 @@ const I18N = {
   "titles.heading": { en: "🏅 Conquest Title Collection", id: "🏅 Koleksi Title penaklukkan" },
   "titles.hint": { en: "Complete every conquest ⚔️ to claim the title of Conqueror!", id: "Selesaikan setiap penaklukan ⚔️ untuk meraih gelar Penakluk!" },
   "appearance.language": { en: "Language", id: "Bahasa" },
-  "borderStyle.heading": { en: "Answer Border Color", id: "Warna Border Jawaban" },
-  "borderStyle.none": { en: "No Border", id: "Tanpa Border" },
-  "borderStyle.rainbow": { en: "Rainbow", id: "Rainbow" },
+  "borderStyle.heading": { en: "Theme Color", id: "Warna Tema" },
+  "borderStyle.rainbow": { en: "Default", id: "Default" },
   "borderStyle.pink": { en: "Pink", id: "Pink" },
   "borderStyle.purple": { en: "Purple", id: "Ungu" },
   "borderStyle.cyan": { en: "Cyan", id: "Cyan" },
@@ -27,7 +26,8 @@ const I18N = {
   "borderStyle.green": { en: "Green", id: "Hijau" },
   "borderStyle.yellow": { en: "Yellow", id: "Kuning" },
   "borderStyle.orange": { en: "Orange", id: "Oranye" },
-  "borderStyle.rose": { en: "Rose", id: "Merah Muda Tua" },
+  "borderStyle.rose": { en: "Red", id: "Merah" },
+  "borderStyle.teal": { en: "Teal", id: "Toska" },
   "about.heading": { en: "About", id: "Tentang" },
   "about.summary": { en: "👑 Noble Ranks", id: "👑 Tingkatan Kebangsawanan" },
   "about.intro": { en: "Conquer every Chapter Trial to climb from commoner to emperor.", id: "Taklukkan tiap Chapter Trial untuk rangkak naik dari rakyat jelata sampai kaisar." },
@@ -330,7 +330,79 @@ document.addEventListener("keydown", (e) => {
   speakJapanese(el.getAttribute("data-speak"), el);
 });
 
-/* ---------------- theme ---------------- */
+/* ---------------- theme color (whole-app hue theming) ----------------
+   Memilih warna di sini men-tema-i SELURUH aplikasi: teks, border, tombol,
+   sampai warna benar/salah (salah = warna kebalikan/komplementer dari benar).
+   "Default" (dulu "Rainbow") = tampilan asli, tiap tombol dapat warna acak
+   sendiri, tanpa override tema global. Mode terang/gelap cuma membedakan
+   kecerahan — huenya tetap sama. */
+const BORDER_STYLE_KEY = "tebakAksara_choiceBorderStyle_v1";
+const borderStyleOptionsEl = document.getElementById("border-style-options");
+
+const VALID_BORDER_STYLES = ["rainbow", "pink", "purple", "cyan", "blue", "green", "yellow", "orange", "rose", "teal"];
+const THEME_HUES = { pink: 330, purple: 265, cyan: 189, blue: 217, green: 142, yellow: 42, orange: 24, rose: 5, teal: 175 };
+const THEME_OVERRIDE_VARS = [
+  "--paper", "--paper-dark", "--card", "--ink", "--ink-soft",
+  "--indigo", "--indigo-deep", "--vermillion", "--gold", "--moss", "--line",
+  "--quiz-correct", "--quiz-wrong", "--quiz-correct-fill", "--match-selecting"
+];
+
+function getBorderStyle() {
+  const stored = localStorage.getItem(BORDER_STYLE_KEY);
+  return VALID_BORDER_STYLES.includes(stored) ? stored : "rainbow";
+}
+
+function hsl(h, s, l) { return `hsl(${((h % 360) + 360) % 360}, ${s}%, ${l}%)`; }
+function hsla(h, s, l, a) { return `hsla(${((h % 360) + 360) % 360}, ${s}%, ${l}%, ${a})`; }
+
+function applyThemeColorOverrides(style) {
+  const root = document.documentElement.style;
+  if (style === "rainbow" || !THEME_HUES.hasOwnProperty(style)) {
+    THEME_OVERRIDE_VARS.forEach(v => root.removeProperty(v));
+    return;
+  }
+  const h = THEME_HUES[style];
+  const wrong = h + 180; // "salah" pakai warna kebalikan/komplementer dari "benar"
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+  const vars = isDark ? {
+    "--paper": hsl(h, 22, 12), "--paper-dark": hsl(h, 22, 15), "--card": hsl(h, 20, 17),
+    "--ink": hsl(h, 14, 92), "--ink-soft": hsl(h, 14, 72),
+    "--indigo": hsl(h, 75, 68), "--indigo-deep": hsl(h, 75, 78),
+    "--vermillion": hsl(h + 18, 70, 62), "--gold": hsl(h + 40, 85, 65), "--moss": hsl(h + 110, 50, 62),
+    "--line": hsla(h, 20, 85, 0.16),
+    "--quiz-correct": hsl(h, 65, 60), "--quiz-wrong": hsl(wrong, 65, 62),
+    "--quiz-correct-fill": hsl(h, 55, 26), "--match-selecting": hsl(h + 110, 55, 55)
+  } : {
+    "--paper": hsl(h, 22, 88), "--paper-dark": hsl(h, 25, 82), "--card": hsl(h, 28, 93),
+    "--ink": hsl(h, 12, 15), "--ink-soft": hsl(h, 10, 38),
+    "--indigo": hsl(h, 62, 42), "--indigo-deep": hsl(h, 66, 32),
+    "--vermillion": hsl(h + 18, 68, 45), "--gold": hsl(h + 40, 78, 56), "--moss": hsl(h + 110, 40, 38),
+    "--line": hsla(h, 20, 20, 0.16),
+    "--quiz-correct": hsl(h, 58, 34), "--quiz-wrong": hsl(wrong, 58, 40),
+    "--quiz-correct-fill": hsl(h, 55, 26), "--match-selecting": hsl(h + 110, 55, 38)
+  };
+
+  Object.entries(vars).forEach(([key, val]) => root.setProperty(key, val));
+}
+
+function applyBorderStyle(style) {
+  document.documentElement.setAttribute("data-choice-border", style);
+  borderStyleOptionsEl.querySelectorAll(".border-style-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-border-style") === style);
+  });
+  localStorage.setItem(BORDER_STYLE_KEY, style);
+  applyThemeColorOverrides(style);
+}
+applyBorderStyle(getBorderStyle());
+borderStyleOptionsEl.addEventListener("click", (e) => {
+  const btn = e.target.closest(".border-style-btn");
+  if (!btn) return;
+  applyBorderStyle(btn.getAttribute("data-border-style"));
+  if (typeof refreshMatchTileBorderColors === "function") refreshMatchTileBorderColors();
+});
+
+/* ---------------- theme (light / dark) ---------------- */
 const themeToggle = document.getElementById("theme-toggle");
 const themeSwitchInput = document.getElementById("theme-switch-input");
 const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -342,6 +414,7 @@ function applyTheme(theme) {
   themeSwitchInput.checked = theme === "dark";
   const themeLabel = document.getElementById("theme-toggle-label");
   themeLabel.textContent = theme === "dark" ? t("theme.dark") : t("theme.light");
+  applyThemeColorOverrides(getBorderStyle()); // recompute hue theme di brightness mode baru
 }
 applyTheme(prefersDark ? "dark" : "light");
 
@@ -375,29 +448,6 @@ function applyFont(key) {
   fontSelect.value = key;
 }
 applyFont("noto");
-
-/* ---------------- answer border style (none / solid / rainbow) ---------------- */
-const BORDER_STYLE_KEY = "tebakAksara_choiceBorderStyle_v1";
-const borderStyleOptionsEl = document.getElementById("border-style-options");
-
-const VALID_BORDER_STYLES = ["none", "rainbow", "pink", "purple", "cyan", "blue", "green", "yellow", "orange", "rose"];
-function getBorderStyle() {
-  const stored = localStorage.getItem(BORDER_STYLE_KEY);
-  return VALID_BORDER_STYLES.includes(stored) ? stored : "rainbow";
-}
-function applyBorderStyle(style) {
-  document.documentElement.setAttribute("data-choice-border", style);
-  borderStyleOptionsEl.querySelectorAll(".border-style-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.getAttribute("data-border-style") === style);
-  });
-  localStorage.setItem(BORDER_STYLE_KEY, style);
-}
-applyBorderStyle(getBorderStyle());
-borderStyleOptionsEl.addEventListener("click", (e) => {
-  const btn = e.target.closest(".border-style-btn");
-  if (!btn) return;
-  applyBorderStyle(btn.getAttribute("data-border-style"));
-});
 
 function openSettings() {
   settingsOverlay.classList.add("open");
@@ -3616,6 +3666,33 @@ function startMatchGame(scriptKey, mode) {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
+// palet warna border rainbow — sama seperti yg dipakai pilihan ganda
+const MATCH_RB_COLORS = ["--rb-pink", "--rb-cyan", "--rb-purple", "--rb-orange", "--rb-green", "--rb-yellow", "--rb-blue", "--rb-rose", "--rb-teal"];
+
+// kasih tiap ubin warna border sendiri2 (diacak) biar ubin yg bersebelahan
+// (kolom kana & romaji) gak collision kebagian warna yg sama kayak dulu
+// (dulu warnanya cuma ngikut posisi nth-child per kolom).
+function applyMatchTileBorderColors(tiles) {
+  if (getBorderStyle() !== "rainbow") {
+    tiles.forEach(tile => { tile.style.removeProperty("--tile-rainbow"); });
+    return;
+  }
+  const pool = [];
+  while (pool.length < tiles.length) {
+    pool.push(...shuffle(MATCH_RB_COLORS));
+  }
+  const colors = shuffle(pool.slice(0, tiles.length));
+  tiles.forEach((tile, i) => {
+    tile.style.setProperty("--tile-rainbow", `var(${colors[i]})`);
+  });
+}
+
+// panggil ulang kalau setting border style diganti sementara layar match lagi kebuka
+function refreshMatchTileBorderColors() {
+  if (screenMatch.classList.contains("hidden")) return;
+  applyMatchTileBorderColors(Array.from(matchBoardEl.querySelectorAll(".match-tile")));
+}
+
 function renderMatchRound() {
   const round = matchState.rounds[matchState.roundIndex];
   matchState.roundMatched = 0;
@@ -3633,6 +3710,8 @@ function renderMatchRound() {
   matchColKanaEl.innerHTML = "";
   matchColRomajiEl.innerHTML = "";
 
+  const allTiles = [];
+
   kanaOrder.forEach(pairIndex => {
     const tile = document.createElement("button");
     tile.type = "button";
@@ -3640,6 +3719,7 @@ function renderMatchRound() {
     tile.textContent = round[pairIndex][0];
     tile.addEventListener("click", () => handleMatchTileClick(tile, "kana", pairIndex));
     matchColKanaEl.appendChild(tile);
+    allTiles.push(tile);
   });
 
   romajiOrder.forEach(pairIndex => {
@@ -3649,7 +3729,10 @@ function renderMatchRound() {
     tile.textContent = round[pairIndex][1];
     tile.addEventListener("click", () => handleMatchTileClick(tile, "romaji", pairIndex));
     matchColRomajiEl.appendChild(tile);
+    allTiles.push(tile);
   });
+
+  applyMatchTileBorderColors(allTiles);
 }
 
 function handleMatchTileClick(tile, side, pairIndex) {
