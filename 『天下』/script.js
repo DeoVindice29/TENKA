@@ -67,6 +67,8 @@ const I18N = {
   "quiz.seeResults": { en: "See Results →", id: "Lihat Hasil →" },
   "quiz.guessRomaji": { en: "Guess the romaji", id: "Tebak romaji" },
   "quiz.guessMeaning": { en: "Guess the meaning", id: "Tebak artinya" },
+  "quiz.guessKanjiForm": { en: "Which kanji is it?", id: "Kanji yang mana?" },
+  "quiz.kanjiFormBtn": { en: "Kanji", id: "Kanji" },
   "quiz.guessFunction": { en: "Guess the function", id: "Tebak fungsinya" },
   "quiz.guessKalimat": { en: "Guess the Particle!", id: "Tebak Partikel!" },
   "quiz.function": { en: "Function", id: "Fungsi" },
@@ -202,6 +204,15 @@ const I18N = {
   "speedrunRecords.empty": { en: "Conquer a script ⚔️ to unlock Speedrun Mode for it.", id: "Taklukkan sebuah aksara ⚔️ untuk membuka Mode Speedrun-nya." },
   "speedrunRecords.notPlayedYet": { en: "Not run yet", id: "Belum pernah dicoba" },
   "speedrun.countdownGo": { en: "GO!", id: "MULAI!" },
+
+  "matchMode.cardTitle": { en: "🧩 Match Mode", id: "🧩 Mode Match" },
+  "matchMode.cardDesc": { en: "Match 4 characters with their romaji, round by round.", id: "Cocokkan 4 huruf dengan romaji-nya, ronde demi ronde." },
+  "matchMode.instruction": { en: "Tap a character, then its matching romaji", id: "Ketuk sebuah huruf, lalu romaji yang cocok" },
+  "matchMode.roundProgress": { en: "Round {current}/{total}", id: "Ronde {current}/{total}" },
+  "matchMode.restart": { en: "🔁 Restart", id: "🔁 Ulangi" },
+  "matchMode.playAgain": { en: "🔁 Play Again", id: "🔁 Main Lagi" },
+  "matchMode.doneTitle": { en: "🎉 All matched!", id: "🎉 Semua cocok!" },
+  "matchMode.doneSub": { en: "{pairs} pairs · {mistakes} mistakes · {time}", id: "{pairs} pasangan · {mistakes} kali salah · {time}" },
 
 };
 
@@ -460,6 +471,19 @@ function refreshVisibleScreenText() {
   }
   if (!screenFlashcard.classList.contains("hidden") && flashState.queue && flashState.queue.length) {
     renderCurrentFlashcard();
+  }
+  if (!screenMatch.classList.contains("hidden") && matchState) {
+    matchProgressTextEl.textContent = t("matchMode.roundProgress", {
+      current: matchState.roundIndex + 1,
+      total: matchState.rounds.length
+    });
+    if (!matchDoneEl.classList.contains("hidden")) {
+      matchDoneSubEl.textContent = t("matchMode.doneSub", {
+        pairs: matchState.totalPairs,
+        mistakes: matchState.mistakes,
+        time: formatSpeedrunTime(matchState.elapsedMs || 0)
+      });
+    }
   }
 }
 
@@ -1498,11 +1522,16 @@ const SCRIPTS = {
   kanji: {
     key: "kanji", label: "Kanji N5", tabGlyph: "漢", quizType: "meaning",
     quizLabelKey: "quiz.guessMeaning", quizLabelRomajiKey: "quiz.guessRomaji", hasVariants: true,
-    quizLabelKeys: { meaning: "quiz.guessMeaning", romaji: "quiz.guessRomaji" },
-    extraLabelKeys: { meaning: "quiz.romajiLabel", romaji: "quiz.meaningLabel" },
+    // "kanjiForm": tipe soal ke-4 khusus Kanji N5 — kebalikan dari "romaji"/"meaning":
+    // yang ditunjukkan adalah bacaan hiragana-nya (dari dataKana), dan yang harus
+    // ditebak adalah kanji mana yang tepat untuk bacaan tersebut (pilihan jawabannya
+    // berupa karakter kanji, bukan romaji/arti).
+    quizLabelKeys: { meaning: "quiz.guessMeaning", romaji: "quiz.guessRomaji", kanjiForm: "quiz.guessKanjiForm" },
+    extraLabelKeys: { meaning: "quiz.romajiLabel", romaji: "quiz.meaningLabel", kanjiForm: "quiz.meaningLabel" },
     variantButtons: [
       { key: "meaning", icon: "🈺", i18nKey: "quiz.meaning" },
       { key: "romaji", icon: "🔤", label: "Romaji" },
+      { key: "kanjiForm", icon: "🈶", i18nKey: "quiz.kanjiFormBtn" },
       { key: "both", icon: "🎲", i18nKey: "quiz.mixed" }
     ],
     // Kanji punya 9 subtier (Chapter N5, bukan lagi cuma tier1/2/3) — levelMeta
@@ -1935,6 +1964,7 @@ document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn => {
 const levelsEl = document.getElementById("levels");
 const startBtn = document.getElementById("btn-start");
 const btnOpenLearn = document.getElementById("btn-open-learn");
+const btnMatchMode = document.getElementById("btn-match-mode");
 
 function renderLevels(scriptKey) {
   currentScript = scriptKey;
@@ -1955,6 +1985,11 @@ function renderLevels(scriptKey) {
   if (!supportsHard && selectedDifficulty === "hard") {
     setDifficulty("easy");
   }
+
+  // Match Mode: cuma tersedia utk Hiragana & Katakana — sama seperti Hard mode.
+  // Tetap butuh sebuah tingkatan (tier) dipilih dulu di bawah sebelum aktif.
+  btnMatchMode.classList.toggle("hidden", !supportsHard);
+  btnMatchMode.disabled = true;
 
   // script.levelMeta (mis. Kanji N5 dgn 9 Chapter) menggantikan LEVEL_META
   // global kalau ada — jumlah titik "tier-dots" ikut menyesuaikan panjangnya.
@@ -1996,6 +2031,7 @@ function renderLevels(scriptKey) {
       card.setAttribute("aria-pressed", "true");
       state.mode = meta.id;
       startBtn.disabled = false;
+      if (supportsHard) btnMatchMode.disabled = false;
       renderRangePicker(scriptKey, meta.id);
     });
     levelsEl.appendChild(card);
@@ -2254,7 +2290,8 @@ const quizVariantPickerEl = document.getElementById("quiz-variant-picker");
 const quizVariantBtnEls = [
   document.getElementById("quiz-variant-btn-a"),
   document.getElementById("quiz-variant-btn-b"),
-  document.getElementById("quiz-variant-btn-c")
+  document.getElementById("quiz-variant-btn-c"),
+  document.getElementById("quiz-variant-btn-d")
 ];
 document.querySelectorAll(".quiz-variant-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -2499,6 +2536,7 @@ const screenResults = document.getElementById("screen-results");
 const dotsEl = document.getElementById("dots");
 const streakEl = document.getElementById("streak");
 const streakCountEl = document.getElementById("streak-count");
+const streakFlameEl = document.getElementById("streak-flame");
 const stampEl = document.getElementById("stamp");
 const kanaCharEl = document.getElementById("kana-char");
 const choicesEl = document.getElementById("choices");
@@ -2586,7 +2624,7 @@ function startQuiz(scriptKey, mode) {
         : [meaningPool[i][0], meaningPool[i][1], type, kalimatPool[i][0]];
     });
   } else if (script.hasVariants) {
-    // kotoba / kanji: bisa soal "arti", "romaji", atau "campuran" keduanya
+    // kotoba / kanji: bisa soal "arti", "romaji", "kanjiForm" (khusus kanji), atau "campuran"
     const meaningPool = usesAllPool ? script.data.all : script.data[mode];
     const romajiPool = usesAllPool ? script.dataRomaji.all : script.dataRomaji[mode];
     wrongPools = { meaning: meaningPool, romaji: romajiPool };
@@ -2600,6 +2638,21 @@ function startQuiz(scriptKey, mode) {
         ? (usesAllPool ? script.dataKanji.all : script.dataKanji[mode])
         : null;
 
+    // kanjiForm: kebalikan dari "meaning"/"romaji" — soal = bacaan hiragananya
+    // (dataKana), jawaban = karakter kanji yang tepat. Item pool-nya [kana, kanji]
+    // (kebalikan urutan dataKana yang aslinya [kanji, kana]), supaya struktur
+    // [soal, jawaban] konsisten dengan pool lain & buildChoices() otomatis
+    // menyingkirkan kanji lain yang kebetulan punya bacaan sama (mis. 日/火 = "hi")
+    // dari pilihan pengecoh, karena identitas soal (kana)-nya bakal sama juga.
+    const kanjiFormPool = scriptKey === "kanji"
+      ? (usesAllPool ? script.dataKana.all : script.dataKana[mode]).map(([c, k]) => [k, c])
+      : null;
+    if (kanjiFormPool) wrongPools.kanjiForm = kanjiFormPool;
+
+    // tipe soal yang ikut diacak kalau user pilih "Campuran" — Kanji N5 punya 3
+    // (arti/romaji/kanjiForm), Basic Kotoba cuma 2 (arti/romaji).
+    const variantTypePool = kanjiFormPool ? ["meaning", "romaji", "kanjiForm"] : ["meaning", "romaji"];
+
     // Basic Kotoba di Mode Penaklukan & Speedrun: tipe soal dikunci ke "arti" (meaning)
     // saja, tidak ikut pengaturan selectedQuizVariant milik user.
     const forceKotobaMeaning = scriptKey === "kotoba" && (isConquest || isSpeedrun);
@@ -2609,13 +2662,15 @@ function startQuiz(scriptKey, mode) {
       const type = forceKotobaMeaning
         ? "meaning"
         : selectedQuizVariant === "both"
-          ? (Math.random() < 0.5 ? "meaning" : "romaji")
+          ? variantTypePool[Math.floor(Math.random() * variantTypePool.length)]
           : selectedQuizVariant;
-      const src = type === "romaji" ? romajiPool : meaningPool;
+      const src = type === "romaji" ? romajiPool : type === "kanjiForm" ? kanjiFormPool : meaningPool;
       // simpan juga sisi "lainnya" (kalau soalnya arti, simpan romaji-nya, dan
       // sebaliknya) supaya bisa ditunjukkan begitu user selesai jawab soal ini.
-      const extra = type === "romaji" ? meaningPool[i][1] : romajiPool[i][1];
-      const extraReading = extraReadingPool ? extraReadingPool[i][1] : null;
+      // Untuk kanjiForm, sisi "lainnya" yang ditampilkan = arti + romaji-nya
+      // (furigana-nya sendiri percuma ditampilkan lagi, karena itu sudah jadi soalnya).
+      const extra = type === "kanjiForm" || type === "romaji" ? meaningPool[i][1] : romajiPool[i][1];
+      const extraReading = type === "kanjiForm" ? romajiPool[i][1] : (extraReadingPool ? extraReadingPool[i][1] : null);
       return [src[i][0], src[i][1], type, extra, extraReading];
     });
   } else if (isThreePhaseConquest) {
@@ -2730,8 +2785,9 @@ document.getElementById("btn-conquest-story-back").addEventListener("click", () 
   renderProfile();
 });
 
+// dotsEl (id="dots") sekarang cuma nampilin teks "posisi/total" (angka polos),
+// bukan lagi deretan bulatan — lebih ringkas & gampang dibaca sekilas.
 function renderDots() {
-  dotsEl.innerHTML = "";
   let indices;
   if (state.conquestPhaseBoundaries) {
     const b = state.conquestPhaseBoundaries;
@@ -2741,14 +2797,8 @@ function renderDots() {
   } else {
     indices = state.queue.map((_, i) => i);
   }
-  indices.forEach(i => {
-    const d = document.createElement("span");
-    d.className = "dot";
-    if (i === state.index) d.classList.add("current");
-    if (state.results[i] === true) d.classList.add("correct");
-    if (state.results[i] === false) d.classList.add("wrong");
-    dotsEl.appendChild(d);
-  });
+  const position = indices.indexOf(state.index) + 1;
+  dotsEl.textContent = `${position}/${indices.length}`;
 }
 
 function renderQuestion() {
@@ -2833,7 +2883,11 @@ function renderQuestion() {
 
 function updateStreakUI() {
   streakCountEl.textContent = state.streak;
-  streakEl.classList.toggle("show", state.streak >= 2);
+  // makin panjang streak-nya, makin banyak api-nya: 1 api (1-2), 2 api (3-5),
+  // 3 api (6+) — biar makin kelihatan "on fire" pas streak-nya makin tinggi.
+  const flameCount = state.streak >= 6 ? 3 : state.streak >= 3 ? 2 : state.streak >= 1 ? 1 : 0;
+  if (streakFlameEl) streakFlameEl.textContent = "🔥".repeat(flameCount);
+  streakEl.classList.toggle("show", state.streak >= 1);
 }
 
 let speedrunAutoNextTimer = null;
@@ -2896,7 +2950,9 @@ function handleAnswer(chosen, btn, current) {
     // tambahan: furigana hiragana utk Kanji N5, atau tulisan kanji utk Basic
     // Kotoba (current[4]) — muncul bareng info romaji/arti di atas.
     if (current[4]) {
-      const readingKey = state.script === "kanji" ? "quiz.hiraganaLabel" : "quiz.kanjiLabel";
+      const readingKey = current[2] === "kanjiForm"
+        ? "quiz.romajiLabel"
+        : state.script === "kanji" ? "quiz.hiraganaLabel" : "quiz.kanjiLabel";
       extraText += " · " + t(readingKey, { value: current[4] });
     }
     feedbackExtraEl.textContent = extraText;
@@ -3491,9 +3547,195 @@ const FLASH_BUILTIN_DECK_DEFS = [
 let flashState = { deckRef: null, deckLabel: "", queue: [], index: 0, total: 0, ratedCount: 0 };
 
 function hideAllMainScreens() {
-  [screenStart, screenLearnEl, screenConquestStory, screenQuiz, screenResults, screenFlashDeck, screenFlashcard]
+  [screenStart, screenLearnEl, screenConquestStory, screenQuiz, screenResults, screenFlashDeck, screenFlashcard, screenMatch]
     .forEach(s => s && s.classList.add("hidden"));
 }
+
+/* ---------------- mode match (cocokkan 4 huruf & romaji tiap ronde) ---------------- */
+// Hanya utk Hiragana & Katakana. Berbeda dari mode kuis biasa: bukan pilihan
+// ganda, tapi mencocokkan (tap-tap) 4 pasang [huruf, romaji] sekaligus tiap
+// ronde. Pool soalnya diambil langsung dari tier yg sedang dipilih user di
+// start screen (script.data[mode]) — tidak dipengaruhi pengaturan
+// difficulty/quiz-variant/range yg dipakai mode kuis biasa, karena mode ini
+// memang berdiri sendiri.
+const screenMatch = document.getElementById("screen-match");
+const btnMatchBack = document.getElementById("btn-match-back");
+const btnMatchRestart = document.getElementById("btn-match-restart");
+const matchProgressTextEl = document.getElementById("match-progress-text");
+const matchMistakesCountEl = document.getElementById("match-mistakes-count");
+const matchBoardEl = document.getElementById("match-board");
+const matchColKanaEl = document.getElementById("match-col-kana");
+const matchColRomajiEl = document.getElementById("match-col-romaji");
+const matchDoneEl = document.getElementById("match-done");
+const matchDoneSubEl = document.getElementById("match-done-sub");
+const btnMatchPlayAgain = document.getElementById("btn-match-play-again");
+const btnMatchChooseAnother = document.getElementById("btn-match-choose-another");
+
+let matchState = null;
+
+// pecah seluruh pasangan [huruf, romaji] milik satu tier jadi beberapa ronde
+// isi 4 pasang, teracak. Kalau sisa terakhir cuma 1 pasang (trivial banget —
+// tinggal tap 2 ubin doang), gabungkan ke ronde sebelumnya biar tetap seru.
+function buildMatchRounds(pairs) {
+  const shuffled = shuffle(pairs);
+  const rounds = [];
+  for (let i = 0; i < shuffled.length; i += 4) {
+    rounds.push(shuffled.slice(i, i + 4));
+  }
+  if (rounds.length > 1 && rounds[rounds.length - 1].length === 1) {
+    const last = rounds.pop();
+    rounds[rounds.length - 1] = rounds[rounds.length - 1].concat(last);
+  }
+  return rounds;
+}
+
+function startMatchGame(scriptKey, mode) {
+  if (!mode) return; // belum pilih tingkatan
+  const script = SCRIPTS[scriptKey];
+  const pairs = script.data[mode];
+
+  matchState = {
+    scriptKey,
+    mode,
+    rounds: buildMatchRounds(pairs),
+    roundIndex: 0,
+    roundMatched: 0,
+    totalPairs: pairs.length,
+    mistakes: 0,
+    selectedKana: null,
+    selectedRomaji: null,
+    startTime: Date.now()
+  };
+
+  hideAllMainScreens();
+  screenMatch.classList.remove("hidden");
+  matchDoneEl.classList.add("hidden");
+  matchBoardEl.classList.remove("hidden");
+  matchMistakesCountEl.textContent = "0";
+  renderMatchRound();
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function renderMatchRound() {
+  const round = matchState.rounds[matchState.roundIndex];
+  matchState.roundMatched = 0;
+  matchState.selectedKana = null;
+  matchState.selectedRomaji = null;
+
+  matchProgressTextEl.textContent = t("matchMode.roundProgress", {
+    current: matchState.roundIndex + 1,
+    total: matchState.rounds.length
+  });
+
+  const kanaOrder = shuffle(round.map((_, i) => i));
+  const romajiOrder = shuffle(round.map((_, i) => i));
+
+  matchColKanaEl.innerHTML = "";
+  matchColRomajiEl.innerHTML = "";
+
+  kanaOrder.forEach(pairIndex => {
+    const tile = document.createElement("button");
+    tile.type = "button";
+    tile.className = "match-tile";
+    tile.textContent = round[pairIndex][0];
+    tile.addEventListener("click", () => handleMatchTileClick(tile, "kana", pairIndex));
+    matchColKanaEl.appendChild(tile);
+  });
+
+  romajiOrder.forEach(pairIndex => {
+    const tile = document.createElement("button");
+    tile.type = "button";
+    tile.className = "match-tile";
+    tile.textContent = round[pairIndex][1];
+    tile.addEventListener("click", () => handleMatchTileClick(tile, "romaji", pairIndex));
+    matchColRomajiEl.appendChild(tile);
+  });
+}
+
+function handleMatchTileClick(tile, side, pairIndex) {
+  if (tile.disabled) return;
+  const selKey = side === "kana" ? "selectedKana" : "selectedRomaji";
+  const otherKey = side === "kana" ? "selectedRomaji" : "selectedKana";
+
+  // klik ulang ubin yg sama = batalkan pilihan
+  if (matchState[selKey] && matchState[selKey].tile === tile) {
+    tile.classList.remove("selected");
+    matchState[selKey] = null;
+    return;
+  }
+
+  if (matchState[selKey]) matchState[selKey].tile.classList.remove("selected");
+  tile.classList.add("selected");
+  matchState[selKey] = { tile, pairIndex };
+
+  const other = matchState[otherKey];
+  if (!other) return;
+
+  if (other.pairIndex === pairIndex) {
+    // cocok!
+    tile.classList.remove("selected");
+    other.tile.classList.remove("selected");
+    tile.classList.add("matched");
+    other.tile.classList.add("matched");
+    tile.disabled = true;
+    other.tile.disabled = true;
+    matchState.selectedKana = null;
+    matchState.selectedRomaji = null;
+    matchState.roundMatched++;
+
+    if (matchState.roundMatched === matchState.rounds[matchState.roundIndex].length) {
+      setTimeout(advanceMatchRound, 550);
+    }
+  } else {
+    // salah — getar sebentar lalu balik netral
+    matchState.mistakes++;
+    matchMistakesCountEl.textContent = matchState.mistakes;
+    tile.classList.add("wrong");
+    other.tile.classList.add("wrong");
+    const tileRef = tile, otherRef = other.tile;
+    matchState.selectedKana = null;
+    matchState.selectedRomaji = null;
+    setTimeout(() => {
+      tileRef.classList.remove("selected", "wrong");
+      otherRef.classList.remove("selected", "wrong");
+    }, 420);
+  }
+}
+
+function advanceMatchRound() {
+  matchState.roundIndex++;
+  if (matchState.roundIndex >= matchState.rounds.length) {
+    finishMatchGame();
+  } else {
+    renderMatchRound();
+  }
+}
+
+function finishMatchGame() {
+  matchState.elapsedMs = Date.now() - matchState.startTime;
+  matchBoardEl.classList.add("hidden");
+  matchDoneEl.classList.remove("hidden");
+  matchDoneSubEl.textContent = t("matchMode.doneSub", {
+    pairs: matchState.totalPairs,
+    mistakes: matchState.mistakes,
+    time: formatSpeedrunTime(matchState.elapsedMs)
+  });
+}
+
+function exitMatchGame() {
+  screenMatch.classList.add("hidden");
+  screenStart.classList.remove("hidden");
+  renderProfile();
+}
+
+btnMatchMode.addEventListener("click", () => {
+  if (btnMatchMode.disabled) return;
+  startMatchGame(currentScript, state.mode);
+});
+btnMatchBack.addEventListener("click", exitMatchGame);
+btnMatchChooseAnother.addEventListener("click", exitMatchGame);
+btnMatchRestart.addEventListener("click", () => startMatchGame(matchState.scriptKey, matchState.mode));
+btnMatchPlayAgain.addEventListener("click", () => startMatchGame(matchState.scriptKey, matchState.mode));
 
 function renderFlashBuiltinDecks() {
   const wrap = document.getElementById("flash-builtin-decks");

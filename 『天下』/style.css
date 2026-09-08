@@ -1624,6 +1624,204 @@ button.secondary:focus-visible {
   background: var(--vermillion);
 }
 
+/* ---------- mode match (cocokkan huruf & romaji) — kartu pembuka di start screen ---------- */
+.match-card {
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, rgba(79, 145, 85, 0.10), rgba(79, 145, 85, 0.02));
+  border: 1px solid var(--moss);
+  border-radius: 6px;
+  padding: 16px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+.match-card.hidden {
+  display: none;
+}
+
+.match-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px var(--shadow-soft);
+}
+
+.match-card:focus-visible {
+  outline: 2px solid var(--moss);
+  outline-offset: 3px;
+}
+
+.match-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.match-mode-icon {
+  font-size: 26px;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.match-mode-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.match-mode-title {
+  font-family: 'Shippori Mincho', serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--moss);
+}
+
+.match-mode-desc {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.match-mode-arrow {
+  font-size: 18px;
+  color: var(--moss);
+  flex: 0 0 auto;
+}
+
+/* layar match: header & instruksi dipadatkan biar seluruh papan muat 1 layar
+   tanpa perlu scroll di HP (beda dari #screen-quiz yg butuh ruang lebih). */
+#screen-match .quiz-back-row {
+  margin-bottom: 10px;
+}
+
+#screen-match .quiz-top {
+  margin-bottom: 10px;
+}
+
+.match-mistakes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--quiz-wrong);
+}
+
+.match-mistakes-icon {
+  font-size: 12px;
+}
+
+.match-mode-instruction {
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+}
+
+.match-board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.match-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+button.match-tile {
+  font-family: inherit;
+  font-size: clamp(12px, 3.2vw, 16px);
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all .12s ease;
+  aspect-ratio: 4 / 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.match-col:first-child button.match-tile {
+  font-family: var(--kana-font);
+  font-size: clamp(15px, 4.4vw, 19px);
+}
+
+button.match-tile:nth-child(1) { border-color: var(--rb-pink); }
+button.match-tile:nth-child(2) { border-color: var(--rb-cyan); }
+button.match-tile:nth-child(3) { border-color: var(--rb-purple); }
+button.match-tile:nth-child(4) { border-color: var(--rb-orange); }
+button.match-tile:nth-child(5) { border-color: var(--rb-green); }
+
+button.match-tile:hover:not(:disabled) {
+  border-color: var(--indigo);
+  transform: translateY(-1px);
+}
+
+button.match-tile.selected {
+  background: var(--indigo);
+  border-color: var(--indigo);
+  color: var(--on-accent);
+}
+
+button.match-tile.matched {
+  background: var(--quiz-correct);
+  border-color: var(--quiz-correct);
+  color: var(--on-accent);
+  opacity: 0.55;
+  cursor: default;
+}
+
+button.match-tile.wrong {
+  background: var(--quiz-wrong);
+  border-color: var(--quiz-wrong);
+  color: var(--on-accent);
+  animation: shake .32s ease;
+}
+
+button.match-tile:disabled {
+  cursor: default;
+}
+
+.match-done {
+  text-align: center;
+  padding: 32px 12px 8px;
+}
+
+.match-done-title {
+  font-family: 'Shippori Mincho', serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+
+.match-done-sub {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0 0 20px;
+}
+
+.match-done button {
+  width: 100%;
+  margin-top: 10px;
+}
+
 /* ---------- daftar rekor speedrun (settings panel, di bawah profile) ---------- */
 .speedrun-records {
   display: flex;
@@ -1953,6 +2151,14 @@ button.secondary:focus-visible {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+}
+
+.quiz-progress-text {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .dot {

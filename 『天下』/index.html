@@ -251,8 +251,20 @@
               data-i18n="quiz.meaning">Meaning</span></button>
           <button class="quiz-variant-btn" id="quiz-variant-btn-c" data-variant="both" type="button">🎲 <span
               data-i18n="quiz.mixed">Mixed</span></button>
+          <button class="quiz-variant-btn hidden" id="quiz-variant-btn-d" data-variant="kanjiForm" type="button">🈶
+            <span data-i18n="quiz.kanjiFormBtn">Kanji</span></button>
         </div>
       </div>
+
+      <button class="match-card hidden" id="btn-match-mode" type="button" disabled>
+        <span class="match-mode-icon">🧩</span>
+        <span class="match-mode-body">
+          <span class="match-mode-title" data-i18n="matchMode.cardTitle">🧩 Match Mode</span>
+          <span class="match-mode-desc" data-i18n="matchMode.cardDesc">Match 4 characters with their romaji, round
+            by round.</span>
+        </span>
+        <span class="match-mode-arrow">→</span>
+      </button>
 
       <div class="difficulty-picker" id="difficulty-picker">
         <span class="settings-label" data-i18n="quiz.difficultyLabel">Difficulty</span>
@@ -457,9 +469,9 @@
         <button class="quiz-back" id="btn-restart-quiz" type="button">🔁 Restart</button>
       </div>
       <div class="quiz-top">
-        <div class="dots" id="dots"></div>
-        <div class="streak" id="streak"><span class="flame">🔥</span> <span id="streak-count">0</span> <span
-            data-i18n="quiz.streak">streak</span></div>
+        <div class="quiz-progress-text" id="dots"></div>
+        <div class="streak" id="streak"><span class="flame" id="streak-flame">🔥</span> <span
+            id="streak-count">0</span> <span data-i18n="quiz.streak">streak</span></div>
         <div class="speedrun-timer hidden" id="speedrun-timer">⏱️ <span id="speedrun-timer-value">00:00.00</span></div>
       </div>
 
@@ -482,6 +494,33 @@
           <div class="feedback-extra hidden" id="feedback-extra"></div>
         </div>
         <button class="ghost hidden" id="btn-next" data-i18n="quiz.next">Next →</button>
+      </div>
+    </section>
+
+    <!-- ===== MATCH MODE SCREEN ===== -->
+    <section id="screen-match" class="hidden">
+      <div class="quiz-back-row">
+        <button class="quiz-back" id="btn-match-back" type="button" data-i18n="common.back">← Back</button>
+        <button class="quiz-back" id="btn-match-restart" type="button" data-i18n="matchMode.restart">🔁 Restart</button>
+      </div>
+      <div class="quiz-top">
+        <div class="quiz-progress-text" id="match-progress-text"></div>
+        <div class="match-mistakes" id="match-mistakes"><span class="match-mistakes-icon">✗</span> <span
+            id="match-mistakes-count">0</span></div>
+      </div>
+      <p class="match-mode-instruction" id="match-instruction" data-i18n="matchMode.instruction">Tap a character,
+        then its matching romaji</p>
+
+      <div class="match-board" id="match-board">
+        <div class="match-col" id="match-col-kana"></div>
+        <div class="match-col" id="match-col-romaji"></div>
+      </div>
+
+      <div class="match-done hidden" id="match-done">
+        <p class="match-done-title" id="match-done-title" data-i18n="matchMode.doneTitle">🎉 All matched!</p>
+        <p class="match-done-sub" id="match-done-sub"></p>
+        <button class="primary" id="btn-match-play-again" data-i18n="matchMode.playAgain">🔁 Play Again</button>
+        <button class="ghost" id="btn-match-choose-another" data-i18n="common.back">← Back</button>
       </div>
     </section>
 
