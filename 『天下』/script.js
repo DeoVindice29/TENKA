@@ -14,11 +14,12 @@ const I18N = {
   "aria.chooseScriptStudy": { en: "Choose a script to study", id: "Pilih aksara untuk belajar" },
   "profile.addNickname": { en: "+ Add nickname", id: "+ Tambah nickname" },
   "profile.nicknamePlaceholder": { en: "Your nickname...", id: "Nickname kamu..." },
-  "titles.heading": { en: "🏅 Conquest Title Collection", id: "🏅 Koleksi Title penaklukkan" },
+  "titles.heading": { en: "Conquest Title Collection", id: "Koleksi Title penaklukkan" },
   "titles.hint": { en: "Complete every conquest ⚔️ to claim the title of Conqueror!", id: "Selesaikan setiap penaklukan ⚔️ untuk meraih gelar Penakluk!" },
   "appearance.language": { en: "Language", id: "Bahasa" },
   "borderStyle.heading": { en: "Theme Color", id: "Warna Tema" },
-  "borderStyle.rainbow": { en: "Default", id: "Default" },
+  "borderStyle.bw": { en: "Default", id: "Default" },
+  "borderStyle.rainbow": { en: "Rainbow", id: "Pelangi" },
   "borderStyle.pink": { en: "Pink", id: "Pink" },
   "borderStyle.purple": { en: "Purple", id: "Ungu" },
   "borderStyle.cyan": { en: "Cyan", id: "Cyan" },
@@ -29,25 +30,25 @@ const I18N = {
   "borderStyle.rose": { en: "Red", id: "Merah" },
   "borderStyle.teal": { en: "Teal", id: "Toska" },
   "about.heading": { en: "About", id: "Tentang" },
-  "about.summary": { en: "👑 Noble Ranks", id: "👑 Tingkatan Kebangsawanan" },
+  "about.summary": { en: "Noble Ranks", id: "Tingkatan Kebangsawanan" },
   "about.intro": { en: "Conquer every Chapter Trial to climb from commoner to emperor.", id: "Taklukkan tiap Chapter Trial untuk rangkak naik dari rakyat jelata sampai kaisar." },
   "feedback.heading": { en: "Send Feedback", id: "Kirim Masukan" },
   "feedback.placeholder": { en: "Got a suggestion, idea, or found a bug? Write it here...", id: "Ada saran, ide, atau nemu bug? Tulis di sini..." },
-  "feedback.button": { en: "✉️ Send Feedback", id: "✉️ Kirim Masukan" },
+  "feedback.button": { en: "Send Feedback", id: "Kirim Masukan" },
   "feedback.subject": { en: "Feedback — Learning Japanese App", id: "Masukan — Learning Japanese App" },
   "feedback.bodyDefault": { en: "Write your feedback here...", id: "Tulis masukanmu di sini..." },
   "common.cancel": { en: "Cancel", id: "Batal" },
-  "common.back": { en: "← Back", id: "← Kembali" },
+  "common.back": { en: "Back", id: "Kembali" },
   "common.backArmed": { en: "Sure? Click again to cancel", id: "Yakin? Klik lagi untuk batalkan" },
   "conquestModal.confirm": { en: "Start Conquering", id: "Mulai Menaklukkan" },
   "conquest.modeTitle": { en: "Conquer Mode", id: "Mode penaklukkan" },
-  "conquest.conquered": { en: "✓ Conquered", id: "✓ Ditaklukkan" },
-  "conquest.cancelConquest": { en: "← Cancel Conquest", id: "← Batalkan penaklukkan" },
-  "conquest.startThisChapter": { en: "⚔️ Start This Chapter", id: "⚔️ Mulai Chapter Ini" },
+  "conquest.conquered": { en: "Conquered", id: "Ditaklukkan" },
+  "conquest.cancelConquest": { en: "Cancel Conquest", id: "Batalkan penaklukkan" },
+  "conquest.startThisChapter": { en: "Start This Chapter", id: "Mulai Chapter Ini" },
   "conquest.desc": { en: "Conquer all of {label} at once — {count} questions, one mistake and it's over.", id: "Taklukkan seluruh {label} sekaligus — {count} soal, satu kali salah langsung gagal." },
   "conquest.lockNote": { en: "🔒 Conquer {lockLabel} first before you can conquer {label}.", id: "🔒 Taklukkan {lockLabel} dulu sebelum bisa menaklukkan {label}." },
   "conquest.modalTitleWithLabel": { en: "⚔️ Conquer {label}", id: "⚔️ Taklukkan {label}" },
-  "start.studyFirst": { en: "📖 Study First", id: "📖 Belajar Dulu" },
+  "start.studyFirst": { en: "Study First", id: "Belajar Dulu" },
   "start.studyScriptFirst": { en: "📖 Study {label} First", id: "📖 Belajar {label} Dulu" },
   "start.chooseTierFirst": { en: "Choose a tier first", id: "Pilih tingkatan dulu" },
   "start.startCount": { en: "Start — {title} ({count} Questions)", id: "Mulai — {title} ({count} Soal)" },
@@ -63,8 +64,8 @@ const I18N = {
   "quiz.streak": { en: "streak", id: "beruntun" },
   "quiz.typeRomajiPlaceholder": { en: "Type the romaji here...", id: "Ketik romaji-nya di sini..." },
   "quiz.answer": { en: "Answer", id: "Jawab" },
-  "quiz.next": { en: "Next →", id: "Lanjut →" },
-  "quiz.seeResults": { en: "See Results →", id: "Lihat Hasil →" },
+  "quiz.next": { en: "Next", id: "Lanjut" },
+  "quiz.seeResults": { en: "See Results", id: "Lihat Hasil" },
   "quiz.guessRomaji": { en: "Guess the romaji", id: "Tebak romaji" },
   "quiz.guessMeaning": { en: "Guess the meaning", id: "Tebak artinya" },
   "quiz.guessKanjiForm": { en: "Which kanji is it?", id: "Kanji yang mana?" },
@@ -105,14 +106,21 @@ const I18N = {
   "learn.listenPronunciation": { en: "Listen to {text}, read {reading}", id: "Dengar ucapan {text}, dibaca {reading}" },
   "learn.listenExample": { en: "Listen to the example sentence", id: "Dengar kalimat contoh" },
   "learn.listenSegment": { en: "Listen to {seg}, read {rom}", id: "Dengar {seg}, dibaca {rom}" },
+  "learn.searchPlaceholder": { en: "Search word, reading, or meaning…", id: "Cari kata, cara baca, atau arti…" },
+  "learn.searchResultsCount": { en: "{count} result(s) found", id: "{count} hasil ditemukan" },
+  "learn.noResults": { en: "No matches for \"{query}\". Try a different word.", id: "Tidak ada yang cocok dengan \"{query}\". Coba kata lain." },
+  "aria.learnSearch": { en: "Search this study set", id: "Cari di materi ini" },
+  "aria.clearSearch": { en: "Clear search", id: "Bersihkan pencarian" },
+  "aria.jumpToSection": { en: "Jump to {label}", id: "Lompat ke {label}" },
+  "aria.backToTop": { en: "Back to top", id: "Kembali ke atas" },
   "aria.openFlashcards": { en: "Open Flashcards", id: "Buka Flashcard" },
   "flash.eyebrow": { en: "flashcard mode", id: "mode flashcard" },
-  "flash.title": { en: "🎴 Flashcards", id: "🎴 Flashcard" },
+  "flash.title": { en: "Flashcards", id: "Flashcard" },
   "flash.sub": { en: "Anki-style flip cards with built-in spaced repetition. Pick a deck below, or import your own .apkg file.", id: "Kartu balik ala Anki dengan pengulangan berjarak bawaan. Pilih deck di bawah, atau impor file .apkg milikmu sendiri." },
-  "flash.builtinHeading": { en: "📚 Built-in Decks", id: "📚 Deck Bawaan" },
-  "flash.myDecksHeading": { en: "📦 My Imported Decks", id: "📦 Deck Impor Saya" },
+  "flash.builtinHeading": { en: "Built-in Decks", id: "Deck Bawaan" },
+  "flash.myDecksHeading": { en: "My Imported Decks", id: "Deck Impor Saya" },
   "flash.noCustomDecks": { en: "No decks imported yet.", id: "Belum ada deck yang diimpor." },
-  "flash.importBtn": { en: "📥 Import .apkg Deck", id: "📥 Impor Deck .apkg" },
+  "flash.importBtn": { en: "Import .apkg Deck", id: "Impor Deck .apkg" },
   "flash.importHint": { en: "Your .apkg file is read entirely in your browser — nothing is uploaded anywhere. Only text fields are imported; images/audio embedded in the deck aren't shown.", id: "File .apkg kamu dibaca sepenuhnya di browser — tidak ada yang diunggah ke mana pun. Hanya field teks yang diimpor; gambar/audio di dalam deck tidak ditampilkan." },
   "flash.dueNow": { en: "due now", id: "jatuh tempo" },
   "flash.cards": { en: "cards", id: "kartu" },
@@ -124,16 +132,16 @@ const I18N = {
   "flash.good": { en: "Good", id: "Bagus" },
   "flash.easy": { en: "Easy", id: "Mudah" },
   "flash.showAnswer": { en: "Show Answer", id: "Tampilkan Jawaban" },
-  "flash.restart": { en: "🔁 Restart Deck", id: "🔁 Ulangi Deck" },
-  "flash.doneTitle": { en: "🎉 Deck complete for now!", id: "🎉 Deck selesai untuk sekarang!" },
+  "flash.restart": { en: "Restart Deck", id: "Ulangi Deck" },
+  "flash.doneTitle": { en: "Deck complete for now!", id: "Deck selesai untuk sekarang!" },
   "flash.doneSub": { en: "You reviewed {count} card(s) from {label}.", id: "Kamu sudah mengulang {count} kartu dari {label}." },
   "flash.reviewAgain": { en: "Review This Deck Again", id: "Ulangi Deck Ini Lagi" },
-  "flash.chooseAnother": { en: "← Choose Another Deck", id: "← Pilih Deck Lain" },
+  "flash.chooseAnother": { en: "Choose Another Deck", id: "Pilih Deck Lain" },
   "flash.importing": { en: "Reading your .apkg file…", id: "Membaca file .apkg kamu…" },
   "flash.importSuccess": { en: "✅ Imported \"{name}\" — {count} card(s) added.", id: "✅ \"{name}\" diimpor — {count} kartu ditambahkan." },
   "flash.importFailed": { en: "❌ Import failed: {msg}", id: "❌ Impor gagal: {msg}" },
   "flash.storageFull": { en: "not enough space in this browser's storage", id: "ruang penyimpanan browser ini tidak cukup" },
-  "flash.studyThisAsFlashcards": { en: "🎴 Study This as Flashcards", id: "🎴 Belajar Ini Sebagai Flashcard" },
+  "flash.studyThisAsFlashcards": { en: "Study This as Flashcards", id: "Belajar Ini Sebagai Flashcard" },
   "results.correct": { en: "correct", id: "tepat" },
   "results.accuracy": { en: "Accuracy {acc}%", id: "Akurasi {acc}%" },
   "results.bestStreak": { en: " · best streak {n}", id: " · beruntun terbaik {n}" },
@@ -199,19 +207,19 @@ const I18N = {
   "results.speedrunNoRecord": { en: "You finished {label} in <b>{time}</b> — your best is still {best}.", id: "Kamu menyelesaikan {label} dalam <b>{time}</b> — rekor terbaikmu masih {best}." },
   "results.speedrunFailBanner": { en: "💀 <b>Speedrun Failed</b> — too many mistakes (question {current} of {total}). Try again!", id: "💀 <b>Speedrun Gagal</b> — kebanyakan salah (soal ke-{current} dari {total}). Coba lagi!" },
   "results.speedrunAgain": { en: "⚡ Speedrun Again", id: "⚡ Speedrun Lagi" },
-  "speedrunRecords.heading": { en: "⚡ Speedrun Records", id: "⚡ Rekor Speedrun" },
+  "speedrunRecords.heading": { en: "Speedrun Records", id: "Rekor Speedrun" },
   "speedrunRecords.hint": { en: "Your fastest completed run for each conquered script.", id: "Waktu tercepatmu untuk tiap aksara yang sudah ditaklukkan." },
   "speedrunRecords.empty": { en: "Conquer a script ⚔️ to unlock Speedrun Mode for it.", id: "Taklukkan sebuah aksara ⚔️ untuk membuka Mode Speedrun-nya." },
   "speedrunRecords.notPlayedYet": { en: "Not run yet", id: "Belum pernah dicoba" },
   "speedrun.countdownGo": { en: "GO!", id: "MULAI!" },
 
-  "matchMode.cardTitle": { en: "🧩 Match Mode", id: "🧩 Mode Match" },
+  "matchMode.cardTitle": { en: "Match Mode", id: "Mode Match" },
   "matchMode.cardDesc": { en: "Match 4 characters with their romaji, round by round.", id: "Cocokkan 4 huruf dengan romaji-nya, ronde demi ronde." },
   "matchMode.instruction": { en: "Tap a character, then its matching romaji", id: "Ketuk sebuah huruf, lalu romaji yang cocok" },
   "matchMode.roundProgress": { en: "Round {current}/{total}", id: "Ronde {current}/{total}" },
-  "matchMode.restart": { en: "🔁 Restart", id: "🔁 Ulangi" },
-  "matchMode.playAgain": { en: "🔁 Play Again", id: "🔁 Main Lagi" },
-  "matchMode.doneTitle": { en: "🎉 All matched!", id: "🎉 Semua cocok!" },
+  "matchMode.restart": { en: "Restart", id: "Ulangi" },
+  "matchMode.playAgain": { en: "Play Again", id: "Main Lagi" },
+  "matchMode.doneTitle": { en: "All matched!", id: "Semua cocok!" },
   "matchMode.doneSub": { en: "{pairs} pairs · {mistakes} mistakes · {time}", id: "{pairs} pasangan · {mistakes} kali salah · {time}" },
 
 };
@@ -339,48 +347,85 @@ document.addEventListener("keydown", (e) => {
 const BORDER_STYLE_KEY = "tebakAksara_choiceBorderStyle_v1";
 const borderStyleOptionsEl = document.getElementById("border-style-options");
 
-const VALID_BORDER_STYLES = ["rainbow", "pink", "purple", "cyan", "blue", "green", "yellow", "orange", "rose", "teal"];
+const VALID_BORDER_STYLES = ["bw", "rainbow", "pink", "purple", "cyan", "blue", "green", "yellow", "orange", "rose", "teal"];
 const THEME_HUES = { pink: 330, purple: 265, cyan: 189, blue: 217, green: 142, yellow: 42, orange: 24, rose: 5, teal: 175 };
 const THEME_OVERRIDE_VARS = [
   "--paper", "--paper-dark", "--card", "--ink", "--ink-soft",
   "--indigo", "--indigo-deep", "--vermillion", "--gold", "--moss", "--line",
-  "--quiz-correct", "--quiz-wrong", "--quiz-correct-fill", "--match-selecting"
+  "--quiz-correct", "--quiz-wrong", "--quiz-correct-fill", "--quiz-correct-fill-text",
+  "--match-selecting", "--match-selecting-bg", "--match-selecting-text"
 ];
 
 function getBorderStyle() {
   const stored = localStorage.getItem(BORDER_STYLE_KEY);
-  return VALID_BORDER_STYLES.includes(stored) ? stored : "rainbow";
+  return VALID_BORDER_STYLES.includes(stored) ? stored : "bw";
 }
 
 function hsl(h, s, l) { return `hsl(${((h % 360) + 360) % 360}, ${s}%, ${l}%)`; }
 function hsla(h, s, l, a) { return `hsla(${((h % 360) + 360) % 360}, ${s}%, ${l}%, ${a})`; }
 
+// tema "Default" — palet navy gelap + aksen biru-cyan & hijau mint, abu netral untuk kotak
+// jawaban (tanpa tint warna acak seperti rainbow). Pilihan "single tap" di match mode
+// ditampilkan sebagai outline (bg tetap gelap, border & teks jadi biru), bukan solid fill,
+// biar terasa lebih clean & modern.
+function buildBwVars(isDark) {
+  return isDark ? {
+    "--paper": "#10161D", "--paper-dark": "#0B0F14", "--card": "#1A222B",
+    "--ink": "#EDF1F5", "--ink-soft": "#8A96A3",
+    "--indigo": "#3EC6FF", "--indigo-deep": "#1FA8DE",
+    "--vermillion": "#4C7CE8", "--gold": "#FFD166", "--moss": "#6EE7A0",
+    "--line": "rgba(237, 241, 245, 0.09)",
+    "--quiz-correct": "#10B981", "--quiz-wrong": "#F2685C",
+    "--quiz-correct-fill": "#065F46", "--quiz-correct-fill-text": "#F2FBF6",
+    "--match-selecting": "#3EC6FF", "--match-selecting-bg": "#1A222B", "--match-selecting-text": "#3EC6FF"
+  } : {
+    "--paper": "#EAF0F5", "--paper-dark": "#DCE6ED", "--card": "#F6FAFC",
+    "--ink": "#16202A", "--ink-soft": "#55636F",
+    "--indigo": "#0E8FC0", "--indigo-deep": "#0B6E97",
+    "--vermillion": "#1D4ED8", "--gold": "#C98A1C", "--moss": "#2F9E5D",
+    "--line": "rgba(22, 32, 42, 0.13)",
+    "--quiz-correct": "#10B981", "--quiz-wrong": "#B23A2E",
+    "--quiz-correct-fill": "#065F46", "--quiz-correct-fill-text": "#F2FBF6",
+    "--match-selecting": "#0E8FC0", "--match-selecting-bg": "#F6FAFC", "--match-selecting-text": "#0E8FC0"
+  };
+}
+
 function applyThemeColorOverrides(style) {
   const root = document.documentElement.style;
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+  if (style === "bw") {
+    THEME_OVERRIDE_VARS.forEach(v => root.removeProperty(v));
+    Object.entries(buildBwVars(isDark)).forEach(([key, val]) => root.setProperty(key, val));
+    return;
+  }
+
   if (style === "rainbow" || !THEME_HUES.hasOwnProperty(style)) {
     THEME_OVERRIDE_VARS.forEach(v => root.removeProperty(v));
     return;
   }
   const h = THEME_HUES[style];
   const wrong = h + 180; // "salah" pakai warna kebalikan/komplementer dari "benar"
-  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  THEME_OVERRIDE_VARS.forEach(v => root.removeProperty(v));
 
+  // aksen sekunder (vermillion/gold/moss) digeser lebih dekat ke hue utama supaya
+  // tetap senada/analog dan gak kelihatan "belang" dibanding base color-nya.
   const vars = isDark ? {
     "--paper": hsl(h, 22, 12), "--paper-dark": hsl(h, 22, 15), "--card": hsl(h, 20, 17),
     "--ink": hsl(h, 14, 92), "--ink-soft": hsl(h, 14, 72),
     "--indigo": hsl(h, 75, 68), "--indigo-deep": hsl(h, 75, 78),
-    "--vermillion": hsl(h + 18, 70, 62), "--gold": hsl(h + 40, 85, 65), "--moss": hsl(h + 110, 50, 62),
+    "--vermillion": hsl(h + 12, 72, 64), "--gold": hsl(h + 28, 82, 66), "--moss": hsl(h + 45, 55, 60),
     "--line": hsla(h, 20, 85, 0.16),
     "--quiz-correct": hsl(h, 65, 60), "--quiz-wrong": hsl(wrong, 65, 62),
-    "--quiz-correct-fill": hsl(h, 55, 26), "--match-selecting": hsl(h + 110, 55, 55)
+    "--quiz-correct-fill": hsl(h, 55, 26), "--match-selecting": hsl(h + 45, 55, 55)
   } : {
     "--paper": hsl(h, 22, 88), "--paper-dark": hsl(h, 25, 82), "--card": hsl(h, 28, 93),
     "--ink": hsl(h, 12, 15), "--ink-soft": hsl(h, 10, 38),
     "--indigo": hsl(h, 62, 42), "--indigo-deep": hsl(h, 66, 32),
-    "--vermillion": hsl(h + 18, 68, 45), "--gold": hsl(h + 40, 78, 56), "--moss": hsl(h + 110, 40, 38),
+    "--vermillion": hsl(h + 12, 70, 47), "--gold": hsl(h + 28, 75, 52), "--moss": hsl(h + 45, 45, 36),
     "--line": hsla(h, 20, 20, 0.16),
     "--quiz-correct": hsl(h, 58, 34), "--quiz-wrong": hsl(wrong, 58, 40),
-    "--quiz-correct-fill": hsl(h, 55, 26), "--match-selecting": hsl(h + 110, 55, 38)
+    "--quiz-correct-fill": hsl(h, 55, 26), "--match-selecting": hsl(h + 45, 45, 38)
   };
 
   Object.entries(vars).forEach(([key, val]) => root.setProperty(key, val));
@@ -409,7 +454,6 @@ const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-schem
 
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
-  themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
   themeToggle.setAttribute("aria-label", theme === "dark" ? t("aria.switchToLight") : t("aria.switchToDark"));
   themeSwitchInput.checked = theme === "dark";
   const themeLabel = document.getElementById("theme-toggle-label");
@@ -1141,32 +1185,103 @@ KANJI_N5_CHAPTERS.forEach(ch => ch.forEach(([c, r]) => { KANJI_READING[c] = r; }
 /* ---- Basic Kotoba N5 (word-in-kana, romaji, meaning-for-quiz, contoh kalimat-in-kana,
    segments = contoh kalimat dipecah per-kata [kana, romaji], translation = arti kalimat) ----
    Sengaja ditulis full hiragana/katakana (tanpa kanji) supaya bisa langsung dibaca begitu
-   Hiragana & Katakana sudah diTaklukkan — kanji-nya dipelajari terpisah di Chapter "Kanji N5". */
-const KOTOBA_TIER1 = [
+   Hiragana & Katakana sudah diTaklukkan — kanji-nya dipelajari terpisah di Chapter "Kanji N5".
+   Kotoba N5 sekarang punya 7 Tier / 21 Sub-Tier (bukan lagi cuma tier1/2/3) — sama polanya
+   dengan Kanji N5 (9 Chapter) & Bunpō N5 (15 Sub-Tier). */
+
+// Sub-Tier 1.1: Kata Ganti Orang & Sapaan (4)
+const KOTOBA_N5_CH1_1 = [
   ["わたし", "watashi", { en: "I / me", id: "saya / aku" }, "わたしは がくせいです。",
     [["わたし", "Watashi"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
     { en: "I am a student.", id: "Saya adalah murid/siswa." }, "私"],
   ["あなた", "anata", { en: "you", id: "kamu" }, "あなたの なまえは なんですか。",
     [["あなた", "Anata"], ["の", "no"], ["なまえ", "namae"], ["は", "wa"], ["なん", "nan"], ["です", "desu"], ["か", "ka"]],
     { en: "What is your name?", id: "Siapa namamu?" }, ""],
+  ["ひと", "hito", { en: "person", id: "orang" }, "あの ひとは だれですか。",
+    [["あの", "Ano"], ["ひと", "hito"], ["は", "wa"], ["だれ", "dare"], ["です", "desu"], ["か", "ka"]],
+    { en: "Who is that person?", id: "Siapa orang itu?" }, "人"],
   ["せんせい", "sensei", { en: "teacher", id: "guru" }, "せんせいは とても やさしいです。",
     [["せんせい", "Sensei"], ["は", "wa"], ["とても", "totemo"], ["やさしい", "yasashii"], ["です", "desu"]],
     { en: "The teacher is very kind.", id: "Guru itu sangat baik." }, "先生"],
-  ["がくせい", "gakusei", { en: "student", id: "murid / siswa" }, "がくせいは まいにち べんきょうします。",
-    [["がくせい", "Gakusei"], ["は", "wa"], ["まいにち", "mainichi"], ["べんきょう", "benkyou"], ["します", "shimasu"]],
-    { en: "Students study every day.", id: "Murid belajar setiap hari." }, "学生"],
-  ["がっこう", "gakkou", { en: "school", id: "sekolah" }, "がっこうは とても おおきいです。",
-    [["がっこう", "Gakkou"], ["は", "wa"], ["とても", "totemo"], ["おおきい", "ookii"], ["です", "desu"]],
-    { en: "The school is very big.", id: "Sekolahnya sangat besar." }, "学校"],
-  ["かいしゃ", "kaisha", { en: "company", id: "perusahaan" }, "ちちは かいしゃで はたらきます。",
-    [["ちち", "Chichi"], ["は", "wa"], ["かいしゃ", "kaisha"], ["で", "de"], ["はたらきます", "hatarakimasu"]],
-    { en: "My father works at a company.", id: "Ayah saya bekerja di perusahaan." }, "会社"],
-  ["いえ", "ie", { en: "house", id: "rumah" }, "わたしの いえは えきの ちかくです。",
-    [["わたし", "Watashi"], ["の", "no"], ["いえ", "ie"], ["は", "wa"], ["えき", "eki"], ["の", "no"], ["ちかく", "chikaku"], ["です", "desu"]],
-    { en: "My house is near the station.", id: "Rumah saya dekat stasiun." }, "家"],
-  ["ともだち", "tomodachi", { en: "friend", id: "teman" }, "ともだちと えいがを みます。",
-    [["ともだち", "Tomodachi"], ["と", "to"], ["えいが", "eiga"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch a movie with a friend.", id: "Saya menonton film bersama teman." }, "友達"],
+  ["かれ", "kare", { en: "he / him", id: "dia (laki-laki)" }, "かれは がくせいです。",
+    [["かれ", "Kare"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
+    { en: "He is a student.", id: "Dia adalah murid/siswa." }, "彼"],
+  ["かのじょ", "kanojo", { en: "she / her", id: "dia (perempuan)" }, "かのじょは にほんじんです。",
+    [["かのじょ", "Kanojo"], ["は", "wa"], ["にほんじん", "nihonjin"], ["です", "desu"]],
+    { en: "She is Japanese.", id: "Dia orang Jepang." }, "彼女"],
+  ["みなさん", "minasan", { en: "everyone", id: "semuanya / hadirin" }, "みなさん、おはようございます。",
+    [["みなさん", "Minasan"], ["おはようございます", "ohayou gozaimasu"]],
+    { en: "Good morning, everyone.", id: "Selamat pagi, semuanya." }, "皆さん"],
+  ["おはようございます", "ohayou gozaimasu", { en: "good morning", id: "selamat pagi" }, "せんせい、おはようございます。",
+    [["せんせい", "Sensei"], ["おはようございます", "ohayou gozaimasu"]],
+    { en: "Good morning, teacher.", id: "Selamat pagi, guru." }, ""],
+  ["こんにちは", "konnichiwa", { en: "hello / good afternoon", id: "halo / selamat siang" }, "たなかさん、こんにちは。",
+    [["たなかさん", "Tanaka-san"], ["こんにちは", "konnichiwa"]],
+    { en: "Hello, Mr./Ms. Tanaka.", id: "Halo, Tanaka-san." }, ""],
+  ["こんばんは", "konbanwa", { en: "good evening", id: "selamat malam" }, "みなさん、こんばんは。",
+    [["みなさん", "Minasan"], ["こんばんは", "konbanwa"]],
+    { en: "Good evening, everyone.", id: "Selamat malam, semuanya." }, ""],
+  ["さようなら", "sayounara", { en: "goodbye", id: "selamat tinggal / sampai jumpa" }, "せんせい、さようなら。",
+    [["せんせい", "Sensei"], ["さようなら", "sayounara"]],
+    { en: "Goodbye, teacher.", id: "Selamat tinggal, guru." }, ""],
+  ["おやすみなさい", "oyasuminasai", { en: "good night", id: "selamat tidur" }, "おかあさん、おやすみなさい。",
+    [["おかあさん", "Okaasan"], ["おやすみなさい", "oyasuminasai"]],
+    { en: "Good night, mom.", id: "Selamat tidur, ibu." }, ""],
+  ["ありがとうございます", "arigatou gozaimasu", { en: "thank you", id: "terima kasih" }, "てつだって くれて、ありがとうございます。",
+    [["てつだって", "Tetsudatte"], ["くれて", "kurete"], ["ありがとうございます", "arigatou gozaimasu"]],
+    { en: "Thank you for helping me.", id: "Terima kasih sudah membantu saya." }, ""],
+  ["すみません", "sumimasen", { en: "excuse me / I'm sorry", id: "maaf / permisi" }, "すみません、いま なんじですか。",
+    [["すみません", "Sumimasen"], ["いま", "ima"], ["なんじ", "nanji"], ["です", "desu"], ["か", "ka"]],
+    { en: "Excuse me, what time is it now?", id: "Permisi, sekarang jam berapa?" }, ""],
+  ["はじめまして", "hajimemashite", { en: "how do you do / nice to meet you", id: "salam kenal" }, "はじめまして、わたしは アリです。",
+    [["はじめまして", "Hajimemashite"], ["わたし", "watashi"], ["は", "wa"], ["アリ", "Ari"], ["です", "desu"]],
+    { en: "Nice to meet you, I am Ari.", id: "Salam kenal, saya Ari." }, ""],
+  ["よろしくおねがいします", "yoroshiku onegaishimasu", { en: "please treat me well / nice to meet you", id: "mohon bantuannya / salam kenal" }, "どうぞ よろしく おねがいします。",
+    [["どうぞ", "Douzo"], ["よろしく", "yoroshiku"], ["おねがいします", "onegaishimasu"]],
+    { en: "Please treat me well.", id: "Mohon bantuannya." }, ""],
+  ["わたしたち", "watashitachi", { en: "we / us", id: "kami / kita" }, "わたしたちは がくせいです。",
+    [["わたしたち", "Watashitachi"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
+    { en: "We are students.", id: "Kami adalah murid/siswa." }, "私たち"],
+  ["かた", "kata", { en: "person (polite)", id: "orang (bentuk sopan dari hito)" }, "あの かたは どなたですか。",
+    [["あの", "Ano"], ["かた", "kata"], ["は", "wa"], ["どなた", "donata"], ["です", "desu"], ["か", "ka"]],
+    { en: "Who is that person? (polite)", id: "Siapa orang itu? (sopan)" }, "方"],
+  ["さん", "-san", { en: "Mr. / Ms. / title of respect", id: "sapaan umum (Bpk/Ibu/Saudara)" }, "たなかさんは せんせいです。",
+    [["たなかさん", "Tanaka-san"], ["は", "wa"], ["せんせい", "sensei"], ["です", "desu"]],
+    { en: "Mr. Tanaka is a teacher.", id: "Pak Tanaka adalah guru." }, ""],
+  ["くん", "-kun", { en: "suffix for boys / younger males", id: "sapaan untuk laki-laki (sebaya/lebih muda)" }, "たろうくんは がくせいです。",
+    [["たろうくん", "Tarou-kun"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
+    { en: "Tarou is a student.", id: "Tarou adalah murid/siswa." }, ""],
+  ["ちゃん", "-chan", { en: "affectionate suffix (children / women)", id: "sapaan akrab untuk anak-anak/wanita" }, "ゆきちゃんは かわいいです。",
+    [["ゆきちゃん", "Yuki-chan"], ["は", "wa"], ["かわいい", "kawaii"], ["です", "desu"]],
+    { en: "Yuki is cute.", id: "Yuki lucu/imut." }, ""],
+  ["じん", "-jin", { en: "nationality suffix (person from ~)", id: "akhiran kewarganegaraan" }, "わたしは インドネシアじんです。",
+    [["わたし", "Watashi"], ["は", "wa"], ["インドネシアじん", "Indoneshiajin"], ["です", "desu"]],
+    { en: "I am Indonesian.", id: "Saya orang Indonesia." }, "人"],
+  ["ごめんなさい", "gomen nasai", { en: "I'm sorry", id: "maaf" }, "ごめんなさい、おそく なりました。",
+    [["ごめんなさい", "Gomen nasai"], ["おそく", "osoku"], ["なりました", "narimashita"]],
+    { en: "I'm sorry, I'm late.", id: "Maaf, saya terlambat." }, ""],
+  ["いただきます", "itadakimasu", { en: "let's eat (said before a meal)", id: "selamat makan (sebelum makan)" }, "いただきます。",
+    [["いただきます", "Itadakimasu"]],
+    { en: "Let's eat. (said before a meal)", id: "Selamat makan. (diucapkan sebelum makan)" }, ""],
+  ["ごちそうさまでした", "gochisousama deshita", { en: "thank you for the meal (said after eating)", id: "terima kasih atas makanannya (setelah makan)" }, "ごちそうさまでした。",
+    [["ごちそうさまでした", "Gochisousama deshita"]],
+    { en: "Thank you for the meal. (said after eating)", id: "Terima kasih atas makanannya. (setelah makan)" }, ""],
+  ["いってきます", "itte kimasu", { en: "I'm off / see you later (leaving home)", id: "saya berangkat dulu" }, "いってきます！",
+    [["いってきます", "Ittekimasu"]],
+    { en: "I'm off! (leaving home)", id: "Saya berangkat dulu!" }, ""],
+  ["いってらっしゃい", "itterasshai", { en: "take care / see you later (to someone leaving)", id: "selamat jalan / hati-hati di jalan" }, "いってらっしゃい！",
+    [["いってらっしゃい", "Itterasshai"]],
+    { en: "Take care! (to someone leaving)", id: "Hati-hati di jalan!" }, ""],
+  ["ただいま", "tadaima", { en: "I'm home", id: "saya pulang / kembali" }, "ただいま！",
+    [["ただいま", "Tadaima"]],
+    { en: "I'm home!", id: "Saya pulang!" }, ""],
+  ["おかえりなさい", "okaerinasai", { en: "welcome home", id: "selamat datang kembali" }, "おかえりなさい！",
+    [["おかえりなさい", "Okaerinasai"]],
+    { en: "Welcome home!", id: "Selamat datang kembali!" }, ""]
+];
+
+// Sub-Tier 1.2: Keluarga & Hubungan (4)
+const KOTOBA_N5_CH1_2 = [
   ["かぞく", "kazoku", { en: "family", id: "keluarga" }, "わたしの かぞくは よにんです。",
     [["わたし", "Watashi"], ["の", "no"], ["かぞく", "kazoku"], ["は", "wa"], ["よにん", "yonin"], ["です", "desu"]],
     { en: "My family has four people.", id: "Keluarga saya berjumlah empat orang." }, "家族"],
@@ -1176,89 +1291,179 @@ const KOTOBA_TIER1 = [
   ["はは", "haha", { en: "mother (my own)", id: "ibu (sendiri)" }, "ははは りょうりが じょうずです。",
     [["はは", "Haha"], ["は", "wa"], ["りょうり", "ryouri"], ["が", "ga"], ["じょうず", "jouzu"], ["です", "desu"]],
     { en: "My mother is good at cooking.", id: "Ibu saya pandai memasak." }, "母"],
-  ["こども", "kodomo", { en: "child", id: "anak" }, "こどもたちは こうえんで あそびます。",
-    [["こどもたち", "Kodomotachi"], ["は", "wa"], ["こうえん", "kouen"], ["で", "de"], ["あそびます", "asobimasu"]],
-    { en: "The children play at the park.", id: "Anak-anak bermain di taman." }, "子供"],
-  ["なまえ", "namae", { en: "name", id: "nama" }, "あなたの なまえを おしえてください。",
-    [["あなた", "Anata"], ["の", "no"], ["なまえ", "namae"], ["を", "wo"], ["おしえて", "oshiete"], ["ください", "kudasai"]],
-    { en: "Please tell me your name.", id: "Tolong beritahu saya namamu." }, "名前"],
-  ["でんわ", "denwa", { en: "telephone", id: "telepon" }, "でんわで はなしましょう。",
-    [["でんわ", "Denwa"], ["で", "de"], ["はなしましょう", "hanashimashou"]],
-    { en: "Let's talk on the phone.", id: "Ayo kita bicara lewat telepon." }, "電話"],
-  ["くるま", "kuruma", { en: "car", id: "mobil" }, "くるまで がっこうへ いきます。",
-    [["くるま", "Kuruma"], ["で", "de"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
-    { en: "I go to school by car.", id: "Saya pergi ke sekolah naik mobil." }, "車"],
-  ["ほん", "hon", { en: "book", id: "buku" }, "この ほんは とても おもしろいです。",
-    [["この", "Kono"], ["ほん", "hon"], ["は", "wa"], ["とても", "totemo"], ["おもしろい", "omoshiroi"], ["です", "desu"]],
-    { en: "This book is very interesting.", id: "Buku ini sangat menarik." }, "本"],
-  ["みず", "mizu", { en: "water", id: "air" }, "みずを いっぱい のみます。",
-    [["みず", "Mizu"], ["を", "wo"], ["いっぱい", "ippai"], ["のみます", "nomimasu"]],
-    { en: "I drink a lot of water.", id: "Saya minum banyak air." }, "水"],
-  ["たべもの", "tabemono", { en: "food", id: "makanan" }, "すきな たべものは なんですか。",
-    [["すきな", "Sukina"], ["たべもの", "tabemono"], ["は", "wa"], ["なん", "nan"], ["です", "desu"], ["か", "ka"]],
-    { en: "What food do you like?", id: "Makanan apa yang kamu suka?" }, "食べ物"],
-  ["のみもの", "nomimono", { en: "drink", id: "minum" }, "のみものは なにに しますか。",
-    [["のみもの", "Nomimono"], ["は", "wa"], ["なに", "nani"], ["に", "ni"], ["します", "shimasu"], ["か", "ka"]],
-    { en: "What will you have to drink?", id: "Mau minum apa?" }, "飲み物"],
-  ["てんき", "tenki", { en: "weather", id: "cuaca" }, "きょうの てんきは いいです。",
-    [["きょう", "Kyou"], ["の", "no"], ["てんき", "tenki"], ["は", "wa"], ["いい", "ii"], ["です", "desu"]],
-    { en: "Today's weather is nice.", id: "Cuaca hari ini bagus." }, "天気"],
+  ["ともだち", "tomodachi", { en: "friend", id: "teman" }, "ともだちと えいがを みます。",
+    [["ともだち", "Tomodachi"], ["と", "to"], ["えいが", "eiga"], ["を", "wo"], ["みます", "mimasu"]],
+    { en: "I watch a movie with a friend.", id: "Saya menonton film bersama teman." }, "友達"]
+];
+
+// Sub-Tier 1.3: Profesi & Peran (3)
+const KOTOBA_N5_CH1_3 = [
+  ["がくせい", "gakusei", { en: "student", id: "murid / siswa" }, "がくせいは まいにち べんきょうします。",
+    [["がくせい", "Gakusei"], ["は", "wa"], ["まいにち", "mainichi"], ["べんきょう", "benkyou"], ["します", "shimasu"]],
+    { en: "Students study every day.", id: "Murid belajar setiap hari." }, "学生"],
+  ["かいしゃいん", "kaishain", { en: "company employee", id: "karyawan perusahaan" }, "ちちは かいしゃいんです。",
+    [["ちち", "Chichi"], ["は", "wa"], ["かいしゃいん", "kaishain"], ["です", "desu"]],
+    { en: "My father is a company employee.", id: "Ayah saya adalah karyawan perusahaan." }, "会社員"],
+  ["いしゃ", "isha", { en: "doctor", id: "dokter" }, "あには いしゃです。",
+    [["あに", "Ani"], ["は", "wa"], ["いしゃ", "isha"], ["です", "desu"]],
+    { en: "My older brother is a doctor.", id: "Kakak laki-laki saya adalah dokter." }, "医者"]
+];
+
+// Sub-Tier 2.1: Waktu Harian & Keterangan Waktu (5)
+const KOTOBA_N5_CH2_1 = [
+  ["いま", "ima", { en: "now", id: "sekarang" }, "いま なんじですか。",
+    [["いま", "Ima"], ["なんじ", "nanji"], ["です", "desu"], ["か", "ka"]],
+    { en: "What time is it now?", id: "Sekarang jam berapa?" }, "今"],
   ["きょう", "kyou", { en: "today", id: "hari ini" }, "きょうは とても あついです。",
     [["きょう", "Kyou"], ["は", "wa"], ["とても", "totemo"], ["あつい", "atsui"], ["です", "desu"]],
     { en: "Today is very hot.", id: "Hari ini sangat panas." }, "今日"],
-  ["いぬ", "inu", { en: "dog", id: "anjing" }, "いぬと さんぽします。",
-    [["いぬ", "Inu"], ["と", "to"], ["さんぽ", "sanpo"], ["します", "shimasu"]],
-    { en: "I take a walk with the dog.", id: "Saya jalan-jalan bersama anjing." }, "犬"],
-  ["ねこ", "neko", { en: "cat", id: "kucing" }, "ねこが いすの うえに います。",
-    [["ねこ", "Neko"], ["が", "ga"], ["いす", "isu"], ["の", "no"], ["うえ", "ue"], ["に", "ni"], ["います", "imasu"]],
-    { en: "The cat is on the chair.", id: "Kucing itu ada di atas kursi." }, "猫"],
-  ["テレビ", "terebi", { en: "television", id: "televisi" }, "よる テレビを みます。",
-    [["よる", "Yoru"], ["テレビ", "terebi"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch TV at night.", id: "Saya menonton TV di malam hari." }, ""],
-  ["あたま", "atama", { en: "head", id: "kepala" }, "あたまが いたいです。",
-    [["あたま", "Atama"], ["が", "ga"], ["いたい", "itai"], ["です", "desu"]],
-    { en: "My head hurts.", id: "Kepala saya sakit." }, "頭"],
-  ["め", "me", { en: "eye", id: "mata" }, "めを とじて ください。",
-    [["め", "Me"], ["を", "wo"], ["とじて", "tojite"], ["ください", "kudasai"]],
-    { en: "Please close your eyes.", id: "Tolong tutup matamu." }, "目"],
-  ["みみ", "mimi", { en: "ear", id: "telinga" }, "みみが いたいです。",
-    [["みみ", "Mimi"], ["が", "ga"], ["いたい", "itai"], ["です", "desu"]],
-    { en: "My ear hurts.", id: "Telinga saya sakit." }, "耳"],
-  ["くち", "kuchi", { en: "mouth", id: "mulut" }, "くちを あけて ください。",
-    [["くち", "Kuchi"], ["を", "wo"], ["あけて", "akete"], ["ください", "kudasai"]],
-    { en: "Please open your mouth.", id: "Tolong buka mulutmu." }, "口"],
-  ["て", "te", { en: "hand", id: "tangan" }, "てを あらいます。",
-    [["て", "Te"], ["を", "wo"], ["あらいます", "araimasu"]],
-    { en: "I wash my hands.", id: "Saya mencuci tangan." }, "手"],
-  ["あし", "ashi", { en: "leg / foot", id: "kaki" }, "あしが いたいです。",
-    [["あし", "Ashi"], ["が", "ga"], ["いたい", "itai"], ["です", "desu"]],
-    { en: "My leg hurts.", id: "Kaki saya sakit." }, "足"],
-  ["かお", "kao", { en: "face", id: "wajah" }, "かおを あらいます。",
-    [["かお", "Kao"], ["を", "wo"], ["あらいます", "araimasu"]],
-    { en: "I wash my face.", id: "Saya mencuci wajah." }, "顔"],
-  ["からだ", "karada", { en: "body", id: "tubuh / badan" }, "からだが つよいです。",
-    [["からだ", "Karada"], ["が", "ga"], ["つよい", "tsuyoi"], ["です", "desu"]],
-    { en: "My body is strong.", id: "Tubuh saya kuat." }, "体"],
-  ["あかい", "akai", { en: "red", id: "merah" }, "これは あかい りんごです。",
-    [["これ", "Kore"], ["は", "wa"], ["あかい", "akai"], ["りんご", "ringo"], ["です", "desu"]],
-    { en: "This is a red apple.", id: "Ini apel merah." }, "赤い"],
-  ["あおい", "aoi", { en: "blue", id: "biru" }, "そらは あおいです。",
-    [["そら", "Sora"], ["は", "wa"], ["あおい", "aoi"], ["です", "desu"]],
-    { en: "The sky is blue.", id: "Langitnya biru." }, "青い"],
-  ["しろい", "shiroi", { en: "white", id: "putih" }, "ねこは しろいです。",
-    [["ねこ", "Neko"], ["は", "wa"], ["しろい", "shiroi"], ["です", "desu"]],
-    { en: "The cat is white.", id: "Kucingnya putih." }, "白い"],
-  ["くろい", "kuroi", { en: "black", id: "hitam" }, "くろい かばんを かいました。",
-    [["くろい", "Kuroi"], ["かばん", "kaban"], ["を", "wo"], ["かいました", "kaimashita"]],
-    { en: "I bought a black bag.", id: "Saya membeli tas hitam." }, "黒い"],
-  ["きいろい", "kiiroi", { en: "yellow", id: "kuning" }, "これは きいろい はなです。",
-    [["これ", "Kore"], ["は", "wa"], ["きいろい", "kiiroi"], ["はな", "hana"], ["です", "desu"]],
-    { en: "This is a yellow flower.", id: "Ini bunga kuning." }, "黄色い"],
-  ["みどり", "midori", { en: "green", id: "hijau" }, "やまは みどりです。",
-    [["やま", "Yama"], ["は", "wa"], ["みどり", "midori"], ["です", "desu"]],
-    { en: "The mountain is green.", id: "Gunungnya hijau." }, "緑"]
+  ["あした", "ashita", { en: "tomorrow", id: "besok" }, "あした がっこうへ いきます。",
+    [["あした", "Ashita"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I will go to school tomorrow.", id: "Besok saya akan pergi ke sekolah." }, "明日"],
+  ["あさ", "asa", { en: "morning", id: "pagi" }, "あさ ろくじに おきます。",
+    [["あさ", "Asa"], ["ろくじ", "rokuji"], ["に", "ni"], ["おきます", "okimasu"]],
+    { en: "I wake up at six in the morning.", id: "Saya bangun jam enam pagi." }, "朝"],
+  ["ばん", "ban", { en: "evening, night", id: "malam" }, "ばん じゅうじに ねます。",
+    [["ばん", "Ban"], ["じゅうじ", "juuji"], ["に", "ni"], ["ねます", "nemasu"]],
+    { en: "I sleep at 10 in the evening.", id: "Saya tidur jam 10 malam." }, "晩"]
 ];
-const KOTOBA_TIER2 = [
+
+// Sub-Tier 2.2: Hari, Bulan, & Jam (3)
+const KOTOBA_N5_CH2_2 = [
+  ["げつようび", "getsuyoubi", { en: "Monday", id: "hari Senin" }, "げつようびに がっこうへ いきます。",
+    [["げつようび", "Getsuyoubi"], ["に", "ni"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to school on Monday.", id: "Saya pergi ke sekolah hari Senin." }, "月曜日"],
+  ["いちじかん", "ichijikan", { en: "one hour", id: "satu jam" }, "まいにち いちじかん べんきょうします。",
+    [["まいにち", "Mainichi"], ["いちじかん", "ichijikan"], ["べんきょうします", "benkyoushimasu"]],
+    { en: "I study for one hour every day.", id: "Saya belajar selama satu jam setiap hari." }, "一時間"],
+  ["まいあさ", "maiasa", { en: "every morning", id: "setiap pagi" }, "まいあさ コーヒーを のみます。",
+    [["まいあさ", "Maiasa"], ["コーヒー", "koohii"], ["を", "wo"], ["のみます", "nomimasu"]],
+    { en: "I drink coffee every morning.", id: "Saya minum kopi setiap pagi." }, "毎朝"]
+];
+
+// Sub-Tier 2.3: Bilangan & Satuan Penghitung (4)
+const KOTOBA_N5_CH2_3 = [
+  ["ひとつ", "hitotsu", { en: "one (thing)", id: "satu (buah/benda)" }, "りんごを ひとつ ください。",
+    [["りんご", "Ringo"], ["を", "wo"], ["ひとつ", "hitotsu"], ["ください", "kudasai"]],
+    { en: "Please give me one apple.", id: "Tolong beri saya satu apel." }, "一つ"],
+  ["ひとり", "hitori", { en: "one person / alone", id: "satu orang / sendirian" }, "きょうしつに ひとり います。",
+    [["きょうしつ", "Kyoushitsu"], ["に", "ni"], ["ひとり", "hitori"], ["います", "imasu"]],
+    { en: "There is one person in the classroom.", id: "Ada satu orang di dalam kelas." }, "一人"],
+  ["ほん", "hon (counter)", { en: "counter for long, thin objects", id: "kata bantu bilangan untuk benda panjang/silinder" }, "ペンが にほん あります。",
+    [["ペン", "Pen"], ["が", "ga"], ["にほん", "nihon"], ["あります", "arimasu"]],
+    { en: "There are two pens.", id: "Ada dua pena." }, "本"],
+  ["まい", "mai", { en: "counter for flat, thin objects", id: "kata bantu bilangan untuk benda tipis/datar" }, "かみが さんまい あります。",
+    [["かみ", "Kami"], ["が", "ga"], ["さんまい", "sanmai"], ["あります", "arimasu"]],
+    { en: "There are three sheets of paper.", id: "Ada tiga lembar kertas." }, "枚"]
+];
+
+// Sub-Tier 3.1: Makanan & Minuman (5)
+const KOTOBA_N5_CH3_1 = [
+  ["ごはん", "gohan", { en: "cooked rice, meal", id: "nasi, makanan" }, "あさ ごはんを たべます。",
+    [["あさ", "Asa"], ["ごはん", "gohan"], ["を", "wo"], ["たべます", "tabemasu"]],
+    { en: "I eat breakfast.", id: "Saya makan makan siang/pagi." }, "ご飯"],
+  ["みず", "mizu", { en: "water", id: "air" }, "みずを いっぱい のみます。",
+    [["みず", "Mizu"], ["を", "wo"], ["いっぱい", "ippai"], ["のみます", "nomimasu"]],
+    { en: "I drink a lot of water.", id: "Saya minum banyak air." }, "水"],
+  ["おちゃ", "ocha", { en: "green tea", id: "teh" }, "あつい おちゃを どうぞ。",
+    [["あつい", "Atsui"], ["おちゃ", "ocha"], ["を", "wo"], ["どうぞ", "douzo"]],
+    { en: "Here is hot tea.", id: "Silakan, teh panasnya." }, "お茶"],
+  ["さかな", "sakana", { en: "fish", id: "ikan" }, "さかなを たべます。",
+    [["さかな", "Sakana"], ["を", "wo"], ["たべます", "tabemasu"]],
+    { en: "I eat fish.", id: "Saya makan ikan." }, "魚"],
+  ["にく", "niku", { en: "meat", id: "daging" }, "とり にくを かいます。",
+    [["とり", "Tori"], ["にく", "niku"], ["を", "wo"], ["かいます", "kaimasu"]],
+    { en: "I buy chicken meat.", id: "Saya membeli daging ayam." }, "肉"]
+];
+
+// Sub-Tier 3.2: Benda-benda Pribadi & Rumah (5)
+const KOTOBA_N5_CH3_2 = [
+  ["ほん", "hon", { en: "book", id: "buku" }, "この ほんは とても おもしろいです。",
+    [["この", "Kono"], ["ほん", "hon"], ["は", "wa"], ["とても", "totemo"], ["おもしろい", "omoshiroi"], ["です", "desu"]],
+    { en: "This book is very interesting.", id: "Buku ini sangat menarik." }, "本"],
+  ["かばん", "kaban", { en: "bag", id: "tas" }, "あたらしい かばんを かいたいです。",
+    [["あたらしい", "Atarashii"], ["かばん", "kaban"], ["を", "wo"], ["かいたい", "kaitai"], ["です", "desu"]],
+    { en: "I want to buy a new bag.", id: "Saya ingin membeli tas baru." }, "鞄"],
+  ["とけい", "tokei", { en: "clock, watch", id: "jam, arloji" }, "この とけいは たかいです。",
+    [["この", "Kono"], ["とけい", "tokei"], ["は", "wa"], ["たかい", "takai"], ["です", "desu"]],
+    { en: "This watch is expensive.", id: "Jam tangan ini mahal." }, "時計"],
+  ["いえ", "ie", { en: "house", id: "rumah" }, "あの いえは とても おおきいです。",
+    [["あの", "Ano"], ["いえ", "ie"], ["は", "wa"], ["とても", "totemo"], ["おおきい", "ookii"], ["です", "desu"]],
+    { en: "That house is very big.", id: "Rumah itu sangat besar." }, "家"],
+  ["いす", "isu", { en: "chair", id: "kursi" }, "いすに すわって ください。",
+    [["いす", "Isu"], ["に", "ni"], ["すわって", "suwatte"], ["ください", "kudasai"]],
+    { en: "Please sit on the chair.", id: "Tolong duduk di kursi." }, "椅子"]
+];
+
+// Sub-Tier 3.3: Pakaian & Aksesori (4)
+const KOTOBA_N5_CH3_3 = [
+  ["ふく", "fuku", { en: "clothes", id: "pakaian, baju" }, "あたらしい ふくを かいました。",
+    [["あたらしい", "Atarashii"], ["ふく", "fuku"], ["を", "wo"], ["かいました", "kaimashita"]],
+    { en: "I bought new clothes.", id: "Saya membeli baju baru." }, "服"],
+  ["くつ", "kutsu", { en: "shoes", id: "sepatu" }, "くろい くつを はいています。",
+    [["くろい", "Kuroi"], ["くつ", "kutsu"], ["を", "wo"], ["はいています", "haiteimasu"]],
+    { en: "I am wearing black shoes.", id: "Saya memakai sepatu hitam." }, "靴"],
+  ["かさ", "kasa", { en: "umbrella", id: "payung" }, "あめが ふっているから かさを さします。",
+    [["あめ", "Ame"], ["が", "ga"], ["ふっているから", "futteirukara"], ["かさ", "kasa"], ["を", "wo"], ["さします", "sashimasu"]],
+    { en: "I open an umbrella because it is raining.", id: "Saya memakai payung karena sedang hujan." }, "傘"],
+  ["シャツ", "shatsu", { en: "shirt", id: "kemeja" }, "あたらしい シャツを かいました。",
+    [["あたらしい", "Atarashii"], ["シャツ", "shatsu"], ["を", "wo"], ["かいました", "kaimashita"]],
+    { en: "I bought a new shirt.", id: "Saya membeli kemeja baru." }, ""]
+];
+
+// Sub-Tier 4.1: Lokasi & Fasilitas Publik (4)
+const KOTOBA_N5_CH4_1 = [
+  ["がっこう", "gakkou", { en: "school", id: "sekolah" }, "がっこうは とても おおきいです。",
+    [["がっこう", "Gakkou"], ["は", "wa"], ["とても", "totemo"], ["おおきい", "ookii"], ["です", "desu"]],
+    { en: "The school is very big.", id: "Sekolahnya sangat besar." }, "学校"],
+  ["えき", "eki", { en: "station", id: "stasiun" }, "えきまで あるいて いきます。",
+    [["えき", "Eki"], ["まで", "made"], ["あるいて", "aruite"], ["いきます", "ikimasu"]],
+    { en: "I walk to the station.", id: "Saya berjalan kaki ke stasiun." }, "駅"],
+  ["みせ", "mise", { en: "shop, store", id: "toko" }, "あの みせは ちいさいです。",
+    [["あの", "Ano"], ["みせ", "mise"], ["は", "wa"], ["ちいさい", "chiisai"], ["です", "desu"]],
+    { en: "That shop is small.", id: "Toko itu kecil." }, "店"],
+  ["としょかん", "toshokan", { en: "library", id: "perpustakaan" }, "としょかんで ほんを よみます。",
+    [["としょかん", "Toshokan"], ["で", "de"], ["ほん", "hon"], ["を", "wo"], ["よみます", "yomimasu"]],
+    { en: "I read books at the library.", id: "Saya membaca buku di perpustakaan." }, "図書館"]
+];
+
+// Sub-Tier 4.2: Arah & Posisi (5)
+const KOTOBA_N5_CH4_2 = [
+  ["うえ", "ue", { en: "up, on, top", id: "atas" }, "つくえの うえに ほんが あります。",
+    [["つくえ", "Tsukue"], ["の", "no"], ["うえ", "ue"], ["に", "ni"], ["ほん", "hon"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a book on the desk.", id: "Ada buku di atas meja." }, "上"],
+  ["した", "shita", { en: "under, below", id: "bawah" }, "いすの したに ねこが います。",
+    [["いす", "Isu"], ["の", "no"], ["した", "shita"], ["に", "ni"], ["ねこ", "neko"], ["が", "ga"], ["います", "imasu"]],
+    { en: "There is a cat under the chair.", id: "Ada kucing di bawah kursi." }, "下"],
+  ["なか", "naka", { en: "inside", id: "dalam" }, "かばんの なかに さいふが あります。",
+    [["かばん", "Kaban"], ["の", "no"], ["なか", "naka"], ["に", "ni"], ["さいふ", "saifu"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a wallet inside the bag.", id: "Ada dompet di dalam tas." }, "中"],
+  ["みぎ", "migi", { en: "right side", id: "kanan" }, "みぎに まがってください。",
+    [["みぎ", "Migi"], ["に", "ni"], ["まがってください", "magatte kudasai"]],
+    { en: "Please turn right.", id: "Tolong belok kanan." }, "右"],
+  ["ひだり", "hidari", { en: "left side", id: "kiri" }, "ひだりに ほんやが あります。",
+    [["ひだり", "Hidari"], ["に", "ni"], ["ほんや", "hon'ya"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a bookstore on the left.", id: "Ada toko buku di sebelah kiri." }, "左"]
+];
+
+// Sub-Tier 4.3: Transportasi & Fitur Kota (4)
+const KOTOBA_N5_CH4_3 = [
+  ["でんしゃ", "densha", { en: "train", id: "kereta api" }, "でんしゃで いきます。",
+    [["でんしゃ", "Densha"], ["で", "de"], ["いきます", "ikimasu"]],
+    { en: "I go by train.", id: "Saya pergi menggunakan kereta." }, "電車"],
+  ["くるま", "kuruma", { en: "car", id: "mobil" }, "くるまで がっこうへ いきます。",
+    [["くるま", "Kuruma"], ["で", "de"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to school by car.", id: "Saya pergi ke sekolah naik mobil." }, "車"],
+  ["バス", "basu", { en: "bus", id: "bus" }, "バスで がっこうへ いきます。",
+    [["バス", "Basu"], ["で", "de"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to school by bus.", id: "Saya pergi ke sekolah naik bus." }, ""],
+  ["みち", "michi", { en: "road, street", id: "jalan" }, "この みちは とても せまいです。",
+    [["この", "Kono"], ["みち", "michi"], ["は", "wa"], ["とても", "totemo"], ["せまい", "semai"], ["です", "desu"]],
+    { en: "This road is very narrow.", id: "Jalan ini sangat sempit." }, "道"]
+];
+
+// Sub-Tier 5.1: Aktivitas Dasar Harian (5)
+const KOTOBA_N5_CH5_1 = [
   ["たべる", "taberu", { en: "eat", id: "makan" }, "あさごはんを たべます。",
     [["あさごはん", "Asagohan"], ["を", "wo"], ["たべます", "tabemasu"]],
     { en: "I eat breakfast.", id: "Saya makan sarapan." }, "食べる"],
@@ -1271,9 +1476,13 @@ const KOTOBA_TIER2 = [
   ["きく", "kiku", { en: "listen / hear", id: "dengar" }, "おんがくを きくのが すきです。",
     [["おんがく", "Ongaku"], ["を", "wo"], ["きく", "kiku"], ["の", "no"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
     { en: "I like listening to music.", id: "Saya suka mendengarkan musik." }, "聞く"],
-  ["はなす", "hanasu", { en: "speak", id: "bicara" }, "にほんごで はなします。",
-    [["にほんご", "Nihongo"], ["で", "de"], ["はなします", "hanashimasu"]],
-    { en: "I speak in Japanese.", id: "Saya berbicara dalam bahasa Jepang." }, "話す"],
+  ["ねます", "nemasu", { en: "sleep (polite)", id: "tidur (sopan)" }, "まいばん じゅういちじに ねます。",
+    [["まいばん", "Maiban"], ["じゅういちじ", "juuichiji"], ["に", "ni"], ["ねます", "nemasu"]],
+    { en: "I sleep at eleven every night.", id: "Saya tidur jam sebelas setiap malam." }, "寝ます"]
+];
+
+// Sub-Tier 5.2: Perpindahan & Mobilisasi (4)
+const KOTOBA_N5_CH5_2 = [
   ["いく", "iku", { en: "go", id: "pergi" }, "がっこうへ いきます。",
     [["がっこう", "Gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
     { en: "I go to school.", id: "Saya pergi ke sekolah." }, "行く"],
@@ -1283,24 +1492,29 @@ const KOTOBA_TIER2 = [
   ["かえる", "kaeru", { en: "go home", id: "pulang" }, "はやく いえへ かえります。",
     [["はやく", "Hayaku"], ["いえ", "ie"], ["へ", "e"], ["かえります", "kaerimasu"]],
     { en: "I go home early.", id: "Saya pulang ke rumah lebih awal." }, "帰る"],
-  ["かう", "kau", { en: "buy", id: "beli" }, "あたらしい くつを かいます。",
-    [["あたらしい", "Atarashii"], ["くつ", "kutsu"], ["を", "wo"], ["かいます", "kaimasu"]],
-    { en: "I buy new shoes.", id: "Saya membeli sepatu baru." }, "買う"],
-  ["よむ", "yomu", { en: "read", id: "baca" }, "ほんを よむのが すきです。",
-    [["ほん", "Hon"], ["を", "wo"], ["よむ", "yomu"], ["の", "no"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
-    { en: "I like reading books.", id: "Saya suka membaca buku." }, "読む"],
+  ["あるく", "aruku", { en: "walk", id: "berjalan kaki" }, "まいあさ こうえんを あるきます。",
+    [["まいあさ", "Maiasa"], ["こうえん", "kouen"], ["を", "wo"], ["あるきます", "arukimasu"]],
+    { en: "I walk in the park every morning.", id: "Saya berjalan kaki di taman setiap pagi." }, "歩く"]
+];
+
+// Sub-Tier 5.3: Interaksi, Transaksi, & Kerja (4)
+const KOTOBA_N5_CH5_3 = [
+  ["はなす", "hanasu", { en: "speak", id: "bicara" }, "にほんごで はなします。",
+    [["にほんご", "Nihongo"], ["で", "de"], ["はなします", "hanashimasu"]],
+    { en: "I speak in Japanese.", id: "Saya berbicara dalam bahasa Jepang." }, "話す"],
   ["かく", "kaku", { en: "write", id: "tulis" }, "てがみを かきます。",
     [["てがみ", "Tegami"], ["を", "wo"], ["かきます", "kakimasu"]],
     { en: "I write a letter.", id: "Saya menulis surat." }, "書く"],
-  ["ねる", "neru", { en: "sleep", id: "tidur" }, "よる はやく ねます。",
-    [["よる", "Yoru"], ["はやく", "hayaku"], ["ねます", "nemasu"]],
-    { en: "I go to sleep early at night.", id: "Saya tidur lebih awal di malam hari." }, "寝る"],
-  ["おきる", "okiru", { en: "wake up", id: "bangun" }, "まいあさ ろくじに おきます。",
-    [["まいあさ", "Maiasa"], ["ろくじ", "rokuji"], ["に", "ni"], ["おきます", "okimasu"]],
-    { en: "I wake up at six every morning.", id: "Saya bangun jam enam setiap pagi." }, "起きる"],
-  ["わかる", "wakaru", { en: "understand", id: "mengerti" }, "にほんごが すこし わかります。",
-    [["にほんご", "Nihongo"], ["が", "ga"], ["すこし", "sukoshi"], ["わかります", "wakarimasu"]],
-    { en: "I understand a little Japanese.", id: "Saya mengerti sedikit bahasa Jepang." }, "分かる"],
+  ["かう", "kau", { en: "buy", id: "beli" }, "あたらしい くつを かいます。",
+    [["あたらしい", "Atarashii"], ["くつ", "kutsu"], ["を", "wo"], ["かいます", "kaimasu"]],
+    { en: "I buy new shoes.", id: "Saya membeli sepatu baru." }, "買う"],
+  ["はたらく", "hataraku", { en: "work", id: "bekerja" }, "ちちは ぎんこうで はたらいて います。",
+    [["ちち", "Chichi"], ["は", "wa"], ["ぎんこう", "ginkou"], ["で", "de"], ["はたらいて", "hataraite"], ["います", "imasu"]],
+    { en: "My father works at a bank.", id: "Ayah saya bekerja di bank." }, "働く"]
+];
+
+// Sub-Tier 6.1: Kata Sifat-i Deskriptif (4)
+const KOTOBA_N5_CH6_1 = [
   ["おおきい", "ookii", { en: "big", id: "besar" }, "この いえは おおきいです。",
     [["この", "Kono"], ["いえ", "ie"], ["は", "wa"], ["おおきい", "ookii"], ["です", "desu"]],
     { en: "This house is big.", id: "Rumah ini besar." }, "大きい"],
@@ -1312,208 +1526,366 @@ const KOTOBA_TIER2 = [
     { en: "This bag is expensive.", id: "Tas ini mahal." }, "高い"],
   ["やすい", "yasui", { en: "cheap", id: "murah" }, "やおやの やさいは やすいです。",
     [["やおや", "Yaoya"], ["の", "no"], ["やさい", "yasai"], ["は", "wa"], ["やすい", "yasui"], ["です", "desu"]],
-    { en: "The vegetables at the greengrocer are cheap.", id: "Sayuran di toko sayur itu murah." }, "安い"],
-  ["あたらしい", "atarashii", { en: "new", id: "baru" }, "あたらしい くるまが ほしいです。",
-    [["あたらしい", "Atarashii"], ["くるま", "kuruma"], ["が", "ga"], ["ほしい", "hoshii"], ["です", "desu"]],
-    { en: "I want a new car.", id: "Saya ingin mobil baru." }, "新しい"],
-  ["ふるい", "furui", { en: "old", id: "lama / tua" }, "これは ふるい たてものです。",
-    [["これ", "Kore"], ["は", "wa"], ["ふるい", "furui"], ["たてもの", "tatemono"], ["です", "desu"]],
-    { en: "This is an old building.", id: "Ini adalah bangunan tua." }, "古い"],
-  ["いい", "ii", { en: "good", id: "bagus" }, "きょうは いい てんきですね。",
-    [["きょう", "Kyou"], ["は", "wa"], ["いい", "ii"], ["てんき", "tenki"], ["です", "desu"], ["ね", "ne"]],
-    { en: "The weather is nice today, isn't it?", id: "Cuaca hari ini bagus, ya?" }, ""],
-  ["たのしい", "tanoshii", { en: "fun", id: "menyenangkan" }, "りょこうは とても たのしかったです。",
-    [["りょこう", "Ryokou"], ["は", "wa"], ["とても", "totemo"], ["たのしかった", "tanoshikatta"], ["です", "desu"]],
-    { en: "The trip was a lot of fun.", id: "Perjalanannya sangat menyenangkan." }, "楽しい"],
+    { en: "The vegetables at the greengrocer are cheap.", id: "Sayuran di toko sayur itu murah." }, "安い"]
+];
+
+// Sub-Tier 6.2: Kata Sifat-i Cuaca & Sensori (4)
+const KOTOBA_N5_CH6_2 = [
+  ["あつい", "atsui", { en: "hot (weather/thing)", id: "panas" }, "きょうは とても あついです。",
+    [["きょう", "Kyou"], ["は", "wa"], ["とても", "totemo"], ["あつい", "atsui"], ["です", "desu"]],
+    { en: "Today is very hot.", id: "Hari ini sangat panas." }, "暑い"],
+  ["さむい", "samui", { en: "cold (weather)", id: "dingin (cuaca)" }, "きょうは さむいです。",
+    [["きょう", "Kyou"], ["は", "wa"], ["さむい", "samui"], ["です", "desu"]],
+    { en: "Today is cold.", id: "Hari ini dingin." }, "寒い"],
+  ["おいしい", "oishii", { en: "delicious", id: "enak" }, "この りょうりは とても おいしいです。",
+    [["この", "Kono"], ["りょうり", "ryouri"], ["は", "wa"], ["とても", "totemo"], ["おいしい", "oishii"], ["です", "desu"]],
+    { en: "This dish is very delicious.", id: "Masakan ini sangat enak." }, "美味しい"],
+  ["いたい", "itai", { en: "painful, hurts", id: "sakit (nyeri)" }, "おなかが いたいです。",
+    [["おなか", "Onaka"], ["が", "ga"], ["いたい", "itai"], ["です", "desu"]],
+    { en: "My stomach hurts.", id: "Perut saya sakit." }, "痛い"]
+];
+
+// Sub-Tier 6.3: Kata Sifat-na & Status (5)
+const KOTOBA_N5_CH6_3 = [
+  ["すき", "suki (na)", { en: "like", id: "suka" }, "わたしは すしが すきです。",
+    [["わたし", "Watashi"], ["は", "wa"], ["すし", "sushi"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
+    { en: "I like sushi.", id: "Saya suka sushi." }, "好き"],
+  ["きらい", "kirai", { en: "dislike, hated", id: "benci, tidak suka" }, "わたしは やさいが きらいです。",
+    [["わたし", "Watashi"], ["は", "wa"], ["やさい", "yasai"], ["が", "ga"], ["きらい", "kirai"], ["です", "desu"]],
+    { en: "I dislike vegetables.", id: "Saya tidak suka sayuran." }, "嫌い"],
+  ["じょうず", "jouzu", { en: "skillful, good at", id: "pandai, jago" }, "かれは にほんごが じょうずです。",
+    [["かれ", "Kare"], ["は", "wa"], ["にほんご", "nihongo"], ["が", "ga"], ["じょうず", "jouzu"], ["です", "desu"]],
+    { en: "He is good at Japanese.", id: "Dia pandai bahasa Jepang." }, "上手"],
   ["きれい", "kirei (na)", { en: "pretty / clean", id: "cantik / bersih" }, "この はなは きれいです。",
     [["この", "Kono"], ["はな", "hana"], ["は", "wa"], ["きれい", "kirei"], ["です", "desu"]],
     { en: "This flower is pretty.", id: "Bunga ini cantik." }, "綺麗"],
-  ["すき", "suki (na)", { en: "like", id: "suka" }, "わたしは すしが すきです。",
-    [["わたし", "Watashi"], ["は", "wa"], ["すし", "sushi"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
-    { en: "I like sushi.", id: "Saya suka sushi." }, "好き"]
+  ["げんき", "genki", { en: "healthy, energetic", id: "sehat, bersemangat" }, "そふは とても げんきです。",
+    [["そふ", "Sofu"], ["は", "wa"], ["とても", "totemo"], ["げんき", "genki"], ["です", "desu"]],
+    { en: "My grandfather is very healthy.", id: "Kakek saya sangat sehat." }, "元気"]
 ];
-const KOTOBA_TIER3 = [
-  ["えき", "eki", { en: "station", id: "stasiun" }, "えきまで あるいて いきます。",
-    [["えき", "Eki"], ["まで", "made"], ["あるいて", "aruite"], ["いきます", "ikimasu"]],
-    { en: "I walk to the station.", id: "Saya berjalan kaki ke stasiun." }, "駅"],
-  ["びょういん", "byouin", { en: "hospital", id: "rumah sakit" }, "びょういんで くすりを もらいます。",
-    [["びょういん", "Byouin"], ["で", "de"], ["くすり", "kusuri"], ["を", "wo"], ["もらいます", "moraimasu"]],
-    { en: "I get medicine at the hospital.", id: "Saya mendapat obat di rumah sakit." }, "病院"],
-  ["ぎんこう", "ginkou", { en: "bank", id: "bank" }, "ぎんこうで おかねを おろします。",
-    [["ぎんこう", "Ginkou"], ["で", "de"], ["おかね", "okane"], ["を", "wo"], ["おろします", "oroshimasu"]],
-    { en: "I withdraw money at the bank.", id: "Saya menarik uang di bank." }, "銀行"],
-  ["ゆうびんきょく", "yuubinkyoku", { en: "post office", id: "kantor pos" }, "ゆうびんきょくで きってを かいます。",
-    [["ゆうびんきょく", "Yuubinkyoku"], ["で", "de"], ["きって", "kitte"], ["を", "wo"], ["かいます", "kaimasu"]],
-    { en: "I buy stamps at the post office.", id: "Saya membeli perangko di kantor pos." }, "郵便局"],
-  ["としょかん", "toshokan", { en: "library", id: "perpustakaan" }, "としょかんで ほんを よみます。",
-    [["としょかん", "Toshokan"], ["で", "de"], ["ほん", "hon"], ["を", "wo"], ["よみます", "yomimasu"]],
-    { en: "I read books at the library.", id: "Saya membaca buku di perpustakaan." }, "図書館"],
-  ["こうえん", "kouen", { en: "park", id: "taman" }, "こうえんで さんぽします。",
-    [["こうえん", "Kouen"], ["で", "de"], ["さんぽ", "sanpo"], ["します", "shimasu"]],
-    { en: "I take a walk in the park.", id: "Saya jalan-jalan di taman." }, "公園"],
-  ["えいが", "eiga", { en: "movie", id: "film" }, "しゅうまつに えいがを みます。",
-    [["しゅうまつ", "Shuumatsu"], ["に", "ni"], ["えいが", "eiga"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch a movie on the weekend.", id: "Saya menonton film di akhir pekan." }, "映画"],
-  ["おんがく", "ongaku", { en: "music", id: "musik" }, "おんがくを きくのが たのしいです。",
-    [["おんがく", "Ongaku"], ["を", "wo"], ["きく", "kiku"], ["の", "no"], ["が", "ga"], ["たのしい", "tanoshii"], ["です", "desu"]],
-    { en: "Listening to music is fun.", id: "Mendengarkan musik itu menyenangkan." }, "音楽"],
-  ["しごと", "shigoto", { en: "job / work", id: "pekerjaan" }, "しごとは なんじに おわりますか。",
-    [["しごと", "Shigoto"], ["は", "wa"], ["なんじ", "nanji"], ["に", "ni"], ["おわります", "owarimasu"], ["か", "ka"]],
-    { en: "What time does work end?", id: "Jam berapa pekerjaan selesai?" }, "仕事"],
-  ["やすみ", "yasumi", { en: "holiday / rest", id: "libur / istirahat" }, "あしたは やすみです。",
-    [["あした", "Ashita"], ["は", "wa"], ["やすみ", "yasumi"], ["です", "desu"]],
-    { en: "Tomorrow is a day off.", id: "Besok libur." }, "休み"],
-  ["あさ", "asa", { en: "morning", id: "pagi" }, "あさ ろくじに おきます。",
-    [["あさ", "Asa"], ["ろくじ", "rokuji"], ["に", "ni"], ["おきます", "okimasu"]],
-    { en: "I wake up at six in the morning.", id: "Saya bangun jam enam pagi." }, "朝"],
-  ["ひる", "hiru", { en: "noon", id: "siang" }, "ひるに ごはんを たべます。",
-    [["ひる", "Hiru"], ["に", "ni"], ["ごはん", "gohan"], ["を", "wo"], ["たべます", "tabemasu"]],
-    { en: "I eat a meal at noon.", id: "Saya makan siang." }, "昼"],
-  ["よる", "yoru", { en: "night", id: "malam" }, "よるは しずかです。",
-    [["よる", "Yoru"], ["は", "wa"], ["しずか", "shizuka"], ["です", "desu"]],
-    { en: "The night is quiet.", id: "Malam hari itu sunyi." }, "夜"],
-  ["あした", "ashita", { en: "tomorrow", id: "besok" }, "あした がっこうへ いきます。",
-    [["あした", "Ashita"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
-    { en: "I will go to school tomorrow.", id: "Besok saya akan pergi ke sekolah." }, "明日"],
-  ["きのう", "kinou", { en: "yesterday", id: "kemarin" }, "きのう えいがを みました。",
-    [["きのう", "Kinou"], ["えいが", "eiga"], ["を", "wo"], ["みました", "mimashita"]],
-    { en: "I watched a movie yesterday.", id: "Kemarin saya menonton film." }, "昨日"],
-  ["いま", "ima", { en: "now", id: "sekarang" }, "いま なんじですか。",
-    [["いま", "Ima"], ["なんじ", "nanji"], ["です", "desu"], ["か", "ka"]],
-    { en: "What time is it now?", id: "Sekarang jam berapa?" }, "今"],
+
+// Sub-Tier 7.1: Alam & Cuaca (5)
+const KOTOBA_N5_CH7_1 = [
+  ["てんき", "tenki", { en: "weather", id: "cuaca" }, "きょうの てんきは いいです。",
+    [["きょう", "Kyou"], ["の", "no"], ["てんき", "tenki"], ["は", "wa"], ["いい", "ii"], ["です", "desu"]],
+    { en: "Today's weather is nice.", id: "Cuaca hari ini bagus." }, "天気"],
+  ["あめ", "ame", { en: "rain", id: "hujan" }, "きょうは あめが ふっています。",
+    [["きょう", "Kyou"], ["は", "wa"], ["あめ", "ame"], ["が", "ga"], ["ふっています", "futteimasu"]],
+    { en: "It is raining today.", id: "Hari ini sedang hujan." }, "雨"],
+  ["やま", "yama", { en: "mountain", id: "gunung" }, "ふじさんに のぼりたいです。",
+    [["ふじさん", "Fujisan"], ["に", "ni"], ["のぼりたい", "noboritai"], ["です", "desu"]],
+    { en: "I want to climb Mt. Fuji.", id: "Saya ingin mendaki Gunung Fuji." }, "山"],
+  ["かわ", "kawa", { en: "river", id: "sungai" }, "かわで さかなを つりました。",
+    [["かわ", "Kawa"], ["で", "de"], ["さかな", "sakana"], ["を", "wo"], ["つりました", "tsurimashita"]],
+    { en: "I caught fish in the river.", id: "Saya memancing ikan di sungai." }, "川"],
+  ["そら", "sora", { en: "sky", id: "langit" }, "そらが とても きれいです。",
+    [["そら", "Sora"], ["が", "ga"], ["とても", "totemo"], ["きれい", "kirei"], ["です", "desu"]],
+    { en: "The sky is very beautiful.", id: "Langitnya sangat indah." }, "空"]
+];
+
+// Sub-Tier 7.2: Warna (4)
+const KOTOBA_N5_CH7_2 = [
+  ["あか", "aka", { en: "red", id: "merah" }, "あかい かばんを かいました。",
+    [["あかい", "Akai"], ["かばん", "kaban"], ["を", "wo"], ["かいました", "kaimashita"]],
+    { en: "I bought a red bag.", id: "Saya membeli tas merah." }, "赤"],
+  ["あお", "ao", { en: "blue", id: "biru" }, "そらが あおいです。",
+    [["そら", "Sora"], ["が", "ga"], ["あおい", "aoi"], ["です", "desu"]],
+    { en: "The sky is blue.", id: "Langit berwarna biru." }, "青"],
+  ["しろ", "shiro", { en: "white", id: "putih" }, "しろい シャツを きています。",
+    [["しろい", "Shiroi"], ["シャツ", "shatsu"], ["を", "wo"], ["きています", "kiteimasu"]],
+    { en: "I am wearing a white shirt.", id: "Saya memakai kemeja putih." }, "白"],
+  ["くろ", "kuro", { en: "black", id: "hitam" }, "くろい ねこが います。",
+    [["くろい", "Kuroi"], ["ねこ", "neko"], ["が", "ga"], ["います", "imasu"]],
+    { en: "There is a black cat.", id: "Ada kucing hitam." }, "黒"]
+];
+
+// Sub-Tier 7.3: Kata Tanya & Kata Keterangan (5)
+const KOTOBA_N5_CH7_3 = [
   ["どこ", "doko", { en: "where", id: "di mana" }, "としょかんは どこですか。",
     [["としょかん", "Toshokan"], ["は", "wa"], ["どこ", "doko"], ["です", "desu"], ["か", "ka"]],
     { en: "Where is the library?", id: "Di mana perpustakaan?" }, ""],
-  ["だれ", "dare", { en: "who", id: "siapa" }, "あのひとは だれですか。",
-    [["あの", "Ano"], ["ひと", "hito"], ["は", "wa"], ["だれ", "dare"], ["です", "desu"], ["か", "ka"]],
-    { en: "Who is that person?", id: "Siapa orang itu?" }, "誰"],
   ["いつ", "itsu", { en: "when", id: "kapan" }, "たんじょうびは いつですか。",
     [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["いつ", "itsu"], ["です", "desu"], ["か", "ka"]],
     { en: "When is your birthday?", id: "Kapan ulang tahunmu?" }, ""],
-  ["なぜ", "naze", { en: "why", id: "kenapa / mengapa" }, "なぜ がっこうを やすみましたか。",
-    [["なぜ", "Naze"], ["がっこう", "gakkou"], ["を", "wo"], ["やすみました", "yasumimashita"], ["か", "ka"]],
-    { en: "Why did you miss school?", id: "Kenapa kamu tidak masuk sekolah?" }, "何故"],
-  ["おはよう", "ohayou", { en: "good morning", id: "selamat pagi" }, "おはよう ございます。",
-    [["おはよう", "Ohayou"], ["ございます", "gozaimasu"]],
-    { en: "Good morning.", id: "Selamat pagi." }, ""],
-  ["こんにちは", "konnichiwa", { en: "good afternoon / hello", id: "selamat siang / halo" }, "こんにちは、げんきですか。",
-    [["こんにちは", "Konnichiwa"], ["げんき", "genki"], ["です", "desu"], ["か", "ka"]],
-    { en: "Hello, how are you?", id: "Halo, apa kabar?" }, ""],
-  ["ありがとう", "arigatou", { en: "thank you", id: "terima kasih" }, "てつだって くれて ありがとう。",
-    [["てつだって", "Tetsudatte"], ["くれて", "kurete"], ["ありがとう", "arigatou"]],
-    { en: "Thank you for helping me.", id: "Terima kasih sudah membantu." }, ""],
-  ["すみません", "sumimasen", { en: "excuse me / sorry", id: "permisi / maaf" }, "すみません、といれは どこですか。",
-    [["すみません", "Sumimasen"], ["といれ", "toire"], ["は", "wa"], ["どこ", "doko"], ["です", "desu"], ["か", "ka"]],
-    { en: "Excuse me, where is the toilet?", id: "Permisi, di mana toilet?" }, ""],
-  ["にちようび", "nichiyoubi", { en: "Sunday", id: "hari Minggu" }, "にちようびは やすみです。",
-    [["にちようび", "Nichiyoubi"], ["は", "wa"], ["やすみ", "yasumi"], ["です", "desu"]],
-    { en: "Sunday is a day off.", id: "Hari Minggu libur." }, "日曜日"],
-  ["げつようび", "getsuyoubi", { en: "Monday", id: "hari Senin" }, "げつようびに がっこうへ いきます。",
-    [["げつようび", "Getsuyoubi"], ["に", "ni"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
-    { en: "I go to school on Monday.", id: "Saya pergi ke sekolah hari Senin." }, "月曜日"],
-  ["かようび", "kayoubi", { en: "Tuesday", id: "hari Selasa" }, "かようびに テストが あります。",
-    [["かようび", "Kayoubi"], ["に", "ni"], ["テスト", "tesuto"], ["が", "ga"], ["あります", "arimasu"]],
-    { en: "There is a test on Tuesday.", id: "Ada tes hari Selasa." }, "火曜日"],
-  ["すいようび", "suiyoubi", { en: "Wednesday", id: "hari Rabu" }, "すいようびに ともだちと あいます。",
-    [["すいようび", "Suiyoubi"], ["に", "ni"], ["ともだち", "tomodachi"], ["と", "to"], ["あいます", "aimasu"]],
-    { en: "I meet a friend on Wednesday.", id: "Saya bertemu teman hari Rabu." }, "水曜日"],
-  ["もくようび", "mokuyoubi", { en: "Thursday", id: "hari Kamis" }, "もくようびは いそがしいです。",
-    [["もくようび", "Mokuyoubi"], ["は", "wa"], ["いそがしい", "isogashii"], ["です", "desu"]],
-    { en: "Thursday is busy.", id: "Hari Kamis sibuk." }, "木曜日"],
-  ["きんようび", "kinyoubi", { en: "Friday", id: "hari Jumat" }, "きんようびの よるは たのしいです。",
-    [["きんようび", "Kinyoubi"], ["の", "no"], ["よる", "yoru"], ["は", "wa"], ["たのしい", "tanoshii"], ["です", "desu"]],
-    { en: "Friday night is fun.", id: "Malam Jumat menyenangkan." }, "金曜日"],
-  ["どようび", "doyoubi", { en: "Saturday", id: "hari Sabtu" }, "どようびに かいものを します。",
-    [["どようび", "Doyoubi"], ["に", "ni"], ["かいもの", "kaimono"], ["を", "wo"], ["します", "shimasu"]],
-    { en: "I go shopping on Saturday.", id: "Saya belanja hari Sabtu." }, "土曜日"],
-  ["いちがつ", "ichigatsu", { en: "January", id: "bulan Januari" }, "たんじょうびは いちがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["いちがつ", "ichigatsu"], ["です", "desu"]],
-    { en: "My birthday is in January.", id: "Ulang tahun saya bulan Januari." }, "一月"],
-  ["にがつ", "nigatsu", { en: "February", id: "bulan Februari" }, "たんじょうびは にがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["にがつ", "nigatsu"], ["です", "desu"]],
-    { en: "My birthday is in February.", id: "Ulang tahun saya bulan Februari." }, "二月"],
-  ["さんがつ", "sangatsu", { en: "March", id: "bulan Maret" }, "たんじょうびは さんがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["さんがつ", "sangatsu"], ["です", "desu"]],
-    { en: "My birthday is in March.", id: "Ulang tahun saya bulan Maret." }, "三月"],
-  ["しがつ", "shigatsu", { en: "April", id: "bulan April" }, "たんじょうびは しがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["しがつ", "shigatsu"], ["です", "desu"]],
-    { en: "My birthday is in April.", id: "Ulang tahun saya bulan April." }, "四月"],
-  ["ごがつ", "gogatsu", { en: "May", id: "bulan Mei" }, "たんじょうびは ごがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["ごがつ", "gogatsu"], ["です", "desu"]],
-    { en: "My birthday is in May.", id: "Ulang tahun saya bulan Mei." }, "五月"],
-  ["ろくがつ", "rokugatsu", { en: "June", id: "bulan Juni" }, "たんじょうびは ろくがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["ろくがつ", "rokugatsu"], ["です", "desu"]],
-    { en: "My birthday is in June.", id: "Ulang tahun saya bulan Juni." }, "六月"],
-  ["しちがつ", "shichigatsu", { en: "July", id: "bulan Juli" }, "たんじょうびは しちがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["しちがつ", "shichigatsu"], ["です", "desu"]],
-    { en: "My birthday is in July.", id: "Ulang tahun saya bulan Juli." }, "七月"],
-  ["はちがつ", "hachigatsu", { en: "August", id: "bulan Agustus" }, "たんじょうびは はちがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["はちがつ", "hachigatsu"], ["です", "desu"]],
-    { en: "My birthday is in August.", id: "Ulang tahun saya bulan Agustus." }, "八月"],
-  ["くがつ", "kugatsu", { en: "September", id: "bulan September" }, "たんじょうびは くがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["くがつ", "kugatsu"], ["です", "desu"]],
-    { en: "My birthday is in September.", id: "Ulang tahun saya bulan September." }, "九月"],
-  ["じゅうがつ", "juugatsu", { en: "October", id: "bulan Oktober" }, "たんじょうびは じゅうがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["じゅうがつ", "juugatsu"], ["です", "desu"]],
-    { en: "My birthday is in October.", id: "Ulang tahun saya bulan Oktober." }, "十月"],
-  ["じゅういちがつ", "juuichigatsu", { en: "November", id: "bulan November" }, "たんじょうびは じゅういちがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["じゅういちがつ", "juuichigatsu"], ["です", "desu"]],
-    { en: "My birthday is in November.", id: "Ulang tahun saya bulan November." }, "十一月"],
-  ["じゅうにがつ", "juunigatsu", { en: "December", id: "bulan Desember" }, "たんじょうびは じゅうにがつです。",
-    [["たんじょうび", "Tanjoubi"], ["は", "wa"], ["じゅうにがつ", "juunigatsu"], ["です", "desu"]],
-    { en: "My birthday is in December.", id: "Ulang tahun saya bulan Desember." }, "十二月"]
+  ["なに", "nani", { en: "what", id: "apa" }, "なにを していますか。",
+    [["なに", "Nani"], ["を", "wo"], ["しています", "shiteimasu"], ["か", "ka"]],
+    { en: "What are you doing?", id: "Apa yang sedang kamu lakukan?" }, "何"],
+  ["とても", "totemo", { en: "very", id: "sangat" }, "これは とても むずかしいです。",
+    [["これ", "Kore"], ["は", "wa"], ["とても", "totemo"], ["むずかしい", "muzukashii"], ["です", "desu"]],
+    { en: "This is very difficult.", id: "Ini sangat sulit." }, ""],
+  ["あまり", "amari", { en: "not very / not much (with negative)", id: "tidak terlalu / tidak begitu" }, "わたしは あまり さけを のみません。",
+    [["わたし", "Watashi"], ["は", "wa"], ["あまり", "amari"], ["さけ", "sake"], ["を", "wo"], ["のみません", "nomimasen"]],
+    { en: "I don't drink alcohol very much.", id: "Saya tidak terlalu minum sake/alkohol." }, ""]
 ];
 
-/* ---- Bunpō N5 (pattern, example sentence, function/meaning-for-quiz) ---- */
-/* 4th element = romaji broken into segments: [[jp_text, romaji], ...] so it's easy to learn & can be spoken one at a time */
-/* 5th element = "blank" — versi hiragana/katakana TANPA kanji dengan
-   partikel/pola-nya diganti "..." supaya bisa dipakai sebagai soal
-   "Tebak Partikel!" (mis. "わたし ... がくせい ...."), tanpa membocorkan
-   jawabannya lewat kanji. */
-/* 6th element = terjemahan contoh kalimatnya (bukan arti pola-nya), dipakai
-   di mode Belajar supaya user tau arti kalimat contohnya, sama kayak di
-   Kotoba Dasar. */
-const BUNPO_TIER1 = [
-  ["〜は〜です", "私は学生です。", { en: "states that A is B", id: "menyatakan A adalah B" }, [["私", "Watashi"], ["は", "wa"], ["学生", "gakusei"], ["です。", "desu."]], "わたし ... がくせい ....", { en: "I am a student.", id: "Saya adalah murid/siswa." }],
+const KOTOBA_TIER_KEYS = ["tier1", "tier2", "tier3", "tier4", "tier5", "tier6", "tier7", "tier8", "tier9", "tier10", "tier11", "tier12", "tier13", "tier14", "tier15", "tier16", "tier17", "tier18", "tier19", "tier20", "tier21"];
+const KOTOBA_N5_CHAPTERS = [
+  KOTOBA_N5_CH1_1, KOTOBA_N5_CH1_2, KOTOBA_N5_CH1_3,
+  KOTOBA_N5_CH2_1, KOTOBA_N5_CH2_2, KOTOBA_N5_CH2_3,
+  KOTOBA_N5_CH3_1, KOTOBA_N5_CH3_2, KOTOBA_N5_CH3_3,
+  KOTOBA_N5_CH4_1, KOTOBA_N5_CH4_2, KOTOBA_N5_CH4_3,
+  KOTOBA_N5_CH5_1, KOTOBA_N5_CH5_2, KOTOBA_N5_CH5_3,
+  KOTOBA_N5_CH6_1, KOTOBA_N5_CH6_2, KOTOBA_N5_CH6_3,
+  KOTOBA_N5_CH7_1, KOTOBA_N5_CH7_2, KOTOBA_N5_CH7_3
+];
+const KOTOBA_N5_LEVEL_META = [
+  ...KOTOBA_TIER_KEYS.map((id, i) => ({ id, tier: i + 1, rank: "N5" })),
+  { id: "all", tier: KOTOBA_TIER_KEYS.length, rank: "N5" }
+];
+const KOTOBA_N5_LEVEL_TEXT = {
+  tier1: { title: { en: "Tier 1.1 — Personal Pronouns & Greetings", id: "Tier 1.1 — Kata Ganti Orang & Sapaan" }, sample: "わたし あなた こんにちは", desc: { en: "29 N5 vocabulary words.", id: "29 kosakata N5." } },
+  tier2: { title: { en: "Tier 1.2 — Family & Relationships", id: "Tier 1.2 — Keluarga & Hubungan" }, sample: "かぞく ちち はは", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier3: { title: { en: "Tier 1.3 — Occupations & Roles", id: "Tier 1.3 — Profesi & Peran" }, sample: "がくせい かいしゃいん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
+  tier4: { title: { en: "Tier 2.1 — Daily Time & Time Expressions", id: "Tier 2.1 — Waktu Harian & Keterangan Waktu" }, sample: "いま きょう あした", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier5: { title: { en: "Tier 2.2 — Days, Months, & Hours", id: "Tier 2.2 — Hari, Bulan, & Jam" }, sample: "げつようび いちじかん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
+  tier6: { title: { en: "Tier 2.3 — Numbers & Counters", id: "Tier 2.3 — Bilangan & Satuan Penghitung" }, sample: "ひとつ ひとり まい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier7: { title: { en: "Tier 3.1 — Food & Drinks", id: "Tier 3.1 — Makanan & Minuman" }, sample: "ごはん みず おちゃ", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier8: { title: { en: "Tier 3.2 — Personal Items & Home", id: "Tier 3.2 — Benda-benda Pribadi & Rumah" }, sample: "ほん かばん いす", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier9: { title: { en: "Tier 3.3 — Clothing & Accessories", id: "Tier 3.3 — Pakaian & Aksesori" }, sample: "ふく くつ かさ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier10: { title: { en: "Tier 4.1 — Locations & Public Facilities", id: "Tier 4.1 — Lokasi & Fasilitas Publik" }, sample: "がっこう えき みせ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier11: { title: { en: "Tier 4.2 — Direction & Position", id: "Tier 4.2 — Arah & Posisi" }, sample: "うえ した みぎ", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier12: { title: { en: "Tier 4.3 — Transportation & City Features", id: "Tier 4.3 — Transportasi & Fitur Kota" }, sample: "でんしゃ くるま バス", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier13: { title: { en: "Tier 5.1 — Basic Daily Activities", id: "Tier 5.1 — Aktivitas Dasar Harian" }, sample: "たべる のむ みる", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier14: { title: { en: "Tier 5.2 — Movement & Mobility", id: "Tier 5.2 — Perpindahan & Mobilisasi" }, sample: "いく くる かえる", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier15: { title: { en: "Tier 5.3 — Interaction, Transactions, & Work", id: "Tier 5.3 — Interaksi, Transaksi, & Kerja" }, sample: "はなす かく かう", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier16: { title: { en: "Tier 6.1 — Descriptive i-Adjectives", id: "Tier 6.1 — Kata Sifat-i Deskriptif" }, sample: "おおきい ちいさい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier17: { title: { en: "Tier 6.2 — Weather & Sensory i-Adjectives", id: "Tier 6.2 — Kata Sifat-i Cuaca & Sensori" }, sample: "あつい さむい いたい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier18: { title: { en: "Tier 6.3 — na-Adjectives & Status", id: "Tier 6.3 — Kata Sifat-na & Status" }, sample: "すき きらい げんき", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier19: { title: { en: "Tier 7.1 — Nature & Weather", id: "Tier 7.1 — Alam & Cuaca" }, sample: "てんき あめ やま", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier20: { title: { en: "Tier 7.2 — Colors", id: "Tier 7.2 — Warna" }, sample: "あか あお しろ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier21: { title: { en: "Tier 7.3 — Question Words & Adverbs", id: "Tier 7.3 — Kata Tanya & Kata Keterangan" }, sample: "どこ いつ なに", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 115 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 115 kosakata N5 diacak menjadi satu Chapter." } }
+};
+const KOTOBA_N5_LEARN = [
+  { tierKey: "tier1", title: KOTOBA_N5_LEVEL_TEXT.tier1.title, desc: KOTOBA_N5_LEVEL_TEXT.tier1.desc, items: KOTOBA_N5_CH1_1 },
+  { tierKey: "tier2", title: KOTOBA_N5_LEVEL_TEXT.tier2.title, desc: KOTOBA_N5_LEVEL_TEXT.tier2.desc, items: KOTOBA_N5_CH1_2 },
+  { tierKey: "tier3", title: KOTOBA_N5_LEVEL_TEXT.tier3.title, desc: KOTOBA_N5_LEVEL_TEXT.tier3.desc, items: KOTOBA_N5_CH1_3 },
+  { tierKey: "tier4", title: KOTOBA_N5_LEVEL_TEXT.tier4.title, desc: KOTOBA_N5_LEVEL_TEXT.tier4.desc, items: KOTOBA_N5_CH2_1 },
+  { tierKey: "tier5", title: KOTOBA_N5_LEVEL_TEXT.tier5.title, desc: KOTOBA_N5_LEVEL_TEXT.tier5.desc, items: KOTOBA_N5_CH2_2 },
+  { tierKey: "tier6", title: KOTOBA_N5_LEVEL_TEXT.tier6.title, desc: KOTOBA_N5_LEVEL_TEXT.tier6.desc, items: KOTOBA_N5_CH2_3 },
+  { tierKey: "tier7", title: KOTOBA_N5_LEVEL_TEXT.tier7.title, desc: KOTOBA_N5_LEVEL_TEXT.tier7.desc, items: KOTOBA_N5_CH3_1 },
+  { tierKey: "tier8", title: KOTOBA_N5_LEVEL_TEXT.tier8.title, desc: KOTOBA_N5_LEVEL_TEXT.tier8.desc, items: KOTOBA_N5_CH3_2 },
+  { tierKey: "tier9", title: KOTOBA_N5_LEVEL_TEXT.tier9.title, desc: KOTOBA_N5_LEVEL_TEXT.tier9.desc, items: KOTOBA_N5_CH3_3 },
+  { tierKey: "tier10", title: KOTOBA_N5_LEVEL_TEXT.tier10.title, desc: KOTOBA_N5_LEVEL_TEXT.tier10.desc, items: KOTOBA_N5_CH4_1 },
+  { tierKey: "tier11", title: KOTOBA_N5_LEVEL_TEXT.tier11.title, desc: KOTOBA_N5_LEVEL_TEXT.tier11.desc, items: KOTOBA_N5_CH4_2 },
+  { tierKey: "tier12", title: KOTOBA_N5_LEVEL_TEXT.tier12.title, desc: KOTOBA_N5_LEVEL_TEXT.tier12.desc, items: KOTOBA_N5_CH4_3 },
+  { tierKey: "tier13", title: KOTOBA_N5_LEVEL_TEXT.tier13.title, desc: KOTOBA_N5_LEVEL_TEXT.tier13.desc, items: KOTOBA_N5_CH5_1 },
+  { tierKey: "tier14", title: KOTOBA_N5_LEVEL_TEXT.tier14.title, desc: KOTOBA_N5_LEVEL_TEXT.tier14.desc, items: KOTOBA_N5_CH5_2 },
+  { tierKey: "tier15", title: KOTOBA_N5_LEVEL_TEXT.tier15.title, desc: KOTOBA_N5_LEVEL_TEXT.tier15.desc, items: KOTOBA_N5_CH5_3 },
+  { tierKey: "tier16", title: KOTOBA_N5_LEVEL_TEXT.tier16.title, desc: KOTOBA_N5_LEVEL_TEXT.tier16.desc, items: KOTOBA_N5_CH6_1 },
+  { tierKey: "tier17", title: KOTOBA_N5_LEVEL_TEXT.tier17.title, desc: KOTOBA_N5_LEVEL_TEXT.tier17.desc, items: KOTOBA_N5_CH6_2 },
+  { tierKey: "tier18", title: KOTOBA_N5_LEVEL_TEXT.tier18.title, desc: KOTOBA_N5_LEVEL_TEXT.tier18.desc, items: KOTOBA_N5_CH6_3 },
+  { tierKey: "tier19", title: KOTOBA_N5_LEVEL_TEXT.tier19.title, desc: KOTOBA_N5_LEVEL_TEXT.tier19.desc, items: KOTOBA_N5_CH7_1 },
+  { tierKey: "tier20", title: KOTOBA_N5_LEVEL_TEXT.tier20.title, desc: KOTOBA_N5_LEVEL_TEXT.tier20.desc, items: KOTOBA_N5_CH7_2 },
+  { tierKey: "tier21", title: KOTOBA_N5_LEVEL_TEXT.tier21.title, desc: KOTOBA_N5_LEVEL_TEXT.tier21.desc, items: KOTOBA_N5_CH7_3 }
+];
+
+/* ---- Bunpō N5 — 100 pola, 6 Tier / 15 Sub-Tier (lihat bunpo-n5-100-tier.md) ---- */
+/* Format tiap item SAMA seperti BUNPO_TIER1-3 sebelumnya:
+   [pattern, contoh_kalimat, meaning{en,id}, romaji_segments, blank_version, translation{en,id}] */
+
+// Sub-Tier 1.1: Predikat & Kalimat Dasar (7)
+const BUNPO_N5_TIER1 = [
+  ["〜は〜です", "私は学生です。", { en: "states that A is B", id: "menyatakan A adalah B" }, [["私", "Watashi"], ["は", "wa"], ["学生", "gakusei"], ["です。", "desu."]], "わたしは がくせい ....", { en: "I am a student.", id: "Saya adalah murid/siswa." }],
+  ["〜は〜ではありません", "私は先生ではありません。", { en: "states that A is not B", id: "menyatakan A bukan B" }, [["私", "Watashi"], ["は", "wa"], ["先生", "sensei"], ["ではありません。", "dewa arimasen."]], "わたしは せんせい ....", { en: "I am not a teacher.", id: "Saya bukan guru." }],
+  ["〜は〜でした", "昨日は休みでした。", { en: "A was B (past)", id: "A adalah B (lampau)" }, [["昨日", "Kinou"], ["は", "wa"], ["休み", "yasumi"], ["でした。", "deshita."]], "きのうは やすみ ....", { en: "Yesterday was a day off.", id: "Kemarin adalah hari libur." }],
+  ["〜は〜ではありませんでした", "昨日は雨ではありませんでした。", { en: "A was not B (past)", id: "A bukan B (lampau)" }, [["昨日", "Kinou"], ["は", "wa"], ["雨", "ame"], ["ではありませんでした。", "dewa arimasen deshita."]], "きのうは あめ ....", { en: "Yesterday was not rainy.", id: "Kemarin tidak hujan." }],
+  ["〜も", "私も学生です。", { en: "also / too", id: "juga" }, [["私", "Watashi"], ["も", "mo"], ["学生です。", "gakusei desu."]], "わたし ... がくせいです。", { en: "I am also a student.", id: "Saya juga murid/siswa." }],
+  ["NのN", "これは私の本です。", { en: "indicates possession/description of a thing", id: "kepemilikan/keterangan benda" }, [["これ", "Kore"], ["は", "wa"], ["私の", "watashi no"], ["本です。", "hon desu."]], "これは わたし ... ほんです。", { en: "This is my book.", id: "Ini buku saya." }],
+  ["NとN", "犬と猫がいます。", { en: "and (listing items exhaustively)", id: "dan (menyebut semua secara lengkap)" }, [["犬と", "Inu to"], ["猫が", "neko ga"], ["います。", "imasu."]], "いぬ ... ねこが います。", { en: "There is a dog and a cat.", id: "Ada anjing dan kucing." }],
+];
+
+// Sub-Tier 1.2: Partikel Utama (8)
+const BUNPO_N5_TIER2 = [
+  ["〜は", "私は日本人です。", { en: "topic particle", id: "partikel topik" }, [["私", "Watashi"], ["は", "wa"], ["日本人です。", "nihonjin desu."]], "わたし ... にほんじんです。", { en: "I am Japanese.", id: "Saya orang Jepang." }],
   ["〜が", "雨が降っています。", { en: "marks the sentence subject", id: "menandai subjek kalimat" }, [["雨", "Ame"], ["が", "ga"], ["降っています。", "futte imasu."]], "あめ ... ふっています。", { en: "It is raining.", id: "Sedang turun hujan." }],
   ["〜を", "水を飲みます。", { en: "marks the direct object", id: "menandai objek langsung" }, [["水", "Mizu"], ["を", "wo"], ["飲みます。", "nomimasu."]], "みず ... のみます。", { en: "I drink water.", id: "Saya minum air." }],
   ["〜に", "7時に起きます。", { en: "indicates time or destination", id: "menunjukkan waktu atau tujuan" }, [["7時", "Shichi-ji"], ["に", "ni"], ["起きます。", "okimasu."]], "しちじ ... おきます。", { en: "I wake up at 7 o'clock.", id: "Saya bangun jam 7." }],
   ["〜で", "電車で行きます。", { en: "indicates the place/means of doing something", id: "menunjukkan tempat/cara melakukan sesuatu" }, [["電車", "Densha"], ["で", "de"], ["行きます。", "ikimasu."]], "でんしゃ ... いきます。", { en: "I go by train.", id: "Saya pergi naik kereta." }],
-  ["〜と", "友達と話します。", { en: "and / together with", id: "dan / bersama dengan" }, [["友達", "Tomodachi"], ["と", "to"], ["話します。", "hanashimasu."]], "ともだち ... はなします。", { en: "I talk with my friend.", id: "Saya berbicara dengan teman." }],
-  ["〜も", "私も学生です。", { en: "also / too", id: "juga" }, [["私", "Watashi"], ["も", "mo"], ["学生です。", "gakusei desu."]], "わたし ... がくせいです。", { en: "I am also a student.", id: "Saya juga murid/siswa." }],
-  ["〜の", "これは私の本です。", { en: "indicates possession", id: "menunjukkan kepemilikan" }, [["これ", "Kore"], ["は", "wa"], ["私の", "watashi no"], ["本です。", "hon desu."]], "これは わたし ... ほんです。", { en: "This is my book.", id: "Ini buku saya." }],
-  ["〜へ", "学校へ行きます。", { en: "toward / in the direction of", id: "menuju / ke arah" }, [["学校", "Gakkou"], ["へ", "e"], ["行きます。", "ikimasu."]], "がっこう ... いきます。", { en: "I go to school.", id: "Saya pergi ke sekolah." }],
+  ["〜と", "友達と話します。", { en: "together with", id: "bersama dengan" }, [["友達", "Tomodachi"], ["と", "to"], ["話します。", "hanashimasu."]], "ともだち ... はなします。", { en: "I talk with my friend.", id: "Saya berbicara dengan teman." }],
+  ["〜から", "9時から働きます。", { en: "from (starting point)", id: "dari (titik awal)" }, [["9時から", "Ku-ji kara"], ["働きます。", "hatarakimasu."]], "くじ ... はたらきます。", { en: "I work starting from 9 o'clock.", id: "Saya bekerja mulai dari jam 9." }],
+  ["〜まで", "5時まで働きます。", { en: "until (end point)", id: "sampai (titik akhir)" }, [["5時まで", "Go-ji made"], ["働きます。", "hatarakimasu."]], "ごじ ... はたらきます。", { en: "I work until 5 o'clock.", id: "Saya bekerja sampai jam 5." }],
+];
+
+// Sub-Tier 2.1: Keberadaan (Ada/Tinggal) (7)
+const BUNPO_N5_TIER3 = [
+  ["〜があります", "机の上に本があります。", { en: "there is (inanimate)", id: "ada (benda mati)" }, [["机の上に", "Tsukue no ue ni"], ["本が", "hon ga"], ["あります。", "arimasu."]], "つくえの うえに ほんが ....", { en: "There is a book on the desk.", id: "Ada buku di atas meja." }],
+  ["〜がいます", "公園に猫がいます。", { en: "there is (animate)", id: "ada (makhluk hidup)" }, [["公園に", "Kouen ni"], ["猫が", "neko ga"], ["います。", "imasu."]], "こうえんに ねこが ....", { en: "There is a cat in the park.", id: "Ada kucing di taman." }],
+  ["場所に〜があります/います", "教室に学生がいます。", { en: "there is X at a place", id: "di suatu tempat ada X" }, [["教室に", "Kyoushitsu ni"], ["学生が", "gakusei ga"], ["います。", "imasu."]], "きょうしつに がくせいが ....", { en: "There are students in the classroom.", id: "Di kelas ada murid." }],
+  ["Xは場所にあります/います", "猫は教室にいます。", { en: "X is located at that place", id: "X berada di tempat tsb" }, [["猫は", "Neko wa"], ["教室に", "kyoushitsu ni"], ["います。", "imasu."]], "ねこは きょうしつに ....", { en: "The cat is in the classroom.", id: "Kucingnya ada di kelas." }],
+  ["〜に住んでいます", "東京に住んでいます。", { en: "living in", id: "tinggal di" }, [["東京に", "Toukyou ni"], ["住んでいます。", "sunde imasu."]], "とうきょう ....", { en: "I live in Tokyo.", id: "Saya tinggal di Tokyo." }],
+  ["〜の中に／上に／下に", "箱の中に猫がいます。", { en: "inside/on top of/underneath", id: "di dalam/atas/bawah" }, [["箱の中に", "Hako no naka ni"], ["猫が", "neko ga"], ["います。", "imasu."]], "はこの なかに ねこが ....", { en: "There is a cat inside the box.", id: "Ada kucing di dalam kotak." }],
+  ["〜の隣に／そばに／近くに", "駅の近くに店があります。", { en: "next to/near", id: "di sebelah/dekat" }, [["駅の近くに", "Eki no chikaku ni"], ["店が", "mise ga"], ["あります。", "arimasu."]], "えきの ちかくに みせが ....", { en: "There is a shop near the station.", id: "Ada toko dekat stasiun." }],
+];
+
+// Sub-Tier 2.2: Arah & Perpindahan (7)
+const BUNPO_N5_TIER4 = [
+  ["場所へ/に行きます・来ます・帰ります", "学校へ行きます。", { en: "go/come/return to a place", id: "pergi/datang/pulang ke" }, [["学校へ", "Gakkou e"], ["行きます。", "ikimasu."]], "がっこう ....", { en: "I go to school.", id: "Saya pergi ke sekolah." }],
+  ["〜で行きます", "バスで行きます。", { en: "go by (means of transport)", id: "pergi dengan (alat transportasi)" }, [["バスで", "Basu de"], ["行きます。", "ikimasu."]], "バス ....", { en: "I go by bus.", id: "Saya pergi naik bis." }],
+  ["〜から〜まで", "家から学校まで歩きます。", { en: "from...to (distance)", id: "dari...sampai (jarak)" }, [["家から", "Ie kara"], ["学校まで", "gakkou made"], ["歩きます。", "arukimasu."]], "いえから がっこうまで ....", { en: "I walk from home to school.", id: "Saya berjalan kaki dari rumah sampai sekolah." }],
+  ["〜を渡ります", "橋を渡ります。", { en: "to cross", id: "menyeberang" }, [["橋を", "Hashi wo"], ["渡ります。", "watarimasu."]], "はし ....", { en: "I cross the bridge.", id: "Saya menyeberangi jembatan." }],
+  ["〜を曲がります", "次の角を曲がります。", { en: "to turn", id: "belok" }, [["次の角を", "Tsugi no kado wo"], ["曲がります。", "magarimasu."]], "つぎの かどを ....", { en: "I turn at the next corner.", id: "Saya belok di tikungan berikutnya." }],
+  ["〜をまっすぐ行きます", "この道をまっすぐ行きます。", { en: "go straight along", id: "jalan lurus" }, [["この道を", "Kono michi wo"], ["まっすぐ", "massugu"], ["行きます。", "ikimasu."]], "この みちを まっすぐ ....", { en: "I go straight along this road.", id: "Saya jalan lurus di jalan ini." }],
+  ["〜に乗ります／〜を降ります", "バスに乗ります。", { en: "get on/get off a vehicle", id: "naik/turun kendaraan" }, [["バスに", "Basu ni"], ["乗ります。", "norimasu."]], "バス ....", { en: "I get on the bus.", id: "Saya naik bis." }],
+];
+
+// Sub-Tier 3.1: Bentuk Sopan (Masu Form) (6)
+const BUNPO_N5_TIER5 = [
+  ["V-masu", "毎日勉強します。", { en: "polite non-past positive", id: "bentuk sopan positif (sekarang/akan datang)" }, [["毎日", "Mainichi"], ["勉強します。", "benkyou shimasu."]], "まいにち ....", { en: "I study every day.", id: "Saya belajar setiap hari." }],
+  ["V-masen", "今日は勉強しません。", { en: "polite negative", id: "bentuk sopan negatif" }, [["今日は", "Kyou wa"], ["勉強しません。", "benkyou shimasen."]], "きょうは ....", { en: "I will not study today.", id: "Hari ini saya tidak belajar." }],
+  ["V-mashita", "昨日、映画を見ました。", { en: "polite past positive", id: "bentuk sopan lampau positif" }, [["昨日、", "Kinou,"], ["映画を", "eiga wo"], ["見ました。", "mimashita."]], "きのう、えいがを ....", { en: "I watched a movie yesterday.", id: "Kemarin saya menonton film." }],
+  ["V-masen deshita", "昨日、行きませんでした。", { en: "polite past negative", id: "bentuk sopan lampau negatif" }, [["昨日、", "Kinou,"], ["行きませんでした。", "ikimasen deshita."]], "きのう、....", { en: "I didn't go yesterday.", id: "Kemarin saya tidak pergi." }],
+  ["V-nagara", "音楽を聞きながら勉強します。", { en: "while doing", id: "sambil melakukan" }, [["音楽を", "Ongaku wo"], ["聞きながら", "kikinagara"], ["勉強します。", "benkyou shimasu."]], "おんがくを きき... べんきょうします。", { en: "I study while listening to music.", id: "Saya belajar sambil mendengarkan musik." }],
+  ["V(masu-stem)に行きます/来ます", "デパートへ買い物に行きます。", { en: "go/come to do (purpose)", id: "pergi/datang untuk melakukan (tujuan)" }, [["デパートへ", "Depaato e"], ["買い物に", "kaimono ni"], ["行きます。", "ikimasu."]], "デパートへ かいものに ....", { en: "I go to the department store to shop.", id: "Saya pergi ke department store untuk belanja." }],
+];
+
+// Sub-Tier 3.2: Bentuk Te (Te Form) (8)
+const BUNPO_N5_TIER6 = [
+  ["V-teいます", "今、勉強しています。", { en: "doing right now / ongoing state", id: "sedang melakukan / kondisi berlanjut" }, [["今、", "Ima,"], ["勉強しています。", "benkyou shite imasu."]], "いま、べんきょう ....", { en: "I am studying right now.", id: "Sedang belajar sekarang." }],
+  ["V-teください", "ここに座ってください。", { en: "please do", id: "tolong lakukan" }, [["ここに", "Koko ni"], ["座ってください。", "suwatte kudasai."]], "ここに ....", { en: "Please sit here.", id: "Tolong duduk di sini." }],
+  ["V-teもいいです", "ここに座ってもいいです。", { en: "allowed to do", id: "boleh melakukan" }, [["ここに", "Koko ni"], ["座ってもいいです。", "suwattemo ii desu."]], "ここに ....", { en: "You may sit here.", id: "Boleh duduk di sini." }],
+  ["V-teはいけません", "ここに座ってはいけません。", { en: "not allowed to do", id: "tidak boleh melakukan" }, [["ここに", "Koko ni"], ["座ってはいけません。", "suwatte wa ikemasen."]], "ここに ....", { en: "You must not sit here.", id: "Tidak boleh duduk di sini." }],
+  ["V-teから", "手を洗ってから食べます。", { en: "after doing", id: "setelah melakukan" }, [["手を洗ってから", "Te wo aratte kara"], ["食べます。", "tabemasu."]], "てを あらって... たべます。", { en: "I eat after washing my hands.", id: "Saya makan setelah cuci tangan." }],
+  ["V-te, V-te", "朝起きて、顔を洗います。", { en: "connecting two consecutive actions", id: "menyambung dua aksi berurutan" }, [["朝起きて、", "Asa okite,"], ["顔を", "kao wo"], ["洗います。", "araimasu."]], "あさ おきて、かおを ....", { en: "I wake up in the morning and wash my face.", id: "Saya bangun pagi lalu cuci muka." }],
+  ["V-teみます", "この料理を食べてみます。", { en: "try doing", id: "coba melakukan" }, [["この料理を", "Kono ryouri wo"], ["食べてみます。", "tabete mimasu."]], "この りょうりを ....", { en: "I will try eating this dish.", id: "Saya akan coba makan masakan ini." }],
+  ["V-teおきます", "明日のために準備しておきます。", { en: "do in advance (preparation)", id: "melakukan lebih dulu (persiapan)" }, [["明日のために", "Ashita no tame ni"], ["準備しておきます。", "junbi shite okimasu."]], "あしたの ために ....", { en: "I will prepare in advance for tomorrow.", id: "Saya akan menyiapkan lebih dulu untuk besok." }],
+];
+
+// Sub-Tier 3.3: Bentuk Nai (Nai Form) (7)
+const BUNPO_N5_TIER7 = [
+  ["V-nai", "明日は行かない。", { en: "dictionary-form negative", id: "bentuk negatif kamus" }, [["明日は", "Ashita wa"], ["行かない。", "ikanai."]], "あしたは ....", { en: "I won't go tomorrow.", id: "Besok saya tidak pergi." }],
+  ["V-naiでください", "写真を撮らないでください。", { en: "please don't do", id: "tolong jangan lakukan" }, [["写真を", "Shashin wo"], ["撮らないでください。", "toranaide kudasai."]], "しゃしんを ....", { en: "Please don't take photos.", id: "Tolong jangan mengambil foto." }],
+  ["V-nakerebaなりません", "薬を飲まなければなりません。", { en: "must do", id: "harus melakukan" }, [["薬を", "Kusuri wo"], ["飲まなければなりません。", "nomanakereba narimasen."]], "くすりを ....", { en: "I must take medicine.", id: "Saya harus minum obat." }],
+  ["V-nakutemoいいです", "今日は勉強しなくてもいいです。", { en: "don't need to do", id: "tidak perlu melakukan" }, [["今日は", "Kyou wa"], ["勉強しなくてもいいです。", "benkyou shinakutemo ii desu."]], "きょうは ....", { en: "I don't need to study today.", id: "Hari ini saya tidak perlu belajar." }],
+  ["V-naide", "朝ご飯を食べないで学校へ行きました。", { en: "without doing", id: "tanpa melakukan" }, [["朝ご飯を", "Asagohan wo"], ["食べないで", "tabenaide"], ["学校へ行きました。", "gakkou e ikimashita."]], "あさごはんを たべないで がっこうへ ....", { en: "I went to school without eating breakfast.", id: "Saya pergi ke sekolah tanpa makan pagi." }],
+  ["V-naiほうがいいです", "たばこを吸わないほうがいいです。", { en: "better not to do", id: "lebih baik tidak melakukan" }, [["たばこを", "Tabako wo"], ["吸わないほうがいいです。", "suwanai hou ga ii desu."]], "たばこを ....", { en: "You'd better not smoke.", id: "Lebih baik tidak merokok." }],
+  ["V-naiつもりです", "今年は旅行しないつもりです。", { en: "intend not to do", id: "berniat tidak melakukan" }, [["今年は", "Kotoshi wa"], ["旅行しないつもりです。", "ryokou shinai tsumori desu."]], "ことしは ....", { en: "I don't intend to travel this year.", id: "Saya berniat tidak bepergian tahun ini." }],
+];
+
+// Sub-Tier 3.4: Bentuk Kamus (Dictionary Form) (7)
+const BUNPO_N5_TIER8 = [
+  ["V-辞書形", "毎日日本語を勉強する。", { en: "plain non-past form", id: "bentuk polos non-lampau" }, [["毎日", "Mainichi"], ["日本語を", "nihongo wo"], ["勉強する。", "benkyou suru."]], "まいにち にほんごを ....", { en: "I study Japanese every day.", id: "Saya belajar bahasa Jepang setiap hari." }],
+  ["V-る ことができます", "漢字を読むことができます。", { en: "can / able to do", id: "bisa/mampu melakukan" }, [["漢字を", "Kanji wo"], ["読むことができます。", "yomu koto ga dekimasu."]], "かんじを よむ ....", { en: "I can read kanji.", id: "Saya bisa membaca kanji." }],
+  ["V-る こと", "本を読むことが好きです。", { en: "turns a verb into a noun", id: "menjadikan kata kerja sebagai kata benda" }, [["本を", "Hon wo"], ["読むことが", "yomu koto ga"], ["好きです。", "suki desu."]], "ほんを よむ ... すきです。", { en: "I like reading books.", id: "Saya suka membaca buku." }],
+  ["V-る 前に", "寝る前に歯を磨きます。", { en: "before doing", id: "sebelum melakukan" }, [["寝る前に", "Neru mae ni"], ["歯を", "ha wo"], ["磨きます。", "migakimasu."]], "ねる ... はを みがきます。", { en: "I brush my teeth before sleeping.", id: "Saya menyikat gigi sebelum tidur." }],
+  ["V-る つもりです", "来年日本へ行くつもりです。", { en: "intend to / plan to", id: "berniat/berencana" }, [["来年", "Rainen"], ["日本へ", "Nihon e"], ["行くつもりです。", "iku tsumori desu."]], "らいねん にほんへ いく ....", { en: "I plan to go to Japan next year.", id: "Saya berencana pergi ke Jepang tahun depan." }],
+  ["V-る（polos）と思います", "明日雨が降ると思います。", { en: "I think / in my opinion", id: "menurut saya/saya pikir" }, [["明日", "Ashita"], ["雨が", "ame ga"], ["降ると思います。", "furu to omoimasu."]], "あした あめが ふる ....", { en: "I think it will rain tomorrow.", id: "Saya pikir besok akan hujan." }],
+  ["V-る なら", "日本へ行くなら、京都もいいですよ。", { en: "if/when (topic conditional)", id: "kalau/jika (kondisional topik)" }, [["日本へ行くなら、", "Nihon e iku nara,"], ["京都もいいですよ。", "Kyouto mo ii desu yo."]], "にほんへ いく...、きょうとも いいですよ。", { en: "If you're going to Japan, Kyoto is also nice.", id: "Kalau mau pergi ke Jepang, Kyoto juga bagus." }],
+];
+
+// Sub-Tier 3.5: Bentuk Ta (Past Form) (7)
+const BUNPO_N5_TIER9 = [
+  ["V-た", "昨日映画を見た。", { en: "plain past form", id: "bentuk lampau polos" }, [["昨日", "Kinou"], ["映画を", "eiga wo"], ["見た。", "mita."]], "きのう えいがを ....", { en: "I watched a movie yesterday.", id: "Kemarin saya nonton film." }],
+  ["V-た ことがあります", "日本へ行ったことがあります。", { en: "have done before", id: "pernah melakukan" }, [["日本へ", "Nihon e"], ["行ったことがあります。", "itta koto ga arimasu."]], "にほんへ ....", { en: "I have been to Japan before.", id: "Saya pernah pergi ke Jepang." }],
+  ["V-た 後で", "食べた後で薬を飲みます。", { en: "after doing", id: "setelah melakukan" }, [["食べた後で", "Tabeta ato de"], ["薬を", "kusuri wo"], ["飲みます。", "nomimasu."]], "たべた ... くすりを のみます。", { en: "I take medicine after eating.", id: "Saya minum obat setelah makan." }],
+  ["V-たり、V-たりします", "週末は本を読んだり、映画を見たりします。", { en: "doing things like...", id: "melakukan hal-hal seperti..." }, [["週末は", "Shuumatsu wa"], ["本を読んだり、", "hon wo yondari,"], ["映画を見たりします。", "eiga wo mitari shimasu."]], "しゅうまつは ほんを よんだり、えいがを みたり ....", { en: "On weekends I do things like read books and watch movies.", id: "Akhir pekan saya melakukan hal-hal seperti membaca buku dan menonton film." }],
+  ["V-た ほうがいいです", "早く寝たほうがいいです。", { en: "you should do", id: "sebaiknya melakukan" }, [["早く", "Hayaku"], ["寝たほうが", "neta hou ga"], ["いいです。", "ii desu."]], "はやく ねた ... です。", { en: "You'd better sleep early.", id: "Lebih baik tidur lebih awal." }],
+  ["V-たら", "雨が降ったら、行きません。", { en: "if/when/once (conditional)", id: "kalau/jika/ketika (kondisional)" }, [["雨が降ったら、", "Ame ga futtara,"], ["行きません。", "ikimasen."]], "あめが ふったら、....", { en: "If it rains, I won't go.", id: "Kalau hujan, saya tidak pergi." }],
+  ["V-た まま", "電気をつけたまま寝ました。", { en: "remain in a state after doing", id: "dalam keadaan tetap setelah melakukan" }, [["電気をつけたまま", "Denki wo tsuketa mama"], ["寝ました。", "nemashita."]], "でんきを つけた まま ....", { en: "I fell asleep with the light left on.", id: "Saya tertidur dengan lampu tetap menyala." }],
+];
+
+// Sub-Tier 4.1: Kata Sifat-i (i-Adj) (6)
+const BUNPO_N5_TIER10 = [
+  ["Adj-i（polos）", "この家は大きいです。", { en: "base form", id: "bentuk dasar" }, [["この家は", "Kono ie wa"], ["大きいです。", "ookii desu."]], "この いえは ....", { en: "This house is big.", id: "Rumah ini besar." }],
+  ["Adj-i-くないです", "この家は大きくないです。", { en: "negative", id: "negatif" }, [["この家は", "Kono ie wa"], ["大きくないです。", "ookikunai desu."]], "この いえは ....", { en: "This house is not big.", id: "Rumah ini tidak besar." }],
+  ["Adj-i-かったです", "昨日は忙しかったです。", { en: "past positive", id: "lampau positif" }, [["昨日は", "Kinou wa"], ["忙しかったです。", "isogashikatta desu."]], "きのうは ....", { en: "Yesterday was busy.", id: "Kemarin sibuk." }],
+  ["Adj-i-くなかったです", "昨日は忙しくなかったです。", { en: "past negative", id: "lampau negatif" }, [["昨日は", "Kinou wa"], ["忙しくなかったです。", "isogashikunakatta desu."]], "きのうは ....", { en: "Yesterday was not busy.", id: "Kemarin tidak sibuk." }],
+  ["Adj-i-くて", "この店は安くておいしいです。", { en: "connecting (and)", id: "menyambung (dan)" }, [["この店は", "Kono mise wa"], ["安くて", "yasukute"], ["おいしいです。", "oishii desu."]], "この みせは やすくて ....", { en: "This shop is cheap and delicious.", id: "Toko ini murah dan enak." }],
+  ["Adj-i-く + V", "早く起きます。", { en: "adverb form", id: "bentuk keterangan (adverbia)" }, [["早く", "Hayaku"], ["起きます。", "okimasu."]], "はやく ....", { en: "I wake up early.", id: "Saya bangun pagi-pagi." }],
+];
+
+// Sub-Tier 4.2: Kata Sifat-na (na-Adj) (6)
+const BUNPO_N5_TIER11 = [
+  ["Adj-na + です", "この町は静かです。", { en: "positive", id: "positif" }, [["この町は", "Kono machi wa"], ["静かです。", "shizuka desu."]], "この まちは ....", { en: "This town is quiet.", id: "Kota ini tenang." }],
+  ["Adj-na + ではありません", "この町は静かではありません。", { en: "negative", id: "negatif" }, [["この町は", "Kono machi wa"], ["静かではありません。", "shizuka dewa arimasen."]], "この まちは ....", { en: "This town is not quiet.", id: "Kota ini tidak tenang." }],
+  ["Adj-na + でした", "昨日のパーティーは賑やかでした。", { en: "past positive", id: "lampau positif" }, [["昨日のパーティーは", "Kinou no paatii wa"], ["賑やかでした。", "nigiyaka deshita."]], "きのうの ぱーてぃーは ....", { en: "Yesterday's party was lively.", id: "Pesta kemarin ramai." }],
+  ["Adj-na + ではありませんでした", "昨日のパーティーは賑やかではありませんでした。", { en: "past negative", id: "lampau negatif" }, [["昨日のパーティーは", "Kinou no paatii wa"], ["賑やかではありませんでした。", "nigiyaka dewa arimasen deshita."]], "きのうの ぱーてぃーは ....", { en: "Yesterday's party was not lively.", id: "Pesta kemarin tidak ramai." }],
+  ["Adj-na + で", "この町は静かで、きれいです。", { en: "connecting (and)", id: "menyambung (dan)" }, [["この町は", "Kono machi wa"], ["静かで、", "shizuka de,"], ["きれいです。", "kirei desu."]], "この まちは しずかで、....", { en: "This town is quiet and beautiful.", id: "Kota ini tenang dan indah." }],
+  ["Adj-na + に + V", "静かに話します。", { en: "adverb form", id: "bentuk keterangan (adverbia)" }, [["静かに", "Shizuka ni"], ["話します。", "hanashimasu."]], "しずかに ....", { en: "I speak quietly.", id: "Saya berbicara dengan tenang." }],
+];
+
+// Sub-Tier 5.1: Keinginan & Ajakan (7)
+const BUNPO_N5_TIER12 = [
+  ["V-たいです", "日本へ行きたいです。", { en: "want to do", id: "ingin melakukan" }, [["日本へ", "Nihon e"], ["行きたいです。", "ikitai desu."]], "にほんへ ... です。", { en: "I want to go to Japan.", id: "Saya ingin pergi ke Jepang." }],
+  ["V-たくないです", "今日は働きたくないです。", { en: "don't want to do", id: "tidak ingin melakukan" }, [["今日は", "Kyou wa"], ["働きたくないです。", "hatarakitakunai desu."]], "きょうは ....", { en: "I don't want to work today.", id: "Hari ini saya tidak ingin bekerja." }],
+  ["〜がほしいです", "新しい車がほしいです。", { en: "want (a thing)", id: "ingin (benda)" }, [["新しい車が", "Atarashii kuruma ga"], ["ほしいです。", "hoshii desu."]], "あたらしい くるまが ....", { en: "I want a new car.", id: "Saya ingin mobil baru." }],
+  ["V-ましょう", "一緒に食べましょう。", { en: "let's", id: "ayo/mari kita" }, [["一緒に", "Issho ni"], ["食べましょう。", "tabemashou."]], "いっしょに ....", { en: "Let's eat together.", id: "Ayo makan bersama-sama." }],
+  ["V-ましょうか", "一緒に映画を見ましょうか。", { en: "shall we... / how about...", id: "bagaimana kalau kita.../mari saya..." }, [["一緒に", "Issho ni"], ["映画を", "eiga wo"], ["見ましょうか。", "mimashou ka."]], "いっしょに えいがを ....", { en: "Shall we watch a movie together?", id: "Bagaimana kalau kita nonton film bersama?" }],
+  ["V-ませんか", "一緒に行きませんか。", { en: "would you like to...? (invitation)", id: "maukah kamu...? (ajakan)" }, [["一緒に", "Issho ni"], ["行きませんか。", "ikimasen ka."]], "いっしょに ....", { en: "Would you like to go together?", id: "Mau pergi bersama-sama?" }],
+  ["V-なさい", "早く寝なさい。", { en: "do it! (gentle command)", id: "lakukan! (perintah halus)" }, [["早く", "Hayaku"], ["寝なさい。", "nenasai."]], "はやく ....", { en: "Go to sleep early!", id: "Cepat tidur!" }],
+];
+
+// Sub-Tier 5.2: Alasan & Perbandingan (7)
+const BUNPO_N5_TIER13 = [
+  ["〜から", "雨が降っているから、行きません。", { en: "because (reason)", id: "karena (alasan)" }, [["雨が降っているから、", "Ame ga futte iru kara,"], ["行きません。", "ikimasen."]], "あめが ふっているから、....", { en: "Because it's raining, I won't go.", id: "Karena sedang hujan, saya tidak pergi." }],
+  ["〜ので", "雨なので、行きません。", { en: "because (softer/objective reason)", id: "karena (alasan lebih halus/objektif)" }, [["雨なので、", "Ame nanode,"], ["行きません。", "ikimasen."]], "あめ ...、いきません。", { en: "Because it's raining, I won't go.", id: "Karena hujan, saya tidak pergi." }],
+  ["AはBより〜です", "私は犬より猫が好きです。", { en: "A is more ~ than B", id: "A lebih ~ daripada B" }, [["私は", "Watashi wa"], ["犬より", "inu yori"], ["猫が", "neko ga"], ["好きです。", "suki desu."]], "わたしは いぬより ねこが すきです。", { en: "I like cats more than dogs.", id: "Saya lebih suka kucing daripada anjing." }],
+  ["AとBとどちらが〜ですか", "犬と猫とどちらが好きですか。", { en: "which is more ~, A or B?", id: "mana yang lebih ~, A atau B?" }, [["犬と猫と", "Inu to neko to"], ["どちらが", "dochira ga"], ["好きですか。", "suki desu ka."]], "いぬと ねこと どちらが すきですか。", { en: "Which do you like more, dogs or cats?", id: "Mana yang lebih kamu suka, anjing atau kucing?" }],
+  ["〜の中で〜が一番〜です", "果物の中でりんごが一番好きです。", { en: "among ~, ~ is the most ~", id: "di antara ~, ~ paling ~" }, [["果物の中で", "Kudamono no naka de"], ["りんごが", "ringo ga"], ["一番好きです。", "ichiban suki desu."]], "くだものの なかで りんごが いちばん すきです。", { en: "Among fruits, I like apples the most.", id: "Di antara buah-buahan, saya paling suka apel." }],
+  ["〜でしょう", "明日は晴れでしょう。", { en: "probably / likely", id: "mungkin/kemungkinan besar" }, [["明日は", "Ashita wa"], ["晴れでしょう。", "hare deshou."]], "あしたは はれ ....", { en: "It will probably be sunny tomorrow.", id: "Besok mungkin cerah." }],
+  ["〜ほど〜ない", "今日は昨日ほど暑くないです。", { en: "not as ~ as (negative comparison)", id: "tidak se~ (perbandingan negatif)" }, [["今日は", "Kyou wa"], ["昨日ほど", "kinou hodo"], ["暑くないです。", "atsukunai desu."]], "きょうは きのうほど あつくないです。", { en: "Today is not as hot as yesterday.", id: "Hari ini tidak sepanas kemarin." }],
+];
+
+// Sub-Tier 6.1: Kata Tunjuk (Ko-So-A-Do) (5)
+const BUNPO_N5_TIER14 = [
+  ["これ／それ／あれ／どれ", "これは私の本です。", { en: "this/that/that over there/which (thing)", id: "ini/itu/itu (jauh)/yang mana (benda)" }, [["これは", "Kore wa"], ["私の本です。", "watashi no hon desu."]], "これは ....", { en: "This is my book.", id: "Ini buku saya." }],
+  ["この／その／あの／どの + N", "この本は面白いです。", { en: "this/that/that over there/which N", id: "N ini/itu/itu (jauh)/yang mana" }, [["この本は", "Kono hon wa"], ["面白いです。", "omoshiroi desu."]], "この ほんは ....", { en: "This book is interesting.", id: "Buku ini menarik." }],
+  ["ここ／そこ／あそこ／どこ", "教室はここです。", { en: "here/there/over there/where (place)", id: "di sini/situ/sana/mana (tempat)" }, [["教室は", "Kyoushitsu wa"], ["ここです。", "koko desu."]], "きょうしつは ....", { en: "The classroom is here.", id: "Kelasnya ada di sini." }],
+  ["こちら／そちら／あちら／どちら", "お手洗いはあちらです。", { en: "this way/that way/that way over there/which way (polite)", id: "arah ini/itu/sana/mana (sopan)" }, [["お手洗いは", "Otearai wa"], ["あちらです。", "achira desu."]], "おてあらいは ....", { en: "The restroom is that way.", id: "Toiletnya ke arah sana." }],
+  ["こんな／そんな／あんな／どんな + N", "どんな音楽が好きですか。", { en: "this kind of/that kind of/what kind of N", id: "N seperti ini/itu/itu/bagaimana" }, [["どんな音楽が", "Donna ongaku ga"], ["好きですか。", "suki desu ka."]], "どんな おんがくが すきですか。", { en: "What kind of music do you like?", id: "Musik seperti apa yang kamu suka?" }],
+];
+
+// Sub-Tier 6.2: Partikel Akhir & Penghubung Kalimat (5)
+const BUNPO_N5_TIER15 = [
   ["〜か", "これは何ですか。", { en: "question particle", id: "partikel tanya" }, [["これ", "Kore"], ["は", "wa"], ["何ですか。", "nan desu ka."]], "これは なんです ....", { en: "What is this?", id: "Ini apa?" }],
-  ["〜ね", "今日は暑いですね。", { en: "seeking agreement, roughly 'isn't it?'", id: "mencari persetujuan, kira-kira 'bukan?'" }, [["今日", "Kyou"], ["は", "wa"], ["暑いですね。", "atsui desu ne."]], "きょうは あついです ....", { en: "It's hot today, isn't it?", id: "Hari ini panas, ya." }],
-  ["〜よ", "もう6時ですよ。", { en: "emphasizes new information", id: "menegaskan informasi baru" }, [["もう", "Mou"], ["6時", "roku-ji"], ["ですよ。", "desu yo."]], "もう ろくじです ....", { en: "It's already 6 o'clock!", id: "Sudah jam 6, lho!" }]
+  ["〜ね", "今日は暑いですね。", { en: "seeking agreement (\"isn't it?\")", id: "mencari persetujuan (\"ya kan?\")" }, [["今日", "Kyou"], ["は", "wa"], ["暑いですね。", "atsui desu ne."]], "きょうは あついです ....", { en: "It's hot today, isn't it?", id: "Hari ini panas, ya." }],
+  ["〜よ", "もう6時ですよ。", { en: "emphasizes new information", id: "menegaskan info baru" }, [["もう", "Mou"], ["6時", "roku-ji"], ["ですよ。", "desu yo."]], "もう ろくじです ....", { en: "It's already 6 o'clock!", id: "Sudah jam 6, lho!" }],
+  ["NやN", "机の上に本やノートがあります。", { en: "and so on (partial, non-exhaustive listing)", id: "dan lain-lain (menyebut sebagian, tidak lengkap)" }, [["机の上に", "Tsukue no ue ni"], ["本やノートが", "hon ya nooto ga"], ["あります。", "arimasu."]], "つくえの うえに ほんや のーとが あります。", { en: "There are things like books and notebooks on the desk.", id: "Di atas meja ada buku, buku catatan, dan lain-lain." }],
+  ["そして／それから／でも／しかし", "宿題をしました。それから、寝ました。", { en: "then/after that/but/however (sentence connector)", id: "kemudian/lalu/tapi/namun (penghubung antarkalimat)" }, [["宿題をしました。", "Shukudai wo shimashita."], ["それから、", "Sorekara,"], ["寝ました。", "nemashita."]], "しゅくだいを しました。それから、ねました。", { en: "I did my homework. After that, I went to sleep.", id: "Saya mengerjakan PR. Setelah itu, saya tidur." }],
 ];
-const BUNPO_TIER2 = [
-  ["〜ませんか", "一緒に行きませんか。", { en: "inviting, 'would you like to...?'", id: "mengajak, 'mau...?'" }, [["一緒に", "Issho ni"], ["行きませんか。", "ikimasen ka."]], "いっしょに ....", { en: "Would you like to go together?", id: "Mau pergi bersama-sama?" }],
-  ["〜ましょう", "一緒に食べましょう。", { en: "let's / shall we", id: "ayo / mari kita" }, [["一緒に", "Issho ni"], ["食べましょう。", "tabemashou."]], "いっしょに ....", { en: "Let's eat together.", id: "Ayo makan bersama-sama." }],
-  ["〜たい", "日本へ行きたいです。", { en: "want to do something", id: "ingin melakukan sesuatu" }, [["日本へ", "Nihon e"], ["行きたいです。", "ikitai desu."]], "にほんへ ... です。", { en: "I want to go to Japan.", id: "Saya ingin pergi ke Jepang." }],
-  ["〜ないでください", "写真を撮らないでください。", { en: "please don't do", id: "tolong jangan lakukan" }, [["写真を", "Shashin wo"], ["撮らないでください。", "toranaide kudasai."]], "しゃしんを ....", { en: "Please don't take photos.", id: "Tolong jangan mengambil foto." }],
-  ["〜てください", "ここに座ってください。", { en: "please do", id: "tolong lakukan" }, [["ここに", "Koko ni"], ["座ってください。", "suwatte kudasai."]], "ここに ....", { en: "Please sit here.", id: "Tolong duduk di sini." }],
-  ["〜ています", "今、勉強しています。", { en: "doing right now (progressive)", id: "sedang dilakukan (progresif)" }, [["今、", "Ima,"], ["勉強しています。", "benkyou shite imasu."]], "いま、べんきょう ....", { en: "I am studying right now.", id: "Sedang belajar sekarang." }],
-  ["〜ました", "昨日、映画を見ました。", { en: "past tense, positive", id: "bentuk lampau, positif" }, [["昨日、", "Kinou,"], ["映画を", "eiga wo"], ["見ました。", "mimashita."]], "きのう、えいがを ....", { en: "I watched a movie yesterday.", id: "Kemarin saya menonton film." }],
-  ["〜ませんでした", "昨日、行きませんでした。", { en: "past tense, negative", id: "bentuk lampau, negatif" }, [["昨日、", "Kinou,"], ["行きませんでした。", "ikimasen deshita."]], "きのう、....", { en: "I didn't go yesterday.", id: "Kemarin saya tidak pergi." }],
-  ["〜から〜まで", "9時から5時まで働きます。", { en: "from...to", id: "dari...sampai" }, [["9時から", "Ku-ji kara"], ["5時まで", "go-ji made"], ["働きます。", "hatarakimasu."]], "くじ ... ごじ ... はたらきます。", { en: "I work from 9 to 5.", id: "Saya bekerja dari jam 9 sampai jam 5." }],
-  ["〜より", "犬より猫が好きです。", { en: "compared to", id: "dibandingkan dengan" }, [["犬より", "Inu yori"], ["猫が", "neko ga"], ["好きです。", "suki desu."]], "いぬ ... ねこが すきです。", { en: "I like cats more than dogs.", id: "Saya lebih suka kucing daripada anjing." }],
-  ["〜ほうがいい", "早く寝たほうがいいです。", { en: "better to do", id: "lebih baik melakukan" }, [["早く", "Hayaku"], ["寝たほうが", "neta hou ga"], ["いいです。", "ii desu."]], "はやく ねた ... です。", { en: "You'd better sleep early.", id: "Lebih baik tidur lebih awal." }],
-  ["〜てもいいです", "ここに座ってもいいです。", { en: "allowed to do", id: "boleh melakukan" }, [["ここに", "Koko ni"], ["座ってもいいです。", "suwattemo ii desu."]], "ここに ....", { en: "You may sit here.", id: "Boleh duduk di sini." }]
+
+const BUNPO_N5_TIER_KEYS = ["tier1", "tier2", "tier3", "tier4", "tier5", "tier6", "tier7", "tier8", "tier9", "tier10", "tier11", "tier12", "tier13", "tier14", "tier15"];
+const BUNPO_N5_CHAPTERS = [BUNPO_N5_TIER1, BUNPO_N5_TIER2, BUNPO_N5_TIER3, BUNPO_N5_TIER4, BUNPO_N5_TIER5, BUNPO_N5_TIER6, BUNPO_N5_TIER7, BUNPO_N5_TIER8, BUNPO_N5_TIER9, BUNPO_N5_TIER10, BUNPO_N5_TIER11, BUNPO_N5_TIER12, BUNPO_N5_TIER13, BUNPO_N5_TIER14, BUNPO_N5_TIER15];
+const BUNPO_N5_LEVEL_META = [
+  ...BUNPO_N5_TIER_KEYS.map((id, i) => ({ id, tier: i + 1, rank: "N5" })),
+  { id: "all", tier: BUNPO_N5_TIER_KEYS.length, rank: "N5" }
 ];
-const BUNPO_TIER3 = [
-  ["〜なければなりません", "薬を飲まなければなりません。", { en: "must do", id: "harus melakukan" }, [["薬を", "Kusuri wo"], ["飲まなければなりません。", "nomanakereba narimasen."]], "くすりを ....", { en: "I must take medicine.", id: "Saya harus minum obat." }],
-  ["〜前に", "寝る前に歯を磨きます。", { en: "before doing", id: "sebelum melakukan" }, [["寝る前に", "Neru mae ni"], ["歯を", "ha wo"], ["磨きます。", "migakimasu."]], "ねる ... はを みがきます。", { en: "I brush my teeth before sleeping.", id: "Saya menyikat gigi sebelum tidur." }],
-  ["〜後で", "食べた後で薬を飲みます。", { en: "after doing", id: "setelah melakukan" }, [["食べた後で", "Tabeta ato de"], ["薬を", "kusuri wo"], ["飲みます。", "nomimasu."]], "たべた ... くすりを のみます。", { en: "I take medicine after eating.", id: "Saya minum obat setelah makan." }],
-  ["〜ながら", "音楽を聞きながら勉強します。", { en: "while doing", id: "sambil melakukan" }, [["音楽を", "Ongaku wo"], ["聞きながら", "kikinagara"], ["勉強します。", "benkyou shimasu."]], "おんがくを きき... べんきょうします。", { en: "I study while listening to music.", id: "Saya belajar sambil mendengarkan musik." }],
-  ["〜ので", "雨なので、行きません。", { en: "because (reason)", id: "karena (alasan)" }, [["雨なので、", "Ame nanode,"], ["行きません。", "ikimasen."]], "あめ ...、いきません。", { en: "Because it's raining, I won't go.", id: "Karena hujan, saya tidak pergi." }],
-  ["〜のに", "勉強したのに、忘れました。", { en: "even though / despite", id: "meskipun / walaupun" }, [["勉強したのに、", "Benkyou shita noni,"], ["忘れました。", "wasuremashita."]], "べんきょうした ...、わすれました。", { en: "Even though I studied, I forgot.", id: "Meskipun sudah belajar, saya lupa." }],
-  ["〜と思います", "明日雨が降ると思います。", { en: "I think / in my opinion", id: "menurut saya / saya pikir" }, [["明日", "Ashita"], ["雨が", "ame ga"], ["降ると思います。", "furu to omoimasu."]], "あした あめが ふる ....", { en: "I think it will rain tomorrow.", id: "Saya pikir besok akan hujan." }],
-  ["〜と言いました", "先生は明日休むと言いました。", { en: "said that", id: "mengatakan bahwa" }, [["先生は", "Sensei wa"], ["明日", "ashita"], ["休むと言いました。", "yasumu to iimashita."]], "せんせいは あした やすむ ....", { en: "The teacher said they would be off tomorrow.", id: "Guru bilang besok akan libur." }],
-  ["〜ことができます", "漢字を読むことができます。", { en: "can / is able to do", id: "bisa / mampu melakukan" }, [["漢字を", "Kanji wo"], ["読むことができます。", "yomu koto ga dekimasu."]], "かんじを よむ ....", { en: "I can read kanji.", id: "Saya bisa membaca kanji." }],
-  ["〜つもりです", "来年日本へ行くつもりです。", { en: "intend to / plan to", id: "berniat / berencana" }, [["来年", "Rainen"], ["日本へ", "Nihon e"], ["行くつもりです。", "iku tsumori desu."]], "らいねん にほんへ いく ....", { en: "I plan to go to Japan next year.", id: "Saya berencana pergi ke Jepang tahun depan." }],
-  ["〜でしょう", "明日は晴れでしょう。", { en: "probably / likely", id: "mungkin / kemungkinan besar" }, [["明日は", "Ashita wa"], ["晴れでしょう。", "hare deshou."]], "あしたは はれ ....", { en: "It will probably be sunny tomorrow.", id: "Besok mungkin cerah." }],
-  ["〜すぎる", "食べすぎました。", { en: "too much (excessive)", id: "terlalu banyak (berlebihan)" }, [["食べすぎました。", "Tabesugimashita."]], "たべ ....", { en: "I ate too much.", id: "Saya makan terlalu banyak." }]
+
+const BUNPO_N5_LEVEL_TEXT = {
+  tier1: { title: { en: "Tier 1.1 — Predicate & Basic Sentences", id: "Tier 1.1 — Predikat & Kalimat Dasar" }, sample: "〜は〜です", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier2: { title: { en: "Tier 1.2 — Main Particles", id: "Tier 1.2 — Partikel Utama" }, sample: "〜は", desc: { en: "8 N5 grammar patterns.", id: "8 pola tata bahasa N5." } },
+  tier3: { title: { en: "Tier 2.1 — Existence (There is / Living)", id: "Tier 2.1 — Keberadaan (Ada/Tinggal)" }, sample: "〜があります", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier4: { title: { en: "Tier 2.2 — Direction & Movement", id: "Tier 2.2 — Arah & Perpindahan" }, sample: "場所へ/に行きます・来ます・帰ります", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier5: { title: { en: "Tier 3.1 — Polite Form (Masu Form)", id: "Tier 3.1 — Bentuk Sopan (Masu Form)" }, sample: "V-masu", desc: { en: "6 N5 grammar patterns.", id: "6 pola tata bahasa N5." } },
+  tier6: { title: { en: "Tier 3.2 — Te Form", id: "Tier 3.2 — Bentuk Te (Te Form)" }, sample: "V-teいます", desc: { en: "8 N5 grammar patterns.", id: "8 pola tata bahasa N5." } },
+  tier7: { title: { en: "Tier 3.3 — Nai Form", id: "Tier 3.3 — Bentuk Nai (Nai Form)" }, sample: "V-nai", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier8: { title: { en: "Tier 3.4 — Dictionary Form", id: "Tier 3.4 — Bentuk Kamus (Dictionary Form)" }, sample: "V-辞書形", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier9: { title: { en: "Tier 3.5 — Past Form (Ta Form)", id: "Tier 3.5 — Bentuk Ta (Past Form)" }, sample: "V-た", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier10: { title: { en: "Tier 4.1 — i-Adjectives", id: "Tier 4.1 — Kata Sifat-i (i-Adj)" }, sample: "Adj-i（polos）", desc: { en: "6 N5 grammar patterns.", id: "6 pola tata bahasa N5." } },
+  tier11: { title: { en: "Tier 4.2 — na-Adjectives", id: "Tier 4.2 — Kata Sifat-na (na-Adj)" }, sample: "Adj-na + です", desc: { en: "6 N5 grammar patterns.", id: "6 pola tata bahasa N5." } },
+  tier12: { title: { en: "Tier 5.1 — Wants & Invitations", id: "Tier 5.1 — Keinginan & Ajakan" }, sample: "V-たいです", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier13: { title: { en: "Tier 5.2 — Reasons & Comparisons", id: "Tier 5.2 — Alasan & Perbandingan" }, sample: "〜から", desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." } },
+  tier14: { title: { en: "Tier 6.1 — Demonstratives (Ko-So-A-Do)", id: "Tier 6.1 — Kata Tunjuk (Ko-So-A-Do)" }, sample: "これ／それ／あれ／どれ", desc: { en: "5 N5 grammar patterns.", id: "5 pola tata bahasa N5." } },
+  tier15: { title: { en: "Tier 6.2 — Sentence-final Particles & Connectors", id: "Tier 6.2 — Partikel Akhir & Penghubung Kalimat" }, sample: "〜か", desc: { en: "5 N5 grammar patterns.", id: "5 pola tata bahasa N5." } },
+  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "〜たいです", desc: { en: "All 100 N5 grammar patterns shuffled into one Chapter.", id: "Seluruh 100 pola bunpō N5 diacak menjadi satu Chapter." } }
+};
+
+const BUNPO_N5_LEARN = [
+  { tierKey: "tier1", title: { en: "Tier 1.1 — Predicate & Basic Sentences", id: "Tier 1.1 — Predikat & Kalimat Dasar" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER1 },
+  { tierKey: "tier2", title: { en: "Tier 1.2 — Main Particles", id: "Tier 1.2 — Partikel Utama" }, desc: { en: "8 N5 grammar patterns.", id: "8 pola tata bahasa N5." }, items: BUNPO_N5_TIER2 },
+  { tierKey: "tier3", title: { en: "Tier 2.1 — Existence (There is / Living)", id: "Tier 2.1 — Keberadaan (Ada/Tinggal)" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER3 },
+  { tierKey: "tier4", title: { en: "Tier 2.2 — Direction & Movement", id: "Tier 2.2 — Arah & Perpindahan" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER4 },
+  { tierKey: "tier5", title: { en: "Tier 3.1 — Polite Form (Masu Form)", id: "Tier 3.1 — Bentuk Sopan (Masu Form)" }, desc: { en: "6 N5 grammar patterns.", id: "6 pola tata bahasa N5." }, items: BUNPO_N5_TIER5 },
+  { tierKey: "tier6", title: { en: "Tier 3.2 — Te Form", id: "Tier 3.2 — Bentuk Te (Te Form)" }, desc: { en: "8 N5 grammar patterns.", id: "8 pola tata bahasa N5." }, items: BUNPO_N5_TIER6 },
+  { tierKey: "tier7", title: { en: "Tier 3.3 — Nai Form", id: "Tier 3.3 — Bentuk Nai (Nai Form)" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER7 },
+  { tierKey: "tier8", title: { en: "Tier 3.4 — Dictionary Form", id: "Tier 3.4 — Bentuk Kamus (Dictionary Form)" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER8 },
+  { tierKey: "tier9", title: { en: "Tier 3.5 — Past Form (Ta Form)", id: "Tier 3.5 — Bentuk Ta (Past Form)" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER9 },
+  { tierKey: "tier10", title: { en: "Tier 4.1 — i-Adjectives", id: "Tier 4.1 — Kata Sifat-i (i-Adj)" }, desc: { en: "6 N5 grammar patterns.", id: "6 pola tata bahasa N5." }, items: BUNPO_N5_TIER10 },
+  { tierKey: "tier11", title: { en: "Tier 4.2 — na-Adjectives", id: "Tier 4.2 — Kata Sifat-na (na-Adj)" }, desc: { en: "6 N5 grammar patterns.", id: "6 pola tata bahasa N5." }, items: BUNPO_N5_TIER11 },
+  { tierKey: "tier12", title: { en: "Tier 5.1 — Wants & Invitations", id: "Tier 5.1 — Keinginan & Ajakan" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER12 },
+  { tierKey: "tier13", title: { en: "Tier 5.2 — Reasons & Comparisons", id: "Tier 5.2 — Alasan & Perbandingan" }, desc: { en: "7 N5 grammar patterns.", id: "7 pola tata bahasa N5." }, items: BUNPO_N5_TIER13 },
+  { tierKey: "tier14", title: { en: "Tier 6.1 — Demonstratives (Ko-So-A-Do)", id: "Tier 6.1 — Kata Tunjuk (Ko-So-A-Do)" }, desc: { en: "5 N5 grammar patterns.", id: "5 pola tata bahasa N5." }, items: BUNPO_N5_TIER14 },
+  { tierKey: "tier15", title: { en: "Tier 6.2 — Sentence-final Particles & Connectors", id: "Tier 6.2 — Partikel Akhir & Penghubung Kalimat" }, desc: { en: "5 N5 grammar patterns.", id: "5 pola tata bahasa N5." }, items: BUNPO_N5_TIER15 },
 ];
 
 /* =========================================================
@@ -1627,35 +1999,20 @@ const SCRIPTS = {
       { key: "romaji", icon: "🔤", label: "Romaji" },
       { key: "both", icon: "🎲", i18nKey: "quiz.mixed" }
     ],
-    data: {
-      tier1: KOTOBA_TIER1.map(([c, , m]) => [c, tf(m)]),
-      tier2: KOTOBA_TIER2.map(([c, , m]) => [c, tf(m)]),
-      tier3: KOTOBA_TIER3.map(([c, , m]) => [c, tf(m)])
-    },
-    dataRomaji: {
-      tier1: KOTOBA_TIER1.map(([c, r]) => [c, r]),
-      tier2: KOTOBA_TIER2.map(([c, r]) => [c, r]),
-      tier3: KOTOBA_TIER3.map(([c, r]) => [c, r])
-    },
-    // dataKanji: bentuk kanji tiap kata (elemen ke-7 di KOTOBA_TIER*, "" kalau
+    // Kotoba N5 sekarang punya 7 Tier / 21 Sub-Tier (bukan lagi cuma tier1/2/3) —
+    // tierKeys + levelMeta custom ini dipakai renderLevels() sebagai pengganti
+    // LEVEL_META global, sama persis seperti pola yang dipakai Kanji N5 (9 Chapter)
+    // & Bunpō N5 (15 Sub-Tier).
+    tierKeys: KOTOBA_TIER_KEYS,
+    levelMeta: KOTOBA_N5_LEVEL_META,
+    data: Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])])),
+    dataRomaji: Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, r]) => [c, r])])),
+    // dataKanji: bentuk kanji tiap kata (elemen ke-7 di KOTOBA_N5_CHAPTERS, "" kalau
     // katanya memang biasa ditulis kana saja), ditampilkan sebagai info tambahan
     // di feedback kuis setelah user menjawab.
-    dataKanji: {
-      tier1: KOTOBA_TIER1.map(([c, , , , , , k]) => [c, k || ""]),
-      tier2: KOTOBA_TIER2.map(([c, , , , , , k]) => [c, k || ""]),
-      tier3: KOTOBA_TIER3.map(([c, , , , , , k]) => [c, k || ""])
-    },
-    levelText: {
-      tier1: { title: { en: "Nouns, Body & Colors", id: "Kata Benda, Tubuh & Warna" }, sample: "わたし あたま あかい", desc: { en: "38 N5 vocabulary words (kana only, no kanji): people, places, everyday objects, body parts, and colors, each with an example sentence.", id: "38 kosakata N5 (kana, tanpa kanji): orang, tempat, benda sehari-hari, anggota tubuh, dan warna, lengkap dengan contoh kalimat." } },
-      tier2: { title: { en: "Verbs & Adjectives", id: "Kerja & Sifat" }, sample: "たべる おおきい すき", desc: { en: "24 N5 vocabulary words (kana only, no kanji): verbs, -i adjectives, and -na adjectives, each with an example sentence.", id: "24 kosakata N5 (kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na, lengkap dengan contoh kalimat." } },
-      tier3: { title: { en: "Time, Days & Months", id: "Waktu, Hari & Bulan" }, sample: "にちようび いちがつ あした", desc: { en: "43 N5 vocabulary words (kana only, no kanji): places, time, days of the week, months, question words, and greetings/expressions, each with an example sentence.", id: "43 kosakata N5 (kana, tanpa kanji): tempat, waktu, hari, bulan, kata tanya, dan ekspresi/salam, lengkap dengan contoh kalimat." } },
-      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "しごと あたらしい かえる", desc: { en: "All 105 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 105 kosakata N5 diacak menjadi satu Chapter." } }
-    },
-    learnVocab: [
-      { tierKey: "tier1", title: { en: "Nouns, Body & Colors", id: "Kata Benda, Tubuh & Warna" }, desc: { en: "38 basic N5 vocabulary words (full kana, no kanji): people, family, places, everyday objects, body parts, and colors — each word comes with an example sentence.", id: "38 kosakata dasar N5 (full kana, tanpa kanji): orang, keluarga, tempat, benda sehari-hari, anggota tubuh, dan warna — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER1 },
-      { tierKey: "tier2", title: { en: "Verbs & Adjectives", id: "Kata Kerja & Kata Sifat" }, desc: { en: "24 N5 vocabulary words (full kana, no kanji): verbs, -i adjectives, and -na adjectives — each word comes with an example sentence.", id: "24 kosakata N5 (full kana, tanpa kanji): kata kerja, kata sifat -i, dan kata sifat -na — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER2 },
-      { tierKey: "tier3", title: { en: "Places, Time, Days & Months", id: "Tempat, Waktu, Hari & Bulan" }, desc: { en: "43 N5 vocabulary words (full kana, no kanji): places, time, days of the week, months, question words, and greetings/expressions — each word comes with an example sentence.", id: "43 kosakata N5 (full kana, tanpa kanji): tempat, waktu, hari, bulan, kata tanya, dan ekspresi/salam — tiap kata disertai contoh kalimat." }, items: KOTOBA_TIER3 }
-    ]
+    dataKanji: Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , , , , , k]) => [c, k || ""])])),
+    levelText: KOTOBA_N5_LEVEL_TEXT,
+    learnVocab: KOTOBA_N5_LEARN
   },
   bunpo: {
     key: "bunpo", label: "Bunpō", tabGlyph: "文", quizType: "meaning", quizLabelKey: "quiz.guessFunction",
@@ -1671,39 +2028,23 @@ const SCRIPTS = {
       { key: "kalimat", icon: "📝", i18nKey: "quiz.kalimat" },
       { key: "both", icon: "🎲", i18nKey: "quiz.mixed" }
     ],
-    data: {
-      tier1: BUNPO_TIER1.map(([c, , m]) => [c, tf(m)]),
-      tier2: BUNPO_TIER2.map(([c, , m]) => [c, tf(m)]),
-      tier3: BUNPO_TIER3.map(([c, , m]) => [c, tf(m)])
-    },
+    // Bunpō N5 sekarang 100 pola / 15 sub-tier (bukan 36 pola / 3 tier lagi) —
+    // tierKeys + levelMeta custom ini dipakai renderLevels() sebagai pengganti
+    // LEVEL_META global, sama persis seperti pola yang dipakai Kanji N5 (9 Chapter).
+    tierKeys: BUNPO_N5_TIER_KEYS,
+    levelMeta: BUNPO_N5_LEVEL_META,
+    data: Object.fromEntries(BUNPO_N5_TIER_KEYS.map((tk, i) => [tk, BUNPO_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])])),
     // dataKalimat: soal "Kalimat" — [contoh_kalimat, pola] per tingkatan. Tidak
     // perlu di-resolve ulang tiap ganti bahasa karena isinya murni bahasa Jepang.
-    dataKalimat: {
-      tier1: BUNPO_TIER1.map(([c, ex]) => [ex, c]),
-      tier2: BUNPO_TIER2.map(([c, ex]) => [ex, c]),
-      tier3: BUNPO_TIER3.map(([c, ex]) => [ex, c])
-    },
+    dataKalimat: Object.fromEntries(BUNPO_N5_TIER_KEYS.map((tk, i) => [tk, BUNPO_N5_CHAPTERS[i].map(([c, ex]) => [ex, c])])),
     // dataKalimatBlank: sama seperti dataKalimat tapi soalnya versi romaji
     // tanpa kanji dengan partikel/pola-nya dikosongkan "..." — dipakai khusus
     // sebagai teks SOAL mode "Tebak Partikel!" supaya jawabannya (kanji/pola)
     // tidak kebocoran. dataKalimat aslinya tetap dipakai buat info "extra"
     // (contoh kalimat lengkap) yang muncul setelah jawab soal mode "Fungsi".
-    dataKalimatBlank: {
-      tier1: BUNPO_TIER1.map(([c, , , , blank]) => [blank, c]),
-      tier2: BUNPO_TIER2.map(([c, , , , blank]) => [blank, c]),
-      tier3: BUNPO_TIER3.map(([c, , , , blank]) => [blank, c])
-    },
-    levelText: {
-      tier1: { title: { en: "Basic Particles", id: "Partikel Dasar" }, sample: "〜は 〜が 〜を", desc: { en: "12 essential N5 particles you need to Conquer.", id: "12 partikel dasar N5 yang wajib diTaklukkan." } },
-      tier2: { title: { en: "Sentence Patterns", id: "Pola Kalimat" }, sample: "〜たい 〜てください", desc: { en: "12 N5 sentence patterns for everyday conversation.", id: "12 pola kalimat N5 untuk percakapan sehari-hari." } },
-      tier3: { title: { en: "Advanced Structures", id: "Struktur Lanjutan" }, sample: "〜ながら 〜ので", desc: { en: "12 advanced N5 grammar structures.", id: "12 struktur tata bahasa N5 tingkat lanjut." } },
-      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "〜つもりです", desc: { en: "All 36 N5 grammar patterns shuffled into one Chapter.", id: "Seluruh 36 pola bunpō N5 diacak menjadi satu Chapter." } }
-    },
-    learnGrammar: [
-      { tierKey: "tier1", title: { en: "Basic Particles", id: "Partikel Dasar" }, desc: { en: "12 essential N5 particles you need to Conquer.", id: "12 partikel dasar N5 yang wajib diTaklukkan." }, items: BUNPO_TIER1 },
-      { tierKey: "tier2", title: { en: "Sentence Patterns", id: "Pola Kalimat" }, desc: { en: "12 N5 sentence patterns for everyday conversation.", id: "12 pola kalimat N5 untuk percakapan sehari-hari." }, items: BUNPO_TIER2 },
-      { tierKey: "tier3", title: { en: "Advanced Structures", id: "Struktur Lanjutan" }, desc: { en: "12 advanced N5 grammar structures.", id: "12 struktur tata bahasa N5 tingkat lanjut." }, items: BUNPO_TIER3 }
-    ]
+    dataKalimatBlank: Object.fromEntries(BUNPO_N5_TIER_KEYS.map((tk, i) => [tk, BUNPO_N5_CHAPTERS[i].map(([c, , , , blank]) => [blank, c])])),
+    levelText: BUNPO_N5_LEVEL_TEXT,
+    learnGrammar: BUNPO_N5_LEARN
   }
 };
 
@@ -1738,22 +2079,14 @@ renderTitleCollection();
 renderSpeedrunRecords();
 
 // kanji/kotoba/bunpo punya "arti" (meaning) yang disimpan sebagai {en,id} di data
-// mentahnya (KANJI_TIER*/KOTOBA_TIER*/BUNPO_TIER*) supaya bisa diresolve ulang
+// mentahnya (KANJI_TIER*/KOTOBA_TIER*/BUNPO_N5_TIER*) supaya bisa diresolve ulang
 // tiap kali bahasa diganti — tanpa ini, arti/fungsi di quiz & tabel belajar akan
 // tetap dalam bahasa lama sampai halaman di-reload. Dipanggil sekali di awal
 // (lewat mapping .map(...) di atas) dan lagi setiap kali applyLanguage() jalan.
 function rebuildMeaningPools() {
   SCRIPTS.kanji.data = Object.fromEntries(KANJI_TIER_KEYS.map((tk, i) => [tk, KANJI_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])]));
-  SCRIPTS.kotoba.data = {
-    tier1: KOTOBA_TIER1.map(([c, , m]) => [c, tf(m)]),
-    tier2: KOTOBA_TIER2.map(([c, , m]) => [c, tf(m)]),
-    tier3: KOTOBA_TIER3.map(([c, , m]) => [c, tf(m)])
-  };
-  SCRIPTS.bunpo.data = {
-    tier1: BUNPO_TIER1.map(([c, , m]) => [c, tf(m)]),
-    tier2: BUNPO_TIER2.map(([c, , m]) => [c, tf(m)]),
-    tier3: BUNPO_TIER3.map(([c, , m]) => [c, tf(m)])
-  };
+  SCRIPTS.kotoba.data = Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])]));
+  SCRIPTS.bunpo.data = Object.fromEntries(BUNPO_N5_TIER_KEYS.map((tk, i) => [tk, BUNPO_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])]));
   [SCRIPTS.kanji, SCRIPTS.kotoba, SCRIPTS.bunpo].forEach(s => {
     const tks = s.tierKeys || ["tier1", "tier2", "tier3"];
     s.data.all = tks.reduce((acc, tk) => acc.concat(s.data[tk]), []);
@@ -2001,6 +2334,186 @@ function renderLearnTables(scriptKey) {
   });
   const learnFlashBtn = document.getElementById("btn-learn-flashcards");
   if (learnFlashBtn) learnFlashBtn.classList.toggle("hidden", scriptKey !== "kotoba" && scriptKey !== "kanji");
+  setupLearnSearchAndNav(scriptKey);
+}
+
+/* ---------------- learn mode: search + quick nav + scroll-to-top ---------------- */
+let learnSearchQuery = "";
+let learnSearchNavEnabled = false;
+const LEARN_SEARCH_NAV_SCRIPTS = ["kotoba", "bunpo", "kanji"];
+
+function learnSectionLabel(sectionEl) {
+  const titleEl = sectionEl.querySelector(".learn-section-title");
+  if (!titleEl || !titleEl.childNodes.length) return "";
+  return titleEl.childNodes[0].textContent.trim();
+}
+
+function setupLearnSearchAndNav(scriptKey) {
+  const tablesWrap = document.getElementById("learn-tables");
+  const toolbarEl = document.getElementById("learn-toolbar");
+  const chipsWrap = document.getElementById("learn-nav-chips");
+  const noResultsEl = document.getElementById("learn-search-no-results");
+  learnSearchNavEnabled = LEARN_SEARCH_NAV_SCRIPTS.includes(scriptKey);
+
+  chipsWrap.innerHTML = "";
+
+  if (!learnSearchNavEnabled) {
+    toolbarEl.classList.add("hidden");
+    chipsWrap.classList.add("hidden");
+    noResultsEl.classList.add("hidden");
+    updateLearnScrollTopVisibility();
+    return;
+  }
+
+  toolbarEl.classList.remove("hidden");
+
+  const sections = tablesWrap.querySelectorAll(".learn-section");
+  if (sections.length > 1) {
+    chipsWrap.classList.remove("hidden");
+    sections.forEach((sectionEl, idx) => {
+      sectionEl.id = `learn-sec-${scriptKey}-${idx}`;
+      const label = learnSectionLabel(sectionEl) || `#${idx + 1}`;
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "learn-nav-chip";
+      chip.dataset.target = sectionEl.id;
+      chip.textContent = label;
+      chip.setAttribute("aria-label", t("aria.jumpToSection", { label }));
+      chip.addEventListener("click", () => {
+        sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      chipsWrap.appendChild(chip);
+    });
+  } else {
+    chipsWrap.classList.add("hidden");
+  }
+
+  applyLearnSearch();
+  updateLearnScrollTopVisibility();
+}
+
+function applyLearnSearch() {
+  if (!learnSearchNavEnabled) return;
+  const tablesWrap = document.getElementById("learn-tables");
+  const statusEl = document.getElementById("learn-search-status");
+  const noResultsEl = document.getElementById("learn-search-no-results");
+  const clearBtn = document.getElementById("learn-search-clear");
+  if (!tablesWrap) return;
+
+  const query = learnSearchQuery.trim().toLowerCase();
+  clearBtn.classList.toggle("hidden", !learnSearchQuery);
+
+  const sections = tablesWrap.querySelectorAll(".learn-section");
+  let totalMatches = 0;
+
+  sections.forEach(sectionEl => {
+    const items = sectionEl.querySelectorAll(".kana-cell.filled, .kanji-cell, .grammar-card");
+    let sectionMatches = 0;
+    items.forEach(item => {
+      const isMatch = !query || item.textContent.toLowerCase().includes(query);
+      item.classList.toggle("no-match", !isMatch);
+      if (isMatch) { sectionMatches++; totalMatches++; }
+    });
+    const sectionHasItems = items.length > 0;
+    sectionEl.classList.toggle("no-match", sectionHasItems && sectionMatches === 0);
+    const chip = document.querySelector(`.learn-nav-chip[data-target="${sectionEl.id}"]`);
+    if (chip) chip.classList.toggle("no-match", sectionHasItems && sectionMatches === 0);
+  });
+
+  if (query) {
+    statusEl.textContent = t("learn.searchResultsCount", { count: totalMatches });
+    statusEl.classList.remove("hidden");
+    if (totalMatches === 0) {
+      noResultsEl.textContent = t("learn.noResults", { query: learnSearchQuery.trim() });
+      noResultsEl.classList.remove("hidden");
+    } else {
+      noResultsEl.classList.add("hidden");
+    }
+  } else {
+    statusEl.classList.add("hidden");
+    noResultsEl.classList.add("hidden");
+  }
+}
+
+function resetLearnSearch() {
+  learnSearchQuery = "";
+  const input = document.getElementById("learn-search-input");
+  if (input) input.value = "";
+  applyLearnSearch();
+}
+
+const learnSearchInputEl = document.getElementById("learn-search-input");
+const learnSearchClearEl = document.getElementById("learn-search-clear");
+if (learnSearchInputEl) {
+  learnSearchInputEl.addEventListener("input", () => {
+    learnSearchQuery = learnSearchInputEl.value;
+    applyLearnSearch();
+  });
+}
+if (learnSearchClearEl) {
+  learnSearchClearEl.addEventListener("click", () => {
+    resetLearnSearch();
+    learnSearchInputEl.focus();
+  });
+}
+
+/* desktop mouse users: wheel scroll + click-drag support for the horizontally
+   scrolling tier chip strip (touch devices already scroll it natively) */
+(function setupLearnChipsDesktopScroll() {
+  const chipsWrap = document.getElementById("learn-nav-chips");
+  if (!chipsWrap) return;
+  let isDown = false;
+  let dragged = false;
+  let startX = 0;
+  let startScroll = 0;
+
+  chipsWrap.addEventListener("wheel", (e) => {
+    if (e.deltaY === 0) return;
+    chipsWrap.scrollLeft += e.deltaY;
+    e.preventDefault();
+  }, { passive: false });
+
+  chipsWrap.addEventListener("mousedown", (e) => {
+    isDown = true;
+    dragged = false;
+    startX = e.pageX;
+    startScroll = chipsWrap.scrollLeft;
+    chipsWrap.classList.add("dragging");
+  });
+  window.addEventListener("mouseup", () => {
+    isDown = false;
+    chipsWrap.classList.remove("dragging");
+  });
+  window.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    const dx = e.pageX - startX;
+    if (Math.abs(dx) > 4) dragged = true;
+    chipsWrap.scrollLeft = startScroll - dx;
+  });
+  chipsWrap.addEventListener("click", (e) => {
+    if (dragged) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragged = false;
+    }
+  }, true);
+})();
+
+/* back-to-top button — only relevant on the long Kotoba / Bunpō / Kanji lists */
+function updateLearnScrollTopVisibility() {
+  const btn = document.getElementById("btn-learn-scrolltop");
+  const screenEl = document.getElementById("screen-learn");
+  if (!btn || !screenEl) return;
+  const isLearnVisible = !screenEl.classList.contains("hidden");
+  const shouldShow = isLearnVisible && learnSearchNavEnabled && window.scrollY > 400;
+  btn.classList.toggle("hidden", !shouldShow);
+}
+window.addEventListener("scroll", updateLearnScrollTopVisibility, { passive: true });
+const btnLearnScrollTop = document.getElementById("btn-learn-scrolltop");
+if (btnLearnScrollTop) {
+  btnLearnScrollTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
 document.querySelectorAll("#learn-script-tabs .script-tab").forEach(btn => {
@@ -2051,14 +2564,17 @@ function renderLevels(scriptKey) {
     card.className = "level-card";
     card.type = "button";
     card.setAttribute("aria-pressed", "false");
-    // Kanji punya 9 Chapter (rank-nya selalu "N5" jadi tier-dots ga informatif) —
-    // label "Chapter N" dipindah ke atas gantiin tier-dots (N5 tetap ditampilkan),
-    // sisa judulnya ("Numbers & Counting" dst) tetap di posisi h3 semula.
+    // Kanji (9 Chapter), Bunpō (15 sub-tier), & Kotoba (21 sub-tier) rank-nya
+    // selalu "N5" jadi tier-dots ga informatif (apalagi Kotoba — bisa jadi 21
+    // bulet kecil berjejer) — label "Chapter N"/"Tier X.Y" dipindah ke atas
+    // gantiin tier-dots (N5 tetap ditampilkan), sisa judulnya tetap di posisi
+    // h3 semula.
     const kanjiTitleText = tf(info.title);
     const kanjiDashIdx = kanjiTitleText.indexOf("—");
     const kanjiChapterLabel = kanjiDashIdx >= 0 ? kanjiTitleText.slice(0, kanjiDashIdx).trim() : kanjiTitleText;
     const kanjiTitleRest = kanjiDashIdx >= 0 ? kanjiTitleText.slice(kanjiDashIdx + 1).trim() : "";
-    card.innerHTML = scriptKey === "kanji" ? `
+    const usesChapterLabel = scriptKey === "kanji" || scriptKey === "bunpo" || scriptKey === "kotoba";
+    card.innerHTML = usesChapterLabel ? `
       <span class="tier">
         <span class="tier-chapter-label">${kanjiChapterLabel}</span>
         ${meta.rank}
@@ -2410,7 +2926,7 @@ function updateConquestCard(scriptKey) {
   // berubah menjadi Mode Speedrun — status "✓ Conquered" tidak perlu lagi
   // ditampilkan karena ikon & warna kartu sudah menandakannya.
   btnConquest.classList.toggle("speedrun-mode", isConquered);
-  if (conquestIconEl) conquestIconEl.textContent = isConquered ? "⚡" : "⚔️";
+  if (conquestIconEl) conquestIconEl.classList.toggle("is-conquered", isConquered);
   if (conquestStatusEl) conquestStatusEl.classList.toggle("hidden", !isConquered);
 
   if (isConquered) {
@@ -2567,12 +3083,14 @@ const screenStart = document.getElementById("screen-start");
 btnOpenLearn.addEventListener("click", () => {
   screenStart.classList.add("hidden");
   screenLearnEl.classList.remove("hidden");
+  resetLearnSearch();
   renderLearnTables(currentScript);
   window.scrollTo({ top: 0, behavior: "instant" });
 });
 btnLearnBack.addEventListener("click", () => {
   screenLearnEl.classList.add("hidden");
   screenStart.classList.remove("hidden");
+  resetLearnSearch();
 });
 btnLearnToQuiz.addEventListener("click", () => {
   screenLearnEl.classList.add("hidden");
@@ -3399,7 +3917,8 @@ function deleteCustomDeck(id) {
 
 /* ---- card content builders (resolved live so language switches work) ---- */
 function kotobaTierArr(tierKey) {
-  return tierKey === "tier1" ? KOTOBA_TIER1 : tierKey === "tier2" ? KOTOBA_TIER2 : KOTOBA_TIER3;
+  const i = KOTOBA_TIER_KEYS.indexOf(tierKey);
+  return i >= 0 ? KOTOBA_N5_CHAPTERS[i] : KOTOBA_N5_CH1_1;
 }
 function kanjiTierArr(tierKey) {
   const i = KANJI_TIER_KEYS.indexOf(tierKey);
@@ -3587,8 +4106,9 @@ const flashDoneEl = document.getElementById("flash-done");
 const flashDoneSubEl = document.getElementById("flash-done-sub");
 
 const FLASH_BUILTIN_DECK_DEFS = [
-  { kind: "kotoba", tierKey: "tier1" }, { kind: "kotoba", tierKey: "tier2" },
-  { kind: "kotoba", tierKey: "tier3" }, { kind: "kotoba", tierKey: "all" },
+  // Kotoba N5 sekarang punya 21 Sub-Tier (bukan cuma tier1-3) + "all"
+  ...KOTOBA_TIER_KEYS.map(tierKey => ({ kind: "kotoba", tierKey })),
+  { kind: "kotoba", tierKey: "all" },
   // Kanji N5 sekarang punya 9 Chapter (bukan cuma tier1-3) + "all"
   ...KANJI_TIER_KEYS.map(tierKey => ({ kind: "kanji", tierKey })),
   { kind: "kanji", tierKey: "all" }

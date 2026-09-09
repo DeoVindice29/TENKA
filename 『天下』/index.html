@@ -22,9 +22,9 @@
 
   <div class="top-controls">
     <button class="icon-btn" id="flashcards-toggle" type="button" aria-label="Open Flashcards"
-      data-i18n-aria="aria.openFlashcards">🎴</button>
+      data-i18n-aria="aria.openFlashcards"></button>
     <button class="icon-btn" id="settings-toggle" type="button" aria-label="Open settings"
-      data-i18n-aria="aria.openSettings" aria-haspopup="dialog">⚙️</button>
+      data-i18n-aria="aria.openSettings" aria-haspopup="dialog"></button>
   </div>
 
   <!-- ===== SETTINGS PANEL ===== -->
@@ -33,7 +33,7 @@
       <h2 id="settings-title">
         Settings
         <button class="close-x" id="settings-close" type="button" aria-label="Close settings"
-          data-i18n-aria="aria.closeSettings">✕</button>
+          data-i18n-aria="aria.closeSettings"></button>
       </h2>
 
       <div class="settings-group">
@@ -42,8 +42,8 @@
           <button class="profile-avatar" id="profile-avatar-btn" type="button" aria-label="Change profile photo"
             data-i18n-aria="aria.changePhoto">
             <img class="profile-avatar-img hidden" id="profile-avatar-img" alt="">
-            <span class="profile-avatar-placeholder" id="profile-avatar-placeholder">🧑</span>
-            <span class="profile-avatar-edit">✎</span>
+            <span class="profile-avatar-placeholder" id="profile-avatar-placeholder"></span>
+            <span class="profile-avatar-edit"></span>
           </button>
           <input type="file" id="profile-photo-input" accept="image/*" class="hidden">
           <div class="profile-info">
@@ -51,7 +51,7 @@
               <button type="button" class="profile-nickname-btn" id="profile-nickname-btn"
                 aria-label="Set your nickname" data-i18n-aria="aria.setNickname">
                 <span id="profile-nickname-text" data-i18n="profile.addNickname">+ Add nickname</span>
-                <span class="profile-nickname-edit-icon">✎</span>
+                <span class="profile-nickname-edit-icon"></span>
               </button>
               <input type="text" id="profile-nickname-input" class="profile-nickname-input hidden" maxlength="18"
                 autocomplete="off" placeholder="Your nickname..." data-i18n-placeholder="profile.nicknamePlaceholder">
@@ -68,13 +68,13 @@
       </div>
 
       <div class="settings-group">
-        <span class="settings-label" data-i18n="speedrunRecords.heading">⚡ Speedrun Records</span>
+        <span class="settings-label" data-i18n="speedrunRecords.heading">Speedrun Records</span>
         <p class="title-collection-hint" data-i18n="speedrunRecords.hint">Your fastest completed run for each conquered script.</p>
         <div class="speedrun-records" id="speedrun-records"></div>
       </div>
 
       <div class="settings-group">
-        <span class="settings-label" data-i18n="titles.heading">🏅 Conquest Title Collection</span>
+        <span class="settings-label" data-i18n="titles.heading">Conquest Title Collection</span>
         <p class="title-collection-hint" data-i18n="titles.hint">Complete every conquest ⚔️ to claim the title of Conqueror!
         </p>
         <div class="title-collection" id="title-collection"></div>
@@ -83,7 +83,7 @@
       <div class="settings-group">
         <span class="settings-label" data-i18n="about.heading">About</span>
         <details class="about-details" id="about-details">
-          <summary data-i18n="about.summary">👑 Noble Ranks</summary>
+          <summary data-i18n="about.summary">Noble Ranks</summary>
           <p class="about-intro" data-i18n="about.intro">Conquer every Chapter Trial to climb from commoner to emperor.
           </p>
           <ol class="rank-ladder" id="rank-ladder"></ol>
@@ -97,7 +97,7 @@
           <label class="switch">
             <input type="checkbox" id="theme-switch-input" aria-labelledby="theme-toggle-label">
             <span class="track"></span>
-            <span class="thumb" id="theme-toggle">🌙</span>
+            <span class="thumb" id="theme-toggle"></span>
           </label>
         </div>
         <div class="lang-row">
@@ -127,9 +127,13 @@
         <span class="settings-label" data-i18n="borderStyle.heading">Theme Color</span>
         <div class="border-style-options" id="border-style-options" role="group" aria-label="Choose theme color"
           data-i18n-aria="aria.chooseBorderStyle">
-          <button type="button" class="border-style-btn active" data-border-style="rainbow">
+          <button type="button" class="border-style-btn active" data-border-style="bw">
+            <span class="border-style-swatch swatch-bw" aria-hidden="true"></span>
+            <span data-i18n="borderStyle.bw">Default</span>
+          </button>
+          <button type="button" class="border-style-btn" data-border-style="rainbow">
             <span class="border-style-swatch swatch-rainbow" aria-hidden="true"></span>
-            <span data-i18n="borderStyle.rainbow">Default</span>
+            <span data-i18n="borderStyle.rainbow">Rainbow</span>
           </button>
           <button type="button" class="border-style-btn" data-border-style="pink">
             <span class="border-style-swatch swatch-pink" aria-hidden="true"></span>
@@ -176,7 +180,7 @@
         <textarea class="feedback-textarea" id="feedback-text" rows="3"
           placeholder="Got a suggestion, idea, or found a bug? Write it here..."
           data-i18n-placeholder="feedback.placeholder"></textarea>
-        <button class="secondary" id="btn-send-feedback" type="button" data-i18n="feedback.button">✉️ Send
+        <button class="secondary" id="btn-send-feedback" type="button" data-i18n="feedback.button">Send
           Feedback</button>
       </div>
     </div>
@@ -216,7 +220,18 @@
         <div class="eyebrow">Learning Japanese — From Zero to Hero</div>
         <h1>Commoner 『平民』 To Emperor 『天皇』
           <svg viewBox="0 0 300 14" preserveAspectRatio="none">
-            <path d="M2 8 C 80 2, 220 12, 298 6" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round" />
+            <defs>
+              <linearGradient id="titleRainbowGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#C2185B" />
+                <stop offset="16%" stop-color="#C2410C" />
+                <stop offset="33%" stop-color="#A16207" />
+                <stop offset="50%" stop-color="#047857" />
+                <stop offset="66%" stop-color="#0E7490" />
+                <stop offset="83%" stop-color="#1E40AF" />
+                <stop offset="100%" stop-color="#7C3AED" />
+              </linearGradient>
+            </defs>
+            <path class="title-underline" d="M2 8 C 80 2, 220 12, 298 6" stroke-width="3" fill="none" stroke-linecap="round" />
           </svg>
         </h1>
         <p class="sub">"You are an ordinary person with a dream.<br>Train hard, conquer every trial in your way, and
@@ -227,29 +242,29 @@
       <div class="script-tabs" id="script-tabs" role="tablist" aria-label="Choose a script"
         data-i18n-aria="aria.chooseScript">
         <button class="script-tab" data-script="hiragana" type="button" role="tab">あ<span>Hiragana</span><span
-            class="tab-conquered-badge">✓</span></button>
+            class="tab-conquered-badge"></span></button>
         <button class="script-tab" data-script="katakana" type="button" role="tab">ア<span>Katakana</span><span
-            class="tab-conquered-badge">✓</span></button>
+            class="tab-conquered-badge"></span></button>
         <button class="script-tab" data-script="kotoba" type="button" role="tab">語<span>Basic Kotoba</span><span
-            class="tab-conquered-badge">✓</span></button>
+            class="tab-conquered-badge"></span></button>
         <button class="script-tab" data-script="bunpo" type="button" role="tab">文<span>Bunpō</span><span
-            class="tab-conquered-badge">✓</span></button>
+            class="tab-conquered-badge"></span></button>
         <button class="script-tab" data-script="kanji" type="button" role="tab">漢<span>Kanji N5</span><span
-            class="tab-conquered-badge">✓</span></button>
+            class="tab-conquered-badge"></span></button>
       </div>
 
       <!-- Learn CTA sits above the quiz/level picker on purpose -->
-      <button class="secondary" id="btn-open-learn" type="button" data-i18n="start.studyFirst">📖 Study First</button>
+      <button class="secondary" id="btn-open-learn" type="button" data-i18n="start.studyFirst">Study First</button>
 
       <div class="levels" id="levels"></div>
 
       <div class="quiz-variant-picker hidden" id="quiz-variant-picker">
         <span class="settings-label" data-i18n="quiz.typeLabel">Question Type</span>
         <div class="quiz-variant-options" id="quiz-variant-options">
-          <button class="quiz-variant-btn" id="quiz-variant-btn-a" data-variant="romaji" type="button">🔤 Romaji</button>
+          <button class="quiz-variant-btn" id="quiz-variant-btn-a" data-variant="romaji" type="button">Romaji</button>
           <button class="quiz-variant-btn active" id="quiz-variant-btn-b" data-variant="meaning" type="button">🈺 <span
               data-i18n="quiz.meaning">Meaning</span></button>
-          <button class="quiz-variant-btn" id="quiz-variant-btn-c" data-variant="both" type="button">🎲 <span
+          <button class="quiz-variant-btn" id="quiz-variant-btn-c" data-variant="both" type="button"><span
               data-i18n="quiz.mixed">Mixed</span></button>
           <button class="quiz-variant-btn hidden" id="quiz-variant-btn-d" data-variant="kanjiForm" type="button">🈶
             <span data-i18n="quiz.kanjiFormBtn">Kanji</span></button>
@@ -257,23 +272,23 @@
       </div>
 
       <button class="match-card hidden" id="btn-match-mode" type="button" disabled>
-        <span class="match-mode-icon">🧩</span>
+        <span class="match-mode-icon"></span>
         <span class="match-mode-body">
-          <span class="match-mode-title" data-i18n="matchMode.cardTitle">🧩 Match Mode</span>
+          <span class="match-mode-title" data-i18n="matchMode.cardTitle">Match Mode</span>
           <span class="match-mode-desc" data-i18n="matchMode.cardDesc">Match 4 characters with their romaji, round
             by round.</span>
         </span>
-        <span class="match-mode-arrow">→</span>
+        <span class="match-mode-arrow"></span>
       </button>
 
       <div class="difficulty-picker" id="difficulty-picker">
         <span class="settings-label" data-i18n="quiz.difficultyLabel">Difficulty</span>
         <div class="difficulty-options" id="difficulty-options">
-          <button class="difficulty-btn active" data-difficulty="easy" type="button">😌 Easy<span class="difficulty-sub"
+          <button class="difficulty-btn active" data-difficulty="easy" type="button">Easy<span class="difficulty-sub"
               data-i18n="quiz.choices4">4 choices</span></button>
-          <button class="difficulty-btn" data-difficulty="medium" type="button">😅 Medium<span class="difficulty-sub"
+          <button class="difficulty-btn" data-difficulty="medium" type="button">Medium<span class="difficulty-sub"
               data-i18n="quiz.choices8">8 choices</span></button>
-          <button class="difficulty-btn" data-difficulty="hard" type="button">🔥 Hard<span class="difficulty-sub"
+          <button class="difficulty-btn" data-difficulty="hard" type="button">Hard<span class="difficulty-sub"
               data-i18n="quiz.typeItYourself">type it yourself</span></button>
         </div>
         <p class="difficulty-hint hidden" id="difficulty-hint" data-i18n="quiz.hardHint">🔥 Hard is only available for
@@ -283,9 +298,9 @@
       <div class="range-picker hidden" id="range-picker">
         <span class="settings-label" data-i18n="range.label">Question Range</span>
         <div class="range-mode-toggle" id="range-mode-toggle">
-          <button class="range-mode-btn active" data-range-mode="manual" type="button">🎯 <span
+          <button class="range-mode-btn active" data-range-mode="manual" type="button"><span
               data-i18n="range.chooseRange">Choose Range</span></button>
-          <button class="range-mode-btn" data-range-mode="random" type="button">🎲 <span
+          <button class="range-mode-btn" data-range-mode="random" type="button"><span
               data-i18n="range.random">Random</span></button>
         </div>
 
@@ -302,7 +317,7 @@
               <ul class="range-dd-list hidden" id="range-from-list" role="listbox" tabindex="-1"></ul>
             </div>
           </div>
-          <span class="range-arrow">→</span>
+          <span class="range-arrow"></span>
           <div class="range-field">
             <label id="range-to-label" data-i18n="range.to">To</label>
             <div class="range-dd" id="range-to-dd">
@@ -329,22 +344,21 @@
       <button class="primary" id="btn-start" disabled data-i18n="start.chooseTierFirst">Choose a tier first</button>
 
       <button class="conquest-card" id="btn-conquest" type="button">
-        <span class="conquest-icon" id="conquest-icon">⚔️</span>
+        <span class="conquest-icon" id="conquest-icon"></span>
         <span class="conquest-body">
           <span class="conquest-title"><span id="conquest-title-text">Conquer Mode</span> <span
-              class="conquest-status hidden" id="conquest-status" data-i18n="conquest.conquered">✓
-              Conquered</span></span>
+              class="conquest-status hidden" id="conquest-status" data-i18n="conquest.conquered">Conquered</span></span>
           <span class="conquest-desc" id="conquest-desc"></span>
           <span class="conquest-lock-note hidden" id="conquest-lock-note"></span>
         </span>
-        <span class="conquest-arrow">→</span>
+        <span class="conquest-arrow"></span>
       </button>
     </section>
 
     <!-- ===== LEARN SCREEN ===== -->
     <section id="screen-learn" class="hidden">
       <div class="quiz-back-row">
-        <button class="quiz-back" id="btn-learn-back" type="button" data-i18n="common.back">← Back</button>
+        <button class="quiz-back" id="btn-learn-back" type="button" data-i18n="common.back">Back</button>
       </div>
       <header class="learn-header">
         <div class="eyebrow" data-i18n="learn.eyebrow">study mode</div>
@@ -362,35 +376,52 @@
         <button class="script-tab" data-script="kanji" type="button" role="tab">漢<span>Kanji N5</span></button>
       </div>
 
+      <div class="learn-toolbar" id="learn-toolbar">
+        <div class="learn-search-box">
+          <span class="learn-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="learn-search-input" class="learn-search-input" autocomplete="off"
+            data-i18n-placeholder="learn.searchPlaceholder" data-i18n-aria="aria.learnSearch"
+            placeholder="Search word, reading, or meaning…" aria-label="Search this study set">
+          <button type="button" id="learn-search-clear" class="learn-search-clear hidden"
+            data-i18n-aria="aria.clearSearch" aria-label="Clear search">✕</button>
+        </div>
+        <div class="learn-search-status hidden" id="learn-search-status"></div>
+      </div>
+      <div class="learn-nav-chips hidden" id="learn-nav-chips"></div>
+      <div class="learn-no-results hidden" id="learn-search-no-results"></div>
+
       <div id="learn-tables"></div>
 
+      <button type="button" id="btn-learn-scrolltop" class="learn-scrolltop hidden"
+        data-i18n-aria="aria.backToTop" aria-label="Back to top">⬆</button>
+
       <button class="secondary hidden" id="btn-learn-flashcards" type="button"
-        data-i18n="flash.studyThisAsFlashcards">🎴 Study This as Flashcards</button>
+        data-i18n="flash.studyThisAsFlashcards">Study This as Flashcards</button>
       <button class="primary" id="btn-learn-to-quiz" data-i18n="learn.readyStart">Ready — Start Trial</button>
     </section>
 
     <!-- ===== FLASHCARD DECK PICKER SCREEN ===== -->
     <section id="screen-flashdeck" class="hidden">
       <div class="quiz-back-row">
-        <button class="quiz-back" id="btn-flashdeck-back" type="button" data-i18n="common.back">← Back</button>
+        <button class="quiz-back" id="btn-flashdeck-back" type="button" data-i18n="common.back">Back</button>
       </div>
       <header class="learn-header">
         <div class="eyebrow" data-i18n="flash.eyebrow">flashcard mode</div>
-        <h1 class="learn-title" data-i18n="flash.title">🎴 Flashcards</h1>
+        <h1 class="learn-title" data-i18n="flash.title">Flashcards</h1>
         <p class="sub" data-i18n="flash.sub">Anki-style flip cards with built-in spaced repetition. Pick a deck below,
           or import your own .apkg file.</p>
       </header>
 
-      <div class="flash-section-label" data-i18n="flash.builtinHeading">📚 Built-in Decks</div>
+      <div class="flash-section-label" data-i18n="flash.builtinHeading">Built-in Decks</div>
       <div class="flash-deck-grid" id="flash-builtin-decks"></div>
 
-      <div class="flash-section-label" data-i18n="flash.myDecksHeading">📦 My Imported Decks</div>
+      <div class="flash-section-label" data-i18n="flash.myDecksHeading">My Imported Decks</div>
       <div class="flash-deck-grid" id="flash-custom-decks"></div>
       <p class="flash-empty-hint hidden" id="flash-no-custom" data-i18n="flash.noCustomDecks">No decks imported yet.
       </p>
 
       <div class="flash-import-box">
-        <button class="secondary" id="btn-flash-import" type="button" data-i18n="flash.importBtn">📥 Import .apkg
+        <button class="secondary" id="btn-flash-import" type="button" data-i18n="flash.importBtn">Import .apkg
           Deck</button>
         <input type="file" id="flash-apkg-input" accept=".apkg" class="hidden">
         <p class="flash-import-status" id="flash-import-status"></p>
@@ -403,8 +434,8 @@
     <!-- ===== FLASHCARD STUDY SCREEN ===== -->
     <section id="screen-flashcard" class="hidden">
       <div class="quiz-back-row">
-        <button class="quiz-back" id="btn-flashcard-back" type="button" data-i18n="common.back">← Back</button>
-        <button class="quiz-back" id="btn-flashcard-restart" type="button" data-i18n="flash.restart">🔁 Restart
+        <button class="quiz-back" id="btn-flashcard-back" type="button" data-i18n="common.back">Back</button>
+        <button class="quiz-back" id="btn-flashcard-restart" type="button" data-i18n="flash.restart">Restart
           Deck</button>
       </div>
 
@@ -425,22 +456,22 @@
         Answer</button>
 
       <div class="flash-rate-row hidden" id="flash-rate-row">
-        <button class="flash-rate-btn again" data-rating="again" type="button"><span class="fr-emoji">😖</span><span
+        <button class="flash-rate-btn again" data-rating="again" type="button"><span class="fr-emoji"></span><span
             data-i18n="flash.again">Again</span></button>
-        <button class="flash-rate-btn hard" data-rating="hard" type="button"><span class="fr-emoji">😕</span><span
+        <button class="flash-rate-btn hard" data-rating="hard" type="button"><span class="fr-emoji"></span><span
             data-i18n="flash.hard">Hard</span></button>
-        <button class="flash-rate-btn good" data-rating="good" type="button"><span class="fr-emoji">🙂</span><span
+        <button class="flash-rate-btn good" data-rating="good" type="button"><span class="fr-emoji"></span><span
             data-i18n="flash.good">Good</span></button>
-        <button class="flash-rate-btn easy" data-rating="easy" type="button"><span class="fr-emoji">😄</span><span
+        <button class="flash-rate-btn easy" data-rating="easy" type="button"><span class="fr-emoji"></span><span
             data-i18n="flash.easy">Easy</span></button>
       </div>
 
       <div class="flash-done hidden" id="flash-done">
-        <p class="flash-done-title" data-i18n="flash.doneTitle">🎉 Deck complete for now!</p>
+        <p class="flash-done-title" data-i18n="flash.doneTitle">Deck complete for now!</p>
         <p class="flash-done-sub" id="flash-done-sub"></p>
         <button class="primary" id="btn-flash-review-again" data-i18n="flash.reviewAgain">Review This Deck
           Again</button>
-        <button class="ghost" id="btn-flash-choose-another" data-i18n="flash.chooseAnother">← Choose Another
+        <button class="ghost" id="btn-flash-choose-another" data-i18n="flash.chooseAnother">Choose Another
           Deck</button>
       </div>
     </section>
@@ -449,8 +480,7 @@
     <!-- ===== CONQUEST STORY SCREEN (transisi antar chapter) ===== -->
     <section id="screen-conquest-story" class="hidden conquest-story">
       <div class="quiz-back-row">
-        <button class="quiz-back" id="btn-conquest-story-back" type="button" data-i18n="conquest.cancelConquest">←
-          Cancel Conquest</button>
+        <button class="quiz-back" id="btn-conquest-story-back" type="button" data-i18n="conquest.cancelConquest">Cancel Conquest</button>
       </div>
       <div class="conquest-story-card">
         <div class="eyebrow" id="conquest-story-eyebrow">⚔️ Conquer Mode</div>
@@ -459,18 +489,18 @@
         <p class="conquest-story-meta" id="conquest-story-meta"></p>
       </div>
       <button class="primary danger" id="btn-conquest-story-continue" type="button"
-        data-i18n="conquest.startThisChapter">⚔️ Start This Chapter</button>
+        data-i18n="conquest.startThisChapter">Start This Chapter</button>
     </section>
 
     <!-- ===== QUIZ SCREEN ===== -->
     <section id="screen-quiz" class="hidden">
       <div class="quiz-back-row">
-        <button class="quiz-back" id="btn-cancel" type="button" data-i18n="common.back">← Back</button>
-        <button class="quiz-back" id="btn-restart-quiz" type="button">🔁 Restart</button>
+        <button class="quiz-back" id="btn-cancel" type="button" data-i18n="common.back">Back</button>
+        <button class="quiz-back" id="btn-restart-quiz" type="button">Restart</button>
       </div>
       <div class="quiz-top">
         <div class="quiz-progress-text" id="dots"></div>
-        <div class="streak" id="streak"><span class="flame" id="streak-flame">🔥</span> <span
+        <div class="streak" id="streak"><span class="flame" id="streak-flame"></span> <span
             id="streak-count">0</span> <span data-i18n="quiz.streak">streak</span></div>
         <div class="speedrun-timer hidden" id="speedrun-timer">⏱️ <span id="speedrun-timer-value">00:00.00</span></div>
       </div>
@@ -493,19 +523,19 @@
           <div class="feedback-text" id="feedback"></div>
           <div class="feedback-extra hidden" id="feedback-extra"></div>
         </div>
-        <button class="ghost hidden" id="btn-next" data-i18n="quiz.next">Next →</button>
+        <button class="ghost hidden" id="btn-next" data-i18n="quiz.next">Next</button>
       </div>
     </section>
 
     <!-- ===== MATCH MODE SCREEN ===== -->
     <section id="screen-match" class="hidden">
       <div class="quiz-back-row">
-        <button class="quiz-back" id="btn-match-back" type="button" data-i18n="common.back">← Back</button>
-        <button class="quiz-back" id="btn-match-restart" type="button" data-i18n="matchMode.restart">🔁 Restart</button>
+        <button class="quiz-back" id="btn-match-back" type="button" data-i18n="common.back">Back</button>
+        <button class="quiz-back" id="btn-match-restart" type="button" data-i18n="matchMode.restart">Restart</button>
       </div>
       <div class="quiz-top">
         <div class="quiz-progress-text" id="match-progress-text"></div>
-        <div class="match-mistakes" id="match-mistakes"><span class="match-mistakes-icon">✗</span> <span
+        <div class="match-mistakes" id="match-mistakes"><span class="match-mistakes-icon"></span> <span
             id="match-mistakes-count">0</span></div>
       </div>
       <p class="match-mode-instruction" id="match-instruction" data-i18n="matchMode.instruction">Tap a character,
@@ -517,10 +547,10 @@
       </div>
 
       <div class="match-done hidden" id="match-done">
-        <p class="match-done-title" id="match-done-title" data-i18n="matchMode.doneTitle">🎉 All matched!</p>
+        <p class="match-done-title" id="match-done-title" data-i18n="matchMode.doneTitle">All matched!</p>
         <p class="match-done-sub" id="match-done-sub"></p>
-        <button class="primary" id="btn-match-play-again" data-i18n="matchMode.playAgain">🔁 Play Again</button>
-        <button class="ghost" id="btn-match-choose-another" data-i18n="common.back">← Back</button>
+        <button class="primary" id="btn-match-play-again" data-i18n="matchMode.playAgain">Play Again</button>
+        <button class="ghost" id="btn-match-choose-another" data-i18n="common.back">Back</button>
       </div>
     </section>
 
@@ -541,12 +571,12 @@
 
       <div class="result-actions">
         <button class="primary" id="btn-retry" data-i18n="results.retrySet">Retry This Set</button>
-        <button class="ghost hidden" id="btn-results-learn" data-i18n="start.studyFirst">📖 Study First</button>
-        <button class="ghost" id="btn-change" data-i18n="common.back">← Back</button>
+        <button class="ghost hidden" id="btn-results-learn" data-i18n="start.studyFirst">Study First</button>
+        <button class="ghost" id="btn-change" data-i18n="common.back">Back</button>
       </div>
     </section>
 
-    <footer class="site-footer">© 2026 Deo Vindice. All Rights Reserved.</footer>
+    <footer class="site-footer">© 2026 Sine Deo Vindice. All Rights Reserved.</footer>
 
   </div>
 
