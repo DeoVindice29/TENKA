@@ -295,6 +295,17 @@
           Hiragana &amp; Katakana.</p>
       </div>
 
+      <div class="timer-picker" id="timer-picker">
+        <span class="settings-label" data-i18n="quiz.timerLabel">Timer</span>
+        <div class="timer-options" id="timer-options">
+          <button class="timer-btn active" data-timer="0" type="button"><span
+              data-i18n="quiz.timerOff">No Timer</span></button>
+          <button class="timer-btn" data-timer="3" type="button">3s</button>
+          <button class="timer-btn" data-timer="5" type="button">5s</button>
+          <button class="timer-btn" data-timer="10" type="button">10s</button>
+        </div>
+      </div>
+
       <div class="range-picker hidden" id="range-picker">
         <span class="settings-label" data-i18n="range.label">Question Range</span>
         <div class="range-mode-toggle" id="range-mode-toggle">
@@ -393,7 +404,14 @@
       <div id="learn-tables"></div>
 
       <button type="button" id="btn-learn-scrolltop" class="learn-scrolltop hidden"
-        data-i18n-aria="aria.backToTop" aria-label="Back to top">⬆</button>
+        data-i18n-aria="aria.backToTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 4h14"></path>
+        <path d="M12 20V9"></path>
+        <path d="M6 15l6-6 6 6"></path>
+        </svg>
+      </button>
 
       <button class="secondary hidden" id="btn-learn-flashcards" type="button"
         data-i18n="flash.studyThisAsFlashcards">Study This as Flashcards</button>
@@ -502,6 +520,7 @@
         <div class="quiz-progress-text" id="dots"></div>
         <div class="streak" id="streak"><span class="flame" id="streak-flame"></span> <span
             id="streak-count">0</span> <span data-i18n="quiz.streak">streak</span></div>
+        <div class="question-timer hidden" id="question-timer">⏱️ <span id="question-timer-value">3</span>s</div>
         <div class="speedrun-timer hidden" id="speedrun-timer">⏱️ <span id="speedrun-timer-value">00:00.00</span></div>
       </div>
 

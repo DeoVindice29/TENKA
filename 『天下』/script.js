@@ -109,6 +109,7 @@ const I18N = {
   "learn.searchPlaceholder": { en: "Search word, reading, or meaning…", id: "Cari kata, cara baca, atau arti…" },
   "learn.searchResultsCount": { en: "{count} result(s) found", id: "{count} hasil ditemukan" },
   "learn.noResults": { en: "No matches for \"{query}\". Try a different word.", id: "Tidak ada yang cocok dengan \"{query}\". Coba kata lain." },
+  "learn.usageNote": { en: "How to use it", id: "Cara pakainya" },
   "aria.learnSearch": { en: "Search this study set", id: "Cari di materi ini" },
   "aria.clearSearch": { en: "Clear search", id: "Bersihkan pencarian" },
   "aria.jumpToSection": { en: "Jump to {label}", id: "Lompat ke {label}" },
@@ -168,6 +169,9 @@ const I18N = {
   "profile.nextRank": { en: "{req} and rise to {emoji} {title}", id: "{req} untuk naik menjadi {emoji} {title}" },
   "profile.highestReached": { en: "Highest rank reached — take the throne, Emperor! 👑", id: "Tingkatan tertinggi tercapai — bertahtalah, Emperor! 👑" },
   "rank.comingSoon": { en: "Coming soon", id: "Segera hadir" },
+  "quiz.timerLabel": { en: "Timer", id: "Timer" },
+  "quiz.timerOff": { en: "No Timer", id: "Tanpa Waktu" },
+  "quiz.timeUpAnswerWas": { en: "⏰ Time's up! The answer was {answer}", id: "⏰ Waktu habis! Jawabannya {answer}" },
   "learnCta.study": { en: "Study {label} First", id: "Belajar {label} Dulu" },
   "theme.light": { en: "Light Mode", id: "Mode Terang" },
   "theme.dark": { en: "Dark Mode", id: "Mode Gelap" },
@@ -1190,110 +1194,225 @@ KANJI_N5_CHAPTERS.forEach(ch => ch.forEach(([c, r]) => { KANJI_READING[c] = r; }
    dengan Kanji N5 (9 Chapter) & Bunpō N5 (15 Sub-Tier). */
 
 // Sub-Tier 1.1: Kata Ganti Orang & Sapaan (4)
+// Elemen ke-7 (opsional) = versi kanji dari kata, elemen ke-8 (opsional) = versi kanji dari
+// contoh kalimat, elemen ke-9 (opsional) = catatan singkat "cara pakai" ({en,id}).
 const KOTOBA_N5_CH1_1 = [
   ["わたし", "watashi", { en: "I / me", id: "saya / aku" }, "わたしは がくせいです。",
     [["わたし", "Watashi"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
-    { en: "I am a student.", id: "Saya adalah murid/siswa." }, "私"],
+    { en: "I am a student.", id: "Saya adalah murid/siswa." }, "私", "私は学生です。",
+    { en: "Neutral, common way to say 'I' — works in both formal and casual speech. Men sometimes use the more casual boku or ore instead.", id: "Kata ganti orang pertama yang netral & paling umum, dipakai formal maupun santai. Pria kadang pakai 僕(ぼく) atau 俺(おれ) yang lebih santai." }],
   ["あなた", "anata", { en: "you", id: "kamu" }, "あなたの なまえは なんですか。",
     [["あなた", "Anata"], ["の", "no"], ["なまえ", "namae"], ["は", "wa"], ["なん", "nan"], ["です", "desu"], ["か", "ka"]],
-    { en: "What is your name?", id: "Siapa namamu?" }, ""],
+    { en: "What is your name?", id: "Siapa namamu?" }, "", "あなたの名前は何ですか。",
+    { en: "Rarely used to address someone directly — it can sound distant. Japanese usually call people by name + -san instead.", id: "Jarang dipakai langsung ke lawan bicara karena terkesan berjarak. Orang Jepang lebih sering memanggil nama + さん." }],
   ["ひと", "hito", { en: "person", id: "orang" }, "あの ひとは だれですか。",
     [["あの", "Ano"], ["ひと", "hito"], ["は", "wa"], ["だれ", "dare"], ["です", "desu"], ["か", "ka"]],
-    { en: "Who is that person?", id: "Siapa orang itu?" }, "人"],
+    { en: "Who is that person?", id: "Siapa orang itu?" }, "人", "あの人は誰ですか。",
+    { en: "General, neutral word for 'person'. For a more polite tone, use かた (kata) below instead.", id: "Kata umum/netral untuk 'orang'. Untuk kesan lebih sopan, gunakan かた (kata) — lihat kosakata di bawah." }],
   ["せんせい", "sensei", { en: "teacher", id: "guru" }, "せんせいは とても やさしいです。",
     [["せんせい", "Sensei"], ["は", "wa"], ["とても", "totemo"], ["やさしい", "yasashii"], ["です", "desu"]],
-    { en: "The teacher is very kind.", id: "Guru itu sangat baik." }, "先生"],
+    { en: "The teacher is very kind.", id: "Guru itu sangat baik." }, "先生", "先生はとても優しいです。",
+    { en: "Used for teachers, doctors, or any respected expert — can also be used directly as a form of address, not just a job title.", id: "Dipakai untuk guru, dokter, atau siapa pun yang ahli/dihormati — juga bisa dipakai langsung sebagai sapaan, bukan cuma jabatan." }],
   ["かれ", "kare", { en: "he / him", id: "dia (laki-laki)" }, "かれは がくせいです。",
     [["かれ", "Kare"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
-    { en: "He is a student.", id: "Dia adalah murid/siswa." }, "彼"],
+    { en: "He is a student.", id: "Dia adalah murid/siswa." }, "彼", "彼は学生です。",
+    { en: "Can mean 'he' or, casually, 'boyfriend' — context tells you which.", id: "Bisa berarti 'dia (laki-laki)' atau, secara santai, 'pacar (laki-laki)' — tergantung konteks kalimat." }],
   ["かのじょ", "kanojo", { en: "she / her", id: "dia (perempuan)" }, "かのじょは にほんじんです。",
     [["かのじょ", "Kanojo"], ["は", "wa"], ["にほんじん", "nihonjin"], ["です", "desu"]],
-    { en: "She is Japanese.", id: "Dia orang Jepang." }, "彼女"],
+    { en: "She is Japanese.", id: "Dia orang Jepang." }, "彼女", "彼女は日本人です。",
+    { en: "Like kare, this can mean 'she' or 'girlfriend' depending on context.", id: "Sama seperti かれ, bisa berarti 'dia (perempuan)' atau 'pacar (perempuan)' tergantung konteks." }],
   ["みなさん", "minasan", { en: "everyone", id: "semuanya / hadirin" }, "みなさん、おはようございます。",
     [["みなさん", "Minasan"], ["おはようございます", "ohayou gozaimasu"]],
-    { en: "Good morning, everyone.", id: "Selamat pagi, semuanya." }, "皆さん"],
+    { en: "Good morning, everyone.", id: "Selamat pagi, semuanya." }, "皆さん", "皆さん、おはようございます。",
+    { en: "Used to address a group of people at once, e.g. in front of a class or at a meeting.", id: "Dipakai untuk menyapa banyak orang sekaligus, mis. di depan kelas atau saat rapat." }],
   ["おはようございます", "ohayou gozaimasu", { en: "good morning", id: "selamat pagi" }, "せんせい、おはようございます。",
     [["せんせい", "Sensei"], ["おはようございます", "ohayou gozaimasu"]],
-    { en: "Good morning, teacher.", id: "Selamat pagi, guru." }, ""],
+    { en: "Good morning, teacher.", id: "Selamat pagi, guru." }, "", "先生、おはようございます。",
+    { en: "Polite form; with close friends or family you can just say 'ohayou' without 'gozaimasu'.", id: "Bentuk sopan/lengkap. Ke teman dekat atau keluarga cukup bilang 'おはよう' saja tanpa 'ございます'." }],
   ["こんにちは", "konnichiwa", { en: "hello / good afternoon", id: "halo / selamat siang" }, "たなかさん、こんにちは。",
     [["たなかさん", "Tanaka-san"], ["こんにちは", "konnichiwa"]],
-    { en: "Hello, Mr./Ms. Tanaka.", id: "Halo, Tanaka-san." }, ""],
+    { en: "Hello, Mr./Ms. Tanaka.", id: "Halo, Tanaka-san." }, "", "田中さん、こんにちは。",
+    { en: "Used during the daytime (roughly late morning to early evening) — not in the early morning or at night.", id: "Dipakai siang hari (kira-kira menjelang siang sampai sore). Tidak dipakai pagi-pagi sekali atau malam hari." }],
   ["こんばんは", "konbanwa", { en: "good evening", id: "selamat malam" }, "みなさん、こんばんは。",
     [["みなさん", "Minasan"], ["こんばんは", "konbanwa"]],
-    { en: "Good evening, everyone.", id: "Selamat malam, semuanya." }, ""],
+    { en: "Good evening, everyone.", id: "Selamat malam, semuanya." }, "", "皆さん、こんばんは。",
+    { en: "An evening greeting — not for saying 'good night' when someone is about to sleep (that's oyasuminasai).", id: "Salam untuk sore/malam hari saat bertemu, bukan untuk 'selamat tidur' ketika seseorang akan tidur (itu pakai おやすみなさい)." }],
   ["さようなら", "sayounara", { en: "goodbye", id: "selamat tinggal / sampai jumpa" }, "せんせい、さようなら。",
     [["せんせい", "Sensei"], ["さようなら", "sayounara"]],
-    { en: "Goodbye, teacher.", id: "Selamat tinggal, guru." }, ""],
+    { en: "Goodbye, teacher.", id: "Selamat tinggal, guru." }, "", "先生、さようなら。",
+    { en: "Sounds fairly formal and final. For a casual goodbye to a friend, people more often say jaa ne or mata ne.", id: "Kesannya cukup formal/final. Untuk pisah santai ke teman, orang Jepang lebih sering pakai じゃあね atau またね." }],
   ["おやすみなさい", "oyasuminasai", { en: "good night", id: "selamat tidur" }, "おかあさん、おやすみなさい。",
     [["おかあさん", "Okaasan"], ["おやすみなさい", "oyasuminasai"]],
-    { en: "Good night, mom.", id: "Selamat tidur, ibu." }, ""],
+    { en: "Good night, mom.", id: "Selamat tidur, ibu." }, "", "お母さん、おやすみなさい。",
+    { en: "Said right before going to sleep. The casual short form is just 'oyasumi'.", id: "Diucapkan tepat sebelum tidur. Bentuk santainya cukup 'おやすみ' saja." }],
   ["ありがとうございます", "arigatou gozaimasu", { en: "thank you", id: "terima kasih" }, "てつだって くれて、ありがとうございます。",
     [["てつだって", "Tetsudatte"], ["くれて", "kurete"], ["ありがとうございます", "arigatou gozaimasu"]],
-    { en: "Thank you for helping me.", id: "Terima kasih sudah membantu saya." }, ""],
+    { en: "Thank you for helping me.", id: "Terima kasih sudah membantu saya." }, "", "手伝ってくれて、ありがとうございます。",
+    { en: "Polite/formal form. The casual version among friends is just 'arigatou'.", id: "Bentuk sopan/formal. Ke teman dekat, bentuk santainya cukup 'ありがとう' saja." }],
   ["すみません", "sumimasen", { en: "excuse me / I'm sorry", id: "maaf / permisi" }, "すみません、いま なんじですか。",
     [["すみません", "Sumimasen"], ["いま", "ima"], ["なんじ", "nanji"], ["です", "desu"], ["か", "ka"]],
-    { en: "Excuse me, what time is it now?", id: "Permisi, sekarang jam berapa?" }, ""],
+    { en: "Excuse me, what time is it now?", id: "Permisi, sekarang jam berapa?" }, "", "すみません、今何時ですか。",
+    { en: "Very versatile — can mean 'sorry', 'excuse me' to get someone's attention, or even 'thank you' (implying you troubled them).", id: "Kata serbaguna: bisa berarti 'maaf', 'permisi' saat memanggil perhatian orang, atau bahkan 'terima kasih' (menyiratkan sudah merepotkan)." }],
   ["はじめまして", "hajimemashite", { en: "how do you do / nice to meet you", id: "salam kenal" }, "はじめまして、わたしは アリです。",
     [["はじめまして", "Hajimemashite"], ["わたし", "watashi"], ["は", "wa"], ["アリ", "Ari"], ["です", "desu"]],
-    { en: "Nice to meet you, I am Ari.", id: "Salam kenal, saya Ari." }, ""],
+    { en: "Nice to meet you, I am Ari.", id: "Salam kenal, saya Ari." }, "", "はじめまして、私はアリです。",
+    { en: "Said only once, the very first time you meet someone — usually followed by your name and yoroshiku onegaishimasu.", id: "Diucapkan hanya sekali, saat pertama kali bertemu seseorang — biasanya diikuti nama & よろしくおねがいします." }],
   ["よろしくおねがいします", "yoroshiku onegaishimasu", { en: "please treat me well / nice to meet you", id: "mohon bantuannya / salam kenal" }, "どうぞ よろしく おねがいします。",
     [["どうぞ", "Douzo"], ["よろしく", "yoroshiku"], ["おねがいします", "onegaishimasu"]],
-    { en: "Please treat me well.", id: "Mohon bantuannya." }, ""],
+    { en: "Please treat me well.", id: "Mohon bantuannya." }, "", "どうぞよろしくお願いします。",
+    { en: "An all-purpose phrase used when meeting someone, asking a favor, or closing a work arrangement — there's no exact one-word translation.", id: "Frasa serbaguna: dipakai saat berkenalan, minta tolong, atau menutup kesepakatan kerja sama — tidak ada padanan persis dalam bahasa Indonesia." }],
   ["わたしたち", "watashitachi", { en: "we / us", id: "kami / kita" }, "わたしたちは がくせいです。",
     [["わたしたち", "Watashitachi"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
-    { en: "We are students.", id: "Kami adalah murid/siswa." }, "私たち"],
+    { en: "We are students.", id: "Kami adalah murid/siswa." }, "私たち", "私たちは学生です。",
+    { en: "Plural form of watashi, made by adding たち. A more casual male variant is bokutachi.", id: "Bentuk jamak dari わたし, dibuat dengan menambah たち. Versi santai untuk laki-laki: ぼくたち." }],
   ["かた", "kata", { en: "person (polite)", id: "orang (bentuk sopan dari hito)" }, "あの かたは どなたですか。",
     [["あの", "Ano"], ["かた", "kata"], ["は", "wa"], ["どなた", "donata"], ["です", "desu"], ["か", "ka"]],
-    { en: "Who is that person? (polite)", id: "Siapa orang itu? (sopan)" }, "方"],
+    { en: "Who is that person? (polite)", id: "Siapa orang itu? (sopan)" }, "方", "あの方はどなたですか。",
+    { en: "The polite version of hito (person) — used to show respect toward the person being discussed.", id: "Versi sopan dari ひと (orang) — dipakai untuk menghormati orang yang sedang dibicarakan." }],
   ["さん", "-san", { en: "Mr. / Ms. / title of respect", id: "sapaan umum (Bpk/Ibu/Saudara)" }, "たなかさんは せんせいです。",
     [["たなかさん", "Tanaka-san"], ["は", "wa"], ["せんせい", "sensei"], ["です", "desu"]],
-    { en: "Mr. Tanaka is a teacher.", id: "Pak Tanaka adalah guru." }, ""],
+    { en: "Mr. Tanaka is a teacher.", id: "Pak Tanaka adalah guru." }, "", "田中さんは先生です。",
+    { en: "A neutral, polite title attached after anyone's name — never attach it to your own name.", id: "Gelar sopan netral, ditempel setelah nama orang lain — jangan pernah dipakai untuk nama diri sendiri." }],
   ["くん", "-kun", { en: "suffix for boys / younger males", id: "sapaan untuk laki-laki (sebaya/lebih muda)" }, "たろうくんは がくせいです。",
     [["たろうくん", "Tarou-kun"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
-    { en: "Tarou is a student.", id: "Tarou adalah murid/siswa." }, ""],
+    { en: "Tarou is a student.", id: "Tarou adalah murid/siswa." }, "", "太郎くんは学生です。",
+    { en: "Used for boys, peers, or male subordinates in casual settings — don't use it for someone senior to you.", id: "Dipakai untuk anak laki-laki, teman sebaya, atau bawahan laki-laki dalam suasana santai — jangan dipakai ke atasan." }],
   ["ちゃん", "-chan", { en: "affectionate suffix (children / women)", id: "sapaan akrab untuk anak-anak/wanita" }, "ゆきちゃんは かわいいです。",
     [["ゆきちゃん", "Yuki-chan"], ["は", "wa"], ["かわいい", "kawaii"], ["です", "desu"]],
-    { en: "Yuki is cute.", id: "Yuki lucu/imut." }, ""],
+    { en: "Yuki is cute.", id: "Yuki lucu/imut." }, "", "",
+    { en: "An affectionate, 'cute' suffix — typically for small children, close female friends, or pets.", id: "Sapaan akrab/imut — biasanya untuk anak kecil, teman dekat perempuan, atau nama hewan peliharaan." }],
   ["じん", "-jin", { en: "nationality suffix (person from ~)", id: "akhiran kewarganegaraan" }, "わたしは インドネシアじんです。",
     [["わたし", "Watashi"], ["は", "wa"], ["インドネシアじん", "Indoneshiajin"], ["です", "desu"]],
-    { en: "I am Indonesian.", id: "Saya orang Indonesia." }, "人"],
+    { en: "I am Indonesian.", id: "Saya orang Indonesia." }, "人", "私はインドネシア人です。",
+    { en: "Attached right after a country name to state nationality, e.g. nihonjin (Japanese) or Indoneshiajin (Indonesian).", id: "Ditempel langsung setelah nama negara untuk menyebut kewarganegaraan, mis. にほんじん (orang Jepang), インドネシアじん (orang Indonesia)." }],
   ["ごめんなさい", "gomen nasai", { en: "I'm sorry", id: "maaf" }, "ごめんなさい、おそく なりました。",
     [["ごめんなさい", "Gomen nasai"], ["おそく", "osoku"], ["なりました", "narimashita"]],
-    { en: "I'm sorry, I'm late.", id: "Maaf, saya terlambat." }, ""],
+    { en: "I'm sorry, I'm late.", id: "Maaf, saya terlambat." }, "", "ごめんなさい、遅くなりました。",
+    { en: "More personal/casual than sumimasen — fits small mistakes with friends or family.", id: "Lebih personal/santai dibanding すみません — cocok untuk kesalahan kecil ke teman atau keluarga." }],
   ["いただきます", "itadakimasu", { en: "let's eat (said before a meal)", id: "selamat makan (sebelum makan)" }, "いただきます。",
     [["いただきます", "Itadakimasu"]],
-    { en: "Let's eat. (said before a meal)", id: "Selamat makan. (diucapkan sebelum makan)" }, ""],
+    { en: "Let's eat. (said before a meal)", id: "Selamat makan. (diucapkan sebelum makan)" }, "", "",
+    { en: "Said right before eating, as a small thanks to whoever prepared the food — even if it's just yourself.", id: "Diucapkan tepat sebelum mulai makan, sebagai ucapan terima kasih ke siapa pun yang menyiapkan makanan (bahkan diri sendiri)." }],
   ["ごちそうさまでした", "gochisousama deshita", { en: "thank you for the meal (said after eating)", id: "terima kasih atas makanannya (setelah makan)" }, "ごちそうさまでした。",
     [["ごちそうさまでした", "Gochisousama deshita"]],
-    { en: "Thank you for the meal. (said after eating)", id: "Terima kasih atas makanannya. (setelah makan)" }, ""],
+    { en: "Thank you for the meal. (said after eating)", id: "Terima kasih atas makanannya. (setelah makan)" }, "", "",
+    { en: "Said after finishing a meal. The casual short form is just 'gochisousama'.", id: "Diucapkan setelah selesai makan. Bentuk santainya cukup 'ごちそうさま' saja." }],
   ["いってきます", "itte kimasu", { en: "I'm off / see you later (leaving home)", id: "saya berangkat dulu" }, "いってきます！",
     [["いってきます", "Ittekimasu"]],
-    { en: "I'm off! (leaving home)", id: "Saya berangkat dulu!" }, ""],
+    { en: "I'm off! (leaving home)", id: "Saya berangkat dulu!" }, "", "行ってきます！",
+    { en: "Said when leaving home or the office; the person staying behind replies with itterasshai.", id: "Diucapkan saat akan keluar rumah/kantor; dijawab dengan いってらっしゃい oleh orang yang tinggal." }],
   ["いってらっしゃい", "itterasshai", { en: "take care / see you later (to someone leaving)", id: "selamat jalan / hati-hati di jalan" }, "いってらっしゃい！",
     [["いってらっしゃい", "Itterasshai"]],
-    { en: "Take care! (to someone leaving)", id: "Hati-hati di jalan!" }, ""],
+    { en: "Take care! (to someone leaving)", id: "Hati-hati di jalan!" }, "", "行ってらっしゃい！",
+    { en: "The reply to ittekimasu — said to the person who is about to leave.", id: "Jawaban untuk いってきます — diucapkan ke orang yang akan pergi." }],
   ["ただいま", "tadaima", { en: "I'm home", id: "saya pulang / kembali" }, "ただいま！",
     [["ただいま", "Tadaima"]],
-    { en: "I'm home!", id: "Saya pulang!" }, ""],
+    { en: "I'm home!", id: "Saya pulang!" }, "", "",
+    { en: "Said right when you arrive home; the person already there answers with okaerinasai.", id: "Diucapkan tepat saat baru sampai di rumah; dijawab dengan おかえりなさい oleh yang sudah ada di rumah." }],
   ["おかえりなさい", "okaerinasai", { en: "welcome home", id: "selamat datang kembali" }, "おかえりなさい！",
     [["おかえりなさい", "Okaerinasai"]],
-    { en: "Welcome home!", id: "Selamat datang kembali!" }, ""]
+    { en: "Welcome home!", id: "Selamat datang kembali!" }, "", "お帰りなさい！",
+    { en: "The reply to tadaima — a warm welcome for someone who has just come home.", id: "Jawaban untuk ただいま — sambutan hangat untuk orang yang baru pulang." }]
 ];
 
-// Sub-Tier 1.2: Keluarga & Hubungan (4)
+// Sub-Tier 1.2: Keluarga & Hubungan (24)
 const KOTOBA_N5_CH1_2 = [
   ["かぞく", "kazoku", { en: "family", id: "keluarga" }, "わたしの かぞくは よにんです。",
     [["わたし", "Watashi"], ["の", "no"], ["かぞく", "kazoku"], ["は", "wa"], ["よにん", "yonin"], ["です", "desu"]],
-    { en: "My family has four people.", id: "Keluarga saya berjumlah empat orang." }, "家族"],
+    { en: "My family has four people.", id: "Keluarga saya berjumlah empat orang." }, "家族", "私の家族は四人です。",
+    { en: "General, neutral word for 'family' — used for your own family or families in general.", id: "Kata umum/netral untuk 'keluarga' — dipakai untuk keluarga sendiri maupun keluarga secara umum." }],
   ["ちち", "chichi", { en: "father (my own)", id: "ayah (sendiri)" }, "ちちは あさ はやく おきます。",
     [["ちち", "Chichi"], ["は", "wa"], ["あさ", "asa"], ["はやく", "hayaku"], ["おきます", "okimasu"]],
-    { en: "My father wakes up early in the morning.", id: "Ayah saya bangun pagi-pagi sekali." }, "父"],
+    { en: "My father wakes up early in the morning.", id: "Ayah saya bangun pagi-pagi sekali." }, "父", "父は朝早く起きます。",
+    { en: "Humble form used only when talking about your own father to other people — never to call him directly, and never for someone else's father (use otousan for that).", id: "Bentuk merendah, dipakai hanya saat membicarakan ayah sendiri ke orang lain — tidak untuk memanggil beliau langsung, dan tidak untuk ayah orang lain (pakai おとうさん)." }],
   ["はは", "haha", { en: "mother (my own)", id: "ibu (sendiri)" }, "ははは りょうりが じょうずです。",
     [["はは", "Haha"], ["は", "wa"], ["りょうり", "ryouri"], ["が", "ga"], ["じょうず", "jouzu"], ["です", "desu"]],
-    { en: "My mother is good at cooking.", id: "Ibu saya pandai memasak." }, "母"],
+    { en: "My mother is good at cooking.", id: "Ibu saya pandai memasak." }, "母", "母は料理が上手です。",
+    { en: "Humble form used only when talking about your own mother to other people — never to call her directly, and never for someone else's mother (use okaasan for that).", id: "Bentuk merendah, dipakai hanya saat membicarakan ibu sendiri ke orang lain — tidak untuk memanggil beliau langsung, dan tidak untuk ibu orang lain (pakai おかあさん)." }],
+  ["あに", "ani", { en: "older brother (my own)", id: "kakak laki-laki (sendiri)" }, "あには だいがくせいです。",
+    [["あに", "Ani"], ["は", "wa"], ["だいがくせい", "daigakusei"], ["です", "desu"]],
+    { en: "My older brother is a university student.", id: "Kakak laki-laki saya adalah mahasiswa." }, "兄", "兄は大学生です。",
+    { en: "Humble form for your own older brother when talking to others; for someone else's older brother, use oniisan.", id: "Bentuk merendah untuk kakak laki-laki sendiri saat berbicara dengan orang lain; untuk kakak laki-laki orang lain, pakai おにいさん." }],
+  ["あね", "ane", { en: "older sister (my own)", id: "kakak perempuan (sendiri)" }, "あねは びょういんで はたらいています。",
+    [["あね", "Ane"], ["は", "wa"], ["びょういん", "byouin"], ["で", "de"], ["はたらいています", "hataraiteimasu"]],
+    { en: "My older sister works at a hospital.", id: "Kakak perempuan saya bekerja di rumah sakit." }, "姉", "姉は病院で働いています。",
+    { en: "Humble form for your own older sister when talking to others; for someone else's older sister, use oneesan.", id: "Bentuk merendah untuk kakak perempuan sendiri saat berbicara dengan orang lain; untuk kakak perempuan orang lain, pakai おねえさん." }],
+  ["おとうと", "otouto", { en: "younger brother (my own)", id: "adik laki-laki (sendiri)" }, "おとうとは まだ こうこうせいです。",
+    [["おとうと", "Otouto"], ["は", "wa"], ["まだ", "mada"], ["こうこうせい", "koukousei"], ["です", "desu"]],
+    { en: "My younger brother is still a high school student.", id: "Adik laki-laki saya masih siswa SMA." }, "弟", "弟はまだ高校生です。",
+    { en: "Plain form for your own younger brother — younger siblings aren't addressed with honorific titles the way older siblings are.", id: "Bentuk polos untuk adik laki-laki sendiri — adik tidak disapa dengan gelar hormat seperti kakak." }],
+  ["いもうと", "imouto", { en: "younger sister (my own)", id: "adik perempuan (sendiri)" }, "いもうとは ピアノが じょうずです。",
+    [["いもうと", "Imouto"], ["は", "wa"], ["ピアノ", "piano"], ["が", "ga"], ["じょうず", "jouzu"], ["です", "desu"]],
+    { en: "My younger sister is good at piano.", id: "Adik perempuan saya pandai bermain piano." }, "妹", "妹はピアノが上手です。",
+    { en: "Plain form for your own younger sister — used the same way as otouto for a younger brother.", id: "Bentuk polos untuk adik perempuan sendiri — dipakai sama seperti おとうと untuk adik laki-laki." }],
+  ["かない", "kanai", { en: "wife (my own, formal)", id: "istri (sendiri)" }, "かないは りょうりが とくいです。",
+    [["かない", "Kanai"], ["は", "wa"], ["りょうり", "ryouri"], ["が", "ga"], ["とくい", "tokui"], ["です", "desu"]],
+    { en: "My wife is good at cooking.", id: "Istri saya pandai memasak." }, "家内", "家内は料理が得意です。",
+    { en: "A somewhat old-fashioned, formal way a husband refers to his own wife, often in business or very polite settings.", id: "Cara agak lawas/formal seorang suami menyebut istrinya sendiri, sering dipakai dalam suasana bisnis atau sangat sopan." }],
+  ["つま", "tsuma", { en: "wife (my own)", id: "istri (sendiri)" }, "つまと いっしょに かいものに いきます。",
+    [["つま", "Tsuma"], ["と", "to"], ["いっしょに", "issho ni"], ["かいもの", "kaimono"], ["に", "ni"], ["いきます", "ikimasu"]],
+    { en: "I go shopping together with my wife.", id: "Saya pergi belanja bersama istri saya." }, "妻", "妻と一緒に買い物に行きます。",
+    { en: "The standard, neutral modern word for your own wife — more common today than kanai.", id: "Kata standar/netral modern untuk istri sendiri — lebih umum dipakai sekarang dibanding かない." }],
+  ["おっと", "otto", { en: "husband (my own)", id: "suami (sendiri)" }, "おっとは かいしゃいんです。",
+    [["おっと", "Otto"], ["は", "wa"], ["かいしゃいん", "kaishain"], ["です", "desu"]],
+    { en: "My husband is a company employee.", id: "Suami saya adalah karyawan perusahaan." }, "夫", "夫は会社員です。",
+    { en: "The standard, neutral modern word for your own husband — more common today than shujin.", id: "Kata standar/netral modern untuk suami sendiri — lebih umum dipakai sekarang dibanding しゅじん." }],
+  ["しゅじん", "shujin", { en: "husband (my own, formal)", id: "suami (sendiri)" }, "しゅじんは まいあさ しちじに おきます。",
+    [["しゅじん", "Shujin"], ["は", "wa"], ["まいあさ", "maiasa"], ["しちじ", "shichiji"], ["に", "ni"], ["おきます", "okimasu"]],
+    { en: "My husband wakes up at 7 every morning.", id: "Suami saya bangun jam 7 setiap pagi." }, "主人", "主人は毎朝七時に起きます。",
+    { en: "A more traditional/formal word a wife uses for her own husband; it literally means 'master', which is why many now prefer otto.", id: "Kata yang lebih tradisional/formal, dipakai istri untuk suaminya sendiri; secara harfiah berarti 'tuan', sehingga banyak yang kini lebih suka pakai おっと." }],
+  ["ごかぞく", "gokazoku", { en: "family (someone else's, polite)", id: "keluarga (orang lain, sopan)" }, "ごかぞくは なんにんですか。",
+    [["ごかぞく", "Gokazoku"], ["は", "wa"], ["なんにん", "nannin"], ["です", "desu"], ["か", "ka"]],
+    { en: "How many people are in your family?", id: "Keluarga Anda berjumlah berapa orang?" }, "ご家族", "ご家族は何人ですか。",
+    { en: "The polite prefix go + kazoku, used when asking about or referring to someone else's family — never for your own.", id: "Awalan sopan ご + かぞく, dipakai saat menanyakan atau menyebut keluarga orang lain — tidak untuk keluarga sendiri." }],
+  ["おとうさん", "otousan", { en: "father (someone else's / address form)", id: "ayah (orang lain/panggilan)" }, "たなかさんの おとうさんは せんせいです。",
+    [["たなかさんの", "Tanaka-san no"], ["おとうさん", "otousan"], ["は", "wa"], ["せんせい", "sensei"], ["です", "desu"]],
+    { en: "Mr. Tanaka's father is a teacher.", id: "Ayah Tanaka-san adalah seorang guru." }, "お父さん", "田中さんのお父さんは先生です。",
+    { en: "Used to refer to someone else's father, and also to call or address your own father directly (e.g. at home).", id: "Dipakai untuk menyebut ayah orang lain, dan juga untuk memanggil/menyapa ayah sendiri secara langsung (mis. di rumah)." }],
+  ["おかあさん", "okaasan", { en: "mother (someone else's / address form)", id: "ibu (orang lain/panggilan)" }, "おかあさん、これは なんですか。",
+    [["おかあさん", "Okaasan"], ["これは", "kore wa"], ["なんですか", "nan desu ka"]],
+    { en: "Mom, what is this?", id: "Ibu, ini apa?" }, "お母さん", "お母さん、これは何ですか。",
+    { en: "Used to refer to someone else's mother, and also to call or address your own mother directly (e.g. at home).", id: "Dipakai untuk menyebut ibu orang lain, dan juga untuk memanggil/menyapa ibu sendiri secara langsung (mis. di rumah)." }],
+  ["おにいさん", "oniisan", { en: "older brother (someone else's / address form)", id: "kakak laki-laki (orang lain/panggilan)" }, "おにいさんは サッカーが じょうずです。",
+    [["おにいさん", "Oniisan"], ["は", "wa"], ["サッカー", "sakkaa"], ["が", "ga"], ["じょうず", "jouzu"], ["です", "desu"]],
+    { en: "Your older brother is good at soccer.", id: "Kakak laki-laki Anda pandai bermain sepak bola." }, "お兄さん", "お兄さんはサッカーが上手です。",
+    { en: "Used for someone else's older brother, and also to address your own older brother directly.", id: "Dipakai untuk kakak laki-laki orang lain, dan juga untuk menyapa kakak laki-laki sendiri secara langsung." }],
+  ["おねえさん", "oneesan", { en: "older sister (someone else's / address form)", id: "kakak perempuan (orang lain/panggilan)" }, "おねえさんは やさしい ひとです。",
+    [["おねえさん", "Oneesan"], ["は", "wa"], ["やさしい", "yasashii"], ["ひと", "hito"], ["です", "desu"]],
+    { en: "Your older sister is a kind person.", id: "Kakak perempuan Anda orangnya baik." }, "お姉さん", "お姉さんは優しい人です。",
+    { en: "Used for someone else's older sister, and also to address your own older sister directly.", id: "Dipakai untuk kakak perempuan orang lain, dan juga untuk menyapa kakak perempuan sendiri secara langsung." }],
+  ["おとうとさん", "otoutosan", { en: "younger brother (someone else's, polite)", id: "adik laki-laki (orang lain)" }, "おとうとさんは いま だいがくせいですか。",
+    [["おとうとさん", "Otoutosan"], ["は", "wa"], ["いま", "ima"], ["だいがくせい", "daigakusei"], ["です", "desu"], ["か", "ka"]],
+    { en: "Is your younger brother a university student now?", id: "Apakah adik laki-laki Anda sekarang mahasiswa?" }, "弟さん", "弟さんは今大学生ですか。",
+    { en: "Polite way to refer to someone else's younger brother — unlike older siblings, this is not used to address your own younger brother.", id: "Cara sopan menyebut adik laki-laki orang lain — berbeda dari kakak, ini tidak dipakai untuk menyapa adik laki-laki sendiri." }],
+  ["いもうとさん", "imoutosan", { en: "younger sister (someone else's, polite)", id: "adik perempuan (orang lain)" }, "いもうとさんは なんさいですか。",
+    [["いもうとさん", "Imoutosan"], ["は", "wa"], ["なんさい", "nansai"], ["です", "desu"], ["か", "ka"]],
+    { en: "How old is your younger sister?", id: "Berapa umur adik perempuan Anda?" }, "妹さん", "妹さんは何歳ですか。",
+    { en: "Polite way to refer to someone else's younger sister — not used to address your own younger sister.", id: "Cara sopan menyebut adik perempuan orang lain — tidak dipakai untuk menyapa adik perempuan sendiri." }],
+  ["おくさん", "okusan", { en: "wife (someone else's, polite)", id: "istri (orang lain)" }, "おくさんは とても きれいです。",
+    [["おくさん", "Okusan"], ["は", "wa"], ["とても", "totemo"], ["きれい", "kirei"], ["です", "desu"]],
+    { en: "Your wife is very pretty.", id: "Istri Anda sangat cantik." }, "奥さん", "奥さんはとてもきれいです。",
+    { en: "Polite way to refer to someone else's wife — never used for your own wife.", id: "Cara sopan menyebut istri orang lain — tidak pernah dipakai untuk istri sendiri." }],
+  ["ごしゅじん", "goshujin", { en: "husband (someone else's, polite)", id: "suami (orang lain)" }, "ごしゅじんの おしごとは なんですか。",
+    [["ごしゅじんの", "Goshujin no"], ["おしごと", "oshigoto"], ["は", "wa"], ["なんですか", "nan desu ka"]],
+    { en: "What is your husband's job?", id: "Apa pekerjaan suami Anda?" }, "ご主人", "ご主人のお仕事は何ですか。",
+    { en: "Polite way to refer to someone else's husband — never used for your own husband.", id: "Cara sopan menyebut suami orang lain — tidak pernah dipakai untuk suami sendiri." }],
   ["ともだち", "tomodachi", { en: "friend", id: "teman" }, "ともだちと えいがを みます。",
     [["ともだち", "Tomodachi"], ["と", "to"], ["えいが", "eiga"], ["を", "wo"], ["みます", "mimasu"]],
-    { en: "I watch a movie with a friend.", id: "Saya menonton film bersama teman." }, "友達"]
+    { en: "I watch a movie with a friend.", id: "Saya menonton film bersama teman." }, "友達", "友達と映画を見ます。",
+    { en: "General, neutral word for 'friend', used for people of any age or gender.", id: "Kata umum/netral untuk 'teman', dipakai untuk siapa pun tanpa memandang usia atau gender." }],
+  ["こども", "kodomo", { en: "child / children", id: "anak-anak / anak" }, "あの こどもは にわで あそんでいます。",
+    [["あの", "Ano"], ["こども", "kodomo"], ["は", "wa"], ["にわ", "niwa"], ["で", "de"], ["あそんでいます", "asondeimasu"]],
+    { en: "That child is playing in the yard.", id: "Anak itu sedang bermain di halaman." }, "子供", "あの子供は庭で遊んでいます。",
+    { en: "Can refer to a specific child, children in general, or — depending on context — 'my child/children'.", id: "Bisa merujuk pada seorang anak tertentu, anak-anak secara umum, atau — tergantung konteks — 'anak saya'." }],
+  ["きょうだい", "kyoudai", { en: "siblings", id: "saudara kandung" }, "きょうだいは さんにん います。",
+    [["きょうだい", "Kyoudai"], ["は", "wa"], ["さんにん", "sannin"], ["います", "imasu"]],
+    { en: "I have three siblings.", id: "Saya punya tiga saudara kandung." }, "兄弟", "兄弟は三人います。",
+    { en: "Covers brothers and sisters together regardless of gender — used when talking about siblings as a group.", id: "Mencakup kakak/adik laki-laki maupun perempuan sekaligus — dipakai saat membicarakan saudara kandung secara umum." }],
+  ["りょうしん", "ryoushin", { en: "parents", id: "orang tua" }, "りょうしんは いなかに すんでいます。",
+    [["りょうしん", "Ryoushin"], ["は", "wa"], ["いなか", "inaka"], ["に", "ni"], ["すんでいます", "sundeimasu"]],
+    { en: "My parents live in the countryside.", id: "Orang tua saya tinggal di desa/kampung halaman." }, "両親", "両親は田舎に住んでいます。",
+    { en: "Neutral word for 'parents' (father and mother together), typically used for your own parents.", id: "Kata netral untuk 'orang tua' (ayah dan ibu sekaligus), biasanya dipakai untuk orang tua sendiri." }]
 ];
 
 // Sub-Tier 1.3: Profesi & Peran (3)
@@ -1634,7 +1753,7 @@ const KOTOBA_N5_LEVEL_META = [
 ];
 const KOTOBA_N5_LEVEL_TEXT = {
   tier1: { title: { en: "Tier 1.1 — Personal Pronouns & Greetings", id: "Tier 1.1 — Kata Ganti Orang & Sapaan" }, sample: "わたし あなた こんにちは", desc: { en: "29 N5 vocabulary words.", id: "29 kosakata N5." } },
-  tier2: { title: { en: "Tier 1.2 — Family & Relationships", id: "Tier 1.2 — Keluarga & Hubungan" }, sample: "かぞく ちち はは", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier2: { title: { en: "Tier 1.2 — Family & Relationships", id: "Tier 1.2 — Keluarga & Hubungan" }, sample: "かぞく ちち はは", desc: { en: "24 N5 vocabulary words.", id: "24 kosakata N5." } },
   tier3: { title: { en: "Tier 1.3 — Occupations & Roles", id: "Tier 1.3 — Profesi & Peran" }, sample: "がくせい かいしゃいん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
   tier4: { title: { en: "Tier 2.1 — Daily Time & Time Expressions", id: "Tier 2.1 — Waktu Harian & Keterangan Waktu" }, sample: "いま きょう あした", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
   tier5: { title: { en: "Tier 2.2 — Days, Months, & Hours", id: "Tier 2.2 — Hari, Bulan, & Jam" }, sample: "げつようび いちじかん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
@@ -1654,7 +1773,7 @@ const KOTOBA_N5_LEVEL_TEXT = {
   tier19: { title: { en: "Tier 7.1 — Nature & Weather", id: "Tier 7.1 — Alam & Cuaca" }, sample: "てんき あめ やま", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
   tier20: { title: { en: "Tier 7.2 — Colors", id: "Tier 7.2 — Warna" }, sample: "あか あお しろ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
   tier21: { title: { en: "Tier 7.3 — Question Words & Adverbs", id: "Tier 7.3 — Kata Tanya & Kata Keterangan" }, sample: "どこ いつ なに", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 115 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 115 kosakata N5 diacak menjadi satu Chapter." } }
+  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 135 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 135 kosakata N5 diacak menjadi satu Chapter." } }
 };
 const KOTOBA_N5_LEARN = [
   { tierKey: "tier1", title: KOTOBA_N5_LEVEL_TEXT.tier1.title, desc: KOTOBA_N5_LEVEL_TEXT.tier1.desc, items: KOTOBA_N5_CH1_1 },
@@ -1915,10 +2034,10 @@ const SCRIPTS = {
     key: "hiragana", label: "Hiragana", tabGlyph: "あ", quizType: "romaji", quizLabelKey: "quiz.guessRomaji",
     data: { tier1: HIRAGANA_TIER1, tier2: HIRAGANA_TIER2, tier3: HIRAGANA_TIER3 },
     levelText: {
-      tier1: { title: { en: "Basic", id: "Dasar" }, sample: "あ い う", desc: { en: "Gojūon — the 46 core characters from a to n.", id: "Gojūon — 46 karakter inti dari a sampai n." } },
-      tier2: { title: { en: "Dotted", id: "Bertitik" }, sample: "が ざ ぱ", desc: { en: "Dakuten & handakuten: ga, za, da, ba, pa.", id: "Dakuten & handakuten: ga, za, da, ba, pa." } },
-      tier3: { title: { en: "Combined", id: "Gabungan" }, sample: "きゃ しゅ", desc: { en: "Yōon — small combinations like kya, sha, cho.", id: "Yōon — kombinasi kecil seperti kya, sha, cho." } },
-      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "ん づ りょ", desc: { en: "All hiragana characters shuffled into one Chapter.", id: "Seluruh karakter hiragana diacak menjadi satu Chapter." } }
+      tier1: { title: { en: "Basic", id: "Dasar" }, type: { en: "Gojūon", id: "Gojūon" }, sample: "あ い う", desc: { en: "Gojūon — the 46 core characters from a to n.", id: "Gojūon — 46 karakter inti dari a sampai n." } },
+      tier2: { title: { en: "Dotted", id: "Bertitik" }, type: { en: "Dakuten & Handakuten", id: "Dakuten & Handakuten" }, sample: "が ざ ぱ", desc: { en: "Dakuten & handakuten: ga, za, da, ba, pa.", id: "Dakuten & handakuten: ga, za, da, ba, pa." } },
+      tier3: { title: { en: "Combined", id: "Gabungan" }, type: { en: "Yōon", id: "Yōon" }, sample: "きゃ しゅ", desc: { en: "Yōon — small combinations like kya, sha, cho.", id: "Yōon — kombinasi kecil seperti kya, sha, cho." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, type: { en: "Mixed", id: "Campuran" }, sample: "ん づ りょ", desc: { en: "All hiragana characters shuffled into one Chapter.", id: "Seluruh karakter hiragana diacak menjadi satu Chapter." } }
     },
     learnSections: [
       { tierKey: "tier1", title: { en: "Gojūon — Basic", id: "Gojūon — Dasar" }, desc: { en: "The 46 core characters. This is the foundation you need to memorize first.", id: "46 karakter inti. Ini fondasi yang wajib dihafal duluan." }, rows: GOJUON_HIRAGANA.tier1 },
@@ -1930,10 +2049,10 @@ const SCRIPTS = {
     key: "katakana", label: "Katakana", tabGlyph: "ア", quizType: "romaji", quizLabelKey: "quiz.guessRomaji",
     data: { tier1: KATAKANA_TIER1, tier2: KATAKANA_TIER2, tier3: KATAKANA_TIER3 },
     levelText: {
-      tier1: { title: { en: "Basic", id: "Dasar" }, sample: "ア イ ウ", desc: { en: "The 46 core katakana characters, from a to n.", id: "46 karakter inti katakana, dari a sampai n." } },
-      tier2: { title: { en: "Dotted", id: "Bertitik" }, sample: "ガ ザ パ", desc: { en: "Katakana dakuten & handakuten: ga, za, da, ba, pa.", id: "Dakuten & handakuten katakana: ga, za, da, ba, pa." } },
-      tier3: { title: { en: "Combined", id: "Gabungan" }, sample: "キャ シュ", desc: { en: "Katakana yōon — small combinations like kya, sha, cho.", id: "Yōon katakana — kombinasi kecil seperti kya, sha, cho." } },
-      all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "ン ヅ リョ", desc: { en: "All katakana characters shuffled into one Chapter.", id: "Seluruh karakter katakana diacak menjadi satu Chapter." } }
+      tier1: { title: { en: "Basic", id: "Dasar" }, type: { en: "Gojūon", id: "Gojūon" }, sample: "ア イ ウ", desc: { en: "The 46 core katakana characters, from a to n.", id: "46 karakter inti katakana, dari a sampai n." } },
+      tier2: { title: { en: "Dotted", id: "Bertitik" }, type: { en: "Dakuten & Handakuten", id: "Dakuten & Handakuten" }, sample: "ガ ザ パ", desc: { en: "Katakana dakuten & handakuten: ga, za, da, ba, pa.", id: "Dakuten & handakuten katakana: ga, za, da, ba, pa." } },
+      tier3: { title: { en: "Combined", id: "Gabungan" }, type: { en: "Yōon", id: "Yōon" }, sample: "キャ シュ", desc: { en: "Katakana yōon — small combinations like kya, sha, cho.", id: "Yōon katakana — kombinasi kecil seperti kya, sha, cho." } },
+      all: { title: { en: "All Mixed", id: "seluruh Campur" }, type: { en: "Mixed", id: "Campuran" }, sample: "ン ヅ リョ", desc: { en: "All katakana characters shuffled into one Chapter.", id: "Seluruh karakter katakana diacak menjadi satu Chapter." } }
     },
     learnSections: [
       { tierKey: "tier1", title: { en: "Gojūon — Basic", id: "Gojūon — Dasar" }, desc: { en: "The 46 core katakana characters, mostly used for loanwords and foreign names.", id: "46 karakter inti katakana, biasanya dipakai untuk kata serapan asing dan nama." }, rows: GOJUON_KATAKANA.tier1 },
@@ -2236,17 +2355,29 @@ function renderVocabTables(section) {
   `;
   const list = document.createElement("div");
   list.className = "grammar-list vocab-list";
-  section.items.forEach(([word, reading, meaning, example, exampleSegments, exampleTranslation]) => {
+  section.items.forEach(([word, reading, meaning, example, exampleSegments, exampleTranslation, kanjiWord, kanjiExample, usage]) => {
     const card = document.createElement("div");
     card.className = "grammar-card vocab-card";
-    const wordRow = `
-      <button type="button" class="vocab-word-btn" data-speak="${word}" aria-label="${t("learn.listenPronunciation", { text: word, reading: reading })}">
-        <span class="grammar-pattern vocab-word">${word}</span>
-        <span class="cell-audio-icon">🔊</span>
-      </button>
-      <span class="vocab-reading">${reading}</span>
-      <span class="grammar-meaning">${tf(meaning)}</span>
+    const kanjiWordHtml = kanjiWord ? `<span class="vocab-kanji">${kanjiWord}</span>` : "";
+    const mainHtml = `
+      <div class="vocab-main">
+        <button type="button" class="vocab-word-btn" data-speak="${word}" aria-label="${t("learn.listenPronunciation", { text: word, reading: reading })}">
+          <span class="vocab-word-stack">
+            ${kanjiWordHtml}
+            <span class="grammar-pattern vocab-word">${word}</span>
+          </span>
+          <span class="cell-audio-icon">🔊</span>
+        </button>
+        <span class="vocab-reading">${reading}</span>
+        <span class="grammar-meaning">${tf(meaning)}</span>
+      </div>
     `;
+    const usageHtml = usage ? `
+      <div class="vocab-usage">
+        <span class="vocab-usage-label">${t("learn.usageNote")}</span>
+        <p class="vocab-usage-text">${tf(usage)}</p>
+      </div>
+    ` : "";
     const segmentsHtml = Array.isArray(exampleSegments)
       ? exampleSegments.map(([seg, rom]) => `
           <button type="button" class="segment-chip" data-speak="${seg}" aria-label="${t("learn.listenSegment", { seg, rom })}">
@@ -2254,15 +2385,21 @@ function renderVocabTables(section) {
             <span class="seg-romaji">${rom}</span>
           </button>`).join("")
       : "";
+    const kanjiExampleHtml = kanjiExample ? `<span class="vocab-example-kanji">${kanjiExample}</span>` : "";
     const exampleHtml = example ? `
-      <div class="grammar-example-row">
-        <span class="grammar-example">${example}</span>
-        <button type="button" class="speak-btn" data-speak="${example}" aria-label="${t("learn.listenExample")}">🔊</button>
+      <div class="vocab-example-block">
+        <div class="grammar-example-row">
+          <div class="vocab-example-stack">
+            ${kanjiExampleHtml}
+            <span class="grammar-example">${example}</span>
+          </div>
+          <button type="button" class="speak-btn" data-speak="${example}" aria-label="${t("learn.listenExample")}">🔊</button>
+        </div>
+        <div class="grammar-segments">${segmentsHtml}</div>
+        ${exampleTranslation ? `<span class="vocab-example-translation">${tf(exampleTranslation)}</span>` : ""}
       </div>
-      <div class="grammar-segments">${segmentsHtml}</div>
-      ${exampleTranslation ? `<span class="vocab-example-translation">${tf(exampleTranslation)}</span>` : ""}
     ` : "";
-    card.innerHTML = wordRow + exampleHtml;
+    card.innerHTML = `<div class="vocab-top">${mainHtml}${usageHtml}</div>${exampleHtml}`;
     list.appendChild(card);
   });
   sectionEl.appendChild(list);
@@ -2574,6 +2711,9 @@ function renderLevels(scriptKey) {
     const kanjiChapterLabel = kanjiDashIdx >= 0 ? kanjiTitleText.slice(0, kanjiDashIdx).trim() : kanjiTitleText;
     const kanjiTitleRest = kanjiDashIdx >= 0 ? kanjiTitleText.slice(kanjiDashIdx + 1).trim() : "";
     const usesChapterLabel = scriptKey === "kanji" || scriptKey === "bunpo" || scriptKey === "kotoba";
+    // Hiragana & Katakana: bukan lagi rank "Warrior→Immortal" + buletan tier-dots —
+    // label kecilnya diganti nama jenis kananya sendiri (Gojūon, Dakuten & Handakuten, Yōon, Campuran).
+    const usesTypeLabel = scriptKey === "hiragana" || scriptKey === "katakana";
     card.innerHTML = usesChapterLabel ? `
       <span class="tier">
         <span class="tier-chapter-label">${kanjiChapterLabel}</span>
@@ -2581,6 +2721,13 @@ function renderLevels(scriptKey) {
       </span>
       <span class="kana-sample">${info.sample}</span>
       <h3>${kanjiTitleRest}</h3>
+      <p>${tf(info.desc)}</p>
+    ` : usesTypeLabel ? `
+      <span class="tier">
+        <span class="tier-chapter-label">${tf(info.type)}</span>
+      </span>
+      <span class="kana-sample">${info.sample}</span>
+      <h3>${tf(info.title)}</h3>
       <p>${tf(info.desc)}</p>
     ` : `
       <span class="tier">
@@ -2901,6 +3048,47 @@ function setDifficulty(value) {
   document.querySelectorAll(".difficulty-btn").forEach(b => {
     b.classList.toggle("active", b.dataset.difficulty === value);
   });
+}
+
+/* ---------------- timer per soal: tanpa waktu / 3 / 5 / 10 detik ---------------- */
+let selectedTimerSeconds = 0; // 0 = tanpa timer
+document.querySelectorAll(".timer-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".timer-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedTimerSeconds = parseInt(btn.dataset.timer, 10) || 0;
+  });
+});
+
+const questionTimerEl = document.getElementById("question-timer");
+const questionTimerValueEl = document.getElementById("question-timer-value");
+let questionTimerInterval = null;
+let questionTimerDeadline = 0;
+
+function clearQuestionTimer() {
+  clearInterval(questionTimerInterval);
+  questionTimerInterval = null;
+  questionTimerEl.classList.add("hidden");
+  questionTimerEl.classList.remove("urgent");
+}
+
+// begitu waktu habis, jawaban otomatis dianggap salah (timedOut = true di handleAnswer).
+function startQuestionTimer(seconds, current) {
+  questionTimerDeadline = Date.now() + seconds * 1000;
+  questionTimerEl.classList.remove("hidden");
+  questionTimerEl.classList.remove("urgent");
+  questionTimerValueEl.textContent = seconds;
+  clearInterval(questionTimerInterval);
+  questionTimerInterval = setInterval(() => {
+    const remainingMs = questionTimerDeadline - Date.now();
+    const remaining = Math.max(0, Math.ceil(remainingMs / 1000));
+    questionTimerValueEl.textContent = remaining;
+    questionTimerEl.classList.toggle("urgent", remaining <= 1);
+    if (remainingMs <= 0) {
+      clearQuestionTimer();
+      handleAnswer(null, null, current, true);
+    }
+  }, 100);
 }
 
 /* ---------------- mode penaklukkan (conquest) ---------------- */
@@ -3287,6 +3475,7 @@ function startQuiz(scriptKey, mode) {
     script: scriptKey, mode, pool, wrongPools,
     queue,
     difficulty,
+    timerSeconds: selectedTimerSeconds,
     conquestPhaseBoundaries, conquestPhaseIndex: 0,
     index: 0, score: 0, streak: 0, maxStreak: 0, missed: [], results: [],
     rankIndexBefore: getRankIndex(),
@@ -3297,6 +3486,7 @@ function startQuiz(scriptKey, mode) {
   cancelArmed = false;
   clearTimeout(cancelTimer);
   clearSpeedrunAutoNext();
+  clearQuestionTimer();
   btnCancel.textContent = t("common.back");
   btnCancel.classList.remove("armed");
   screenStart.classList.add("hidden");
@@ -3370,6 +3560,7 @@ function renderDots() {
 }
 
 function renderQuestion() {
+  clearQuestionTimer();
   feedbackEl.textContent = "";
   feedbackEl.className = "feedback-text";
   feedbackExtraEl.textContent = "";
@@ -3447,6 +3638,7 @@ function renderQuestion() {
 
   renderDots();
   updateStreakUI();
+  if (state.timerSeconds > 0) startQuestionTimer(state.timerSeconds, current);
 }
 
 function updateStreakUI() {
@@ -3464,8 +3656,9 @@ function clearSpeedrunAutoNext() {
   speedrunAutoNextTimer = null;
 }
 
-function handleAnswer(chosen, btn, current) {
+function handleAnswer(chosen, btn, current, timedOut = false) {
   clearSpeedrunAutoNext();
+  clearQuestionTimer();
   document.querySelectorAll("button.choice").forEach(b => b.disabled = true);
   hardInputEl.disabled = true;
   btnHardSubmit.disabled = true;
@@ -3502,6 +3695,7 @@ function handleAnswer(chosen, btn, current) {
       feedbackEl.textContent = t("quiz.missedAnswerWas", { answer: current[1] });
     }
     feedbackEl.classList.add("wrong");
+    if (timedOut) feedbackEl.textContent = t("quiz.timeUpAnswerWas", { answer: current[1] });
   }
   state.results[state.index] = isCorrect;
   renderDots();
@@ -3612,6 +3806,7 @@ btnCancel.addEventListener("click", () => {
   btnCancel.textContent = t("common.back");
   btnCancel.classList.remove("armed");
   clearSpeedrunAutoNext();
+  clearQuestionTimer();
   stopSpeedrunTimer();
   speedrunTimerEl.classList.add("hidden");
   screenQuiz.classList.add("hidden");
@@ -3622,6 +3817,7 @@ btnCancel.addEventListener("click", () => {
 
 function goToNextQuestion() {
   clearSpeedrunAutoNext();
+  clearQuestionTimer();
   if ((state.conquest && state.conquestFailed) || (state.speedrun && state.speedrunFailed)) {
     renderResults();
     return;
@@ -3927,8 +4123,9 @@ function kanjiTierArr(tierKey) {
 function kotobaCardContent(tierKey, idx) {
   const item = kotobaTierArr(tierKey)[idx];
   if (!item) return { front: "", back: "" };
-  const [kana, romaji, meaning, example, segments, translation, kanji] = item;
+  const [kana, romaji, meaning, example, segments, translation, kanji, exampleKanji] = item;
   const exRomaji = (segments || []).map(s => s[1]).join(" ");
+  const showExKanji = exampleKanji && exampleKanji !== example;
   const front = `
     <div class="fc-kana">${escapeHtml(kana)}</div>`;
   const back = `
@@ -3937,6 +4134,7 @@ function kotobaCardContent(tierKey, idx) {
     <hr>
     <div class="fc-meaning">${escapeHtml(tf(meaning))}</div>
     ${kanji ? `<div class="fc-kanji-form">${escapeHtml(kanji)}</div>` : ""}
+    ${showExKanji ? `<div class="fc-example-kanji" data-speak="${escapeHtml(exampleKanji)}">${escapeHtml(exampleKanji)}<span class="fc-audio-icon">🔊</span></div>` : ""}
     ${example ? `<div class="fc-example" data-speak="${escapeHtml(example)}">${escapeHtml(example)}<span class="fc-audio-icon">🔊</span></div>` : ""}
     ${exRomaji ? `<div class="fc-example-sub">${escapeHtml(exRomaji)}</div>` : ""}
     ${translation ? `<div class="fc-translation">${escapeHtml(tf(translation))}</div>` : ""}`;
