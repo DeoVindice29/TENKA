@@ -1476,6 +1476,22 @@ const KOTOBA_N5_CH2_3 = [
     { en: "There are three sheets of paper.", id: "Ada tiga lembar kertas." }, "枚"]
 ];
 
+// Sub-Tier 2.4: Frekuensi & Durasi (4)
+const KOTOBA_N5_CH2_4 = [
+  ["いつも", "itsumo", { en: "always", id: "selalu" }, "わたしは いつも コーヒーを のみます。",
+    [["わたし", "Watashi"], ["は", "wa"], ["いつも", "itsumo"], ["コーヒー", "koohii"], ["を", "wo"], ["のみます", "nomimasu"]],
+    { en: "I always drink coffee.", id: "Saya selalu minum kopi." }, ""],
+  ["ときどき", "tokidoki", { en: "sometimes", id: "kadang-kadang" }, "ときどき えいがを みます。",
+    [["ときどき", "Tokidoki"], ["えいが", "eiga"], ["を", "wo"], ["みます", "mimasu"]],
+    { en: "Sometimes I watch a movie.", id: "Kadang-kadang saya menonton film." }, "時々"],
+  ["たいてい", "taitei", { en: "usually, mostly", id: "biasanya, kebanyakan" }, "たいてい しちじに おきます。",
+    [["たいてい", "Taitei"], ["しちじ", "shichiji"], ["に", "ni"], ["おきます", "okimasu"]],
+    { en: "I usually wake up at 7.", id: "Biasanya saya bangun jam 7." }, ""],
+  ["ぜんぜん", "zenzen", { en: "not at all (used with a negative)", id: "sama sekali tidak (dipakai dengan bentuk negatif)" }, "にほんごが ぜんぜん わかりません。",
+    [["にほんご", "Nihongo"], ["が", "ga"], ["ぜんぜん", "zenzen"], ["わかりません", "wakarimasen"]],
+    { en: "I don't understand Japanese at all.", id: "Saya sama sekali tidak mengerti bahasa Jepang." }, ""]
+];
+
 // Sub-Tier 3.1: Makanan & Minuman (5)
 const KOTOBA_N5_CH3_1 = [
   ["ごはん", "gohan", { en: "cooked rice, meal", id: "nasi, makanan" }, "あさ ごはんを たべます。",
@@ -1737,15 +1753,47 @@ const KOTOBA_N5_CH7_3 = [
     { en: "I don't drink alcohol very much.", id: "Saya tidak terlalu minum sake/alkohol." }, ""]
 ];
 
-const KOTOBA_TIER_KEYS = ["tier1", "tier2", "tier3", "tier4", "tier5", "tier6", "tier7", "tier8", "tier9", "tier10", "tier11", "tier12", "tier13", "tier14", "tier15", "tier16", "tier17", "tier18", "tier19", "tier20", "tier21"];
+// Sub-Tier 7.4: Kata Hubung & Sambungan (4)
+const KOTOBA_N5_CH7_4 = [
+  ["そして", "soshite", { en: "and, and then", id: "dan, lalu" }, "あさごはんを たべました。そして、がっこうへ いきました。",
+    [["あさごはんを たべました。", "Asagohan wo tabemashita."], ["そして、", "Soshite,"], ["がっこうへ いきました。", "gakkou e ikimashita."]],
+    { en: "I ate breakfast. And then, I went to school.", id: "Saya sarapan. Lalu, saya pergi ke sekolah." }, ""],
+  ["でも", "demo", { en: "but, however", id: "tapi, tetapi" }, "あめでした。でも、こうえんへ いきました。",
+    [["あめでした。", "Ame deshita."], ["でも、", "Demo,"], ["こうえんへ いきました。", "kouen e ikimashita."]],
+    { en: "It was raining. But, I went to the park.", id: "Waktu itu hujan. Tapi, saya pergi ke taman." }, ""],
+  ["だから", "dakara", { en: "so, therefore", id: "jadi, oleh karena itu" }, "あしたは テストです。だから、べんきょうします。",
+    [["あしたは テストです。", "Ashita wa tesuto desu."], ["だから、", "Dakara,"], ["べんきょうします。", "benkyoushimasu."]],
+    { en: "Tomorrow is a test. So, I will study.", id: "Besok ada ujian. Jadi, saya akan belajar." }, ""],
+  ["それから", "sorekara", { en: "after that, and then", id: "setelah itu, lalu" }, "ばんごはんを たべました。それから、おふろに はいりました。",
+    [["ばんごはんを たべました。", "Bangohan wo tabemashita."], ["それから、", "Sorekara,"], ["おふろに はいりました。", "ofuro ni hairimashita."]],
+    { en: "I ate dinner. After that, I took a bath.", id: "Saya makan malam. Setelah itu, saya mandi (berendam)." }, ""]
+];
+
+// Sub-Tier 7.5: Kata Keterangan Derajat & Tata Bahasa (4)
+const KOTOBA_N5_CH7_5 = [
+  ["とても", "totemo", { en: "very", id: "sangat" }, "にほんごは とても おもしろいです。",
+    [["にほんご", "Nihongo"], ["は", "wa"], ["とても", "totemo"], ["おもしろい", "omoshiroi"], ["です", "desu"]],
+    { en: "Japanese is very interesting.", id: "Bahasa Jepang sangat menarik." }, ""],
+  ["すこし", "sukoshi", { en: "a little, a bit", id: "sedikit" }, "にほんごが すこし わかります。",
+    [["にほんご", "Nihongo"], ["が", "ga"], ["すこし", "sukoshi"], ["わかります", "wakarimasu"]],
+    { en: "I understand a little Japanese.", id: "Saya mengerti sedikit bahasa Jepang." }, "少し"],
+  ["たくさん", "takusan", { en: "a lot, many", id: "banyak" }, "こうえんに ひとが たくさん います。",
+    [["こうえん", "Kouen"], ["に", "ni"], ["ひと", "hito"], ["が", "ga"], ["たくさん", "takusan"], ["います", "imasu"]],
+    { en: "There are a lot of people in the park.", id: "Ada banyak orang di taman." }, ""],
+  ["もう", "mou", { en: "already", id: "sudah" }, "しゅくだいは もう おわりました。",
+    [["しゅくだい", "Shukudai"], ["は", "wa"], ["もう", "mou"], ["おわりました", "owarimashita"]],
+    { en: "I have already finished my homework.", id: "PR saya sudah selesai." }, ""]
+];
+
+const KOTOBA_TIER_KEYS = ["tier1", "tier2", "tier3", "tier4", "tier5", "tier6", "tier7", "tier8", "tier9", "tier10", "tier11", "tier12", "tier13", "tier14", "tier15", "tier16", "tier17", "tier18", "tier19", "tier20", "tier21", "tier22", "tier23", "tier24"];
 const KOTOBA_N5_CHAPTERS = [
   KOTOBA_N5_CH1_1, KOTOBA_N5_CH1_2, KOTOBA_N5_CH1_3,
-  KOTOBA_N5_CH2_1, KOTOBA_N5_CH2_2, KOTOBA_N5_CH2_3,
+  KOTOBA_N5_CH2_1, KOTOBA_N5_CH2_2, KOTOBA_N5_CH2_3, KOTOBA_N5_CH2_4,
   KOTOBA_N5_CH3_1, KOTOBA_N5_CH3_2, KOTOBA_N5_CH3_3,
   KOTOBA_N5_CH4_1, KOTOBA_N5_CH4_2, KOTOBA_N5_CH4_3,
   KOTOBA_N5_CH5_1, KOTOBA_N5_CH5_2, KOTOBA_N5_CH5_3,
   KOTOBA_N5_CH6_1, KOTOBA_N5_CH6_2, KOTOBA_N5_CH6_3,
-  KOTOBA_N5_CH7_1, KOTOBA_N5_CH7_2, KOTOBA_N5_CH7_3
+  KOTOBA_N5_CH7_1, KOTOBA_N5_CH7_2, KOTOBA_N5_CH7_3, KOTOBA_N5_CH7_4, KOTOBA_N5_CH7_5
 ];
 const KOTOBA_N5_LEVEL_META = [
   ...KOTOBA_TIER_KEYS.map((id, i) => ({ id, tier: i + 1, rank: "N5" })),
@@ -1758,22 +1806,25 @@ const KOTOBA_N5_LEVEL_TEXT = {
   tier4: { title: { en: "Tier 2.1 — Daily Time & Time Expressions", id: "Tier 2.1 — Waktu Harian & Keterangan Waktu" }, sample: "いま きょう あした", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
   tier5: { title: { en: "Tier 2.2 — Days, Months, & Hours", id: "Tier 2.2 — Hari, Bulan, & Jam" }, sample: "げつようび いちじかん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
   tier6: { title: { en: "Tier 2.3 — Numbers & Counters", id: "Tier 2.3 — Bilangan & Satuan Penghitung" }, sample: "ひとつ ひとり まい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier7: { title: { en: "Tier 3.1 — Food & Drinks", id: "Tier 3.1 — Makanan & Minuman" }, sample: "ごはん みず おちゃ", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  tier8: { title: { en: "Tier 3.2 — Personal Items & Home", id: "Tier 3.2 — Benda-benda Pribadi & Rumah" }, sample: "ほん かばん いす", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  tier9: { title: { en: "Tier 3.3 — Clothing & Accessories", id: "Tier 3.3 — Pakaian & Aksesori" }, sample: "ふく くつ かさ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier10: { title: { en: "Tier 4.1 — Locations & Public Facilities", id: "Tier 4.1 — Lokasi & Fasilitas Publik" }, sample: "がっこう えき みせ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier11: { title: { en: "Tier 4.2 — Direction & Position", id: "Tier 4.2 — Arah & Posisi" }, sample: "うえ した みぎ", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  tier12: { title: { en: "Tier 4.3 — Transportation & City Features", id: "Tier 4.3 — Transportasi & Fitur Kota" }, sample: "でんしゃ くるま バス", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier13: { title: { en: "Tier 5.1 — Basic Daily Activities", id: "Tier 5.1 — Aktivitas Dasar Harian" }, sample: "たべる のむ みる", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  tier14: { title: { en: "Tier 5.2 — Movement & Mobility", id: "Tier 5.2 — Perpindahan & Mobilisasi" }, sample: "いく くる かえる", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier15: { title: { en: "Tier 5.3 — Interaction, Transactions, & Work", id: "Tier 5.3 — Interaksi, Transaksi, & Kerja" }, sample: "はなす かく かう", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier16: { title: { en: "Tier 6.1 — Descriptive i-Adjectives", id: "Tier 6.1 — Kata Sifat-i Deskriptif" }, sample: "おおきい ちいさい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier17: { title: { en: "Tier 6.2 — Weather & Sensory i-Adjectives", id: "Tier 6.2 — Kata Sifat-i Cuaca & Sensori" }, sample: "あつい さむい いたい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier18: { title: { en: "Tier 6.3 — na-Adjectives & Status", id: "Tier 6.3 — Kata Sifat-na & Status" }, sample: "すき きらい げんき", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  tier19: { title: { en: "Tier 7.1 — Nature & Weather", id: "Tier 7.1 — Alam & Cuaca" }, sample: "てんき あめ やま", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  tier20: { title: { en: "Tier 7.2 — Colors", id: "Tier 7.2 — Warna" }, sample: "あか あお しろ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  tier21: { title: { en: "Tier 7.3 — Question Words & Adverbs", id: "Tier 7.3 — Kata Tanya & Kata Keterangan" }, sample: "どこ いつ なに", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
-  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 135 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 135 kosakata N5 diacak menjadi satu Chapter." } }
+  tier7: { title: { en: "Tier 2.4 — Frequency & Duration", id: "Tier 2.4 — Frekuensi & Durasi" }, sample: "いつも ときどき ぜんぜん", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier8: { title: { en: "Tier 3.1 — Food & Drinks", id: "Tier 3.1 — Makanan & Minuman" }, sample: "ごはん みず おちゃ", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier9: { title: { en: "Tier 3.2 — Personal Items & Home", id: "Tier 3.2 — Benda-benda Pribadi & Rumah" }, sample: "ほん かばん いす", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier10: { title: { en: "Tier 3.3 — Clothing & Accessories", id: "Tier 3.3 — Pakaian & Aksesori" }, sample: "ふく くつ かさ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier11: { title: { en: "Tier 4.1 — Locations & Public Facilities", id: "Tier 4.1 — Lokasi & Fasilitas Publik" }, sample: "がっこう えき みせ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier12: { title: { en: "Tier 4.2 — Direction & Position", id: "Tier 4.2 — Arah & Posisi" }, sample: "うえ した みぎ", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier13: { title: { en: "Tier 4.3 — Transportation & City Features", id: "Tier 4.3 — Transportasi & Fitur Kota" }, sample: "でんしゃ くるま バス", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier14: { title: { en: "Tier 5.1 — Basic Daily Activities", id: "Tier 5.1 — Aktivitas Dasar Harian" }, sample: "たべる のむ みる", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier15: { title: { en: "Tier 5.2 — Movement & Mobility", id: "Tier 5.2 — Perpindahan & Mobilisasi" }, sample: "いく くる かえる", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier16: { title: { en: "Tier 5.3 — Interaction, Transactions, & Work", id: "Tier 5.3 — Interaksi, Transaksi, & Kerja" }, sample: "はなす かく かう", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier17: { title: { en: "Tier 6.1 — Descriptive i-Adjectives", id: "Tier 6.1 — Kata Sifat-i Deskriptif" }, sample: "おおきい ちいさい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier18: { title: { en: "Tier 6.2 — Weather & Sensory i-Adjectives", id: "Tier 6.2 — Kata Sifat-i Cuaca & Sensori" }, sample: "あつい さむい いたい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier19: { title: { en: "Tier 6.3 — na-Adjectives & Status", id: "Tier 6.3 — Kata Sifat-na & Status" }, sample: "すき きらい げんき", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier20: { title: { en: "Tier 7.1 — Nature & Weather", id: "Tier 7.1 — Alam & Cuaca" }, sample: "てんき あめ やま", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier21: { title: { en: "Tier 7.2 — Colors", id: "Tier 7.2 — Warna" }, sample: "あか あお しろ", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier22: { title: { en: "Tier 7.3 — Question Words & Adverbs", id: "Tier 7.3 — Kata Tanya & Kata Keterangan" }, sample: "どこ いつ なに", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
+  tier23: { title: { en: "Tier 7.4 — Conjunctions & Connectors", id: "Tier 7.4 — Kata Hubung & Sambungan" }, sample: "そして でも だから", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier24: { title: { en: "Tier 7.5 — Adverbs & Modifiers", id: "Tier 7.5 — Kata Keterangan Derajat & Tata Bahasa" }, sample: "とても すこし たくさん", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 147 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 147 kosakata N5 diacak menjadi satu Chapter." } }
 };
 const KOTOBA_N5_LEARN = [
   { tierKey: "tier1", title: KOTOBA_N5_LEVEL_TEXT.tier1.title, desc: KOTOBA_N5_LEVEL_TEXT.tier1.desc, items: KOTOBA_N5_CH1_1 },
@@ -1782,21 +1833,24 @@ const KOTOBA_N5_LEARN = [
   { tierKey: "tier4", title: KOTOBA_N5_LEVEL_TEXT.tier4.title, desc: KOTOBA_N5_LEVEL_TEXT.tier4.desc, items: KOTOBA_N5_CH2_1 },
   { tierKey: "tier5", title: KOTOBA_N5_LEVEL_TEXT.tier5.title, desc: KOTOBA_N5_LEVEL_TEXT.tier5.desc, items: KOTOBA_N5_CH2_2 },
   { tierKey: "tier6", title: KOTOBA_N5_LEVEL_TEXT.tier6.title, desc: KOTOBA_N5_LEVEL_TEXT.tier6.desc, items: KOTOBA_N5_CH2_3 },
-  { tierKey: "tier7", title: KOTOBA_N5_LEVEL_TEXT.tier7.title, desc: KOTOBA_N5_LEVEL_TEXT.tier7.desc, items: KOTOBA_N5_CH3_1 },
-  { tierKey: "tier8", title: KOTOBA_N5_LEVEL_TEXT.tier8.title, desc: KOTOBA_N5_LEVEL_TEXT.tier8.desc, items: KOTOBA_N5_CH3_2 },
-  { tierKey: "tier9", title: KOTOBA_N5_LEVEL_TEXT.tier9.title, desc: KOTOBA_N5_LEVEL_TEXT.tier9.desc, items: KOTOBA_N5_CH3_3 },
-  { tierKey: "tier10", title: KOTOBA_N5_LEVEL_TEXT.tier10.title, desc: KOTOBA_N5_LEVEL_TEXT.tier10.desc, items: KOTOBA_N5_CH4_1 },
-  { tierKey: "tier11", title: KOTOBA_N5_LEVEL_TEXT.tier11.title, desc: KOTOBA_N5_LEVEL_TEXT.tier11.desc, items: KOTOBA_N5_CH4_2 },
-  { tierKey: "tier12", title: KOTOBA_N5_LEVEL_TEXT.tier12.title, desc: KOTOBA_N5_LEVEL_TEXT.tier12.desc, items: KOTOBA_N5_CH4_3 },
-  { tierKey: "tier13", title: KOTOBA_N5_LEVEL_TEXT.tier13.title, desc: KOTOBA_N5_LEVEL_TEXT.tier13.desc, items: KOTOBA_N5_CH5_1 },
-  { tierKey: "tier14", title: KOTOBA_N5_LEVEL_TEXT.tier14.title, desc: KOTOBA_N5_LEVEL_TEXT.tier14.desc, items: KOTOBA_N5_CH5_2 },
-  { tierKey: "tier15", title: KOTOBA_N5_LEVEL_TEXT.tier15.title, desc: KOTOBA_N5_LEVEL_TEXT.tier15.desc, items: KOTOBA_N5_CH5_3 },
-  { tierKey: "tier16", title: KOTOBA_N5_LEVEL_TEXT.tier16.title, desc: KOTOBA_N5_LEVEL_TEXT.tier16.desc, items: KOTOBA_N5_CH6_1 },
-  { tierKey: "tier17", title: KOTOBA_N5_LEVEL_TEXT.tier17.title, desc: KOTOBA_N5_LEVEL_TEXT.tier17.desc, items: KOTOBA_N5_CH6_2 },
-  { tierKey: "tier18", title: KOTOBA_N5_LEVEL_TEXT.tier18.title, desc: KOTOBA_N5_LEVEL_TEXT.tier18.desc, items: KOTOBA_N5_CH6_3 },
-  { tierKey: "tier19", title: KOTOBA_N5_LEVEL_TEXT.tier19.title, desc: KOTOBA_N5_LEVEL_TEXT.tier19.desc, items: KOTOBA_N5_CH7_1 },
-  { tierKey: "tier20", title: KOTOBA_N5_LEVEL_TEXT.tier20.title, desc: KOTOBA_N5_LEVEL_TEXT.tier20.desc, items: KOTOBA_N5_CH7_2 },
-  { tierKey: "tier21", title: KOTOBA_N5_LEVEL_TEXT.tier21.title, desc: KOTOBA_N5_LEVEL_TEXT.tier21.desc, items: KOTOBA_N5_CH7_3 }
+  { tierKey: "tier7", title: KOTOBA_N5_LEVEL_TEXT.tier7.title, desc: KOTOBA_N5_LEVEL_TEXT.tier7.desc, items: KOTOBA_N5_CH2_4 },
+  { tierKey: "tier8", title: KOTOBA_N5_LEVEL_TEXT.tier8.title, desc: KOTOBA_N5_LEVEL_TEXT.tier8.desc, items: KOTOBA_N5_CH3_1 },
+  { tierKey: "tier9", title: KOTOBA_N5_LEVEL_TEXT.tier9.title, desc: KOTOBA_N5_LEVEL_TEXT.tier9.desc, items: KOTOBA_N5_CH3_2 },
+  { tierKey: "tier10", title: KOTOBA_N5_LEVEL_TEXT.tier10.title, desc: KOTOBA_N5_LEVEL_TEXT.tier10.desc, items: KOTOBA_N5_CH3_3 },
+  { tierKey: "tier11", title: KOTOBA_N5_LEVEL_TEXT.tier11.title, desc: KOTOBA_N5_LEVEL_TEXT.tier11.desc, items: KOTOBA_N5_CH4_1 },
+  { tierKey: "tier12", title: KOTOBA_N5_LEVEL_TEXT.tier12.title, desc: KOTOBA_N5_LEVEL_TEXT.tier12.desc, items: KOTOBA_N5_CH4_2 },
+  { tierKey: "tier13", title: KOTOBA_N5_LEVEL_TEXT.tier13.title, desc: KOTOBA_N5_LEVEL_TEXT.tier13.desc, items: KOTOBA_N5_CH4_3 },
+  { tierKey: "tier14", title: KOTOBA_N5_LEVEL_TEXT.tier14.title, desc: KOTOBA_N5_LEVEL_TEXT.tier14.desc, items: KOTOBA_N5_CH5_1 },
+  { tierKey: "tier15", title: KOTOBA_N5_LEVEL_TEXT.tier15.title, desc: KOTOBA_N5_LEVEL_TEXT.tier15.desc, items: KOTOBA_N5_CH5_2 },
+  { tierKey: "tier16", title: KOTOBA_N5_LEVEL_TEXT.tier16.title, desc: KOTOBA_N5_LEVEL_TEXT.tier16.desc, items: KOTOBA_N5_CH5_3 },
+  { tierKey: "tier17", title: KOTOBA_N5_LEVEL_TEXT.tier17.title, desc: KOTOBA_N5_LEVEL_TEXT.tier17.desc, items: KOTOBA_N5_CH6_1 },
+  { tierKey: "tier18", title: KOTOBA_N5_LEVEL_TEXT.tier18.title, desc: KOTOBA_N5_LEVEL_TEXT.tier18.desc, items: KOTOBA_N5_CH6_2 },
+  { tierKey: "tier19", title: KOTOBA_N5_LEVEL_TEXT.tier19.title, desc: KOTOBA_N5_LEVEL_TEXT.tier19.desc, items: KOTOBA_N5_CH6_3 },
+  { tierKey: "tier20", title: KOTOBA_N5_LEVEL_TEXT.tier20.title, desc: KOTOBA_N5_LEVEL_TEXT.tier20.desc, items: KOTOBA_N5_CH7_1 },
+  { tierKey: "tier21", title: KOTOBA_N5_LEVEL_TEXT.tier21.title, desc: KOTOBA_N5_LEVEL_TEXT.tier21.desc, items: KOTOBA_N5_CH7_2 },
+  { tierKey: "tier22", title: KOTOBA_N5_LEVEL_TEXT.tier22.title, desc: KOTOBA_N5_LEVEL_TEXT.tier22.desc, items: KOTOBA_N5_CH7_3 },
+  { tierKey: "tier23", title: KOTOBA_N5_LEVEL_TEXT.tier23.title, desc: KOTOBA_N5_LEVEL_TEXT.tier23.desc, items: KOTOBA_N5_CH7_4 },
+  { tierKey: "tier24", title: KOTOBA_N5_LEVEL_TEXT.tier24.title, desc: KOTOBA_N5_LEVEL_TEXT.tier24.desc, items: KOTOBA_N5_CH7_5 }
 ];
 
 /* ---- Bunpō N5 — 100 pola, 6 Tier / 15 Sub-Tier (lihat bunpo-n5-100-tier.md) ---- */
