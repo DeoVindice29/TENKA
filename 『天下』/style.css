@@ -2672,7 +2672,8 @@ button.choice.wrong {
   box-shadow: 0 0 0 1px var(--indigo) inset;
 }
 
-.hard-input:disabled {
+.hard-input:disabled,
+.hard-input:read-only {
   cursor: default;
 }
 

@@ -4027,7 +4027,10 @@ function startQuiz(scriptKey, mode) {
     script: scriptKey, mode, pool, wrongPools,
     queue,
     difficulty,
-    timerSeconds: selectedTimerSeconds,
+    // Mode Speedrun sudah punya jam-nya sendiri (race clock) — timer per-soal
+    // (3/5/10 detik) dari pengaturan umum sengaja tidak dipakai di sini supaya
+    // tidak dobel tekanan waktu. Speedrun = SELALU tanpa timer per-soal.
+    timerSeconds: isSpeedrun ? 0 : selectedTimerSeconds,
     conquestPhaseBoundaries, conquestPhaseIndex: 0,
     index: 0, score: 0, streak: 0, maxStreak: 0, missed: [], results: [],
     rankIndexBefore: getRankIndex(),
@@ -4167,7 +4170,11 @@ function renderQuestion() {
     choicesEl.innerHTML = "";
     hardInputRow.classList.remove("hidden");
     hardInputEl.value = "";
-    hardInputEl.disabled = false;
+    // readOnly (bukan disabled) supaya elemen tidak kehilangan fokus di
+    // browser mobile — disabled pada input yang sedang fokus otomatis
+    // memaksa blur, dan itu yang bikin keyboard virtual turun-naik tiap
+    // soal. Dengan readOnly, fokus (dan keyboard-nya) tetap terjaga.
+    hardInputEl.readOnly = false;
     hardInputEl.className = "hard-input";
     btnHardSubmit.disabled = false;
     hardInputEl.focus();
@@ -4212,7 +4219,9 @@ function handleAnswer(chosen, btn, current, timedOut = false) {
   clearSpeedrunAutoNext();
   clearQuestionTimer();
   document.querySelectorAll("button.choice").forEach(b => b.disabled = true);
-  hardInputEl.disabled = true;
+  // readOnly, bukan disabled — lihat catatan di renderQuestion() soal kenapa
+  // (biar fokus & keyboard mobile tidak ikut turun begitu jawaban terkirim).
+  hardInputEl.readOnly = true;
   btnHardSubmit.disabled = true;
   const isCorrect = String(chosen).trim().toLowerCase() === String(current[1]).trim().toLowerCase();
 
@@ -4279,7 +4288,12 @@ function handleAnswer(chosen, btn, current, timedOut = false) {
   } else {
     nextBtn.textContent = state.index === state.queue.length - 1 ? t("quiz.seeResults") : t("quiz.next");
   }
-  nextBtn.focus();
+  // Jangan pindahkan fokus ke tombol Next kalau lagi mode ketik (hard) — kalau
+  // dipindah, input yang lagi fokus ikut ke-blur dan keyboard virtual di HP
+  // jadi turun tiap kali jawaban dikirim, lalu naik lagi pas soal berikutnya
+  // muncul (hardInputEl.focus() di renderQuestion). Biarkan fokus tetap di
+  // input; shortcut Enter/Space ke Next tetap jalan lewat listener global.
+  if (state.difficulty !== "hard") nextBtn.focus();
 
   // Mode Speedrun: jawaban BENAR langsung lanjut otomatis ke soal berikutnya
   // tanpa perlu pencet Enter/klik Next — biar makin ngebut. Jawaban salah tetap
@@ -4293,7 +4307,7 @@ function handleAnswer(chosen, btn, current, timedOut = false) {
 }
 
 btnHardSubmit.addEventListener("click", () => {
-  if (hardInputEl.disabled) return;
+  if (hardInputEl.readOnly) return;
   if (hardInputEl.value.trim() === "") {
     feedbackEl.textContent = t("quiz.fillAnswerFirst");
     feedbackEl.className = "feedback-text warn";
@@ -4316,7 +4330,7 @@ hardInputEl.addEventListener("input", () => {
   // Mode Speedrun: begitu ketikan user sudah persis sama dengan jawaban yang
   // benar, langsung submit otomatis — tanpa perlu pencet Enter atau klik Jawab
   // sama sekali, biar makin ngebut.
-  if (state.speedrun && !hardInputEl.disabled) {
+  if (state.speedrun && !hardInputEl.readOnly) {
     const current = state.queue[state.index];
     const typed = hardInputEl.value.trim().toLowerCase();
     if (typed !== "" && typed === String(current[1]).trim().toLowerCase()) {
@@ -4326,9 +4340,10 @@ hardInputEl.addEventListener("input", () => {
 });
 hardInputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
+    if (hardInputEl.readOnly) return; // sudah dijawab — biarkan "nyambung" ke listener "Enter = lanjut soal"
     e.preventDefault();
     e.stopPropagation(); // jangan sampai keydown ini juga kepick up listener "Enter = lanjut soal"
-    if (!hardInputEl.disabled) btnHardSubmit.click();
+    btnHardSubmit.click();
   }
 });
 
