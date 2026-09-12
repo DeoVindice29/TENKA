@@ -3578,8 +3578,8 @@ function renderVariantButtons(script) {
     btn.classList.remove("hidden");
     btn.dataset.variant = cfg.key;
     btn.innerHTML = cfg.i18nKey
-      ? `${cfg.icon} <span data-i18n="${cfg.i18nKey}">${t(cfg.i18nKey)}</span>`
-      : `${cfg.icon} ${cfg.label}`;
+      ? `<span data-i18n="${cfg.i18nKey}">${t(cfg.i18nKey)}</span>`
+      : `${cfg.label}`;
     btn.classList.toggle("active", i === 0);
   });
   selectedQuizVariant = config[0] ? config[0].key : "meaning";
