@@ -956,8 +956,8 @@ h1 svg {
 .tab-conquered-badge {
   display: none;
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: 2px;
+  right: 4px;
   width: 20px;
   height: 20px;
   align-items: center;
@@ -4652,8 +4652,8 @@ button.ghost {
 .tab-conquered-badge::before {
   content: "";
   display: inline-block;
-  width: 0.9em;
-  height: 0.9em;
+  width: 1.15em;
+  height: 1.15em;
   background-color: var(--gold);
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpolygon%20points%3D%2212%202%2014%209%2022%209%2016%2013%2018%2020%2012%2016%206%2020%208%2013%202%209%2010%209%22%20fill%3D%22black%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpolygon%20points%3D%2212%202%2014%209%2022%209%2016%2013%2018%2020%2012%2016%206%2020%208%2013%202%209%2010%209%22%20fill%3D%22black%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
