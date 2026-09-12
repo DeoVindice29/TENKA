@@ -3751,6 +3751,33 @@ button.ghost {
     display: none;
   }
 
+  /* Home nav only (#script-tabs) docks to the bottom like a native app tab
+     bar on mobile — #learn-script-tabs (same .script-tabs class, inside the
+     Learn screen) is untouched and keeps scrolling inline. */
+  #screen-start {
+    padding-bottom: calc(78px + env(safe-area-inset-bottom));
+  }
+
+  #script-tabs {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 25;
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    gap: 4px;
+    padding: 8px calc(10px + env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-right));
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 18px var(--shadow);
+  }
+
+  #script-tabs .script-tab {
+    scroll-snap-align: none;
+  }
+
   .script-tab {
     font-size: 17px;
     padding: 9px 10px 7px;
