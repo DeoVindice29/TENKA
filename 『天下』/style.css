@@ -975,8 +975,7 @@ h1 svg {
 }
 
 .script-tab.conquered {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 1px var(--gold) inset, 0 0 10px rgba(242, 169, 60, 0.3);
+  color: var(--gold);
 }
 
 /* ---------- mode select ---------- */
