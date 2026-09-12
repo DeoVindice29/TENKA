@@ -956,17 +956,15 @@ h1 svg {
 .tab-conquered-badge {
   display: none;
   position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 18px;
-  height: 18px;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: var(--gold);
-  color: var(--ink);
-  border: 1px solid var(--card);
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 10px;
-  font-weight: 900;
+  background: linear-gradient(155deg, #FFE6A0 0%, var(--gold) 55%, #C8811E 100%);
+  color: #4A2F00;
+  border: 1.5px solid var(--card);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.65);
   align-items: center;
   justify-content: center;
   line-height: 1;
@@ -978,6 +976,7 @@ h1 svg {
 
 .script-tab.conquered {
   border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold) inset, 0 0 10px rgba(242, 169, 60, 0.3);
 }
 
 /* ---------- mode select ---------- */
@@ -3772,10 +3771,24 @@ button.ghost {
     background: var(--card);
     border-top: 1px solid var(--line);
     box-shadow: 0 -6px 18px var(--shadow);
+    overflow-x: visible;
+    scroll-snap-type: none;
   }
 
+  /* Fixed tab bar: all 5 tabs share the width evenly and never scroll —
+     unlike the scrollable .script-tab rule below (still used by
+     #learn-script-tabs), these shrink to fit instead of overflowing. */
   #script-tabs .script-tab {
+    flex: 1 1 0;
+    min-width: 0;
     scroll-snap-align: none;
+  }
+
+  #script-tabs .script-tab span {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .script-tab {
@@ -4010,6 +4023,21 @@ button.ghost {
 
   .kana-cell .r {
     font-size: 9.5px;
+  }
+
+  #script-tabs {
+    gap: 2px;
+    padding-left: calc(6px + env(safe-area-inset-left));
+    padding-right: calc(6px + env(safe-area-inset-right));
+  }
+
+  #script-tabs .script-tab {
+    font-size: 15px;
+    padding: 8px 2px 6px;
+  }
+
+  #script-tabs .script-tab span {
+    font-size: 9px;
   }
 }
 
