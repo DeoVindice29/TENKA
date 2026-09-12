@@ -51,6 +51,8 @@ const I18N = {
   "start.studyFirst": { en: "Study First", id: "Belajar Dulu" },
   "start.studyScriptFirst": { en: "📖 Study {label} First", id: "📖 Belajar {label} Dulu" },
   "start.chooseTierFirst": { en: "Choose a tier first", id: "Pilih tingkatan dulu" },
+  "levels.groupChapter": { en: "Chapter {n}", id: "Chapter {n}" },
+  "levels.subTiers": { en: "sub-tiers", id: "sub-tier" },
   "start.startCount": { en: "Start — {title} ({count} Questions)", id: "Mulai — {title} ({count} Soal)" },
   "start.startRandomCount": { en: "Start — {title} ({count} Random Questions)", id: "Mulai — {title} ({count} Soal Acak)" },
   "quiz.typeLabel": { en: "Question Type", id: "Tipe Soal" },
@@ -109,7 +111,7 @@ const I18N = {
   "learn.searchPlaceholder": { en: "Search word, reading, or meaning…", id: "Cari kata, cara baca, atau arti…" },
   "learn.searchResultsCount": { en: "{count} result(s) found", id: "{count} hasil ditemukan" },
   "learn.noResults": { en: "No matches for \"{query}\". Try a different word.", id: "Tidak ada yang cocok dengan \"{query}\". Coba kata lain." },
-  "learn.usageNote": { en: "How to use it", id: "Cara pakainya" },
+  "learn.usageNote": { en: "Notes", id: "Catatan" },
   "aria.learnSearch": { en: "Search this study set", id: "Cari di materi ini" },
   "aria.clearSearch": { en: "Clear search", id: "Bersihkan pencarian" },
   "aria.jumpToSection": { en: "Jump to {label}", id: "Lompat ke {label}" },
@@ -1020,6 +1022,72 @@ const HIRAGANA_TIER3 = [
   ["びゃ", "bya"], ["びゅ", "byu"], ["びょ", "byo"],
   ["ぴゃ", "pya"], ["ぴゅ", "pyu"], ["ぴょ", "pyo"]
 ];
+/* Sokuon (促音), Chōon (長音), Hatsuon (撥音) below are taught through real N5
+   vocabulary instead of a bare character grid — same tuple shape as the
+   Kotoba data: [word, reading, meaning, example, exampleSegments,
+   exampleTranslation, kanjiWord, kanjiExample, usage]. */
+const HIRAGANA_SOKUON_WORDS = [
+  ["がっこう", "gakkou", { en: "school", id: "sekolah" }, "がっこうは たのしいです。",
+    [["がっこう", "Gakkou"], ["は", "wa"], ["たのしい", "tanoshii"], ["です", "desu"]],
+    { en: "School is fun.", id: "Sekolah itu menyenangkan." }, "学校", "学校は楽しいです。",
+    { en: "Small っ before a consonant is a short held pause — read it by doubling the consonant that follows: っこ here is read \"kko\", not \"ko\".", id: "っ kecil sebelum konsonan berarti jeda singkat — dibaca dengan menggandakan konsonan sesudahnya: っこ di sini dibaca \"kko\", bukan \"ko\"." }],
+  ["ざっし", "zasshi", { en: "magazine", id: "majalah" }, "あたらしい ざっしを かいました。",
+    [["あたらしい", "Atarashii"], ["ざっし", "zasshi"], ["を", "wo"], ["かいました", "kaimashita"]],
+    { en: "I bought a new magazine.", id: "Saya membeli majalah baru." }, "雑誌", "新しい雑誌を買いました。",
+    { en: "っし doubles the s-sound and is read \"sshi\", not \"shi\".", id: "っし menggandakan bunyi s dan dibaca \"sshi\", bukan \"shi\"." }],
+  ["きっぷ", "kippu", { en: "ticket", id: "tiket" }, "でんしゃの きっぷを かいます。",
+    [["でんしゃ", "Densha"], ["の", "no"], ["きっぷ", "kippu"], ["を", "wo"], ["かいます", "kaimasu"]],
+    { en: "I buy a train ticket.", id: "Saya membeli tiket kereta." }, "切符", "電車の切符を買います。",
+    { en: "っぷ doubles the p-sound and is read \"ppu\", not \"pu\".", id: "っぷ menggandakan bunyi p dan dibaca \"ppu\", bukan \"pu\"." }],
+  ["みっつ", "mittsu", { en: "three (things)", id: "tiga (benda)" }, "りんごが みっつ あります。",
+    [["りんご", "Ringo"], ["が", "ga"], ["みっつ", "mittsu"], ["あります", "arimasu"]],
+    { en: "There are three apples.", id: "Ada tiga apel." }, "三つ", "りんごが三つあります。",
+    { en: "っつ doubles the t-sound and is read \"ttsu\", not \"tsu\".", id: "っつ menggandakan bunyi t dan dibaca \"ttsu\", bukan \"tsu\"." }]
+];
+const HIRAGANA_CHOON_WORDS = [
+  ["おかあさん", "okaasan", { en: "mother", id: "ibu" }, "わたしの おかあさんは やさしいです。",
+    [["わたし", "Watashi"], ["の", "no"], ["おかあさん", "okaasan"], ["は", "wa"], ["やさしい", "yasashii"], ["です", "desu"]],
+    { en: "My mother is kind.", id: "Ibu saya baik hati." }, "お母さん", "私のお母さんは優しいです。",
+    { en: "The a-row lengthens by repeating the same vowel: あ + あ = \"aa\".", id: "Baris a dipanjangkan dengan mengulang vokal yang sama: あ + あ = \"aa\"." }],
+  ["おにいさん", "oniisan", { en: "older brother", id: "kakak laki-laki" }, "おにいさんは がくせいです。",
+    [["おにいさん", "Oniisan"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
+    { en: "My older brother is a student.", id: "Kakak laki-laki saya seorang murid." }, "お兄さん", "お兄さんは学生です。",
+    { en: "The i-row lengthens by repeating the same vowel: い + い = \"ii\".", id: "Baris i dipanjangkan dengan mengulang vokal yang sama: い + い = \"ii\"." }],
+  ["くうき", "kuuki", { en: "air", id: "udara" }, "このまちの くうきは きれいです。",
+    [["この", "Kono"], ["まち", "machi"], ["の", "no"], ["くうき", "kuuki"], ["は", "wa"], ["きれい", "kirei"], ["です", "desu"]],
+    { en: "The air in this town is clean.", id: "Udara di kota ini bersih." }, "空気", "この町の空気はきれいです。",
+    { en: "The u-row lengthens by repeating the same vowel: う + う = \"uu\".", id: "Baris u dipanjangkan dengan mengulang vokal yang sama: う + う = \"uu\"." }],
+  ["せんせい", "sensei", { en: "teacher", id: "guru" }, "せんせいは にほんごを おしえます。",
+    [["せんせい", "Sensei"], ["は", "wa"], ["にほんご", "nihongo"], ["を", "wo"], ["おしえます", "oshiemasu"]],
+    { en: "The teacher teaches Japanese.", id: "Guru itu mengajar bahasa Jepang." }, "先生", "先生は日本語を教えます。",
+    { en: "The e-row usually lengthens with い instead of え, read \"ei\" as in せんせい.", id: "Baris e biasanya dipanjangkan dengan い, bukan え lagi, dibaca \"ei\" seperti pada せんせい." }],
+  ["とうきょう", "toukyou", { en: "Tokyo", id: "Tokyo" }, "わたしは とうきょうに いきます。",
+    [["わたし", "Watashi"], ["は", "wa"], ["とうきょう", "Toukyou"], ["に", "ni"], ["いきます", "ikimasu"]],
+    { en: "I'm going to Tokyo.", id: "Saya pergi ke Tokyo." }, "東京", "私は東京に行きます。",
+    { en: "The o-row usually lengthens with う instead of お, read \"ou\" as in とうきょう.", id: "Baris o biasanya dipanjangkan dengan う, bukan お lagi, dibaca \"ou\" seperti pada とうきょう." }]
+];
+const HIRAGANA_HATSUON_WORDS = [
+  ["さんぽ", "sanpo", { en: "walk / stroll", id: "jalan-jalan" }, "あさ さんぽを します。",
+    [["あさ", "Asa"], ["さんぽ", "sanpo"], ["を", "wo"], ["します", "shimasu"]],
+    { en: "I take a walk in the morning.", id: "Saya jalan-jalan di pagi hari." }, "散歩", "朝散歩をします。",
+    { en: "ん before p/b/m is pronounced like \"m\" — さんぽ sounds closer to \"sampo\".", id: "ん sebelum p/b/m dibaca seperti \"m\" — さんぽ terdengar seperti \"sampo\"." }],
+  ["しんぶん", "shinbun", { en: "newspaper", id: "koran" }, "まいあさ しんぶんを よみます。",
+    [["まいあさ", "Maiasa"], ["しんぶん", "shinbun"], ["を", "wo"], ["よみます", "yomimasu"]],
+    { en: "I read the newspaper every morning.", id: "Saya membaca koran setiap pagi." }, "新聞", "毎朝新聞を読みます。",
+    { en: "ん before b is also pronounced like \"m\" — しんぶん sounds closer to \"shimbun\".", id: "ん sebelum b juga dibaca seperti \"m\" — しんぶん terdengar seperti \"shimbun\"." }],
+  ["かんたん", "kantan", { en: "easy / simple", id: "mudah" }, "このテストは かんたんです。",
+    [["この", "Kono"], ["テスト", "tesuto"], ["は", "wa"], ["かんたん", "kantan"], ["です", "desu"]],
+    { en: "This test is easy.", id: "Tes ini mudah." }, "簡単", "このテストは簡単です。",
+    { en: "ん before n/t/d/s/z/r keeps a plain \"n\" sound, as in かんたん.", id: "ん sebelum n/t/d/s/z/r tetap dibaca \"n\" biasa, seperti pada かんたん." }],
+  ["げんき", "genki", { en: "healthy / energetic", id: "sehat / bertenaga" }, "たなかさんは いつも げんきです。",
+    [["たなかさん", "Tanaka-san"], ["は", "wa"], ["いつも", "itsumo"], ["げんき", "genki"], ["です", "desu"]],
+    { en: "Mr./Ms. Tanaka is always energetic.", id: "Pak/Bu Tanaka selalu bertenaga." }, "元気", "田中さんはいつも元気です。",
+    { en: "ん before k/g is pronounced like \"ng\" — げんき sounds closer to \"gengki\".", id: "ん sebelum k/g dibaca seperti \"ng\" — げんき terdengar seperti \"gengki\"." }],
+  ["ほん", "hon", { en: "book", id: "buku" }, "これは わたしの ほんです。",
+    [["これ", "Kore"], ["は", "wa"], ["わたし", "watashi"], ["の", "no"], ["ほん", "hon"], ["です", "desu"]],
+    { en: "This is my book.", id: "Ini buku saya." }, "本", "これは私の本です。",
+    { en: "At the end of a word (or before a vowel/y/w), ん stays a plain nasalized \"n\", as in ほん.", id: "Di akhir kata (atau sebelum vokal/y/w), ん tetap dibaca nasal \"n\" biasa, seperti pada ほん." }]
+];
 const GOJUON_HIRAGANA = {
   tier1: [
     { label: "", cols: 5, chars: [["あ", "a"], ["い", "i"], ["う", "u"], ["え", "e"], ["お", "o"]] },
@@ -1055,6 +1123,7 @@ const GOJUON_HIRAGANA = {
     { label: "py", cols: 3, chars: [["ぴゃ", "pya"], ["ぴゅ", "pyu"], ["ぴょ", "pyo"]] }
   ]
 };
+
 
 /* ---- Katakana ---- */
 const KATAKANA_TIER1 = [
@@ -1124,6 +1193,212 @@ const GOJUON_KATAKANA = {
     { label: "py", cols: 3, chars: [["ピャ", "pya"], ["ピュ", "pyu"], ["ピョ", "pyo"]] }
   ]
 };
+/* Sokuon (促音) in katakana — small ッ doubles the consonant that follows,
+   same rule as hiragana っ. Very common in loanwords, so taught here through
+   real everyday loanwords instead of a bare character grid. */
+const KATAKANA_SOKUON_WORDS = [
+  ["サッカー", "sakkaa", { en: "soccer", id: "sepak bola" }, "わたしは サッカーが すきです。",
+    [["わたし", "Watashi"], ["は", "wa"], ["サッカー", "sakkaa"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
+    { en: "I like soccer.", id: "Saya suka sepak bola." }, "", "私はサッカーが好きです。",
+    { en: "Small ッ before a consonant is a short held pause — double that consonant when reading it: ッカ here is read \"kka\".", id: "ッ kecil sebelum konsonan berarti jeda singkat — dibaca dengan menggandakan konsonan sesudahnya: ッカ di sini dibaca \"kka\"." }],
+  ["クッキー", "kukkii", { en: "cookie", id: "kukis" }, "あまい クッキーを たべました。",
+    [["あまい", "Amai"], ["クッキー", "kukkii"], ["を", "wo"], ["たべました", "tabemashita"]],
+    { en: "I ate a sweet cookie.", id: "Saya makan kukis yang manis." }, "", "甘いクッキーを食べました。",
+    { en: "ッキ doubles the k-sound and is read \"kki\", not \"ki\".", id: "ッキ menggandakan bunyi k dan dibaca \"kki\", bukan \"ki\"." }],
+  ["ポケット", "poketto", { en: "pocket", id: "saku/kantong" }, "かぎは ポケットの なかに あります。",
+    [["かぎ", "Kagi"], ["は", "wa"], ["ポケット", "poketto"], ["の", "no"], ["なか", "naka"], ["に", "ni"], ["あります", "arimasu"]],
+    { en: "The key is in the pocket.", id: "Kuncinya ada di dalam saku." }, "", "鍵はポケットの中にあります。",
+    { en: "ット doubles the t-sound and is read \"tto\", not \"to\".", id: "ット menggandakan bunyi t dan dibaca \"tto\", bukan \"to\"." }],
+  ["カップ", "kappu", { en: "cup", id: "cangkir" }, "コーヒーを カップに いれます。",
+    [["コーヒー", "Koohii"], ["を", "wo"], ["カップ", "kappu"], ["に", "ni"], ["いれます", "iremasu"]],
+    { en: "I pour coffee into the cup.", id: "Saya menuang kopi ke dalam cangkir." }, "", "コーヒーをカップに入れます。",
+    { en: "ップ doubles the p-sound and is read \"ppu\", not \"pu\".", id: "ップ menggandakan bunyi p dan dibaca \"ppu\", bukan \"pu\"." }]
+];
+/* Chōonpu (長音符) — the dash ー marks a long vowel in katakana, unlike
+   hiragana which doubles the vowel kana itself. Extremely common in
+   loanwords, so taught here through real everyday loanwords. */
+const KATAKANA_CHOONPU_WORDS = [
+  ["コーヒー", "koohii", { en: "coffee", id: "kopi" }, "あさ コーヒーを のみます。",
+    [["あさ", "Asa"], ["コーヒー", "koohii"], ["を", "wo"], ["のみます", "nomimasu"]],
+    { en: "I drink coffee in the morning.", id: "Saya minum kopi di pagi hari." }, "", "朝コーヒーを飲みます。",
+    { en: "ー after コ and ヒ extends the vowel sound — コーヒー is read \"koohii\", holding both long vowels.", id: "ー sesudah コ dan ヒ memanjangkan bunyi vokalnya — コーヒー dibaca \"koohii\", vokalnya ditahan lebih lama." }],
+  ["ケーキ", "keeki", { en: "cake", id: "kue" }, "たんじょうびに ケーキを たべます。",
+    [["たんじょうび", "Tanjoubi"], ["に", "ni"], ["ケーキ", "keeki"], ["を", "wo"], ["たべます", "tabemasu"]],
+    { en: "I eat cake on my birthday.", id: "Saya makan kue di hari ulang tahun." }, "", "誕生日にケーキを食べます。",
+    { en: "ー after ケ extends the e-sound — ケー is read \"kee\", not \"ke\".", id: "ー sesudah ケ memanjangkan bunyi e — ケー dibaca \"kee\", bukan \"ke\"." }],
+  ["スーパー", "suupaa", { en: "supermarket", id: "supermarket" }, "スーパーで やさいを かいます。",
+    [["スーパー", "Suupaa"], ["で", "de"], ["やさい", "yasai"], ["を", "wo"], ["かいます", "kaimasu"]],
+    { en: "I buy vegetables at the supermarket.", id: "Saya membeli sayur di supermarket." }, "", "スーパーで野菜を買います。",
+    { en: "ー appears twice here: ス→スー is \"suu\" and パ→パー is \"paa\".", id: "ー muncul dua kali di sini: ス→スー dibaca \"suu\" dan パ→パー dibaca \"paa\"." }],
+  ["ノート", "nooto", { en: "notebook", id: "buku catatan" }, "ノートに なまえを かきます。",
+    [["ノート", "Nooto"], ["に", "ni"], ["なまえ", "namae"], ["を", "wo"], ["かきます", "kakimasu"]],
+    { en: "I write my name in the notebook.", id: "Saya menulis nama saya di buku catatan." }, "", "ノートに名前を書きます。",
+    { en: "ー after ノ extends the o-sound — ノー is read \"noo\", not \"no\".", id: "ー sesudah ノ memanjangkan bunyi o — ノー dibaca \"noo\", bukan \"no\"." }]
+];
+/* Hatsuon (撥音) in katakana — the nasal ン changes sound depending on what
+   follows it, same rule as hiragana ん. Taught through common loanwords. */
+const KATAKANA_HATSUON_WORDS = [
+  ["サンプル", "sanpuru", { en: "sample", id: "sampel/contoh" }, "これは サンプルです。",
+    [["これ", "Kore"], ["は", "wa"], ["サンプル", "sanpuru"], ["です", "desu"]],
+    { en: "This is a sample.", id: "Ini adalah sampel." }, "", "",
+    { en: "ン before p/b/m is pronounced like \"m\" — サンプル sounds closer to \"sampuru\".", id: "ン sebelum p/b/m dibaca seperti \"m\" — サンプル terdengar seperti \"sampuru\"." }],
+  ["コンビニ", "konbini", { en: "convenience store", id: "convenience store" }, "コンビニで おにぎりを かいました。",
+    [["コンビニ", "Konbini"], ["で", "de"], ["おにぎり", "onigiri"], ["を", "wo"], ["かいました", "kaimashita"]],
+    { en: "I bought a rice ball at the convenience store.", id: "Saya membeli onigiri di convenience store." }, "", "コンビニでおにぎりを買いました。",
+    { en: "ン before b is also pronounced like \"m\" — コンビニ sounds closer to \"combini\".", id: "ン sebelum b juga dibaca seperti \"m\" — コンビニ terdengar seperti \"combini\"." }],
+  ["アンテナ", "antena", { en: "antenna", id: "antena" }, "やねに アンテナが あります。",
+    [["やね", "Yane"], ["に", "ni"], ["アンテナ", "antena"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is an antenna on the roof.", id: "Ada antena di atap." }, "", "屋根にアンテナがあります。",
+    { en: "ン before n/t/d/s/z/r keeps a plain \"n\" sound, as in アンテナ.", id: "ン sebelum n/t/d/s/z/r tetap dibaca \"n\" biasa, seperti pada アンテナ." }],
+  ["ハンカチ", "hankachi", { en: "handkerchief", id: "sapu tangan" }, "ハンカチで てを ふきます。",
+    [["ハンカチ", "Hankachi"], ["で", "de"], ["て", "te"], ["を", "wo"], ["ふきます", "fukimasu"]],
+    { en: "I wipe my hands with a handkerchief.", id: "Saya mengelap tangan dengan sapu tangan." }, "", "ハンカチで手を拭きます。",
+    { en: "ン before k/g is pronounced like \"ng\" — ハンカチ has a soft nasal \"ng\" before the k.", id: "ン sebelum k/g dibaca seperti \"ng\" — ハンカチ punya bunyi nasal \"ng\" lembut sebelum k." }],
+  ["パン", "pan", { en: "bread", id: "roti" }, "あさ パンを たべます。",
+    [["あさ", "Asa"], ["パン", "pan"], ["を", "wo"], ["たべます", "tabemasu"]],
+    { en: "I eat bread in the morning.", id: "Saya makan roti di pagi hari." }, "", "朝パンを食べます。",
+    { en: "At the end of a word (or before a vowel/y/w), ン stays a plain nasalized \"n\", as in パン.", id: "Di akhir kata (atau sebelum vokal/y/w), ン tetap dibaca nasal \"n\" biasa, seperti pada パン." }]
+];
+/* Tokushuon (特殊音) — extended katakana combinations invented to write
+   foreign sounds the standard gojūon can't show on its own. This set covers
+   the "W" group: ウ + small ィ/ェ/ォ for foreign wi/we/wo (distinct from the
+   plain わ/を), taught through common loanwords. */
+const KATAKANA_TOKUSHUON_W_WORDS = [
+  ["ウィスキー", "wisukii", { en: "whiskey", id: "wiski" }, "ちちは ウィスキーが すきです。",
+    [["ちち", "Chichi"], ["は", "wa"], ["ウィスキー", "wisukii"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
+    { en: "My father likes whiskey.", id: "Ayah saya suka wiski." }, "", "父はウィスキーが好きです。",
+    { en: "ウィ combines ウ with a small ィ to write the foreign \"wi\" sound — something plain い alone can't show attached to a w-glide.", id: "ウィ menggabungkan ウ dengan ィ kecil untuk menulis bunyi asing \"wi\" — sesuatu yang tidak bisa ditunjukkan oleh い saja." }],
+  ["ウェブ", "webu", { en: "web", id: "web" }, "この ウェブサイトは べんりです。",
+    [["この", "Kono"], ["ウェブサイト", "webusaito"], ["は", "wa"], ["べんり", "benri"], ["です", "desu"]],
+    { en: "This website is convenient.", id: "Situs web ini praktis." }, "", "このウェブサイトは便利です。",
+    { en: "ウェ combines ウ with a small ェ to write the foreign \"we\" sound.", id: "ウェ menggabungkan ウ dengan ェ kecil untuk menulis bunyi asing \"we\"." }],
+  ["ウォーキング", "wookingu", { en: "walking (exercise)", id: "jalan kaki (olahraga)" }, "まいあさ ウォーキングを します。",
+    [["まいあさ", "Maiasa"], ["ウォーキング", "wookingu"], ["を", "wo"], ["します", "shimasu"]],
+    { en: "I go walking every morning.", id: "Saya jalan kaki setiap pagi." }, "", "毎朝ウォーキングをします。",
+    { en: "ウォ combines ウ with a small ォ to write the foreign \"wo\" sound — different from the を particle.", id: "ウォ menggabungkan ウ dengan ォ kecil untuk menulis bunyi asing \"wo\" — berbeda dari partikel を." }]
+];
+/* Tokushuon (特殊音) — "F" group: フ + small ァ/ィ/ェ/ォ for foreign fa/fi/fe/fo
+   sounds that the standard フ (fu) alone can't show. */
+const KATAKANA_TOKUSHUON_F_WORDS = [
+  ["ファミリー", "famirii", { en: "family", id: "keluarga" }, "これは わたしの ファミリーです。",
+    [["これ", "Kore"], ["は", "wa"], ["わたし", "watashi"], ["の", "no"], ["ファミリー", "famirii"], ["です", "desu"]],
+    { en: "This is my family.", id: "Ini keluarga saya." }, "", "これは私のファミリーです。",
+    { en: "ファ combines フ with a small ァ to write the foreign \"fa\" sound.", id: "ファ menggabungkan フ dengan ァ kecil untuk menulis bunyi asing \"fa\"." }],
+  ["フィルム", "firumu", { en: "film (camera)", id: "film (rol kamera)" }, "この カメラは フィルムを つかいます。",
+    [["この", "Kono"], ["カメラ", "kamera"], ["は", "wa"], ["フィルム", "firumu"], ["を", "wo"], ["つかいます", "tsukaimasu"]],
+    { en: "This camera uses film.", id: "Kamera ini menggunakan film (rol)." }, "", "このカメラはフィルムを使います。",
+    { en: "フィ combines フ with a small ィ to write the foreign \"fi\" sound.", id: "フィ menggabungkan フ dengan ィ kecil untuk menulis bunyi asing \"fi\"." }],
+  ["カフェ", "kafe", { en: "cafe", id: "kafe" }, "えきの まえに カフェが あります。",
+    [["えき", "Eki"], ["の", "no"], ["まえ", "mae"], ["に", "ni"], ["カフェ", "kafe"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a cafe in front of the station.", id: "Ada kafe di depan stasiun." }, "", "駅の前にカフェがあります。",
+    { en: "フェ combines フ with a small ェ to write the foreign \"fe\" sound.", id: "フェ menggabungkan フ dengan ェ kecil untuk menulis bunyi asing \"fe\"." }],
+  ["フォーク", "fooku", { en: "fork", id: "garpu" }, "フォークで たべます。",
+    [["フォーク", "Fooku"], ["で", "de"], ["たべます", "tabemasu"]],
+    { en: "I eat with a fork.", id: "Saya makan dengan garpu." }, "", "フォークで食べます。",
+    { en: "フォ combines フ with a small ォ to write the foreign \"fo\" sound.", id: "フォ menggabungkan フ dengan ォ kecil untuk menulis bunyi asing \"fo\"." }]
+];
+/* Tokushuon (特殊音) — "V" group: ウ+dakuten ヴ + small ァ/ィ/ェ/ォ (or ヴ alone
+   for "vu") to write foreign v-sounds distinct from the b-row (バ/ビ/ブ/ベ/ボ). */
+const KATAKANA_TOKUSHUON_V_WORDS = [
+  ["ヴァイオリン", "vaiorin", { en: "violin", id: "biola" }, "あねは ヴァイオリンを ならいます。",
+    [["あね", "Ane"], ["は", "wa"], ["ヴァイオリン", "vaiorin"], ["を", "wo"], ["ならいます", "naraimasu"]],
+    { en: "My older sister is learning the violin.", id: "Kakak perempuan saya belajar biola." }, "", "姉はヴァイオリンを習います。",
+    { en: "ヴァ combines ヴ (u + dakuten) with a small ァ to write the foreign \"va\" sound — distinct from バ (ba).", id: "ヴァ menggabungkan ヴ (u + dakuten) dengan ァ kecil untuk menulis bunyi asing \"va\" — berbeda dari バ (ba)." }],
+  ["ヴィーナス", "viinasu", { en: "Venus", id: "Venus" }, "あの えは ヴィーナスの えです。",
+    [["あの", "Ano"], ["え", "e"], ["は", "wa"], ["ヴィーナス", "viinasu"], ["の", "no"], ["え", "e"], ["です", "desu"]],
+    { en: "That painting is of Venus.", id: "Lukisan itu adalah lukisan Venus." }, "", "あの絵はヴィーナスの絵です。",
+    { en: "ヴィ combines ヴ with a small ィ to write the foreign \"vi\" sound — distinct from ビ (bi).", id: "ヴィ menggabungkan ヴ dengan ィ kecil untuk menulis bunyi asing \"vi\" — berbeda dari ビ (bi)." }],
+  ["ヴェール", "veeru", { en: "veil", id: "kerudung/veil" }, "はなよめは ヴェールを つけています。",
+    [["はなよめ", "Hanayome"], ["は", "wa"], ["ヴェール", "veeru"], ["を", "wo"], ["つけています", "tsuketeimasu"]],
+    { en: "The bride is wearing a veil.", id: "Pengantin wanita mengenakan veil." }, "", "花嫁はヴェールをつけています。",
+    { en: "ヴェ combines ヴ with a small ェ to write the foreign \"ve\" sound — distinct from ベ (be).", id: "ヴェ menggabungkan ヴ dengan ェ kecil untuk menulis bunyi asing \"ve\" — berbeda dari ベ (be)." }],
+  ["ヴォーカル", "vookaru", { en: "vocal / singer", id: "vokalis" }, "かれは バンドの ヴォーカルです。",
+    [["かれ", "Kare"], ["は", "wa"], ["バンド", "bando"], ["の", "no"], ["ヴォーカル", "vookaru"], ["です", "desu"]],
+    { en: "He is the vocalist of the band.", id: "Dia adalah vokalis band tersebut." }, "", "彼はバンドのヴォーカルです。",
+    { en: "ヴォ combines ヴ with a small ォ to write the foreign \"vo\" sound — distinct from ボ (bo).", id: "ヴォ menggabungkan ヴ dengan ォ kecil untuk menulis bunyi asing \"vo\" — berbeda dari ボ (bo)." }]
+];
+/* Tokushuon (特殊音) — "T & D" group: テ/デ + small ィ for foreign ti/di
+   (distinct from ち/ji), and ト/ド + small ゥ for foreign tu/du (distinct
+   from つ/zu). ドゥ is rarer than the other three, so its example word is
+   less common in everyday speech. */
+const KATAKANA_TOKUSHUON_TD_WORDS = [
+  ["パーティー", "paatii", { en: "party", id: "pesta" }, "きんようびに パーティーが あります。",
+    [["きんようび", "Kinyoubi"], ["に", "ni"], ["パーティー", "paatii"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There's a party on Friday.", id: "Ada pesta pada hari Jumat." }, "", "金曜日にパーティーがあります。",
+    { en: "ティ combines テ with a small ィ to write the foreign \"ti\" sound — distinct from ち (chi).", id: "ティ menggabungkan テ dengan ィ kecil untuk menulis bunyi asing \"ti\" — berbeda dari ち (chi)." }],
+  ["キャンディ", "kyandi", { en: "candy", id: "permen" }, "こどもは キャンディが すきです。",
+    [["こども", "Kodomo"], ["は", "wa"], ["キャンディ", "kyandi"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
+    { en: "Children like candy.", id: "Anak-anak suka permen." }, "", "子供はキャンディが好きです。",
+    { en: "ディ combines デ with a small ィ to write the foreign \"di\" sound — distinct from ぢ/じ (ji).", id: "ディ menggabungkan デ dengan ィ kecil untuk menulis bunyi asing \"di\" — berbeda dari ぢ/じ (ji)." }],
+  ["タトゥー", "tatuu", { en: "tattoo", id: "tato" }, "かれは うでに タトゥーが あります。",
+    [["かれ", "Kare"], ["は", "wa"], ["うで", "ude"], ["に", "ni"], ["タトゥー", "tatuu"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "He has a tattoo on his arm.", id: "Dia punya tato di lengannya." }, "", "彼は腕にタトゥーがあります。",
+    { en: "トゥ combines ト with a small ゥ to write the foreign \"tu\" sound — distinct from つ (tsu).", id: "トゥ menggabungkan ト dengan ゥ kecil untuk menulis bunyi asing \"tu\" — berbeda dari つ (tsu)." }],
+  ["ヒンドゥー", "hindu", { en: "Hindu", id: "Hindu" }, "インドには ヒンドゥーの じいんが たくさん あります。",
+    [["インド", "Indo"], ["に", "ni"], ["は", "wa"], ["ヒンドゥー", "hindu"], ["の", "no"], ["じいん", "jiin"], ["が", "ga"], ["たくさん", "takusan"], ["あります", "arimasu"]],
+    { en: "There are many Hindu temples in India.", id: "Di India ada banyak kuil Hindu." }, "", "インドにはヒンドゥーの寺院がたくさんあります。",
+    { en: "ドゥ combines ド with a small ゥ to write the foreign \"du\" sound — rarer than the other three, but used in words like ヒンドゥー.", id: "ドゥ menggabungkan ド dengan ゥ kecil untuk menulis bunyi asing \"du\" — lebih jarang dari tiga lainnya, tapi dipakai di kata seperti ヒンドゥー." }]
+];
+/* Tokushuon (特殊音) — "Sh, Ch, J" group: シ/チ/ジ + small ェ for foreign
+   she/che/je (distinct from せ/te/ze). */
+const KATAKANA_TOKUSHUON_SHCHJ_WORDS = [
+  ["シェフ", "shefu", { en: "chef", id: "koki" }, "あの レストランの シェフは ゆうめいです。",
+    [["あの", "Ano"], ["レストラン", "resutoran"], ["の", "no"], ["シェフ", "shefu"], ["は", "wa"], ["ゆうめい", "yuumei"], ["です", "desu"]],
+    { en: "The chef of that restaurant is famous.", id: "Koki di restoran itu terkenal." }, "", "あのレストランのシェフは有名です。",
+    { en: "シェ combines シ with a small ェ to write the foreign \"she\" sound — distinct from せ (se).", id: "シェ menggabungkan シ dengan ェ kecil untuk menulis bunyi asing \"she\" — berbeda dari せ (se)." }],
+  ["チェック", "chekku", { en: "check (verify)", id: "cek/memeriksa" }, "メールを チェックします。",
+    [["メール", "Meeru"], ["を", "wo"], ["チェック", "chekku"], ["します", "shimasu"]],
+    { en: "I check my email.", id: "Saya memeriksa email." }, "", "メールをチェックします。",
+    { en: "チェ combines チ with a small ェ to write the foreign \"che\" sound — distinct from て (te).", id: "チェ menggabungkan チ dengan ェ kecil untuk menulis bunyi asing \"che\" — berbeda dari て (te)." }],
+  ["ジェットコースター", "jettokoosutaa", { en: "roller coaster", id: "roller coaster" }, "ゆうえんちで ジェットコースターに のりました。",
+    [["ゆうえんち", "Yuuenchi"], ["で", "de"], ["ジェットコースター", "jettokoosutaa"], ["に", "ni"], ["のりました", "norimashita"]],
+    { en: "I rode the roller coaster at the amusement park.", id: "Saya naik roller coaster di taman hiburan." }, "", "遊園地でジェットコースターに乗りました。",
+    { en: "ジェ combines ジ with a small ェ to write the foreign \"je\" sound — distinct from ぜ (ze).", id: "ジェ menggabungkan ジ dengan ェ kecil untuk menulis bunyi asing \"je\" — berbeda dari ぜ (ze)." }]
+];
+/* Tokushuon (特殊音) — "Ts" group: ツ + small ァ/ィ/ェ/ォ for foreign
+   tsa/tsi/tse/tso (distinct from た/ち/せ/そ). ツィ and ツォ are rarer than
+   ツァ and ツェ, showing up mostly in place names and loanwords. */
+const KATAKANA_TOKUSHUON_TS_WORDS = [
+  ["ピッツァ", "pittsua", { en: "pizza", id: "pizza" }, "こんばんは ピッツァを たべます。",
+    [["こんばん", "Konban"], ["は", "wa"], ["ピッツァ", "pittsua"], ["を", "wo"], ["たべます", "tabemasu"]],
+    { en: "I'll eat pizza tonight.", id: "Malam ini saya akan makan pizza." }, "", "今晩はピッツァを食べます。",
+    { en: "ツァ combines ツ with a small ァ to write the foreign \"tsa\" sound — distinct from た (ta).", id: "ツァ menggabungkan ツ dengan ァ kecil untuk menulis bunyi asing \"tsa\" — berbeda dari た (ta)." }],
+  ["ヴェネツィア", "venetsia", { en: "Venice", id: "Venesia" }, "らいねん ヴェネツィアへ いきます。",
+    [["らいねん", "Rainen"], ["ヴェネツィア", "venetsia"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "Next year I'm going to Venice.", id: "Tahun depan saya akan pergi ke Venesia." }, "", "来年ヴェネツィアへ行きます。",
+    { en: "ツィ combines ツ with a small ィ to write the foreign \"tsi\" sound — distinct from ち (chi).", id: "ツィ menggabungkan ツ dengan ィ kecil untuk menulis bunyi asing \"tsi\" — berbeda dari ち (chi)." }],
+  ["ツェッペリン", "tsepperin", { en: "zeppelin (airship)", id: "zeppelin (pesawat udara)" }, "そらに ツェッペリンが みえます。",
+    [["そら", "Sora"], ["に", "ni"], ["ツェッペリン", "tsepperin"], ["が", "ga"], ["みえます", "miemasu"]],
+    { en: "I can see a zeppelin in the sky.", id: "Saya bisa melihat zeppelin di langit." }, "", "空にツェッペリンが見えます。",
+    { en: "ツェ combines ツ with a small ェ to write the foreign \"tse\" sound — distinct from せ (se).", id: "ツェ menggabungkan ツ dengan ェ kecil untuk menulis bunyi asing \"tse\" — berbeda dari せ (se)." }],
+  ["スケルツォ", "sukerutsuo", { en: "scherzo (music)", id: "skerzo (musik)" }, "この きょくは スケルツォです。",
+    [["この", "Kono"], ["きょく", "kyoku"], ["は", "wa"], ["スケルツォ", "sukerutsuo"], ["です", "desu"]],
+    { en: "This piece of music is a scherzo.", id: "Lagu ini adalah skerzo." }, "", "この曲はスケルツォです。",
+    { en: "ツォ combines ツ with a small ォ to write the foreign \"tso\" sound — distinct from そ (so), rare but used in music terms like スケルツォ.", id: "ツォ menggabungkan ツ dengan ォ kecil untuk menulis bunyi asing \"tso\" — berbeda dari そ (so), jarang tapi dipakai di istilah musik seperti スケルツォ." }]
+];
+/* Tokushuon (特殊音) — "Other" group: a mixed set of rarer extended
+   combinations from the official gairaigo table — イェ (ye), クァ/グァ
+   (kwa/gwa), and デュ (dyu) — each distinct from its plain-kana neighbor
+   (イエ/カ・ガ/ジュ). These are less common than the other Tokushuon groups,
+   and some words are just as often spelled with the plain kana instead. */
+const KATAKANA_TOKUSHUON_OTHER_WORDS = [
+  ["イェルサレム", "yerusaremu", { en: "Jerusalem", id: "Yerusalem" }, "イェルサレムは ふるい まちです。",
+    [["イェルサレム", "Yerusaremu"], ["は", "wa"], ["ふるい", "furui"], ["まち", "machi"], ["です", "desu"]],
+    { en: "Jerusalem is an old city.", id: "Yerusalem adalah kota tua." }, "", "イェルサレムは古い町です。",
+    { en: "イェ combines イ with a small ェ to write the foreign \"ye\" sound more precisely — though エルサレム (without イェ) is just as common.", id: "イェ menggabungkan イ dengan ェ kecil untuk menulis bunyi asing \"ye\" lebih tepat — meski エルサレム (tanpa イェ) juga sama umumnya." }],
+  ["クァルテット", "kwarutetto", { en: "quartet", id: "kuartet" }, "あの バンドは クァルテットです。",
+    [["あの", "Ano"], ["バンド", "bando"], ["は", "wa"], ["クァルテット", "kwarutetto"], ["です", "desu"]],
+    { en: "That band is a quartet.", id: "Band itu adalah kuartet." }, "", "あのバンドはクァルテットです。",
+    { en: "クァ combines ク with a small ァ to write the foreign \"kwa\" sound, keeping the w-glide that plain カ (ka) doesn't show.", id: "クァ menggabungkan ク dengan ァ kecil untuk menulis bunyi asing \"kwa\", mempertahankan bunyi w yang tidak ada di カ (ka) biasa." }],
+  ["グァテマラ", "gwatemara", { en: "Guatemala", id: "Guatemala" }, "グァテマラに いきたいです。",
+    [["グァテマラ", "Gwatemara"], ["に", "ni"], ["いきたい", "ikitai"], ["です", "desu"]],
+    { en: "I want to go to Guatemala.", id: "Saya ingin pergi ke Guatemala." }, "", "グァテマラに行きたいです。",
+    { en: "グァ combines グ with a small ァ to write the foreign \"gwa\" sound — distinct from ガ (ga).", id: "グァ menggabungkan グ dengan ァ kecil untuk menulis bunyi asing \"gwa\" — berbeda dari ガ (ga)." }],
+  ["デュエット", "dyuetto", { en: "duet", id: "duet" }, "あねは デュエットを うたいます。",
+    [["あね", "Ane"], ["は", "wa"], ["デュエット", "dyuetto"], ["を", "wo"], ["うたいます", "utaimasu"]],
+    { en: "My older sister sings a duet.", id: "Kakak perempuan saya menyanyikan duet." }, "", "姉はデュエットを歌います。",
+    { en: "デュ combines デ with a small ュ to write the foreign \"dyu\" sound — distinct from ジュ (ju).", id: "デュ menggabungkan デ dengan ュ kecil untuk menulis bunyi asing \"dyu\" — berbeda dari ジュ (ju)." }]
+];
 
 /* ---- Kanji N5 (char, reading-for-learning, meaning-for-quiz, kana-for-TTS) ----
    elemen ke-4 (kana) WAJIB diisi untuk kanji tunggal — TTS browser sering "menebak"
@@ -1417,15 +1692,90 @@ const KOTOBA_N5_CH1_2 = [
 
 // Sub-Tier 1.3: Profesi & Peran (3)
 const KOTOBA_N5_CH1_3 = [
-  ["がくせい", "gakusei", { en: "student", id: "murid / siswa" }, "がくせいは まいにち べんきょうします。",
-    [["がくせい", "Gakusei"], ["は", "wa"], ["まいにち", "mainichi"], ["べんきょう", "benkyou"], ["します", "shimasu"]],
-    { en: "Students study every day.", id: "Murid belajar setiap hari." }, "学生"],
-  ["かいしゃいん", "kaishain", { en: "company employee", id: "karyawan perusahaan" }, "ちちは かいしゃいんです。",
-    [["ちち", "Chichi"], ["は", "wa"], ["かいしゃいん", "kaishain"], ["です", "desu"]],
-    { en: "My father is a company employee.", id: "Ayah saya adalah karyawan perusahaan." }, "会社員"],
+  ["がくせい", "gakusei", { en: "student", id: "siswa / mahasiswa" }, "がくせいは まいにち がっこうへ いきます。",
+    [["がくせい", "Gakusei"], ["は", "wa"], ["まいにち", "mainichi"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "The student goes to school every day.", id: "Siswa itu pergi ke sekolah setiap hari." }, "学生", "",
+    { en: "General word for a student at any level (school or university). For a foreign student specifically, use ryuugakusei below.", id: "Kata umum untuk pelajar di jenjang apa pun (sekolah maupun kuliah). Untuk pelajar asing secara spesifik, gunakan りゅうがくせい di bawah." }],
+  ["せんせい", "sensei", { en: "teacher / professor / doctor (respectful title)", id: "guru / dosen / dokter (sapaan hormat)" }, "せんせいは とても しんせつです。",
+    [["せんせい", "Sensei"], ["は", "wa"], ["とても", "totemo"], ["しんせつです", "shinsetsu desu"]],
+    { en: "The teacher is very kind.", id: "Guru itu sangat baik hati." }, "先生", "",
+    { en: "A respectful title used for teachers, doctors, and other experts — never use it for your own job. For 'teacher' as a plain occupation, use kyoushi instead.", id: "Gelar hormat untuk guru, dokter, dan ahli lain — jangan pakai untuk menyebut pekerjaan diri sendiri. Untuk 'guru' sebagai profesi biasa, gunakan きょうし." }],
+  ["きょうし", "kyoushi", { en: "teacher, instructor (as an occupation)", id: "guru / pengajar (sebagai profesi)" }, "あには きょうしです。",
+    [["あに", "Ani"], ["は", "wa"], ["きょうしです", "kyoushi desu"]],
+    { en: "My older brother is a teacher (by profession).", id: "Kakak laki-laki saya berprofesi sebagai guru." }, "教師", "",
+    { en: "Used to state teaching as a job (e.g. self-introduction), unlike sensei which is a respectful title used to address or refer to someone.", id: "Dipakai untuk menyebut profesi mengajar (mis. saat memperkenalkan diri), berbeda dengan せんせい yang merupakan sapaan hormat kepada orang lain." }],
+  ["かいしゃいん", "kaishain", { en: "company employee", id: "pegawai perusahaan / karyawan" }, "ちちは かいしゃいんです。",
+    [["ちち", "Chichi"], ["は", "wa"], ["かいしゃいんです", "kaishain desu"]],
+    { en: "My father is a company employee.", id: "Ayah saya adalah karyawan perusahaan." }, "会社員", "",
+    { en: "The default, general word for a white-collar office worker — a very common self-introduction answer to 'what's your job?'", id: "Kata umum/default untuk pekerja kantoran — jawaban yang sangat umum saat memperkenalkan pekerjaan diri sendiri." }],
+  ["しゃいん", "shain", { en: "employee (of a company)", id: "karyawan (perusahaan tertentu)" }, "かれは この かいしゃの しゃいんです。",
+    [["かれ", "Kare"], ["は", "wa"], ["この", "kono"], ["かいしゃ", "kaisha"], ["の", "no"], ["しゃいんです", "shain desu"]],
+    { en: "He is an employee of this company.", id: "Dia adalah karyawan perusahaan ini." }, "社員", "",
+    { en: "Emphasizes belonging to a specific company (usually said with 'this/that company's shain'), while kaishain is the general job label.", id: "Menekankan keanggotaan pada perusahaan tertentu (biasanya diucapkan sebagai 'shain-nya perusahaan ini/itu'), sedangkan かいしゃいん adalah label pekerjaan yang lebih umum." }],
+  ["ぎんこういん", "ginkouin", { en: "bank employee", id: "pegawai bank" }, "あねは ぎんこういんです。",
+    [["あね", "Ane"], ["は", "wa"], ["ぎんこういんです", "ginkouin desu"]],
+    { en: "My older sister is a bank employee.", id: "Kakak perempuan saya adalah pegawai bank." }, "銀行員", "",
+    { en: "Follows the same pattern as kaishain: workplace (ginkou = bank) + in (member/staff) = someone who works there.", id: "Mengikuti pola yang sama seperti かいしゃいん: tempat kerja (ぎんこう = bank) + いん (anggota/staf) = orang yang bekerja di sana." }],
   ["いしゃ", "isha", { en: "doctor", id: "dokter" }, "あには いしゃです。",
-    [["あに", "Ani"], ["は", "wa"], ["いしゃ", "isha"], ["です", "desu"]],
-    { en: "My older brother is a doctor.", id: "Kakak laki-laki saya adalah dokter." }, "医者"]
+    [["あに", "Ani"], ["は", "wa"], ["いしゃです", "isha desu"]],
+    { en: "My older brother is a doctor.", id: "Kakak laki-laki saya adalah dokter." }, "医者", "",
+    { en: "Used to state 'doctor' as an occupation. When speaking to or about a specific doctor respectfully, isha-sensei or just sensei is more common.", id: "Dipakai untuk menyebut 'dokter' sebagai profesi. Saat berbicara kepada/tentang seorang dokter secara hormat, lebih umum memakai isha-sensei atau cukup せんせい." }],
+  ["けんきゅうしゃ", "kenkyuusha", { en: "researcher", id: "peneliti" }, "かのじょは だいがくの けんきゅうしゃです。",
+    [["かのじょ", "Kanojo"], ["は", "wa"], ["だいがく", "daigaku"], ["の", "no"], ["けんきゅうしゃです", "kenkyuusha desu"]],
+    { en: "She is a researcher at the university.", id: "Dia adalah peneliti di universitas." }, "研究者", "",
+    { en: "Formed from kenkyuu (research) + -sha (person), a common suffix pattern for occupations — compare enjinia and bengoshi.", id: "Terbentuk dari けんきゅう (riset) + しゃ (orang), pola akhiran umum untuk nama profesi — bandingkan dengan エンジニア dan べんごし." }],
+  ["エンジニア", "enjinia", { en: "engineer", id: "insinyur / engineer" }, "あには エンジニアです。",
+    [["あに", "Ani"], ["は", "wa"], ["エンジニアです", "enjinia desu"]],
+    { en: "My older brother is an engineer.", id: "Kakak laki-laki saya adalah seorang insinyur." }, "", "",
+    { en: "A loanword from English, so it's written in katakana rather than kanji.", id: "Kata serapan dari bahasa Inggris, karena itu ditulis dengan katakana, bukan kanji." }],
+  ["こうむいん", "koumuin", { en: "civil servant", id: "pegawai negeri sipil (PNS)" }, "ちちは こうむいんです。",
+    [["ちち", "Chichi"], ["は", "wa"], ["こうむいんです", "koumuin desu"]],
+    { en: "My father is a civil servant.", id: "Ayah saya adalah pegawai negeri sipil." }, "公務員", "",
+    { en: "Covers government workers in general (local or national), not just office clerks — includes many public-sector jobs.", id: "Mencakup pekerja pemerintahan secara umum (daerah maupun nasional), bukan hanya staf administrasi — meliputi banyak jenis pekerjaan sektor publik." }],
+  ["てんいん", "tenin", { en: "store clerk, shop employee", id: "pegawai / kasir toko" }, "てんいんに みちを ききました。",
+    [["てんいん", "Tenin"], ["に", "ni"], ["みち", "michi"], ["を", "wo"], ["ききました", "kikimashita"]],
+    { en: "I asked the store clerk for directions.", id: "Saya bertanya arah jalan kepada pegawai toko." }, "店員", "",
+    { en: "Used to refer to a shop staff member you're interacting with, e.g. at a convenience store or restaurant.", id: "Dipakai untuk menyebut staf toko yang sedang berinteraksi dengan kita, mis. di minimarket atau restoran." }],
+  ["りゅうがくせい", "ryuugakusei", { en: "international student", id: "pelajar / mahasiswa asing" }, "かのじょは にほんの りゅうがくせいです。",
+    [["かのじょ", "Kanojo"], ["は", "wa"], ["にほん", "nihon"], ["の", "no"], ["りゅうがくせいです", "ryuugakusei desu"]],
+    { en: "She is an international student in Japan.", id: "Dia adalah mahasiswa asing di Jepang." }, "留学生", "",
+    { en: "Specifically means a student studying abroad — a more specific version of the general gakusei.", id: "Secara spesifik berarti pelajar yang belajar di luar negeri — bentuk lebih spesifik dari がくせい yang umum." }],
+  ["おとな", "otona", { en: "adult", id: "orang dewasa" }, "おとなに なったら、なにを したいですか。",
+    [["おとな", "Otona"], ["に", "ni"], ["なったら", "nattara"], ["なに", "nani"], ["を", "wo"], ["したい", "shitai"], ["ですか", "desu ka"]],
+    { en: "What do you want to do when you become an adult?", id: "Kalau sudah menjadi orang dewasa, kamu ingin melakukan apa?" }, "大人", "",
+    { en: "An age-category word (adult vs. child), not an occupation — the opposite of kodomo below.", id: "Kata kategori usia (dewasa vs. anak), bukan profesi — lawan kata dari こども di bawah." }],
+  ["こども", "kodomo", { en: "child, children", id: "anak-anak" }, "こどもたちが こうえんで あそんでいます。",
+    [["こどもたち", "Kodomo-tachi"], ["が", "ga"], ["こうえん", "kouen"], ["で", "de"], ["あそんでいます", "asondeimasu"]],
+    { en: "The children are playing in the park.", id: "Anak-anak sedang bermain di taman." }, "子供", "",
+    { en: "Add -tachi (kodomo-tachi) to explicitly mark plural, e.g. 'the children', as seen in the example sentence.", id: "Tambahkan -tachi (kodomotachi) untuk menandai bentuk jamak secara eksplisit, mis. 'anak-anak', seperti pada contoh kalimat." }],
+  ["おとこのひと", "otoko no hito", { en: "man (adult male)", id: "laki-laki dewasa" }, "あの おとこのひとは だれですか。",
+    [["あの", "Ano"], ["おとこのひと", "otoko no hito"], ["は", "wa"], ["だれですか", "dare desu ka"]],
+    { en: "Who is that man?", id: "Siapa laki-laki itu?" }, "男の人", "",
+    { en: "Literally 'male person' — a neutral, descriptive way to refer to a man whose name you don't know.", id: "Secara harfiah berarti 'orang laki-laki' — cara netral & deskriptif untuk menyebut laki-laki yang belum diketahui namanya." }],
+  ["おんなのひと", "onna no hito", { en: "woman (adult female)", id: "perempuan dewasa" }, "あの おんなのひとは わたしの ははです。",
+    [["あの", "Ano"], ["おんなのひと", "onna no hito"], ["は", "wa"], ["わたし", "watashi"], ["の", "no"], ["はは", "haha"], ["です", "desu"]],
+    { en: "That woman is my mother.", id: "Perempuan itu adalah ibu saya." }, "女の人", "",
+    { en: "Literally 'female person' — the counterpart to otoko no hito, used the same neutral, descriptive way.", id: "Secara harfiah berarti 'orang perempuan' — pasangan dari おとこのひと, dipakai dengan cara yang sama-sama netral & deskriptif." }],
+  ["おとこのこ", "otoko no ko", { en: "boy", id: "anak laki-laki" }, "あの おとこのこは わたしの おとうとです。",
+    [["あの", "Ano"], ["おとこのこ", "otoko no ko"], ["は", "wa"], ["わたし", "watashi"], ["の", "no"], ["おとうと", "otouto"], ["です", "desu"]],
+    { en: "That boy is my younger brother.", id: "Anak laki-laki itu adalah adik laki-laki saya." }, "男の子", "",
+    { en: "Swap hito (person/adult) for ko (child) to get the child version: otoko no hito → otoko no ko.", id: "Ganti hito (orang/dewasa) dengan ko (anak) untuk mendapat versi anak-anaknya: otoko no hito → otoko no ko." }],
+  ["おんなのこ", "onna no ko", { en: "girl", id: "anak perempuan" }, "おんなのこが うたを うたっています。",
+    [["おんなのこ", "Onna no ko"], ["が", "ga"], ["うた", "uta"], ["を", "wo"], ["うたっています", "utatteimasu"]],
+    { en: "The girl is singing a song.", id: "Anak perempuan itu sedang menyanyikan lagu." }, "女の子", "",
+    { en: "The child counterpart of onna no hito, following the same otoko/onna + hito/ko pattern.", id: "Versi anak-anak dari おんなのひと, mengikuti pola yang sama: otoko/onna + hito/ko." }],
+  ["べんごし", "bengoshi", { en: "lawyer", id: "pengacara" }, "あねは べんごしです。",
+    [["あね", "Ane"], ["は", "wa"], ["べんごしです", "bengoshi desu"]],
+    { en: "My older sister is a lawyer.", id: "Kakak perempuan saya adalah seorang pengacara." }, "弁護士", "",
+    { en: "Like isha and kyoushi, this can be stated on its own as a profession without needing a title like sensei.", id: "Seperti いしゃ dan きょうし, kata ini bisa langsung dipakai sebagai profesi tanpa perlu gelar seperti せんせい." }],
+  ["かんごし", "kangoshi", { en: "nurse", id: "perawat" }, "びょういんに かんごしが たくさん います。",
+    [["びょういん", "Byouin"], ["に", "ni"], ["かんごし", "kangoshi"], ["が", "ga"], ["たくさん", "takusan"], ["います", "imasu"]],
+    { en: "There are many nurses in the hospital.", id: "Ada banyak perawat di rumah sakit." }, "看護師", "",
+    { en: "Gender-neutral term for 'nurse' in modern Japanese, replacing the older kangofu (which specifically meant a female nurse).", id: "Istilah netral gender untuk 'perawat' dalam bahasa Jepang modern, menggantikan istilah lama kangofu (yang secara khusus berarti perawat perempuan)." }],
+  ["かた", "kata", { en: "person (polite)", id: "orang (bentuk sopan)" }, "あの かたは だれですか。",
+    [["あの", "Ano"], ["かた", "kata"], ["は", "wa"], ["だれですか", "dare desu ka"]],
+    { en: "Who is that person?", id: "Siapa orang itu? (bentuk sopan)" }, "方", "",
+    { en: "The polite/formal version of hito — use kata instead of hito when speaking respectfully, e.g. about a customer or elder.", id: "Versi sopan/formal dari hito — gunakan kata alih-alih hito saat berbicara dengan hormat, mis. tentang pelanggan atau orang yang lebih tua." }]
 ];
 
 // Sub-Tier 2.1: Waktu Harian & Keterangan Waktu (5)
@@ -1802,7 +2152,7 @@ const KOTOBA_N5_LEVEL_META = [
 const KOTOBA_N5_LEVEL_TEXT = {
   tier1: { title: { en: "Tier 1.1 — Personal Pronouns & Greetings", id: "Tier 1.1 — Kata Ganti Orang & Sapaan" }, sample: "わたし あなた こんにちは", desc: { en: "29 N5 vocabulary words.", id: "29 kosakata N5." } },
   tier2: { title: { en: "Tier 1.2 — Family & Relationships", id: "Tier 1.2 — Keluarga & Hubungan" }, sample: "かぞく ちち はは", desc: { en: "24 N5 vocabulary words.", id: "24 kosakata N5." } },
-  tier3: { title: { en: "Tier 1.3 — Occupations & Roles", id: "Tier 1.3 — Profesi & Peran" }, sample: "がくせい かいしゃいん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
+  tier3: { title: { en: "Tier 1.3 — Occupations & Roles", id: "Tier 1.3 — Profesi & Peran" }, sample: "がくせい かいしゃいん", desc: { en: "21 N5 vocabulary words.", id: "21 kosakata N5." } },
   tier4: { title: { en: "Tier 2.1 — Daily Time & Time Expressions", id: "Tier 2.1 — Waktu Harian & Keterangan Waktu" }, sample: "いま きょう あした", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
   tier5: { title: { en: "Tier 2.2 — Days, Months, & Hours", id: "Tier 2.2 — Hari, Bulan, & Jam" }, sample: "げつようび いちじかん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
   tier6: { title: { en: "Tier 2.3 — Numbers & Counters", id: "Tier 2.3 — Bilangan & Satuan Penghitung" }, sample: "ひとつ ひとり まい", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
@@ -1824,8 +2174,45 @@ const KOTOBA_N5_LEVEL_TEXT = {
   tier22: { title: { en: "Tier 7.3 — Question Words & Adverbs", id: "Tier 7.3 — Kata Tanya & Kata Keterangan" }, sample: "どこ いつ なに", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
   tier23: { title: { en: "Tier 7.4 — Conjunctions & Connectors", id: "Tier 7.4 — Kata Hubung & Sambungan" }, sample: "そして でも だから", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
   tier24: { title: { en: "Tier 7.5 — Adverbs & Modifiers", id: "Tier 7.5 — Kata Keterangan Derajat & Tata Bahasa" }, sample: "とても すこし たくさん", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
-  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 147 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 147 kosakata N5 diacak menjadi satu Chapter." } }
+  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 165 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 165 kosakata N5 diacak menjadi satu Chapter." } }
 };
+
+// Kotoba N5 py 24 sub-tier (tier1..tier24) + "all" — kepanjangan kalau ditampilkan
+// flat sekaligus, jadi dikelompokkan jadi Nested Accordion: 7 kelompok "Chapter"
+// (masing-masing menaungi 3-5 sub-tier, total 24) + kartu "All Mixed" berdiri
+// sendiri di luar kelompok manapun, jadi totalnya 8 tingkatan teratas.
+// renderLevels() memakai array ini kalau script.groups ada; kalau tidak ada,
+// script lain (hiragana/katakana/kanji/bunpō) tetap dirender flat seperti biasa.
+const KOTOBA_TIER_GROUP_DEFS = [
+  { tierKeys: ["tier1", "tier2", "tier3"], sample: "わたし かぞく がくせい",
+    title: { en: "Chapter 1 — People & Relationships", id: "Chapter 1 — Orang & Hubungan" } },
+  { tierKeys: ["tier4", "tier5", "tier6", "tier7"], sample: "いま げつようび ひとつ",
+    title: { en: "Chapter 2 — Time & Numbers", id: "Chapter 2 — Waktu & Angka" } },
+  { tierKeys: ["tier8", "tier9", "tier10"], sample: "ごはん ほん ふく",
+    title: { en: "Chapter 3 — Things & Belongings", id: "Chapter 3 — Benda & Barang" } },
+  { tierKeys: ["tier11", "tier12", "tier13"], sample: "がっこう うえ でんしゃ",
+    title: { en: "Chapter 4 — Places & Direction", id: "Chapter 4 — Tempat & Arah" } },
+  { tierKeys: ["tier14", "tier15", "tier16"], sample: "たべる いく はなす",
+    title: { en: "Chapter 5 — Verbs & Actions", id: "Chapter 5 — Kata Kerja & Aktivitas" } },
+  { tierKeys: ["tier17", "tier18", "tier19"], sample: "おおきい あつい すき",
+    title: { en: "Chapter 6 — Adjectives", id: "Chapter 6 — Kata Sifat" } },
+  { tierKeys: ["tier20", "tier21", "tier22", "tier23", "tier24"], sample: "てんき あか どこ",
+    title: { en: "Chapter 7 — Nature, Colors & Grammar Words", id: "Chapter 7 — Alam, Warna & Kata Tata Bahasa" } }
+];
+const KOTOBA_TIER_GROUPS = KOTOBA_TIER_GROUP_DEFS.map((g, gi) => {
+  const wordCount = g.tierKeys.reduce((sum, tk) => sum + KOTOBA_N5_CHAPTERS[KOTOBA_TIER_KEYS.indexOf(tk)].length, 0);
+  return {
+    id: "grp" + (gi + 1),
+    chapterNum: gi + 1,
+    tierKeys: g.tierKeys,
+    title: g.title,
+    sample: g.sample,
+    desc: {
+      en: `${wordCount} N5 vocabulary words across ${g.tierKeys.length} sub-tiers.`,
+      id: `${wordCount} kosakata N5 dalam ${g.tierKeys.length} sub-tier.`
+    }
+  };
+});
 const KOTOBA_N5_LEARN = [
   { tierKey: "tier1", title: KOTOBA_N5_LEVEL_TEXT.tier1.title, desc: KOTOBA_N5_LEVEL_TEXT.tier1.desc, items: KOTOBA_N5_CH1_1 },
   { tierKey: "tier2", title: KOTOBA_N5_LEVEL_TEXT.tier2.title, desc: KOTOBA_N5_LEVEL_TEXT.tier2.desc, items: KOTOBA_N5_CH1_2 },
@@ -2096,7 +2483,10 @@ const SCRIPTS = {
     learnSections: [
       { tierKey: "tier1", title: { en: "Gojūon — Basic", id: "Gojūon — Dasar" }, desc: { en: "The 46 core characters. This is the foundation you need to memorize first.", id: "46 karakter inti. Ini fondasi yang wajib dihafal duluan." }, rows: GOJUON_HIRAGANA.tier1 },
       { tierKey: "tier2", title: { en: "Dakuten & Handakuten — Dotted", id: "Dakuten & Handakuten — Bertitik" }, desc: { en: "A double mark (゛) or small circle (゜) changes how the character is read.", id: "Tanda titik dua (゛) atau lingkaran kecil (゜) mengubah cara baca." }, rows: GOJUON_HIRAGANA.tier2 },
-      { tierKey: "tier3", title: { en: "Yōon — Combined", id: "Yōon — Gabungan" }, desc: { en: "A consonant + small ゃゅょ, read together as one syllable.", id: "Konsonan + ゃゅょ kecil yang dibaca sebagai satu suku kata." }, rows: GOJUON_HIRAGANA.tier3 }
+      { tierKey: "tier3", title: { en: "Yōon — Combined", id: "Yōon — Gabungan" }, desc: { en: "A consonant + small ゃゅょ, read together as one syllable.", id: "Konsonan + ゃゅょ kecil yang dibaca sebagai satu suku kata." }, rows: GOJUON_HIRAGANA.tier3 },
+      { tierKey: "sokuon", title: { en: "Sokuon — Small っ", id: "Sokuon — っ Kecil" }, desc: { en: "A small っ before a consonant means a short held pause — double that consonant when reading it, e.g. がっこう (gakkou), きって (kitte).", id: "っ kecil sebelum konsonan berarti jeda singkat — konsonan berikutnya dibaca ganda, contoh: がっこう (gakkou), きって (kitte)." }, items: HIRAGANA_SOKUON_WORDS },
+      { tierKey: "choon", title: { en: "Chōon — Long Vowel", id: "Chōon — Vokal Panjang" }, desc: { en: "A long vowel sound made by doubling the vowel. The a/i/u rows usually double the same kana; the e/o rows usually lengthen with い / う instead, e.g. おかあさん (okaasan), おにいさん (oniisan), くうき (kuuki), せんせい (sensei), とうきょう (toukyou).", id: "Bunyi vokal panjang yang dibuat dengan menggandakan vokalnya. Baris a/i/u biasanya menggandakan kana yang sama; baris e/o biasanya dipanjangkan dengan い / う, contoh: おかあさん (okaasan), おにいさん (oniisan), くうき (kuuki), せんせい (sensei), とうきょう (toukyou)." }, items: HIRAGANA_CHOON_WORDS },
+      { tierKey: "hatsuon", title: { en: "Hatsuon — Nasal ん", id: "Hatsuon — ん Nasal" }, desc: { en: "ん shifts its sound depending on what comes right after it — like \"m\" before m/b/p, like \"n\" before n/t/d/s/z/r, like \"ng\" before k/g, and a plain nasalized n before a vowel/y/w or at the end of a word.", id: "ん berubah bunyinya tergantung huruf sesudahnya — seperti \"m\" sebelum m/b/p, seperti \"n\" sebelum n/t/d/s/z/r, seperti \"ng\" sebelum k/g, dan tetap bunyi n nasal biasa sebelum vokal/y/w atau di akhir kata." }, items: HIRAGANA_HATSUON_WORDS }
     ]
   },
   katakana: {
@@ -2111,7 +2501,17 @@ const SCRIPTS = {
     learnSections: [
       { tierKey: "tier1", title: { en: "Gojūon — Basic", id: "Gojūon — Dasar" }, desc: { en: "The 46 core katakana characters, mostly used for loanwords and foreign names.", id: "46 karakter inti katakana, biasanya dipakai untuk kata serapan asing dan nama." }, rows: GOJUON_KATAKANA.tier1 },
       { tierKey: "tier2", title: { en: "Dakuten & Handakuten — Dotted", id: "Dakuten & Handakuten — Bertitik" }, desc: { en: "Just like hiragana, the dot marks change how the consonant is read.", id: "Sama seperti hiragana, tanda titik mengubah cara baca konsonannya." }, rows: GOJUON_KATAKANA.tier2 },
-      { tierKey: "tier3", title: { en: "Yōon — Combined", id: "Yōon — Gabungan" }, desc: { en: "A consonant + small ャュョ, read together as one syllable.", id: "Konsonan + ャュョ kecil, dibaca sebagai satu suku kata." }, rows: GOJUON_KATAKANA.tier3 }
+      { tierKey: "tier3", title: { en: "Yōon — Combined", id: "Yōon — Gabungan" }, desc: { en: "A consonant + small ャュョ, read together as one syllable.", id: "Konsonan + ャュョ kecil, dibaca sebagai satu suku kata." }, rows: GOJUON_KATAKANA.tier3 },
+      { tierKey: "sokuon", title: { en: "Sokuon — Small ッ", id: "Sokuon — ッ Kecil" }, desc: { en: "A small ッ before a consonant means a short held pause — double that consonant when reading it, e.g. サッカー (sakkaa), ポケット (poketto). Very common in loanwords.", id: "ッ kecil sebelum konsonan berarti jeda singkat — konsonan berikutnya dibaca ganda, contoh: サッカー (sakkaa), ポケット (poketto). Sangat umum di kata serapan asing." }, items: KATAKANA_SOKUON_WORDS },
+      { tierKey: "choonpu", title: { en: "Chōonpu — Long Vowel Mark", id: "Chōonpu — Tanda Vokal Panjang" }, desc: { en: "The dash ー lengthens the vowel that comes right before it — unlike hiragana, katakana doesn't double the vowel kana, e.g. コーヒー (koohii), ケーキ (keeki). Extremely common in loanwords.", id: "Tanda garis ー memanjangkan vokal tepat sebelumnya — berbeda dari hiragana, katakana tidak menggandakan kana vokalnya, contoh: コーヒー (koohii), ケーキ (keeki). Sangat umum di kata serapan asing." }, items: KATAKANA_CHOONPU_WORDS },
+      { tierKey: "hatsuon", title: { en: "Hatsuon — Nasal ン", id: "Hatsuon — ン Nasal" }, desc: { en: "ン shifts its sound depending on what comes right after it — like \"m\" before p/b/m, like \"n\" before n/t/d/s/z/r, like \"ng\" before k/g, and a plain nasalized n before a vowel/y/w or at the end of a word.", id: "ン berubah bunyinya tergantung huruf sesudahnya — seperti \"m\" sebelum p/b/m, seperti \"n\" sebelum n/t/d/s/z/r, seperti \"ng\" sebelum k/g, dan tetap bunyi n nasal biasa sebelum vokal/y/w atau di akhir kata." }, items: KATAKANA_HATSUON_WORDS },
+      { tierKey: "tokushuonW", title: { en: "Tokushuon — W", id: "Tokushuon — W" }, desc: { en: "Extended katakana invented to write foreign sounds — ウ + small ィ/ェ/ォ for the \"wi/we/wo\" sounds, distinct from the plain わ/を, e.g. ウィスキー (wisukii), ウェブ (webu), ウォーキング (wookingu).", id: "Katakana tambahan yang dibuat untuk menulis bunyi asing — ウ + ィ/ェ/ォ kecil untuk bunyi \"wi/we/wo\", berbeda dari わ/を biasa, contoh: ウィスキー (wisukii), ウェブ (webu), ウォーキング (wookingu)." }, items: KATAKANA_TOKUSHUON_W_WORDS },
+      { tierKey: "tokushuonF", title: { en: "Tokushuon — F", id: "Tokushuon — F" }, desc: { en: "Extended katakana invented to write foreign sounds — フ + small ァ/ィ/ェ/ォ for the \"fa/fi/fe/fo\" sounds that plain フ (fu) alone can't show, e.g. ファミリー (famirii), フィルム (firumu), カフェ (kafe), フォーク (fooku).", id: "Katakana tambahan yang dibuat untuk menulis bunyi asing — フ + ァ/ィ/ェ/ォ kecil untuk bunyi \"fa/fi/fe/fo\" yang tidak bisa ditunjukkan フ (fu) biasa, contoh: ファミリー (famirii), フィルム (firumu), カフェ (kafe), フォーク (fooku)." }, items: KATAKANA_TOKUSHUON_F_WORDS },
+      { tierKey: "tokushuonV", title: { en: "Tokushuon — V", id: "Tokushuon — V" }, desc: { en: "Extended katakana invented to write foreign sounds — ヴ (u + dakuten) + small ァ/ィ/ェ/ォ for the \"va/vi/ve/vo\" sounds, distinct from the b-row バ/ビ/ブ/ベ/ボ, e.g. ヴァイオリン (vaiorin), ヴィーナス (viinasu), ヴェール (veeru), ヴォーカル (vookaru).", id: "Katakana tambahan yang dibuat untuk menulis bunyi asing — ヴ (u + dakuten) + ァ/ィ/ェ/ォ kecil untuk bunyi \"va/vi/ve/vo\", berbeda dari deret b: バ/ビ/ブ/ベ/ボ, contoh: ヴァイオリン (vaiorin), ヴィーナス (viinasu), ヴェール (veeru), ヴォーカル (vookaru)." }, items: KATAKANA_TOKUSHUON_V_WORDS },
+      { tierKey: "tokushuonTD", title: { en: "Tokushuon — T & D", id: "Tokushuon — T & D" }, desc: { en: "Extended katakana invented to write foreign sounds — テ/デ + small ィ for \"ti/di\" (distinct from ち/ji), and ト/ド + small ゥ for \"tu/du\" (distinct from つ/zu), e.g. パーティー (paatii), キャンディ (kyandi), タトゥー (tatuu), ヒンドゥー (hindu).", id: "Katakana tambahan yang dibuat untuk menulis bunyi asing — テ/デ + ィ kecil untuk \"ti/di\" (berbeda dari ち/ji), dan ト/ド + ゥ kecil untuk \"tu/du\" (berbeda dari つ/zu), contoh: パーティー (paatii), キャンディ (kyandi), タトゥー (tatuu), ヒンドゥー (hindu)." }, items: KATAKANA_TOKUSHUON_TD_WORDS },
+      { tierKey: "tokushuonShChJ", title: { en: "Tokushuon — Sh, Ch, J", id: "Tokushuon — Sh, Ch, J" }, desc: { en: "Extended katakana invented to write foreign sounds — シ/チ/ジ + small ェ for \"she/che/je\", distinct from せ/te/ze, e.g. シェフ (shefu), チェック (chekku), ジェットコースター (jettokoosutaa).", id: "Katakana tambahan yang dibuat untuk menulis bunyi asing — シ/チ/ジ + ェ kecil untuk \"she/che/je\", berbeda dari せ/te/ze, contoh: シェフ (shefu), チェック (chekku), ジェットコースター (jettokoosutaa)." }, items: KATAKANA_TOKUSHUON_SHCHJ_WORDS },
+      { tierKey: "tokushuonTs", title: { en: "Tokushuon — Ts", id: "Tokushuon — Ts" }, desc: { en: "Extended katakana invented to write foreign sounds — ツ + small ァ/ィ/ェ/ォ for \"tsa/tsi/tse/tso\", distinct from た/ち/せ/そ, e.g. ピッツァ (pittsua), ヴェネツィア (venetsia), ツェッペリン (tsepperin), スケルツォ (sukerutsuo).", id: "Katakana tambahan yang dibuat untuk menulis bunyi asing — ツ + ァ/ィ/ェ/ォ kecil untuk \"tsa/tsi/tse/tso\", berbeda dari た/ち/せ/そ, contoh: ピッツァ (pittsua), ヴェネツィア (venetsia), ツェッペリン (tsepperin), スケルツォ (sukerutsuo)." }, items: KATAKANA_TOKUSHUON_TS_WORDS },
+      { tierKey: "tokushuonOther", title: { en: "Tokushuon — Other", id: "Tokushuon — Lainnya" }, desc: { en: "A mixed set of rarer extended katakana — イェ (ye), クァ/グァ (kwa/gwa), and デュ (dyu) — each distinct from its plain-kana neighbor, e.g. イェルサレム (yerusaremu), クァルテット (kwarutetto), グァテマラ (gwatemara), デュエット (dyuetto).", id: "Kumpulan katakana tambahan yang lebih jarang — イェ (ye), クァ/グァ (kwa/gwa), dan デュ (dyu) — masing-masing berbeda dari kana polos di sebelahnya, contoh: イェルサレム (yerusaremu), クァルテット (kwarutetto), グァテマラ (gwatemara), デュエット (dyuetto)." }, items: KATAKANA_TOKUSHUON_OTHER_WORDS }
     ]
   },
   kanji: {
@@ -2178,6 +2578,9 @@ const SCRIPTS = {
     // & Bunpō N5 (15 Sub-Tier).
     tierKeys: KOTOBA_TIER_KEYS,
     levelMeta: KOTOBA_N5_LEVEL_META,
+    // groups: dipakai renderLevels() utk nge-render 24 sub-tier di atas sebagai
+    // Nested Accordion (7 Chapter + kartu "All Mixed" berdiri sendiri = 8).
+    groups: KOTOBA_TIER_GROUPS,
     data: Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])])),
     dataRomaji: Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, r]) => [c, r])])),
     // dataKanji: bentuk kanji tiap kata (elemen ke-7 di KOTOBA_N5_CHAPTERS, "" kalau
@@ -2505,7 +2908,7 @@ function renderLearnTables(scriptKey) {
   wrap.innerHTML = "";
   if (script.learnSections) {
     script.learnSections.forEach(section => {
-      wrap.appendChild(renderGojuonTables(section));
+      wrap.appendChild(section.rows ? renderGojuonTables(section) : renderVocabTables(section));
     });
   } else if (script.learnVocab) {
     script.learnVocab.forEach(section => {
@@ -2531,7 +2934,7 @@ function renderLearnTables(scriptKey) {
 /* ---------------- learn mode: search + quick nav + scroll-to-top ---------------- */
 let learnSearchQuery = "";
 let learnSearchNavEnabled = false;
-const LEARN_SEARCH_NAV_SCRIPTS = ["kotoba", "bunpo", "kanji"];
+const LEARN_SEARCH_NAV_SCRIPTS = ["hiragana", "katakana", "kotoba", "bunpo", "kanji"];
 
 function learnSectionLabel(sectionEl) {
   const titleEl = sectionEl.querySelector(".learn-section-title");
@@ -2604,6 +3007,14 @@ function applyLearnSearch() {
       const isMatch = !query || item.textContent.toLowerCase().includes(query);
       item.classList.toggle("no-match", !isMatch);
       if (isMatch) { sectionMatches++; totalMatches++; }
+    });
+    // gojūon tables also have a row label (e.g. "K", "S", "T") that sits
+    // outside the .kana-cell selector above — without this, searching hides
+    // the empty/mismatched cells but leaves that leftover label floating.
+    sectionEl.querySelectorAll(".kana-row").forEach(rowEl => {
+      const filledCells = rowEl.querySelectorAll(".kana-cell.filled");
+      const rowHasMatch = Array.from(filledCells).some(cell => !cell.classList.contains("no-match"));
+      rowEl.classList.toggle("no-match", filledCells.length > 0 && !rowHasMatch);
     });
     const sectionHasItems = items.length > 0;
     sectionEl.classList.toggle("no-match", sectionHasItems && sectionMatches === 0);
@@ -2749,14 +3160,17 @@ function renderLevels(scriptKey) {
   // global kalau ada — jumlah titik "tier-dots" ikut menyesuaikan panjangnya.
   const levelMeta = script.levelMeta || LEVEL_META;
   const dotCount = Math.max(...levelMeta.map(m => m.tier));
-  levelMeta.forEach(meta => {
+
+  // buildLevelCard(): bikin satu <button class="level-card"> — dipakai baik utk
+  // render flat (script lain) maupun dinaungi di dalam accordion (Kotoba).
+  function buildLevelCard(meta) {
     const info = script.levelText[meta.id];
     const card = document.createElement("button");
     card.className = "level-card";
     card.type = "button";
     card.setAttribute("aria-pressed", "false");
-    // Kanji (9 Chapter), Bunpō (15 sub-tier), & Kotoba (21 sub-tier) rank-nya
-    // selalu "N5" jadi tier-dots ga informatif (apalagi Kotoba — bisa jadi 21
+    // Kanji (9 Chapter), Bunpō (15 sub-tier), & Kotoba (24 sub-tier) rank-nya
+    // selalu "N5" jadi tier-dots ga informatif (apalagi Kotoba — bisa jadi 24
     // bulet kecil berjejer) — label "Chapter N"/"Tier X.Y" dipindah ke atas
     // gantiin tier-dots (N5 tetap ditampilkan), sisa judulnya tetap di posisi
     // h3 semula.
@@ -2800,9 +3214,93 @@ function renderLevels(scriptKey) {
       startBtn.disabled = false;
       if (supportsHard) btnMatchMode.disabled = false;
       renderRangePicker(scriptKey, meta.id);
+      // kalau kartu ini ada di dalam sebuah accordion group, tandai headernya
+      // "has-selected" biar keliatan meski panelnya lagi ketutup.
+      const parentGroup = card.closest(".tier-group");
+      if (parentGroup) {
+        document.querySelectorAll(".tier-group.has-selected").forEach(g => g.classList.remove("has-selected"));
+        parentGroup.classList.add("has-selected");
+      } else {
+        document.querySelectorAll(".tier-group.has-selected").forEach(g => g.classList.remove("has-selected"));
+      }
     });
-    levelsEl.appendChild(card);
-  });
+    return card;
+  }
+
+  levelsEl.classList.toggle("levels--accordion", !!script.groups);
+
+  if (script.groups) {
+    // ===== Nested Accordion (khusus Kotoba): 7 Chapter (nampung 24 sub-tier
+    // total) + 1 kartu "All Mixed" berdiri sendiri di luar kelompok = 8 tingkatan
+    // teratas. Cuma 1 kelompok yang bisa kebuka dalam satu waktu.
+    const metaByTierKey = Object.fromEntries(levelMeta.map(m => [m.id, m]));
+    const allHeaders = [];
+
+    script.groups.forEach(group => {
+      const groupEl = document.createElement("div");
+      groupEl.className = "tier-group";
+      groupEl.dataset.groupId = group.id;
+
+      const header = document.createElement("button");
+      header.type = "button";
+      header.className = "tier-group-header";
+      header.setAttribute("aria-expanded", "false");
+      header.innerHTML = `
+        <span class="tier-group-chapter">${t("levels.groupChapter", { n: group.chapterNum })}</span>
+        <span class="tier-group-kana">${group.sample}</span>
+        <span class="tier-group-text">
+          <span class="tier-group-title">${tf(group.title).replace(/^Chapter\s*\d+\s*—\s*/i, "")}</span>
+          <span class="tier-group-desc">${tf(group.desc)}</span>
+        </span>
+        <span class="tier-group-count">${group.tierKeys.length} ${t("levels.subTiers")}</span>
+        <span class="tier-group-caret" aria-hidden="true"></span>
+      `;
+
+      const panelWrap = document.createElement("div");
+      panelWrap.className = "tier-group-panel-wrap";
+      const panel = document.createElement("div");
+      panel.className = "tier-group-panel";
+      const subgrid = document.createElement("div");
+      subgrid.className = "tier-group-subgrid";
+      group.tierKeys.forEach(tk => {
+        const meta = metaByTierKey[tk];
+        if (meta) subgrid.appendChild(buildLevelCard(meta));
+      });
+      panel.appendChild(subgrid);
+      panelWrap.appendChild(panel);
+
+      header.addEventListener("click", () => {
+        const willOpen = !header.classList.contains("open");
+        allHeaders.forEach(h => {
+          h.classList.remove("open");
+          h.setAttribute("aria-expanded", "false");
+          h.nextElementSibling.classList.remove("open");
+        });
+        if (willOpen) {
+          header.classList.add("open");
+          header.setAttribute("aria-expanded", "true");
+          panelWrap.classList.add("open");
+        }
+      });
+
+      groupEl.appendChild(header);
+      groupEl.appendChild(panelWrap);
+      levelsEl.appendChild(groupEl);
+      allHeaders.push(header);
+    });
+
+    // "All Mixed" — bagian dari 8 tingkatan teratas, tapi berdiri sendiri (bukan
+    // grup yang bisa dibuka-tutup) karena tidak menaungi sub-tier apapun.
+    const allMeta = metaByTierKey.all;
+    if (allMeta) {
+      const allCard = buildLevelCard(allMeta);
+      allCard.classList.add("level-card-all");
+      levelsEl.appendChild(allCard);
+    }
+  } else {
+    // ===== render flat (Hiragana, Katakana, Kanji, Bunpō) — tidak berubah.
+    levelMeta.forEach(meta => levelsEl.appendChild(buildLevelCard(meta)));
+  }
 
   updateConquestCard(scriptKey);
 }
