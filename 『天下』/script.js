@@ -49,7 +49,7 @@ const I18N = {
   "conquest.lockNote": { en: "🔒 Conquer {lockLabel} first before you can conquer {label}.", id: "🔒 Taklukkan {lockLabel} dulu sebelum bisa menaklukkan {label}." },
   "conquest.modalTitleWithLabel": { en: "⚔️ Conquer {label}", id: "⚔️ Taklukkan {label}" },
   "start.studyFirst": { en: "Study First", id: "Belajar Dulu" },
-  "start.studyScriptFirst": { en: "📖 Study {label} First", id: "📖 Belajar {label} Dulu" },
+  "start.studyScriptFirst": { en: "Study {label} First", id: "Belajar {label} Dulu" },
   "start.chooseTierFirst": { en: "Choose a tier first", id: "Pilih tingkatan dulu" },
   "levels.groupChapter": { en: "Chapter {n}", id: "Chapter {n}" },
   "levels.subTiers": { en: "sub-tiers", id: "sub-tier" },
@@ -2901,6 +2901,69 @@ function renderGrammarCards(section) {
   return wrap;
 }
 
+// khusus Kotoba: 24 sub-tier vocab (KOTOBA_N5_LEARN) kepanjangan kalau
+// ditampilkan flat sekaligus di layar Belajar, jadi dikelompokkan jadi
+// accordion 7 Chapter — persis pengelompokan (KOTOBA_TIER_GROUPS) yang sudah
+// dipakai renderLevels() di Mode Kuis, biar konsisten & user yang udah kenal
+// struktur Chapter-nya dari situ langsung familiar di sini juga.
+function renderLearnAccordionGroups(script) {
+  const wrap = document.createElement("div");
+  wrap.className = "learn-accordion";
+  const sectionsByTierKey = Object.fromEntries(script.learnVocab.map(s => [s.tierKey, s]));
+  const allHeaders = [];
+
+  script.groups.forEach(group => {
+    const groupEl = document.createElement("div");
+    groupEl.className = "tier-group";
+
+    const header = document.createElement("button");
+    header.type = "button";
+    header.className = "tier-group-header";
+    header.setAttribute("aria-expanded", "false");
+    header.innerHTML = `
+      <span class="tier-group-chapter">${t("levels.groupChapter", { n: group.chapterNum })}</span>
+      <span class="tier-group-kana">${group.sample}</span>
+      <span class="tier-group-text">
+        <span class="tier-group-title">${tf(group.title).replace(/^Chapter\s*\d+\s*—\s*/i, "")}</span>
+        <span class="tier-group-desc">${tf(group.desc)}</span>
+      </span>
+      <span class="tier-group-caret" aria-hidden="true"></span>
+    `;
+
+    const panelWrap = document.createElement("div");
+    panelWrap.className = "tier-group-panel-wrap";
+    const panel = document.createElement("div");
+    panel.className = "tier-group-panel learn-group-content";
+    group.tierKeys.forEach(tk => {
+      const section = sectionsByTierKey[tk];
+      if (section) panel.appendChild(renderVocabTables(section));
+    });
+    panelWrap.appendChild(panel);
+
+    // sama kaya accordion Mode Kuis: cuma 1 Chapter yang bisa kebuka sekaligus.
+    header.addEventListener("click", () => {
+      const willOpen = !header.classList.contains("open");
+      allHeaders.forEach(h => {
+        h.classList.remove("open");
+        h.setAttribute("aria-expanded", "false");
+        h.nextElementSibling.classList.remove("open");
+      });
+      if (willOpen) {
+        header.classList.add("open");
+        header.setAttribute("aria-expanded", "true");
+        panelWrap.classList.add("open");
+      }
+    });
+
+    groupEl.appendChild(header);
+    groupEl.appendChild(panelWrap);
+    wrap.appendChild(groupEl);
+    allHeaders.push(header);
+  });
+
+  return wrap;
+}
+
 function renderLearnTables(scriptKey) {
   currentLearnScript = scriptKey;
   const script = SCRIPTS[scriptKey];
@@ -2910,6 +2973,8 @@ function renderLearnTables(scriptKey) {
     script.learnSections.forEach(section => {
       wrap.appendChild(section.rows ? renderGojuonTables(section) : renderVocabTables(section));
     });
+  } else if (script.learnVocab && script.groups) {
+    wrap.appendChild(renderLearnAccordionGroups(script));
   } else if (script.learnVocab) {
     script.learnVocab.forEach(section => {
       wrap.appendChild(renderVocabTables(section));
@@ -2974,7 +3039,32 @@ function setupLearnSearchAndNav(scriptKey) {
       chip.textContent = label;
       chip.setAttribute("aria-label", t("aria.jumpToSection", { label }));
       chip.addEventListener("click", () => {
-        sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        // kalau section ini dinaungi accordion Chapter yang lagi ketutup (Kotoba),
+        // buka dulu Chapter-nya (perilaku sama kaya klik manual header — cuma 1
+        // yang kebuka), baru scroll setelah animasi buka-nya (.25s) kelar, biar
+        // posisi scroll-nya udah pas sesuai tinggi akhir panelnya.
+        const parentGroup = sectionEl.closest(".tier-group");
+        let justOpened = false;
+        if (parentGroup) {
+          const header = parentGroup.querySelector(".tier-group-header");
+          const panelWrap = parentGroup.querySelector(".tier-group-panel-wrap");
+          if (header && panelWrap && !header.classList.contains("open")) {
+            document.querySelectorAll("#learn-tables .tier-group-header.open").forEach(h => {
+              h.classList.remove("open");
+              h.setAttribute("aria-expanded", "false");
+              h.nextElementSibling.classList.remove("open");
+            });
+            header.classList.add("open");
+            header.setAttribute("aria-expanded", "true");
+            panelWrap.classList.add("open");
+            justOpened = true;
+          }
+        }
+        if (justOpened) {
+          setTimeout(() => sectionEl.scrollIntoView({ behavior: "smooth", block: "start" }), 260);
+        } else {
+          sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
       chipsWrap.appendChild(chip);
     });
@@ -3035,6 +3125,21 @@ function applyLearnSearch() {
     statusEl.classList.add("hidden");
     noResultsEl.classList.add("hidden");
   }
+
+  // khusus tabel yang dikelompokkan jadi accordion (Kotoba): pas ada pencarian,
+  // otomatis buka tiap Chapter yang punya hasil cocok — bisa lebih dari satu
+  // kebuka sekaligus di sini (beda dari klik manual yang cuma 1 kebuka) biar
+  // semua hasil pencarian kelihatan. Pas pencarian dikosongkan lagi, balikin
+  // semua Chapter ke kondisi tertutup seperti semula.
+  tablesWrap.querySelectorAll(".tier-group").forEach(groupEl => {
+    const header = groupEl.querySelector(".tier-group-header");
+    const panelWrap = groupEl.querySelector(".tier-group-panel-wrap");
+    if (!header || !panelWrap) return;
+    const hasMatch = !!query && !!groupEl.querySelector(".learn-section:not(.no-match)");
+    header.classList.toggle("open", hasMatch);
+    header.setAttribute("aria-expanded", String(hasMatch));
+    panelWrap.classList.toggle("open", hasMatch);
+  });
 }
 
 function resetLearnSearch() {
