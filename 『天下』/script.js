@@ -4036,7 +4036,10 @@ function startQuiz(scriptKey, mode) {
     rankIndexBefore: getRankIndex(),
     conquest: isConquest, conquestFailed: false,
     speedrun: isSpeedrun, speedrunStart: isSpeedrun ? Date.now() : null, speedrunElapsedMs: 0,
-    speedrunMistakes: 0, speedrunFailed: false
+    speedrunMistakes: 0, speedrunFailed: false,
+    // khusus speedrun: kunci input mode "hard" pakai flag ini (bukan attribute
+    // readOnly) — lihat catatan panjang di handleAnswer() soal kenapa.
+    answerLocked: false
   };
   cancelArmed = false;
   clearTimeout(cancelTimer);
@@ -4176,6 +4179,7 @@ function renderQuestion() {
     // soal. Dengan readOnly, fokus (dan keyboard-nya) tetap terjaga.
     hardInputEl.readOnly = false;
     hardInputEl.className = "hard-input";
+    state.answerLocked = false;
     btnHardSubmit.disabled = false;
     hardInputEl.focus();
   } else {
@@ -4219,10 +4223,25 @@ function handleAnswer(chosen, btn, current, timedOut = false) {
   clearSpeedrunAutoNext();
   clearQuestionTimer();
   document.querySelectorAll("button.choice").forEach(b => b.disabled = true);
-  // readOnly, bukan disabled — lihat catatan di renderQuestion() soal kenapa
-  // (biar fokus & keyboard mobile tidak ikut turun begitu jawaban terkirim).
-  hardInputEl.readOnly = true;
   btnHardSubmit.disabled = true;
+  // Mode Speedrun: kunci input pakai flag JS (answerLocked), BUKAN attribute
+  // readOnly. Di iOS Safari, readOnly=true pada input yang lagi fokus langsung
+  // menutup keyboard virtual walau fokusnya sendiri tidak hilang — dan begitu
+  // ketutup, .focus() program pas soal berikutnya muncul (apalagi lewat
+  // auto-lanjut Speedrun yang sama sekali tidak ada tap tombol) tidak akan
+  // membuka keyboard itu lagi, jadi soal berikutnya kelihatan seperti "mode
+  // biasa" tanpa keyboard. Makanya khusus Speedrun, elemen dibiarkan tetap
+  // fokus & "writable" dari soal pertama sampai selesai — hanya dikunci
+  // secara logic (lihat listener input/keydown/klik jawab di bawah & the
+  // beforeinput guard). Mode lain (biasa/conquest) tetap pakai readOnly
+  // seperti semula karena di sana selalu ada tap tombol Next manual sebelum
+  // soal berikutnya, jadi keyboard-nya aman kebuka lagi.
+  if (state.speedrun) {
+    state.answerLocked = true;
+    hardInputEl.classList.add("locked");
+  } else {
+    hardInputEl.readOnly = true;
+  }
   const isCorrect = String(chosen).trim().toLowerCase() === String(current[1]).trim().toLowerCase();
 
   document.querySelectorAll("button.choice").forEach(b => {
@@ -4306,8 +4325,15 @@ function handleAnswer(chosen, btn, current, timedOut = false) {
   }
 }
 
+// true kalau input mode "hard" lagi dikunci (sudah dijawab, nunggu lanjut ke
+// soal berikutnya) — Speedrun pakai flag answerLocked (lihat catatan di
+// handleAnswer()), mode lain pakai attribute readOnly seperti semula.
+function isHardInputLocked() {
+  return state.speedrun ? state.answerLocked : hardInputEl.readOnly;
+}
+
 btnHardSubmit.addEventListener("click", () => {
-  if (hardInputEl.readOnly) return;
+  if (isHardInputLocked()) return;
   if (hardInputEl.value.trim() === "") {
     feedbackEl.textContent = t("quiz.fillAnswerFirst");
     feedbackEl.className = "feedback-text warn";
@@ -4330,7 +4356,7 @@ hardInputEl.addEventListener("input", () => {
   // Mode Speedrun: begitu ketikan user sudah persis sama dengan jawaban yang
   // benar, langsung submit otomatis — tanpa perlu pencet Enter atau klik Jawab
   // sama sekali, biar makin ngebut.
-  if (state.speedrun && !hardInputEl.readOnly) {
+  if (state.speedrun && !state.answerLocked) {
     const current = state.queue[state.index];
     const typed = hardInputEl.value.trim().toLowerCase();
     if (typed !== "" && typed === String(current[1]).trim().toLowerCase()) {
@@ -4340,11 +4366,17 @@ hardInputEl.addEventListener("input", () => {
 });
 hardInputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    if (hardInputEl.readOnly) return; // sudah dijawab — biarkan "nyambung" ke listener "Enter = lanjut soal"
+    if (isHardInputLocked()) return; // sudah dijawab — biarkan "nyambung" ke listener "Enter = lanjut soal"
     e.preventDefault();
     e.stopPropagation(); // jangan sampai keydown ini juga kepick up listener "Enter = lanjut soal"
     btnHardSubmit.click();
   }
+});
+hardInputEl.addEventListener("beforeinput", (e) => {
+  // Speedrun sengaja TIDAK pakai readOnly (lihat catatan di handleAnswer()),
+  // jadi blokir manual di sini supaya user tidak bisa lanjut ngetik selagi
+  // jawaban lagi dikunci/ditampilkan, menunggu auto-lanjut ke soal berikutnya.
+  if (state.speedrun && state.answerLocked) e.preventDefault();
 });
 
 document.getElementById("btn-restart-quiz").addEventListener("click", () => {

@@ -2667,7 +2667,8 @@ button.choice.wrong {
 }
 
 .hard-input:disabled,
-.hard-input:read-only {
+.hard-input:read-only,
+.hard-input.locked {
   cursor: default;
 }
 
