@@ -87,6 +87,7 @@ const I18N = {
   "quiz.kalimatLabel": { en: "Example: {value}", id: "Kalimat: {value}" },
   "quiz.hiraganaLabel": { en: "Hiragana: {value}", id: "Hiragana: {value}" },
   "quiz.kanjiLabel": { en: "Kanji: {value}", id: "Kanji: {value}" },
+  "quiz.usageNote": { en: "Note: {value}", id: "Catatan: {value}" },
   "quiz.fillAnswerFirst": { en: "Fill in your answer before continuing.", id: "Isi dulu jawabannya sebelum lanjut." },
   "range.label": { en: "Question Range", id: "Rentang Soal" },
   "range.chooseRange": { en: "Choose Range", id: "Pilih Rentang" },
@@ -382,7 +383,7 @@ function buildBwVars(isDark) {
     "--vermillion": "#4C7CE8", "--gold": "#FFD166", "--moss": "#6EE7A0",
     "--line": "rgba(237, 241, 245, 0.09)",
     "--quiz-correct": "#10B981", "--quiz-wrong": "#F2685C",
-    "--quiz-correct-fill": "#065F46", "--quiz-correct-fill-text": "#F2FBF6",
+    "--quiz-correct-fill": "#14475D", "--quiz-correct-fill-text": "#CFEFFC",
     "--match-selecting": "#3EC6FF", "--match-selecting-bg": "#1A222B", "--match-selecting-text": "#3EC6FF"
   } : {
     "--paper": "#EAF0F5", "--paper-dark": "#DCE6ED", "--card": "#F6FAFC",
@@ -391,7 +392,7 @@ function buildBwVars(isDark) {
     "--vermillion": "#1D4ED8", "--gold": "#C98A1C", "--moss": "#2F9E5D",
     "--line": "rgba(22, 32, 42, 0.13)",
     "--quiz-correct": "#10B981", "--quiz-wrong": "#B23A2E",
-    "--quiz-correct-fill": "#065F46", "--quiz-correct-fill-text": "#F2FBF6",
+    "--quiz-correct-fill": "#1D5B72", "--quiz-correct-fill-text": "#ECF9FE",
     "--match-selecting": "#0E8FC0", "--match-selecting-bg": "#F6FAFC", "--match-selecting-text": "#0E8FC0"
   };
 }
@@ -518,6 +519,34 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && settingsOverlay.classList.contains("open")) closeSettings();
 });
 fontSelect.addEventListener("change", () => applyFont(fontSelect.value));
+
+/* ---------------- sembunyikan tombol Flashcard & Settings pas kuis ---------------- */
+// .top-controls (tombol Flashcard + Settings) posisinya "fixed" nempel di
+// pojok kanan-atas LAYAR MANAPUN — termasuk pas lagi ngerjain Kuis (biasa/
+// Conquest/Speedrun, semuanya satu #screen-quiz yang sama), layar cerita
+// Chapter Conquest, & Match Mode (#screen-match), yang bisa ganggu fokus &
+// rawan kepencet gak sengaja pas lagi jawab soal/nyocokin ubin. Disembunyikan
+// otomatis lewat MutationObserver yang mantengin class "hidden" di
+// ketiga layar itu, biar gak perlu nambahin baris manual di tiap tempat
+// mereka ditampilkan/disembunyikan (startQuiz, goToNextQuestion,
+// renderConquestStory, renderResults, startMatchGame, tombol Back, dll —
+// titik togglenya banyak banget, gampang ada yang kelewat kalau manual).
+const topControlsEl = document.querySelector(".top-controls");
+function updateTopControlsVisibility() {
+  if (!topControlsEl) return;
+  const quizEl = document.getElementById("screen-quiz");
+  const conquestStoryEl = document.getElementById("screen-conquest-story");
+  const matchEl = document.getElementById("screen-match");
+  const inQuiz = (quizEl && !quizEl.classList.contains("hidden"))
+    || (conquestStoryEl && !conquestStoryEl.classList.contains("hidden"))
+    || (matchEl && !matchEl.classList.contains("hidden"));
+  topControlsEl.classList.toggle("hidden", inQuiz);
+}
+["screen-quiz", "screen-conquest-story", "screen-match"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) new MutationObserver(updateTopControlsVisibility).observe(el, { attributes: true, attributeFilter: ["class"] });
+});
+updateTopControlsVisibility();
 
 /* ---------------- language ---------------- */
 const langOptionsEl = document.getElementById("lang-options");
@@ -1461,16 +1490,7 @@ const KANJI_N5_CHAPTERS = [KANJI_N5_CH1, KANJI_N5_CH2, KANJI_N5_CH3, KANJI_N5_CH
 const KANJI_READING = {};
 KANJI_N5_CHAPTERS.forEach(ch => ch.forEach(([c, r]) => { KANJI_READING[c] = r; }));
 
-/* ---- Basic Kotoba N5 (word-in-kana, romaji, meaning-for-quiz, contoh kalimat-in-kana,
-   segments = contoh kalimat dipecah per-kata [kana, romaji], translation = arti kalimat) ----
-   Sengaja ditulis full hiragana/katakana (tanpa kanji) supaya bisa langsung dibaca begitu
-   Hiragana & Katakana sudah diTaklukkan — kanji-nya dipelajari terpisah di Chapter "Kanji N5".
-   Kotoba N5 sekarang punya 7 Tier / 21 Sub-Tier (bukan lagi cuma tier1/2/3) — sama polanya
-   dengan Kanji N5 (9 Chapter) & Bunpō N5 (15 Sub-Tier). */
-
-// Sub-Tier 1.1: Kata Ganti Orang & Sapaan (4)
-// Elemen ke-7 (opsional) = versi kanji dari kata, elemen ke-8 (opsional) = versi kanji dari
-// contoh kalimat, elemen ke-9 (opsional) = catatan singkat "cara pakai" ({en,id}).
+// Sub-Tier 1.1: Kata Ganti Orang & Sapaan
 const KOTOBA_N5_CH1_1 = [
   ["わたし", "watashi", { en: "I / me", id: "saya / aku" }, "わたしは がくせいです。",
     [["わたし", "Watashi"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
@@ -1483,7 +1503,7 @@ const KOTOBA_N5_CH1_1 = [
   ["ひと", "hito", { en: "person", id: "orang" }, "あの ひとは だれですか。",
     [["あの", "Ano"], ["ひと", "hito"], ["は", "wa"], ["だれ", "dare"], ["です", "desu"], ["か", "ka"]],
     { en: "Who is that person?", id: "Siapa orang itu?" }, "人", "あの人は誰ですか。",
-    { en: "General, neutral word for 'person'. For a more polite tone, use かた (kata) below instead.", id: "Kata umum/netral untuk 'orang'. Untuk kesan lebih sopan, gunakan かた (kata) — lihat kosakata di bawah." }],
+    { en: "General, neutral word for 'person'. For a more polite tone, use かた (kata) below instead.", id: "Kata umum/netral untuk 'orang'. Untuk kesan lebih sopan, gunakan かた (kata)" }],
   ["せんせい", "sensei", { en: "teacher", id: "guru" }, "せんせいは とても やさしいです。",
     [["せんせい", "Sensei"], ["は", "wa"], ["とても", "totemo"], ["やさしい", "yasashii"], ["です", "desu"]],
     { en: "The teacher is very kind.", id: "Guru itu sangat baik." }, "先生", "先生はとても優しいです。",
@@ -2587,6 +2607,10 @@ const SCRIPTS = {
     // katanya memang biasa ditulis kana saja), ditampilkan sebagai info tambahan
     // di feedback kuis setelah user menjawab.
     dataKanji: Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , , , , , k]) => [c, k || ""])])),
+    // dataUsage: catatan singkat "cara pakai" tiap kata (elemen ke-9 di
+    // KOTOBA_N5_CHAPTERS, "" kalau tidak ada catatan), ditampilkan sebagai info
+    // tambahan di feedback kuis, tepat di bawah baris kanji-nya.
+    dataUsage: Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , , , , , , , u]) => [c, tf(u)])])),
     levelText: KOTOBA_N5_LEVEL_TEXT,
     learnVocab: KOTOBA_N5_LEARN
   },
@@ -2640,6 +2664,9 @@ Object.values(SCRIPTS).forEach(s => {
   if (s.dataKanji) {
     s.dataKanji.all = cat(s.dataKanji);
   }
+  if (s.dataUsage) {
+    s.dataUsage.all = cat(s.dataUsage);
+  }
   if (s.dataKalimat) {
     s.dataKalimat.all = cat(s.dataKalimat);
   }
@@ -2662,11 +2689,16 @@ renderSpeedrunRecords();
 function rebuildMeaningPools() {
   SCRIPTS.kanji.data = Object.fromEntries(KANJI_TIER_KEYS.map((tk, i) => [tk, KANJI_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])]));
   SCRIPTS.kotoba.data = Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])]));
+  // catatan cara pakai juga bilingual (objek {en,id}) jadi ikut dibangun ulang
+  // tiap ganti bahasa, sama seperti data.meaning di atas.
+  SCRIPTS.kotoba.dataUsage = Object.fromEntries(KOTOBA_TIER_KEYS.map((tk, i) => [tk, KOTOBA_N5_CHAPTERS[i].map(([c, , , , , , , , u]) => [c, tf(u)])]));
   SCRIPTS.bunpo.data = Object.fromEntries(BUNPO_N5_TIER_KEYS.map((tk, i) => [tk, BUNPO_N5_CHAPTERS[i].map(([c, , m]) => [c, tf(m)])]));
   [SCRIPTS.kanji, SCRIPTS.kotoba, SCRIPTS.bunpo].forEach(s => {
     const tks = s.tierKeys || ["tier1", "tier2", "tier3"];
     s.data.all = tks.reduce((acc, tk) => acc.concat(s.data[tk]), []);
   });
+  SCRIPTS.kotoba.dataUsage.all = (SCRIPTS.kotoba.tierKeys || ["tier1", "tier2", "tier3"])
+    .reduce((acc, tk) => acc.concat(SCRIPTS.kotoba.dataUsage[tk]), []);
 }
 
 // rentang soal: indeks (inklusif) di dalam pool tingkatan yang sedang dipilih,
@@ -4051,6 +4083,12 @@ function startQuiz(scriptKey, mode) {
         ? (usesAllPool ? script.dataKanji.all : script.dataKanji[mode])
         : null;
 
+    // catatan singkat "cara pakai" — cuma dimiliki Basic Kotoba, ditampilkan di
+    // feedback kuis tepat di bawah baris kanji-nya (lihat handleAnswer()).
+    const usageNotePool = scriptKey === "kotoba"
+      ? (usesAllPool ? script.dataUsage.all : script.dataUsage[mode])
+      : null;
+
     // kanjiForm: kebalikan dari "meaning"/"romaji" — soal = bacaan hiragananya
     // (dataKana), jawaban = karakter kanji yang tepat. Item pool-nya [kana, kanji]
     // (kebalikan urutan dataKana yang aslinya [kanji, kana]), supaya struktur
@@ -4084,7 +4122,8 @@ function startQuiz(scriptKey, mode) {
       // (furigana-nya sendiri percuma ditampilkan lagi, karena itu sudah jadi soalnya).
       const extra = type === "kanjiForm" || type === "romaji" ? meaningPool[i][1] : romajiPool[i][1];
       const extraReading = type === "kanjiForm" ? romajiPool[i][1] : (extraReadingPool ? extraReadingPool[i][1] : null);
-      return [src[i][0], src[i][1], type, extra, extraReading];
+      const extraUsage = usageNotePool ? usageNotePool[i][1] : null;
+      return [src[i][0], src[i][1], type, extra, extraReading, extraUsage];
     });
   } else if (isThreePhaseConquest) {
     const t1 = shuffle(script.data.tier1), t2 = shuffle(script.data.tier2), t3 = shuffle(script.data.tier3);
@@ -4401,6 +4440,11 @@ function handleAnswer(chosen, btn, current, timedOut = false) {
         ? "quiz.romajiLabel"
         : state.script === "kanji" ? "quiz.hiraganaLabel" : "quiz.kanjiLabel";
       extraText += "\n" + t(readingKey, { value: current[4] });
+    }
+    // catatan singkat "cara pakai" (khusus Basic Kotoba, current[5]) —
+    // ditampilkan sebagai baris terakhir, di bawah baris kanji-nya.
+    if (current[5]) {
+      extraText += "\n" + t("quiz.usageNote", { value: current[5] });
     }
     feedbackExtraEl.textContent = extraText;
     feedbackExtraEl.classList.remove("hidden");

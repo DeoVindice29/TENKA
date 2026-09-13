@@ -20,13 +20,16 @@
   --quiz-correct: #227A4D;
   --quiz-wrong: #B23A2E;
 
-  /* emerald tua dipakai khusus utk kotak jawaban benar/matched yg terisi penuh (quiz & match mode) */
-  --quiz-correct-fill: #065F46;
+  /* emerald tua dipakai khusus utk kotak jawaban benar/matched yg terisi penuh (quiz & match mode) —
+     diselaraskan ke keluarga warna --moss biar nggak "belang" sendiri dari palet washi. */
+  --quiz-correct-fill: #3F7A45;
   --quiz-correct-fill-text: #F2FBF6;
 
-  /* emerald cerah dipakai saat ubin match mode lagi "dipilih" (belum dikonfirmasi) */
-  --match-selecting: #10B981;
-  --match-selecting-text: #06281D;
+  /* indigo (warna "aktif/terpilih" yang sama dipakai di seluruh app) dipakai saat
+     ubin match mode lagi "dipilih" (belum dikonfirmasi) — hijau disisakan
+     khusus utk status "sudah cocok" (--quiz-correct-fill), biar gak dobel makna. */
+  --match-selecting: #2E62A6;
+  --match-selecting-text: #FBF8EF;
 
   /* batch selang-seling untuk daftar rentang soal (dari-sampai) */
   --batch-a: #F7F1E1;
@@ -40,7 +43,7 @@
   --rb-purple: #7C3AED;
   --rb-cyan: #0E7490;
   --rb-blue: #1E40AF;
-  --rb-green: #047857;
+  --rb-green: #059669;
   --rb-yellow: #A16207;
   --rb-orange: #C2410C;
   --rb-rose: #B91C1C;
@@ -69,10 +72,10 @@
   --shadow-soft: rgba(0, 0, 0, 0.3);
   --quiz-correct: #3ECF8E;
   --quiz-wrong: #F2685C;
-  --quiz-correct-fill: #065F46;
+  --quiz-correct-fill: #3F7A45;
   --quiz-correct-fill-text: #F2FBF6;
-  --match-selecting: #10B981;
-  --match-selecting-text: #06281D;
+  --match-selecting: #6FA3FF;
+  --match-selecting-text: #0B1220;
   color-scheme: dark;
   --line: rgba(241, 236, 224, 0.14);
   --batch-a: #211E2C;
@@ -2037,6 +2040,23 @@ button.match-tile:disabled {
   cursor: default;
 }
 
+/* Mobile: ubin match sedikit diperbesar (tinggi & huruf) dibanding default —
+   TAPI tetap berbasis rasio (bukan dipaksa mengisi penuh sisa layar), supaya
+   ukurannya konsisten & gak pernah bikin halaman jadi lebih tinggi dari layar
+   (scroll). max-height jadi jaring pengaman kalau rondenya cuma sedikit. */
+@media (max-width:768px) {
+  button.match-tile {
+    aspect-ratio: 2.6 / 1;
+    max-height: 84px;
+    font-size: clamp(14px, 4.4vw, 18px);
+  }
+
+  .match-col:first-child button.match-tile {
+    font-size: clamp(16px, 5vw, 21px);
+  }
+}
+
+
 .match-done {
   text-align: center;
   padding: 32px 12px 8px;
@@ -2722,17 +2742,19 @@ button.choice.wrong {
 .feedback-row {
   min-height: 44px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-top: 18px;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .feedback-col {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .feedback-text {
@@ -2757,6 +2779,11 @@ button.choice.wrong {
   font-weight: 600;
   color: var(--ink-soft);
   white-space: pre-line;
+}
+
+.feedback-row button.ghost {
+  flex-shrink: 0;
+  align-self: center;
 }
 
 button.ghost {
