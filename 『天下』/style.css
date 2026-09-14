@@ -3160,7 +3160,8 @@ button.ghost {
 .kana-cell.no-match,
 .kanji-cell.no-match,
 .grammar-card.no-match,
-.kana-row.no-match {
+.kana-row.no-match,
+.tier-group.no-match {
   display: none !important;
 }
 
@@ -4287,14 +4288,14 @@ button.ghost {
 .flashcard {
   width: 100%;
   max-width: 420px;
-  min-height: 260px;
+  min-height: 340px;
   outline: none;
 }
 
 .flashcard-inner {
   position: relative;
   width: 100%;
-  min-height: 260px;
+  min-height: 340px;
   transition: transform .5s cubic-bezier(.2, .9, .3, 1.1);
   transform-style: preserve-3d;
 }
@@ -4316,6 +4317,7 @@ button.ghost {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   padding: 26px 20px;
   text-align: center;
@@ -4424,6 +4426,16 @@ button.ghost {
   font-size: 12.5px;
   color: var(--ink-soft);
   font-style: italic;
+}
+
+.fc-usage.vocab-usage {
+  flex: 0 0 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: 280px;
+  padding: 6px 0 0 12px;
+  text-align: left;
+  margin-top: 4px;
 }
 
 .fc-audio-icon {
@@ -4546,7 +4558,7 @@ button.ghost {
 
   .flashcard,
   .flashcard-inner {
-    min-height: 230px;
+    min-height: 300px;
   }
 
   .flash-rate-btn {
