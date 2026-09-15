@@ -520,29 +520,37 @@ document.addEventListener("keydown", (e) => {
 });
 fontSelect.addEventListener("change", () => applyFont(fontSelect.value));
 
-/* ---------------- sembunyikan tombol Flashcard & Settings pas kuis ---------------- */
+/* ---------------- sembunyikan tombol Flashcard & Settings pas kuis/flashcard ---------------- */
 // .top-controls (tombol Flashcard + Settings) posisinya "fixed" nempel di
 // pojok kanan-atas LAYAR MANAPUN — termasuk pas lagi ngerjain Kuis (biasa/
 // Conquest/Speedrun, semuanya satu #screen-quiz yang sama), layar cerita
-// Chapter Conquest, & Match Mode (#screen-match), yang bisa ganggu fokus &
-// rawan kepencet gak sengaja pas lagi jawab soal/nyocokin ubin. Disembunyikan
-// otomatis lewat MutationObserver yang mantengin class "hidden" di
-// ketiga layar itu, biar gak perlu nambahin baris manual di tiap tempat
-// mereka ditampilkan/disembunyikan (startQuiz, goToNextQuestion,
-// renderConquestStory, renderResults, startMatchGame, tombol Back, dll —
-// titik togglenya banyak banget, gampang ada yang kelewat kalau manual).
+// Chapter Conquest, Match Mode (#screen-match), & layar Flashcard (deck
+// picker #screen-flashdeck / study #screen-flashcard), yang bisa ganggu fokus &
+// rawan kepencet gak sengaja pas lagi jawab soal/nyocokin ubin. Tombol
+// flashcard-nya sendiri juga redundan pas udah di dalam flashcard mode —
+// kedua layar itu udah punya tombol "Back" sendiri buat keluar, jadi ikonnya
+// gak perlu ditampilin dobel. Disembunyikan otomatis lewat MutationObserver
+// yang mantengin class "hidden" di kelima layar itu, biar gak perlu nambahin
+// baris manual di tiap tempat mereka ditampilkan/disembunyikan (startQuiz,
+// goToNextQuestion, renderConquestStory, renderResults, startMatchGame,
+// openFlashDeckPicker, startFlashcardSession, tombol Back, dll — titik
+// togglenya banyak banget, gampang ada yang kelewat kalau manual).
 const topControlsEl = document.querySelector(".top-controls");
 function updateTopControlsVisibility() {
   if (!topControlsEl) return;
   const quizEl = document.getElementById("screen-quiz");
   const conquestStoryEl = document.getElementById("screen-conquest-story");
   const matchEl = document.getElementById("screen-match");
+  const flashDeckEl = document.getElementById("screen-flashdeck");
+  const flashcardEl = document.getElementById("screen-flashcard");
   const inQuiz = (quizEl && !quizEl.classList.contains("hidden"))
     || (conquestStoryEl && !conquestStoryEl.classList.contains("hidden"))
-    || (matchEl && !matchEl.classList.contains("hidden"));
+    || (matchEl && !matchEl.classList.contains("hidden"))
+    || (flashDeckEl && !flashDeckEl.classList.contains("hidden"))
+    || (flashcardEl && !flashcardEl.classList.contains("hidden"));
   topControlsEl.classList.toggle("hidden", inQuiz);
 }
-["screen-quiz", "screen-conquest-story", "screen-match"].forEach(id => {
+["screen-quiz", "screen-conquest-story", "screen-match", "screen-flashdeck", "screen-flashcard"].forEach(id => {
   const el = document.getElementById(id);
   if (el) new MutationObserver(updateTopControlsVisibility).observe(el, { attributes: true, attributeFilter: ["class"] });
 });
@@ -1503,7 +1511,7 @@ const KOTOBA_N5_CH1_1 = [
   ["ひと", "hito", { en: "person", id: "orang" }, "あの ひとは だれですか。",
     [["あの", "Ano"], ["ひと", "hito"], ["は", "wa"], ["だれ", "dare"], ["です", "desu"], ["か", "ka"]],
     { en: "Who is that person?", id: "Siapa orang itu?" }, "人", "あの人は誰ですか。",
-    { en: "General, neutral word for 'person'. For a more polite tone, use かた (kata) below instead.", id: "Kata umum/netral untuk 'orang'. Untuk kesan lebih sopan, gunakan かた (kata)" }],
+    { en: "General, neutral word for 'person'. For a more polite tone, use かた (kata) instead.", id: "Kata umum/netral untuk 'orang'. Untuk kesan lebih sopan, gunakan かた (kata)." }],
   ["かれ", "kare", { en: "he / him", id: "dia (laki-laki)" }, "かれは がくせいです。",
     [["かれ", "Kare"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
     { en: "He is a student.", id: "Dia adalah murid/siswa." }, "彼", "彼は学生です。",
@@ -1534,7 +1542,7 @@ const KOTOBA_N5_CH1_1 = [
     { en: "Sounds fairly formal and final. For a casual goodbye to a friend, people more often say jaa ne or mata ne.", id: "Kesannya cukup formal/final. Untuk pisah santai ke teman, orang Jepang lebih sering pakai じゃあね atau またね." }],
   ["おやすみなさい", "oyasuminasai", { en: "good night", id: "selamat tidur" }, "おかあさん、おやすみなさい。",
     [["おかあさん", "Okaasan"], ["おやすみなさい", "oyasuminasai"]],
-    { en: "Good night, mom.", id: "Selamat tidur, ibu." }, "", "お母さん、おやすみなさい。",
+    { en: "Good night, mom.", id: "Selamat tidur, ibu." }, "お休みなさい", "お母さん、お休みなさい。",
     { en: "Said right before going to sleep. The casual short form is just 'oyasumi'.", id: "Diucapkan tepat sebelum tidur. Bentuk santainya cukup 'おやすみ' saja." }],
   ["ありがとうございます", "arigatou gozaimasu", { en: "thank you", id: "terima kasih" }, "てつだって くれて、ありがとうございます。",
     [["てつだって", "Tetsudatte"], ["くれて", "kurete"], ["ありがとうございます", "arigatou gozaimasu"]],
@@ -1542,15 +1550,15 @@ const KOTOBA_N5_CH1_1 = [
     { en: "Polite/formal form. The casual version among friends is just 'arigatou'.", id: "Bentuk sopan/formal. Ke teman dekat, bentuk santainya cukup 'ありがとう' saja." }],
   ["すみません", "sumimasen", { en: "excuse me / I'm sorry", id: "maaf / permisi" }, "すみません、いま なんじですか。",
     [["すみません", "Sumimasen"], ["いま", "ima"], ["なんじ", "nanji"], ["です", "desu"], ["か", "ka"]],
-    { en: "Excuse me, what time is it now?", id: "Permisi, sekarang jam berapa?" }, "", "すみません、今何時ですか。",
+    { en: "Excuse me, what time is it now?", id: "Permisi, sekarang jam berapa?" }, "済みません", "済みません、今何時ですか。",
     { en: "Very versatile — can mean 'sorry', 'excuse me' to get someone's attention, or even 'thank you' (implying you troubled them).", id: "Kata serbaguna: bisa berarti 'maaf', 'permisi' saat memanggil perhatian orang, atau bahkan 'terima kasih' (menyiratkan sudah merepotkan)." }],
   ["はじめまして", "hajimemashite", { en: "how do you do / nice to meet you", id: "salam kenal" }, "はじめまして、わたしは アリです。",
     [["はじめまして", "Hajimemashite"], ["わたし", "watashi"], ["は", "wa"], ["アリ", "Ari"], ["です", "desu"]],
-    { en: "Nice to meet you, I am Ari.", id: "Salam kenal, saya Ari." }, "", "はじめまして、私はアリです。",
+    { en: "Nice to meet you, I am Ari.", id: "Salam kenal, saya Ari." }, "初めまして", "初めまして、私はアリです。",
     { en: "Said only once, the very first time you meet someone — usually followed by your name and yoroshiku onegaishimasu.", id: "Diucapkan hanya sekali, saat pertama kali bertemu seseorang — biasanya diikuti nama & よろしくおねがいします." }],
   ["よろしくおねがいします", "yoroshiku onegaishimasu", { en: "please treat me well / nice to meet you", id: "mohon bantuannya / salam kenal" }, "どうぞ よろしく おねがいします。",
     [["どうぞ", "Douzo"], ["よろしく", "yoroshiku"], ["おねがいします", "onegaishimasu"]],
-    { en: "Please treat me well.", id: "Mohon bantuannya." }, "", "どうぞよろしくお願いします。",
+    { en: "Please treat me well.", id: "Mohon bantuannya." }, "よろしくお願いします", "どうぞよろしくお願いします。",
     { en: "An all-purpose phrase used when meeting someone, asking a favor, or closing a work arrangement — there's no exact one-word translation.", id: "Frasa serbaguna: dipakai saat berkenalan, minta tolong, atau menutup kesepakatan kerja sama — tidak ada padanan persis dalam bahasa Indonesia." }],
   ["わたしたち", "watashitachi", { en: "we / us", id: "kami / kita" }, "わたしたちは がくせいです。",
     [["わたしたち", "Watashitachi"], ["は", "wa"], ["がくせい", "gakusei"], ["です", "desu"]],
@@ -1582,19 +1590,19 @@ const KOTOBA_N5_CH1_1 = [
     { en: "More personal/casual than sumimasen — fits small mistakes with friends or family.", id: "Lebih personal/santai dibanding すみません — cocok untuk kesalahan kecil ke teman atau keluarga." }],
   ["いただきます", "itadakimasu", { en: "let's eat (said before a meal)", id: "selamat makan (sebelum makan)" }, "いただきます。",
     [["いただきます", "Itadakimasu"]],
-    { en: "Let's eat. (said before a meal)", id: "Selamat makan. (diucapkan sebelum makan)" }, "", "",
+    { en: "Let's eat. (said before a meal)", id: "Selamat makan. (diucapkan sebelum makan)" }, "頂きます", "頂きます。",
     { en: "Said right before eating, as a small thanks to whoever prepared the food — even if it's just yourself.", id: "Diucapkan tepat sebelum mulai makan, sebagai ucapan terima kasih ke siapa pun yang menyiapkan makanan (bahkan diri sendiri)." }],
   ["ごちそうさまでした", "gochisousama deshita", { en: "thank you for the meal (said after eating)", id: "terima kasih atas makanannya (setelah makan)" }, "ごちそうさまでした。",
     [["ごちそうさまでした", "Gochisousama deshita"]],
-    { en: "Thank you for the meal. (said after eating)", id: "Terima kasih atas makanannya. (setelah makan)" }, "", "",
+    { en: "Thank you for the meal. (said after eating)", id: "Terima kasih atas makanannya. (setelah makan)" }, "ご馳走様でした", "ご馳走様でした。",
     { en: "Said after finishing a meal. The casual short form is just 'gochisousama'.", id: "Diucapkan setelah selesai makan. Bentuk santainya cukup 'ごちそうさま' saja." }],
   ["いってきます", "itte kimasu", { en: "I'm off / see you later (leaving home)", id: "saya berangkat dulu" }, "いってきます！",
     [["いってきます", "Ittekimasu"]],
-    { en: "I'm off! (leaving home)", id: "Saya berangkat dulu!" }, "", "行ってきます！",
+    { en: "I'm off! (leaving home)", id: "Saya berangkat dulu!" }, "行ってきます", "行ってきます！",
     { en: "Said when leaving home or the office; the person staying behind replies with itterasshai.", id: "Diucapkan saat akan keluar rumah/kantor; dijawab dengan いってらっしゃい oleh orang yang tinggal." }],
   ["いってらっしゃい", "itterasshai", { en: "take care / see you later (to someone leaving)", id: "selamat jalan / hati-hati di jalan" }, "いってらっしゃい！",
     [["いってらっしゃい", "Itterasshai"]],
-    { en: "Take care! (to someone leaving)", id: "Hati-hati di jalan!" }, "", "行ってらっしゃい！",
+    { en: "Take care! (to someone leaving)", id: "Hati-hati di jalan!" }, "行ってらっしゃい", "行ってらっしゃい！",
     { en: "The reply to ittekimasu — said to the person who is about to leave.", id: "Jawaban untuk いってきます — diucapkan ke orang yang akan pergi." }],
   ["ただいま", "tadaima", { en: "I'm home", id: "saya pulang / kembali" }, "ただいま！",
     [["ただいま", "Tadaima"]],
@@ -1602,7 +1610,7 @@ const KOTOBA_N5_CH1_1 = [
     { en: "Said right when you arrive home; the person already there answers with okaerinasai.", id: "Diucapkan tepat saat baru sampai di rumah; dijawab dengan おかえりなさい oleh yang sudah ada di rumah." }],
   ["おかえりなさい", "okaerinasai", { en: "welcome home", id: "selamat datang kembali" }, "おかえりなさい！",
     [["おかえりなさい", "Okaerinasai"]],
-    { en: "Welcome home!", id: "Selamat datang kembali!" }, "", "お帰りなさい！",
+    { en: "Welcome home!", id: "Selamat datang kembali!" }, "お帰りなさい", "お帰りなさい！",
     { en: "The reply to tadaima — a warm welcome for someone who has just come home.", id: "Jawaban untuk ただいま — sambutan hangat untuk orang yang baru pulang." }],
 
   // -- Tambahan: kata ganti orang & orang-orang --
@@ -1839,7 +1847,7 @@ const KOTOBA_N5_CH1_3 = [
   ["がくせい", "gakusei", { en: "student", id: "siswa / mahasiswa" }, "がくせいは まいにち がっこうへ いきます。",
     [["がくせい", "Gakusei"], ["は", "wa"], ["まいにち", "mainichi"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
     { en: "The student goes to school every day.", id: "Siswa itu pergi ke sekolah setiap hari." }, "学生", "",
-    { en: "General word for a student at any level (school or university). For a foreign student specifically, use ryuugakusei below.", id: "Kata umum untuk pelajar di jenjang apa pun (sekolah maupun kuliah). Untuk pelajar asing secara spesifik, gunakan りゅうがくせい di bawah." }],
+    { en: "General word for a student at any level (school or university). For a foreign student specifically, the more specific word is ryuugakusei.", id: "Kata umum untuk pelajar di jenjang apa pun (sekolah maupun kuliah). Untuk pelajar asing secara spesifik, ada kata yang lebih spesifik yaitu りゅうがくせい." }],
   ["せんせい", "sensei", { en: "teacher / professor / doctor (respectful title)", id: "guru / dosen / dokter (sapaan hormat)" }, "せんせいは とても やさしいです。",
     [["せんせい", "Sensei"], ["は", "wa"], ["とても", "totemo"], ["やさしい", "yasashii"], ["です", "desu"]],
     { en: "The teacher is very kind.", id: "Guru itu sangat baik." }, "先生", "先生はとても優しいです。",
@@ -1887,7 +1895,7 @@ const KOTOBA_N5_CH1_3 = [
   ["おとな", "otona", { en: "adult", id: "orang dewasa" }, "おとなに なったら、なにを したいですか。",
     [["おとな", "Otona"], ["に", "ni"], ["なったら", "nattara"], ["なに", "nani"], ["を", "wo"], ["したい", "shitai"], ["ですか", "desu ka"]],
     { en: "What do you want to do when you become an adult?", id: "Kalau sudah menjadi orang dewasa, kamu ingin melakukan apa?" }, "大人", "",
-    { en: "An age-category word (adult vs. child), not an occupation — the opposite of kodomo below.", id: "Kata kategori usia (dewasa vs. anak), bukan profesi — lawan kata dari こども di bawah." }],
+    { en: "An age-category word (adult vs. child), not an occupation — the opposite of kodomo (child).", id: "Kata kategori usia (dewasa vs. anak), bukan profesi — lawan kata dari こども (anak)." }],
   ["こども", "kodomo", { en: "child, children", id: "anak-anak" }, "あの こどもは にわで あそんでいます。",
     [["あの", "Ano"], ["こども", "kodomo"], ["は", "wa"], ["にわ", "niwa"], ["で", "de"], ["あそんでいます", "asondeimasu"]],
     { en: "That child is playing in the yard.", id: "Anak itu sedang bermain di halaman." }, "子供", "あの子供は庭で遊んでいます。",
@@ -2004,7 +2012,7 @@ const KOTOBA_N5_CH2_1 = [
     { en: "Built from まい (every) + ばん (night) — the same pattern as まいあさ and まいにち.", id: "Dibentuk dari まい (setiap) + ばん (malam) — pola yang sama seperti まいあさ dan まいにち." }],
   ["ゆうべ", "yuube", { en: "last night", id: "tadi malam" }, "ゆうべ あめが ふりました。",
     [["ゆうべ", "Yuube"], ["あめ", "ame"], ["が", "ga"], ["ふりました", "furimashita"]],
-    { en: "It rained last night.", id: "Hujan turun tadi malam." }, "", "",
+    { en: "It rained last night.", id: "Hujan turun tadi malam." }, "夕べ", "夕べ雨が降りました。",
     { en: "Refers specifically to last night (a fixed point in the past), unlike よる which just means 'night' in general.", id: "Merujuk khusus pada tadi malam (titik waktu tertentu di masa lampau), berbeda dari よる yang hanya berarti 'malam' secara umum." }],
 
   // -- Tambahan: setiap pagi, AM/PM, & keterangan waktu relatif --
@@ -2091,7 +2099,7 @@ const KOTOBA_N5_CH2_2 = [
   ["いちじかん", "ichijikan", { en: "one hour", id: "satu jam" }, "まいにち いちじかん べんきょうします。",
     [["まいにち", "Mainichi"], ["いちじかん", "ichijikan"], ["べんきょうします", "benkyoushimasu"]],
     { en: "I study for one hour every day.", id: "Saya belajar selama satu jam setiap hari." }, "一時間", "毎日一時間勉強します。",
-    { en: "A specific duration count formed with いち (1) + じかん (hour); compare with generic じかん (time) below.", id: "Hitungan durasi spesifik yang dibentuk dari いち (1) + じかん (jam); bandingkan dengan じかん (waktu) yang lebih umum di bawah." }],
+    { en: "A specific duration count formed with いち (1) + じかん (hour); compare with the more generic じかん (time).", id: "Hitungan durasi spesifik yang dibentuk dari いち (1) + じかん (jam); bandingkan dengan じかん (waktu) yang lebih umum." }],
   ["じかん", "jikan", { en: "time, hours", id: "waktu, jam" }, "じかんが ありません。",
     [["じかん", "Jikan"], ["が", "ga"], ["ありません", "arimasen"]],
     { en: "I don't have time.", id: "Saya tidak punya waktu." }, "時間", "時間がありません。",
@@ -2111,7 +2119,7 @@ const KOTOBA_N5_CH2_2 = [
   ["いちがつ", "ichigatsu", { en: "January", id: "bulan Januari" }, "いちがつは さむいです。",
     [["いちがつ", "Ichigatsu"], ["は", "wa"], ["さむい", "samui"], ["です", "desu"]],
     { en: "January is cold.", id: "Bulan Januari dingin." }, "一月", "一月は寒いです。",
-    { en: "Months are simply number + がつ, except for the irregular readings on 4, 7, and 9 — see the notes on those months below.", id: "Nama bulan hanyalah bilangan + がつ, kecuali bacaan tidak beraturan pada bulan 4, 7, dan 9 — lihat catatannya di bawah." }],
+    { en: "Months are simply number + がつ, except for the irregular readings on April (4), July (7), and September (9).", id: "Nama bulan hanyalah bilangan + がつ, kecuali bacaan tidak beraturan pada bulan April (4), Juli (7), dan September (9)." }],
   ["にがつ", "nigatsu", { en: "February", id: "bulan Februari" }, "にがつに にほんへ いきます。",
     [["にがつ", "Nigatsu"], ["に", "ni"], ["にほん", "nihon"], ["へ", "e"], ["いきます", "ikimasu"]],
     { en: "I will go to Japan in February.", id: "Saya akan pergi ke Jepang bulan Februari." }, "二月", "二月に日本へ行きます。",
@@ -2850,7 +2858,7 @@ const KOTOBA_N5_CH3_2 = [
     { en: "Combines 荷 (load/cargo) + 物 (thing) — refers to belongings being carried, shipped, or checked in for travel.", id: "Gabungan dari 荷 (muatan) + 物 (benda) — merujuk pada barang bawaan yang dibawa, dikirim, atau dicheck-in untuk perjalanan." }]
 ];
 
-// Sub-Tier 3.3: Pakaian & Aksesori (14)
+// Sub-Tier 3.3: Pakaian & Aksesori (21)
 const KOTOBA_N5_CH3_3 = [
   ["ふく", "fuku", { en: "clothes", id: "pakaian, baju" }, "あたらしい ふくを かいました。",
     [["あたらしい", "Atarashii"], ["ふく", "fuku"], ["を", "wo"], ["かいました", "kaimashita"]],
@@ -2907,7 +2915,35 @@ const KOTOBA_N5_CH3_3 = [
   ["きもの", "kimono", { en: "kimono, traditional Japanese clothing", id: "kimono, pakaian tradisional Jepang" }, "まつりで きものを きます。",
     [["まつり", "Matsuri"], ["で", "de"], ["きもの", "kimono"], ["を", "wo"], ["きます", "kimasu"]],
     { en: "I wear a kimono at the festival.", id: "Saya memakai kimono di festival." }, "着物", "祭りで着物を着ます。",
-    { en: "Literally means \"a thing to wear\" (着る + 物), though in modern Japanese it specifically refers to traditional Japanese clothing.", id: "Secara harfiah berarti \"benda untuk dipakai\" (着る + 物), meski dalam bahasa Jepang modern kata ini merujuk khusus pada pakaian tradisional Jepang." }]
+    { en: "Literally means \"a thing to wear\" (着る + 物), though in modern Japanese it specifically refers to traditional Japanese clothing.", id: "Secara harfiah berarti \"benda untuk dipakai\" (着る + 物), meski dalam bahasa Jepang modern kata ini merujuk khusus pada pakaian tradisional Jepang." }],
+  ["Tシャツ", "tii shatsu", { en: "T-shirt", id: "kaos oblong / T-shirt" }, "なつは Tシャツを きます。",
+    [["なつ", "Natsu"], ["は", "wa"], ["Tシャツ", "T-shatsu"], ["を", "wo"], ["きます", "kimasu"]],
+    { en: "I wear a T-shirt in summer.", id: "Saya memakai kaos oblong di musim panas." }, "", "夏はTシャツを着ます。",
+    { en: "Combines the letter 'T' (for its shape) with シャツ (shirt) — a simple, short-sleeved shirt without a collar, paired with きる like other upper-body clothing.", id: "Gabungan huruf 'T' (karena bentuknya) dengan シャツ (kemeja) — kemeja lengan pendek sederhana tanpa kerah, berpasangan dengan きる seperti pakaian tubuh bagian atas lainnya." }],
+  ["うわぎ", "uwagi", { en: "jacket, outerwear", id: "jaket / jas / pakaian luar" }, "さむいから うわぎを きます。",
+    [["さむい", "Samui"], ["から", "kara"], ["うわぎ", "uwagi"], ["を", "wo"], ["きます", "kimasu"]],
+    { en: "I wear a jacket because it's cold.", id: "Saya memakai jaket karena dingin." }, "上着", "寒いから上着を着ます。",
+    { en: "Combines 上 (upper/outer) + 着 (wear) — a general term for any outer garment worn over a shirt, whether a jacket, blazer, or coat.", id: "Gabungan dari 上 (atas/luar) + 着 (memakai) — istilah umum untuk pakaian luar apa pun yang dipakai di atas kemeja, baik jaket, blazer, maupun mantel." }],
+  ["スリッパ", "surippa", { en: "slippers", id: "sandal rumah" }, "へやの なかで スリッパを はきます。",
+    [["へや", "Heya"], ["の", "no"], ["なか", "naka"], ["で", "de"], ["スリッパ", "surippa"], ["を", "wo"], ["はきます", "hakimasu"]],
+    { en: "I wear slippers in the room.", id: "Saya memakai sandal rumah di dalam kamar." }, "", "部屋の中でスリッパを履きます。",
+    { en: "From English 'slipper(s)' — like other footwear, it pairs with はく, not きる, since it's worn on the feet.", id: "Dari bahasa Inggris 'slipper(s)' — seperti alas kaki lainnya, berpasangan dengan はく, bukan きる, karena dipakai di kaki." }],
+  ["ポケット", "poketto", { en: "pocket", id: "saku / kantong baju" }, "ポケットに かぎを いれました。",
+    [["ポケット", "Poketto"], ["に", "ni"], ["かぎ", "kagi"], ["を", "wo"], ["いれました", "iremashita"]],
+    { en: "I put the key in my pocket.", id: "Saya memasukkan kunci ke dalam saku." }, "", "ポケットに鍵を入れました。",
+    { en: "From English 'pocket' — a part of a garment, not an item worn on its own, often used with いれる (to put in).", id: "Dari bahasa Inggris 'pocket' — bagian dari pakaian, bukan barang yang dipakai sendiri, sering dipakai dengan いれる (memasukkan)." }],
+  ["ゆびわ", "yubiwa", { en: "ring", id: "cincin" }, "きんの ゆびわを しています。",
+    [["きん", "Kin"], ["の", "no"], ["ゆびわ", "yubiwa"], ["を", "wo"], ["しています", "shiteimasu"]],
+    { en: "I am wearing a gold ring.", id: "Saya memakai cincin emas." }, "指輪", "金の指輪をしています。",
+    { en: "Combines 指 (finger) + 輪 (ring/loop) — small accessories like this are often paired with する rather than a specific wearing verb.", id: "Gabungan dari 指 (jari) + 輪 (lingkaran/cincin) — aksesori kecil seperti ini sering berpasangan dengan する daripada kata kerja memakai yang khusus." }],
+  ["ボタン", "botan", { en: "button", id: "kancing baju" }, "シャツの ボタンを とめます。",
+    [["シャツ", "Shatsu"], ["の", "no"], ["ボタン", "botan"], ["を", "wo"], ["とめます", "tomemasu"]],
+    { en: "I fasten the button of the shirt.", id: "Saya mengancingkan kancing kemeja." }, "", "シャツのボタンを留めます。",
+    { en: "From English 'button' — also used more broadly for any push-button, such as an elevator or appliance button.", id: "Dari bahasa Inggris 'button' — juga dipakai lebih luas untuk tombol apa pun, seperti tombol lift atau alat elektronik." }],
+  ["ハンカチ", "hankachi", { en: "handkerchief", id: "saputangan" }, "ハンカチで てを ふきます。",
+    [["ハンカチ", "Hankachi"], ["で", "de"], ["て", "te"], ["を", "wo"], ["ふきます", "fukimasu"]],
+    { en: "I wipe my hands with a handkerchief.", id: "Saya mengelap tangan saya dengan saputangan." }, "", "ハンカチで手を拭きます。",
+    { en: "From English 'handkerchief' — a small cloth carried for wiping hands or sweat, commonly kept in a ポケット (pocket) or カバン (bag).", id: "Dari bahasa Inggris 'handkerchief' — kain kecil yang dibawa untuk mengelap tangan atau keringat, biasa disimpan di ポケット (saku) atau カバン (tas)." }]
 ];
 
 // Sub-Tier 4.1: Lokasi & Fasilitas Publik (16)
@@ -2975,7 +3011,59 @@ const KOTOBA_N5_CH4_1 = [
   ["ホテル", "hoteru", { en: "hotel", id: "hotel" }, "ホテルに とまります。",
     [["ホテル", "Hoteru"], ["に", "ni"], ["とまります", "tomarimasu"]],
     { en: "I stay at a hotel.", id: "Saya menginap di hotel." }, "", "ホテルに泊まります。",
-    { en: "From English \"hotel\" — pairs with とまる (to stay overnight), a useful verb for travel situations.", id: "Dari bahasa Inggris \"hotel\" — berpasangan dengan とまる (menginap), kata kerja yang berguna untuk situasi bepergian." }]
+    { en: "From English \"hotel\" — pairs with とまる (to stay overnight), a useful verb for travel situations.", id: "Dari bahasa Inggris \"hotel\" — berpasangan dengan とまる (menginap), kata kerja yang berguna untuk situasi bepergian." }],
+  ["たいしかん", "taishikan", { en: "embassy", id: "kedutaan besar" }, "たいしかんは えきの ちかくに あります。",
+    [["たいしかん", "Taishikan"], ["は", "wa"], ["えき", "eki"], ["の", "no"], ["ちかく", "chikaku"], ["に", "ni"], ["あります", "arimasu"]],
+    { en: "The embassy is near the station.", id: "Kedutaan besar itu ada di dekat stasiun." }, "大使館", "大使館は駅の近くにあります。",
+    { en: "Combines 大使 (ambassador) + 館 (large building) — the same 館 appears in としょかん (library) and びじゅつかん (art museum).", id: "Gabungan dari 大使 (duta besar) + 館 (gedung besar) — 館 yang sama muncul pada としょかん (perpustakaan) dan びじゅつかん (museum seni)." }],
+  ["びじゅつかん", "bijutsukan", { en: "art museum", id: "museum seni" }, "にちようびに びじゅつかんへ いきます。",
+    [["にちようび", "Nichiyoubi"], ["に", "ni"], ["びじゅつかん", "bijutsukan"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to the art museum on Sunday.", id: "Saya pergi ke museum seni pada hari Minggu." }, "美術館", "日曜日に美術館へ行きます。",
+    { en: "Combines 美術 (fine art) + 館 (building) — for history or science museums Japanese uses はくぶつかん instead.", id: "Gabungan dari 美術 (seni rupa) + 館 (gedung) — untuk museum sejarah atau sains, bahasa Jepang memakai はくぶつかん." }],
+  ["プール", "puuru", { en: "swimming pool", id: "kolam renang" }, "なつは プールで およぎます。",
+    [["なつ", "Natsu"], ["は", "wa"], ["プール", "puuru"], ["で", "de"], ["およぎます", "oyogimasu"]],
+    { en: "I swim in the pool in summer.", id: "Di musim panas saya berenang di kolam renang." }, "", "夏はプールで泳ぎます。",
+    { en: "From English (pool) — the particle で marks the place where an action happens, so プールで means the swimming takes place there.", id: "Dari bahasa Inggris (pool) — partikel で menandai tempat berlangsungnya suatu aktivitas, jadi プールで berarti berenangnya dilakukan di sana." }],
+  ["かいしゃ", "kaisha", { en: "company, office", id: "perusahaan, kantor" }, "ちちは かいしゃで はたらいて います。",
+    [["ちち", "Chichi"], ["は", "wa"], ["かいしゃ", "kaisha"], ["で", "de"], ["はたらいて", "hataraite"], ["います", "imasu"]],
+    { en: "My father works at a company.", id: "Ayah saya bekerja di sebuah perusahaan." }, "会社", "父は会社で働いています。",
+    { en: "Combines 会 (meet) + 社 (company) — add いん (member) to get かいしゃいん, a company employee.", id: "Gabungan dari 会 (berkumpul) + 社 (perusahaan) — tambahkan いん (anggota) menjadi かいしゃいん, karyawan perusahaan." }],
+  ["スーパー", "suupaa", { en: "supermarket", id: "supermarket" }, "スーパーで たまごを かいました。",
+    [["スーパー", "Suupaa"], ["で", "de"], ["たまご", "tamago"], ["を", "wo"], ["かいました", "kaimashita"]],
+    { en: "I bought eggs at the supermarket.", id: "Saya membeli telur di supermarket." }, "", "スーパーで卵を買いました。",
+    { en: "Clipped from English (supermarket) — Japanese often shortens long loanwords this way, as in デパート and パソコン.", id: "Dipendekkan dari bahasa Inggris (supermarket) — bahasa Jepang sering memangkas kata serapan panjang seperti ini, sama seperti デパート dan パソコン." }],
+  ["えいがかん", "eigakan", { en: "movie theater, cinema", id: "bioskop" }, "ともだちと えいがかんへ いきます。",
+    [["ともだち", "Tomodachi"], ["と", "to"], ["えいがかん", "eigakan"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to the cinema with a friend.", id: "Saya pergi ke bioskop bersama teman." }, "映画館", "友達と映画館へ行きます。",
+    { en: "Combines 映画 (movie) + 館 (building) — と here marks the person you do something together with.", id: "Gabungan dari 映画 (film) + 館 (gedung) — と di sini menandai orang yang menemani kita melakukan sesuatu." }],
+  ["くうこう", "kuukou", { en: "airport", id: "bandara" }, "くうこうまで タクシーで いきます。",
+    [["くうこう", "Kuukou"], ["まで", "made"], ["タクシー", "takushii"], ["で", "de"], ["いきます", "ikimasu"]],
+    { en: "I go to the airport by taxi.", id: "Saya pergi ke bandara naik taksi." }, "空港", "空港までタクシーで行きます。",
+    { en: "Combines 空 (sky) + 港 (port), literally a sky port — 空 is read そら when it stands alone meaning sky.", id: "Gabungan dari 空 (langit) + 港 (pelabuhan), secara harfiah pelabuhan langit — 空 dibaca そら bila berdiri sendiri dengan arti langit." }],
+  ["バスてい", "basutei", { en: "bus stop", id: "halte bus" }, "バスていで バスを まちます。",
+    [["バスてい", "Basutei"], ["で", "de"], ["バス", "basu"], ["を", "wo"], ["まちます", "machimasu"]],
+    { en: "I wait for the bus at the bus stop.", id: "Saya menunggu bus di halte bus." }, "バス停", "バス停でバスを待ちます。",
+    { en: "A hybrid of the loanword バス and the kanji 停 (to stop) — katakana plus kanji compounds like this are common in modern Japanese.", id: "Gabungan kata serapan バス dan kanji 停 (berhenti) — kata majemuk katakana plus kanji seperti ini umum dalam bahasa Jepang modern." }],
+  ["ちゅうしゃじょう", "chuushajou", { en: "parking lot", id: "tempat parkir" }, "ちゅうしゃじょうは たてものの うしろに あります。",
+    [["ちゅうしゃじょう", "Chuushajou"], ["は", "wa"], ["たてもの", "tatemono"], ["の", "no"], ["うしろ", "ushiro"], ["に", "ni"], ["あります", "arimasu"]],
+    { en: "The parking lot is behind the building.", id: "Tempat parkir ada di belakang gedung." }, "駐車場", "駐車場は建物の後ろにあります。",
+    { en: "Combines 駐車 (parking a car) + 場 (place) — the same 場 marks a designated spot in のりば, a boarding point.", id: "Gabungan dari 駐車 (memarkir mobil) + 場 (tempat) — 場 yang sama menandai tempat khusus pada のりば, tempat naik kendaraan." }],
+  ["まち", "machi", { en: "town", id: "kota kecil" }, "この まちは とても しずかです。",
+    [["この", "Kono"], ["まち", "machi"], ["は", "wa"], ["とても", "totemo"], ["しずか", "shizuka"], ["です", "desu"]],
+    { en: "This town is very quiet.", id: "Kota ini sangat tenang." }, "町", "この町はとても静かです。",
+    { en: "町 is a town or neighborhood — smaller and more local in feel than し (city).", id: "町 berarti kota kecil atau lingkungan tempat tinggal — terasa lebih kecil dan lokal dibandingkan し (kota madya)." }],
+  ["し", "shi", { en: "city", id: "kota madya" }, "よこはましに すんで います。",
+    [["よこはまし", "Yokohama-shi"], ["に", "ni"], ["すんで", "sunde"], ["います", "imasu"]],
+    { en: "I live in Yokohama City.", id: "Saya tinggal di Kota Yokohama." }, "市", "横浜市に住んでいます。",
+    { en: "市 attaches to a place name as the administrative unit city, as in よこはまし — one rank above まち (town).", id: "市 ditempelkan pada nama tempat sebagai satuan wilayah kota, seperti よこはまし — satu tingkat di atas まち (kota kecil)." }],
+  ["くに", "kuni", { en: "country", id: "negara" }, "わたしの くには インドネシアです。",
+    [["わたし", "Watashi"], ["の", "no"], ["くに", "kuni"], ["は", "wa"], ["インドネシア", "Indoneshia"], ["です", "desu"]],
+    { en: "My country is Indonesia.", id: "Negara saya adalah Indonesia." }, "国", "私の国はインドネシアです。",
+    { en: "国 is read くに on its own but こく in compounds such as がいこく (foreign country) and ちゅうごく (China).", id: "国 dibaca くに bila berdiri sendiri, tetapi こく pada kata majemuk seperti がいこく (luar negeri) dan ちゅうごく (Tiongkok)." }],
+  ["がいこく", "gaikoku", { en: "foreign country, abroad", id: "luar negeri" }, "らいねん がいこくへ いきたいです。",
+    [["らいねん", "Rainen"], ["がいこく", "gaikoku"], ["へ", "e"], ["いきたい", "ikitai"], ["です", "desu"]],
+    { en: "I want to go abroad next year.", id: "Tahun depan saya ingin pergi ke luar negeri." }, "外国", "来年外国へ行きたいです。",
+    { en: "Combines 外 (outside) + 国 (country) — add じん to get がいこくじん, a person from abroad.", id: "Gabungan dari 外 (luar) + 国 (negara) — tambahkan じん menjadi がいこくじん, orang asing." }]
 ];
 
 // Sub-Tier 4.2: Arah & Posisi (11)
@@ -2995,7 +3083,7 @@ const KOTOBA_N5_CH4_2 = [
   ["みぎ", "migi", { en: "right side", id: "kanan" }, "みぎに まがってください。",
     [["みぎ", "Migi"], ["に", "ni"], ["まがってください", "magatte kudasai"]],
     { en: "Please turn right.", id: "Tolong belok kanan." }, "右", "右に曲がってください。",
-    { en: "右 combines with がわ (側, side) to form みぎがわ (right side) — the same pattern used with ひだり below.", id: "右 digabung dengan がわ (側, sisi) membentuk みぎがわ (sisi kanan) — pola yang sama dipakai dengan ひだり di bawah." }],
+    { en: "右 combines with がわ (側, side) to form みぎがわ (right side) — the same pattern also forms ひだりがわ (left side) from ひだり.", id: "右 digabung dengan がわ (側, sisi) membentuk みぎがわ (sisi kanan) — pola yang sama juga membentuk ひだりがわ (sisi kiri) dari ひだり." }],
   ["ひだり", "hidari", { en: "left side", id: "kiri" }, "ひだりに ほんやが あります。",
     [["ひだり", "Hidari"], ["に", "ni"], ["ほんや", "hon'ya"], ["が", "ga"], ["あります", "arimasu"]],
     { en: "There is a bookstore on the left.", id: "Ada toko buku di sebelah kiri." }, "左", "左に本屋があります。",
@@ -3007,7 +3095,7 @@ const KOTOBA_N5_CH4_2 = [
   ["まえ", "mae", { en: "front, before", id: "depan, sebelum" }, "えきの まえに ぎんこうが あります。",
     [["えき", "Eki"], ["の", "no"], ["まえ", "mae"], ["に", "ni"], ["ぎんこう", "ginkou"], ["が", "ga"], ["あります", "arimasu"]],
     { en: "There is a bank in front of the station.", id: "Ada bank di depan stasiun." }, "前", "駅の前に銀行があります。",
-    { en: "前 covers both spatial \"front\" and temporal \"before\", as in ごぜん (a.m., lit. \"before noon\") — its opposite うしろ (below) only has a spatial meaning.", id: "前 mencakup makna posisi \"depan\" maupun waktu \"sebelum\", seperti pada ごぜん (pagi/AM, secara harfiah \"sebelum tengah hari\") — lawannya うしろ (di bawah) hanya bermakna posisi." }],
+    { en: "前 covers both spatial \"front\" and temporal \"before\", as in ごぜん (a.m., lit. \"before noon\") — its opposite うしろ (behind) only has a spatial meaning.", id: "前 mencakup makna posisi \"depan\" maupun waktu \"sebelum\", seperti pada ごぜん (pagi/AM, secara harfiah \"sebelum tengah hari\") — lawannya うしろ (belakang) hanya bermakna posisi." }],
   ["うしろ", "ushiro", { en: "behind, back", id: "belakang" }, "がっこうの うしろに こうえんが あります。",
     [["がっこう", "Gakkou"], ["の", "no"], ["うしろ", "ushiro"], ["に", "ni"], ["こうえん", "kouen"], ["が", "ga"], ["あります", "arimasu"]],
     { en: "There is a park behind the school.", id: "Ada taman di belakang sekolah." }, "後ろ", "学校の後ろに公園があります。",
@@ -3015,7 +3103,7 @@ const KOTOBA_N5_CH4_2 = [
   ["となり", "tonari", { en: "next to, neighboring", id: "sebelah" }, "わたしの いえの となりに としょかんが あります。",
     [["わたし", "Watashi"], ["の", "no"], ["いえ", "ie"], ["の", "no"], ["となり", "tonari"], ["に", "ni"], ["としょかん", "toshokan"], ["が", "ga"], ["あります", "arimasu"]],
     { en: "There is a library next to my house.", id: "Ada perpustakaan di sebelah rumah saya." }, "隣", "私の家の隣に図書館があります。",
-    { en: "となり specifically means directly adjacent (like a neighboring house), while ちかく (below) more broadly means \"nearby\" without requiring direct contact.", id: "となり secara khusus berarti bersebelahan langsung (seperti rumah tetangga), sedangkan ちかく (di bawah) lebih umum berarti \"dekat\" tanpa harus bersentuhan langsung." }],
+    { en: "となり specifically means directly adjacent (like a neighboring house), while ちかく broadly means \"in the vicinity\" without requiring direct contact.", id: "となり secara khusus berarti bersebelahan langsung (seperti rumah tetangga), sedangkan ちかく lebih umum berarti \"di sekitar\" tanpa harus bersentuhan langsung." }],
   ["ちかく", "chikaku", { en: "near, vicinity", id: "dekat" }, "えきの ちかくに スーパーが あります。",
     [["えき", "Eki"], ["の", "no"], ["ちかく", "chikaku"], ["に", "ni"], ["スーパー", "suupaa"], ["が", "ga"], ["あります", "arimasu"]],
     { en: "There is a supermarket near the station.", id: "Ada supermarket di dekat stasiun." }, "近く", "駅の近くにスーパーがあります。",
@@ -3023,7 +3111,19 @@ const KOTOBA_N5_CH4_2 = [
   ["あいだ", "aida", { en: "between, among", id: "antara" }, "がっこうと えきの あいだに こうえんが あります。",
     [["がっこう", "Gakkou"], ["と", "to"], ["えき", "eki"], ["の", "no"], ["あいだ", "aida"], ["に", "ni"], ["こうえん", "kouen"], ["が", "ga"], ["あります", "arimasu"]],
     { en: "There is a park between the school and the station.", id: "Ada taman di antara sekolah dan stasiun." }, "間", "学校と駅の間に公園があります。",
-    { en: "間 is read あいだ here but becomes かん in time-duration words like にじかん (two hours) and じかん (time).", id: "間 dibaca あいだ di sini, tetapi menjadi かん pada kata durasi waktu seperti にじかん (dua jam) dan じかん (waktu)." }]
+    { en: "間 is read あいだ here but becomes かん in time-duration words like にじかん (two hours) and じかん (time).", id: "間 dibaca あいだ di sini, tetapi menjadi かん pada kata durasi waktu seperti にじかん (dua jam) dan じかん (waktu)." }],
+  ["よこ", "yoko", { en: "side, beside", id: "samping" }, "テレビの よこに とけいが あります。",
+    [["テレビ", "Terebi"], ["の", "no"], ["よこ", "yoko"], ["に", "ni"], ["とけい", "tokei"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a clock beside the TV.", id: "Ada jam di samping televisi." }, "横", "テレビの横に時計があります。",
+    { en: "よこ is the horizontal side of something, while となり is used for two things of the same kind lined up next to each other.", id: "よこ menunjuk sisi horizontal suatu benda, sedangkan となり dipakai untuk dua benda sejenis yang berjajar." }],
+  ["そば", "soba", { en: "near, right beside", id: "dekat, di sisi" }, "えきの そばに ぎんこうが あります。",
+    [["えき", "Eki"], ["の", "no"], ["そば", "soba"], ["に", "ni"], ["ぎんこう", "ginkou"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a bank right by the station.", id: "Ada bank tepat di dekat stasiun." }, "", "駅のそばに銀行があります。",
+    { en: "そば means very close by — nearer in feel than ちかく. Note it is a homophone of そば, the buckwheat noodles.", id: "そば berarti sangat berdekatan — terasa lebih dekat daripada ちかく. Perhatikan kata ini sebunyi dengan そば, mi soba." }],
+  ["むこう", "mukou", { en: "over there, the other side", id: "seberang, di sana" }, "みちの むこうに こうえんが あります。",
+    [["みち", "Michi"], ["の", "no"], ["むこう", "mukou"], ["に", "ni"], ["こうえん", "kouen"], ["が", "ga"], ["あります", "arimasu"]],
+    { en: "There is a park across the road.", id: "Ada taman di seberang jalan." }, "向こう", "道の向こうに公園があります。",
+    { en: "Points to the far side of something or a distant spot — it comes from the verb むかう, to face or head toward.", id: "Menunjuk sisi seberang suatu benda atau tempat yang jauh — berasal dari kata kerja むかう, menghadap atau menuju." }]
 ];
 
 // Sub-Tier 4.3: Transportasi & Fitur Kota (4)
@@ -3043,7 +3143,63 @@ const KOTOBA_N5_CH4_3 = [
   ["みち", "michi", { en: "road, street", id: "jalan" }, "この みちは とても せまいです。",
     [["この", "Kono"], ["みち", "michi"], ["は", "wa"], ["とても", "totemo"], ["せまい", "semai"], ["です", "desu"]],
     { en: "This road is very narrow.", id: "Jalan ini sangat sempit." }, "道", "この道はとても狭いです。",
-    { en: "道 also appears in どうろ (roadway) and ほっかいどう (Hokkaido) — a versatile kanji for \"path\" or \"way\", including abstract senses like one's path in life.", id: "道 juga muncul pada どうろ (jalan raya) dan ほっかいどう (Hokkaido) — kanji serbaguna untuk \"jalan\" atau \"cara\", termasuk makna abstrak seperti jalan hidup seseorang." }]
+    { en: "道 also appears in どうろ (roadway) and ほっかいどう (Hokkaido) — a versatile kanji for \"path\" or \"way\", including abstract senses like one's path in life.", id: "道 juga muncul pada どうろ (jalan raya) dan ほっかいどう (Hokkaido) — kanji serbaguna untuk \"jalan\" atau \"cara\", termasuk makna abstrak seperti jalan hidup seseorang." }],
+  ["ちかてつ", "chikatetsu", { en: "subway", id: "kereta bawah tanah" }, "ちかてつで かいしゃへ いきます。",
+    [["ちかてつ", "Chikatetsu"], ["で", "de"], ["かいしゃ", "kaisha"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to the office by subway.", id: "Saya pergi ke kantor naik kereta bawah tanah." }, "地下鉄", "地下鉄で会社へ行きます。",
+    { en: "Combines 地下 (underground) + 鉄 (iron, short for 鉄道 railway) — で marks the means of transport.", id: "Gabungan dari 地下 (bawah tanah) + 鉄 (besi, singkatan dari 鉄道 rel kereta) — で menandai sarana transportasi yang dipakai." }],
+  ["れっしゃ", "ressha", { en: "train (long-distance)", id: "kereta api" }, "れっしゃで きょうとへ いきました。",
+    [["れっしゃ", "Ressha"], ["で", "de"], ["きょうと", "Kyouto"], ["へ", "e"], ["いきました", "ikimashita"]],
+    { en: "I went to Kyoto by train.", id: "Saya pergi ke Kyoto naik kereta api." }, "列車", "列車で京都へ行きました。",
+    { en: "Combines 列 (row, line) + 車 (vehicle) — used for longer-distance trains, while でんしゃ is the everyday commuter train.", id: "Gabungan dari 列 (barisan) + 車 (kendaraan) — dipakai untuk kereta jarak jauh, sedangkan でんしゃ adalah kereta komuter sehari-hari." }],
+  ["タクシー", "takushii", { en: "taxi", id: "taksi" }, "あめですから タクシーで かえります。",
+    [["あめ", "Ame"], ["です", "desu"], ["から", "kara"], ["タクシー", "takushii"], ["で", "de"], ["かえります", "kaerimasu"]],
+    { en: "It is raining, so I will go home by taxi.", id: "Karena hujan, saya pulang naik taksi." }, "", "雨ですからタクシーで帰ります。",
+    { en: "から placed after a full clause means because, giving the reason for the action that follows.", id: "から yang diletakkan setelah satu klausa utuh berarti karena, memberi alasan bagi tindakan sesudahnya." }],
+  ["じてんしゃ", "jitensha", { en: "bicycle", id: "sepeda" }, "まいあさ じてんしゃで がっこうへ いきます。",
+    [["まいあさ", "Maiasa"], ["じてんしゃ", "jitensha"], ["で", "de"], ["がっこう", "gakkou"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to school by bicycle every morning.", id: "Setiap pagi saya pergi ke sekolah naik sepeda." }, "自転車", "毎朝自転車で学校へ行きます。",
+    { en: "Combines 自 (self) + 転 (turn) + 車 (vehicle) — literally a self-turning vehicle.", id: "Gabungan dari 自 (sendiri) + 転 (berputar) + 車 (kendaraan) — secara harfiah kendaraan yang berputar sendiri." }],
+  ["ひこうき", "hikouki", { en: "airplane", id: "pesawat terbang" }, "ひこうきで にほんへ いきます。",
+    [["ひこうき", "Hikouki"], ["で", "de"], ["にほん", "Nihon"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to Japan by plane.", id: "Saya pergi ke Jepang naik pesawat." }, "飛行機", "飛行機で日本へ行きます。",
+    { en: "Combines 飛 (fly) + 行 (go) + 機 (machine) — literally a flying machine.", id: "Gabungan dari 飛 (terbang) + 行 (pergi) + 機 (mesin) — secara harfiah mesin yang terbang." }],
+  ["ふね", "fune", { en: "ship, boat", id: "kapal laut" }, "ふねで しまへ いきます。",
+    [["ふね", "Fune"], ["で", "de"], ["しま", "shima"], ["へ", "e"], ["いきます", "ikimasu"]],
+    { en: "I go to the island by boat.", id: "Saya pergi ke pulau naik kapal." }, "船", "船で島へ行きます。",
+    { en: "Just like でんしゃ and バス, the vehicle you travel in is marked with で, while へ marks the direction you head toward.", id: "Sama seperti でんしゃ dan バス, kendaraan yang ditumpangi ditandai で, sedangkan へ menandai arah tujuan." }],
+  ["はし", "hashi", { en: "bridge", id: "jembatan" }, "あの はしは とても ながいです。",
+    [["あの", "Ano"], ["はし", "hashi"], ["は", "wa"], ["とても", "totemo"], ["ながい", "nagai"], ["です", "desu"]],
+    { en: "That bridge is very long.", id: "Jembatan itu sangat panjang." }, "橋", "あの橋はとても長いです。",
+    { en: "はし is also the reading for 箸 (chopsticks) and 端 (edge) — the pitch accent differs, and the kanji keeps them apart in writing.", id: "はし juga merupakan bacaan untuk 箸 (sumpit) dan 端 (ujung) — aksen nadanya berbeda, dan kanjinya yang membedakan dalam tulisan." }],
+  ["かど", "kado", { en: "corner", id: "tikungan, sudut jalan" }, "つぎの かどを みぎに まがって ください。",
+    [["つぎ", "Tsugi"], ["の", "no"], ["かど", "kado"], ["を", "wo"], ["みぎ", "migi"], ["に", "ni"], ["まがって", "magatte"], ["ください", "kudasai"]],
+    { en: "Please turn right at the next corner.", id: "Tolong belok kanan di tikungan berikutnya." }, "角", "次の角を右に曲がってください。",
+    { en: "を here marks the place you pass through or turn at — a special use of を with movement verbs like まがる and わたる.", id: "を di sini menandai tempat yang dilewati atau dibeloki — penggunaan khusus を bersama kata kerja gerak seperti まがる dan わたる." }],
+  ["しんごう", "shingou", { en: "traffic light", id: "lampu lalu lintas" }, "しんごうが あおに なりました。",
+    [["しんごう", "Shingou"], ["が", "ga"], ["あお", "ao"], ["に", "ni"], ["なりました", "narimashita"]],
+    { en: "The traffic light turned green.", id: "Lampu lalu lintasnya berubah hijau." }, "信号", "信号が青になりました。",
+    { en: "Japanese calls the green light あお (blue) — a historical usage from a time when あお covered both blue and green.", id: "Bahasa Jepang menyebut lampu hijau dengan あお (biru) — kebiasaan lama dari masa ketika あお mencakup biru sekaligus hijau." }],
+  ["のりば", "noriba", { en: "boarding point, stand", id: "tempat naik kendaraan" }, "タクシーのりばは えきの まえに あります。",
+    [["タクシーのりば", "Takushii-noriba"], ["は", "wa"], ["えき", "eki"], ["の", "no"], ["まえ", "mae"], ["に", "ni"], ["あります", "arimasu"]],
+    { en: "The taxi stand is in front of the station.", id: "Tempat naik taksi ada di depan stasiun." }, "乗り場", "タクシー乗り場は駅の前にあります。",
+    { en: "From のる (to board) + ば (place) — attach it after a vehicle name, as in バスのりば.", id: "Dari のる (naik kendaraan) + ば (tempat) — ditempelkan setelah nama kendaraan, seperti バスのりば." }],
+  ["いりぐち", "iriguchi", { en: "entrance", id: "pintu masuk" }, "いりぐちは あちらです。",
+    [["いりぐち", "Iriguchi"], ["は", "wa"], ["あちら", "achira"], ["です", "desu"]],
+    { en: "The entrance is over there.", id: "Pintu masuknya di sebelah sana." }, "入口", "入口はあちらです。",
+    { en: "Combines 入 (enter) + 口 (opening) — its opposite でぐち swaps in 出 (go out) with the same 口.", id: "Gabungan dari 入 (masuk) + 口 (mulut/bukaan) — lawannya, でぐち, mengganti dengan 出 (keluar) memakai 口 yang sama." }],
+  ["でぐち", "deguchi", { en: "exit", id: "pintu keluar" }, "でぐちは どこですか。",
+    [["でぐち", "Deguchi"], ["は", "wa"], ["どこ", "doko"], ["です", "desu"], ["か", "ka"]],
+    { en: "Where is the exit?", id: "Di mana pintu keluarnya?" }, "出口", "出口はどこですか。",
+    { en: "Combines 出 (go out) + 口 (opening) — station signs often pair it with a direction, as in ひがしぐち, the east exit.", id: "Gabungan dari 出 (keluar) + 口 (bukaan) — papan di stasiun sering memasangkannya dengan arah, seperti ひがしぐち, pintu keluar timur." }],
+  ["もん", "mon", { en: "gate", id: "gerbang" }, "がっこうの もんは おおきいです。",
+    [["がっこう", "Gakkou"], ["の", "no"], ["もん", "mon"], ["は", "wa"], ["おおきい", "ookii"], ["です", "desu"]],
+    { en: "The school gate is big.", id: "Gerbang sekolahnya besar." }, "門", "学校の門は大きいです。",
+    { en: "門 is a gate set in a wall or fence — larger and more structural than ドア, an ordinary door.", id: "門 adalah gerbang pada tembok atau pagar — lebih besar dan bersifat bangunan dibandingkan ドア, pintu biasa." }],
+  ["きっぷ", "kippu", { en: "ticket", id: "tiket, karcis" }, "えきで きっぷを かいます。",
+    [["えき", "Eki"], ["で", "de"], ["きっぷ", "kippu"], ["を", "wo"], ["かいます", "kaimasu"]],
+    { en: "I buy a ticket at the station.", id: "Saya membeli tiket di stasiun." }, "切符", "駅で切符を買います。",
+    { en: "Combines 切 (cut) + 符 (token) — a leftover from the days when tickets were physically clipped on use.", id: "Gabungan dari 切 (potong) + 符 (tanda) — peninggalan masa ketika tiket benar-benar digunting saat dipakai." }]
 ];
 
 // Sub-Tier 5.1: Aktivitas Dasar Harian (5)
@@ -3059,7 +3215,7 @@ const KOTOBA_N5_CH5_1 = [
   ["みる", "miru", { en: "see / watch", id: "lihat / menonton" }, "えいがを みるのが すきです。",
     [["えいが", "Eiga"], ["を", "wo"], ["みる", "miru"], ["の", "no"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
     { en: "I like watching movies.", id: "Saya suka menonton film." }, "見る", "映画を見るのが好きです。",
-    { en: "見る covers both \"see\" and \"watch\"; the related verb きく below similarly covers both \"listen\" and \"ask\" depending on kanji.", id: "見る mencakup makna \"melihat\" maupun \"menonton\"; kata kerja きく di bawah juga mencakup makna \"mendengar\" dan \"bertanya\" tergantung kanjinya." }],
+    { en: "見る covers both \"see\" and \"watch\"; the related verb きく similarly covers both \"listen\" and \"ask\" depending on kanji.", id: "見る mencakup makna \"melihat\" maupun \"menonton\"; kata kerja きく juga mencakup makna \"mendengar\" dan \"bertanya\" tergantung kanjinya." }],
   ["きく", "kiku", { en: "listen / hear", id: "dengar" }, "おんがくを きくのが すきです。",
     [["おんがく", "Ongaku"], ["を", "wo"], ["きく", "kiku"], ["の", "no"], ["が", "ga"], ["すき", "suki"], ["です", "desu"]],
     { en: "I like listening to music.", id: "Saya suka mendengarkan musik." }, "聞く", "音楽を聞くのが好きです。",
@@ -3115,7 +3271,7 @@ const KOTOBA_N5_CH6_1 = [
   ["おおきい", "ookii", { en: "big", id: "besar" }, "この いえは おおきいです。",
     [["この", "Kono"], ["いえ", "ie"], ["は", "wa"], ["おおきい", "ookii"], ["です", "desu"]],
     { en: "This house is big.", id: "Rumah ini besar." }, "大きい", "この家は大きいです。",
-    { en: "おおきい has an alternate pre-noun form おおきな (e.g. おおきな いえ), a rare irregular pattern shared with ちいさい below.", id: "おおきい punya bentuk alternatif sebelum kata benda yaitu おおきな (misalnya おおきな いえ), pola tak beraturan langka yang juga dimiliki ちいさい di bawah." }],
+    { en: "おおきい has an alternate pre-noun form おおきな (e.g. おおきな いえ), a rare irregular pattern also shared by ちいさい (small).", id: "おおきい punya bentuk alternatif sebelum kata benda yaitu おおきな (misalnya おおきな いえ), pola tak beraturan langka yang juga dimiliki ちいさい (kecil)." }],
   ["ちいさい", "chiisai", { en: "small", id: "kecil" }, "あの いぬは ちいさいです。",
     [["あの", "Ano"], ["いぬ", "inu"], ["は", "wa"], ["ちいさい", "chiisai"], ["です", "desu"]],
     { en: "That dog is small.", id: "Anjing itu kecil." }, "小さい", "あの犬は小さいです。",
@@ -3123,7 +3279,7 @@ const KOTOBA_N5_CH6_1 = [
   ["たかい", "takai", { en: "tall / expensive", id: "tinggi / mahal" }, "この かばんは たかいです。",
     [["この", "Kono"], ["かばん", "kaban"], ["は", "wa"], ["たかい", "takai"], ["です", "desu"]],
     { en: "This bag is expensive.", id: "Tas ini mahal." }, "高い", "この鞄は高いです。",
-    { en: "高い covers both physical height and price — its opposite ひくい (low) only covers height, while やすい (cheap, below) only covers price.", id: "高い mencakup makna tinggi fisik maupun harga — lawannya ひくい (rendah) hanya untuk tinggi, sedangkan やすい (murah, di bawah) hanya untuk harga." }],
+    { en: "高い covers both physical height and price — its opposite ひくい (low) only covers height, while やすい (cheap) only covers price.", id: "高い mencakup makna tinggi fisik maupun harga — lawannya ひくい (rendah) hanya untuk tinggi, sedangkan やすい (murah) hanya untuk harga." }],
   ["やすい", "yasui", { en: "cheap", id: "murah" }, "やおやの やさいは やすいです。",
     [["やおや", "Yaoya"], ["の", "no"], ["やさい", "yasai"], ["は", "wa"], ["やすい", "yasui"], ["です", "desu"]],
     { en: "The vegetables at the greengrocer are cheap.", id: "Sayuran di toko sayur itu murah." }, "安い", "八百屋の野菜は安いです。",
@@ -3211,7 +3367,7 @@ const KOTOBA_N5_CH7_2 = [
   ["しろ", "shiro", { en: "white", id: "putih" }, "しろい シャツを きています。",
     [["しろい", "Shiroi"], ["シャツ", "shatsu"], ["を", "wo"], ["きています", "kiteimasu"]],
     { en: "I am wearing a white shirt.", id: "Saya memakai kemeja putih." }, "白", "白いシャツを着ています。",
-    { en: "白 pairs with くろ (black) below as two of Japan's oldest recognized color terms, both usable as either nouns or i-adjectives (しろい/くろい).", id: "白 berpasangan dengan くろ (hitam) di bawah sebagai dua istilah warna tertua dalam bahasa Jepang, keduanya bisa dipakai sebagai kata benda maupun kata sifat-i (しろい/くろい)." }],
+    { en: "白 pairs with くろ (black) as two of Japan's oldest recognized color terms, both usable as either nouns or i-adjectives (しろい/くろい).", id: "白 berpasangan dengan くろ (hitam) sebagai dua istilah warna tertua dalam bahasa Jepang, keduanya bisa dipakai sebagai kata benda maupun kata sifat-i (しろい/くろい)." }],
   ["くろ", "kuro", { en: "black", id: "hitam" }, "くろい ねこが います。",
     [["くろい", "Kuroi"], ["ねこ", "neko"], ["が", "ga"], ["います", "imasu"]],
     { en: "There is a black cat.", id: "Ada kucing hitam." }, "黒", "黒い猫がいます。",
@@ -3302,10 +3458,10 @@ const KOTOBA_N5_LEVEL_TEXT = {
   tier7: { title: { en: "Tier 2.4 — Frequency & Duration", id: "Tier 2.4 — Frekuensi & Durasi" }, sample: "いつも よく たまに", desc: { en: "21 N5 vocabulary words.", id: "21 kosakata N5." } },
   tier8: { title: { en: "Tier 3.1 — Food & Drinks", id: "Tier 3.1 — Makanan & Minuman" }, sample: "ごはん たまご くだもの", desc: { en: "36 N5 vocabulary words.", id: "36 kosakata N5." } },
   tier9: { title: { en: "Tier 3.2 — Personal Items & Home", id: "Tier 3.2 — Benda-benda Pribadi & Rumah" }, sample: "ほん つくえ でんわ", desc: { en: "47 N5 vocabulary words.", id: "47 kosakata N5." } },
-  tier10: { title: { en: "Tier 3.3 — Clothing & Accessories", id: "Tier 3.3 — Pakaian & Aksesori" }, sample: "ふく くつ ぼうし", desc: { en: "14 N5 vocabulary words.", id: "14 kosakata N5." } },
-  tier11: { title: { en: "Tier 4.1 — Locations & Public Facilities", id: "Tier 4.1 — Lokasi & Fasilitas Publik" }, sample: "がっこう びょういん こうえん", desc: { en: "16 N5 vocabulary words.", id: "16 kosakata N5." } },
-  tier12: { title: { en: "Tier 4.2 — Direction & Position", id: "Tier 4.2 — Arah & Posisi" }, sample: "うえ した みぎ", desc: { en: "11 N5 vocabulary words.", id: "11 kosakata N5." } },
-  tier13: { title: { en: "Tier 4.3 — Transportation & City Features", id: "Tier 4.3 — Transportasi & Fitur Kota" }, sample: "でんしゃ くるま バス", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
+  tier10: { title: { en: "Tier 3.3 — Clothing & Accessories", id: "Tier 3.3 — Pakaian & Aksesori" }, sample: "ふく くつ ぼうし", desc: { en: "21 N5 vocabulary words.", id: "21 kosakata N5." } },
+  tier11: { title: { en: "Tier 4.1 — Locations & Public Facilities", id: "Tier 4.1 — Lokasi & Fasilitas Publik" }, sample: "がっこう びょういん こうえん", desc: { en: "29 N5 vocabulary words.", id: "29 kosakata N5." } },
+  tier12: { title: { en: "Tier 4.2 — Direction & Position", id: "Tier 4.2 — Arah & Posisi" }, sample: "うえ した みぎ", desc: { en: "14 N5 vocabulary words.", id: "14 kosakata N5." } },
+  tier13: { title: { en: "Tier 4.3 — Transportation & City Features", id: "Tier 4.3 — Transportasi & Fitur Kota" }, sample: "でんしゃ くるま バス", desc: { en: "18 N5 vocabulary words.", id: "18 kosakata N5." } },
   tier14: { title: { en: "Tier 5.1 — Basic Daily Activities", id: "Tier 5.1 — Aktivitas Dasar Harian" }, sample: "たべる のむ みる", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
   tier15: { title: { en: "Tier 5.2 — Movement & Mobility", id: "Tier 5.2 — Perpindahan & Mobilisasi" }, sample: "いく くる かえる", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
   tier16: { title: { en: "Tier 5.3 — Interaction, Transactions, & Work", id: "Tier 5.3 — Interaksi, Transaksi, & Kerja" }, sample: "はなす かく かう", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
@@ -3317,7 +3473,7 @@ const KOTOBA_N5_LEVEL_TEXT = {
   tier22: { title: { en: "Tier 7.3 — Question Words & Adverbs", id: "Tier 7.3 — Kata Tanya & Kata Keterangan" }, sample: "どこ いつ なに", desc: { en: "5 N5 vocabulary words.", id: "5 kosakata N5." } },
   tier23: { title: { en: "Tier 7.4 — Conjunctions & Connectors", id: "Tier 7.4 — Kata Hubung & Sambungan" }, sample: "そして でも だから", desc: { en: "4 N5 vocabulary words.", id: "4 kosakata N5." } },
   tier24: { title: { en: "Tier 7.5 — Adverbs & Modifiers", id: "Tier 7.5 — Kata Keterangan Derajat & Tata Bahasa" }, sample: "とても すこし たくさん", desc: { en: "3 N5 vocabulary words.", id: "3 kosakata N5." } },
-  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 418 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 418 kosakata N5 diacak menjadi satu Chapter." } }
+  all: { title: { en: "All Mixed", id: "seluruh Campur" }, sample: "せんせい あるく げんき", desc: { en: "All 455 N5 vocabulary words shuffled into one Chapter.", id: "Seluruh 455 kosakata N5 diacak menjadi satu Chapter." } }
 };
 
 // Kotoba N5 py 24 sub-tier (tier1..tier24) + "all" — kepanjangan kalau ditampilkan
@@ -3356,6 +3512,307 @@ const KOTOBA_TIER_GROUPS = KOTOBA_TIER_GROUP_DEFS.map((g, gi) => {
     }
   };
 });
+
+/* ---- Kotoba N5 — pengelompokan isi tiap Sub-Tier berdasarkan JENIS kata ----
+   Seluruh 24 Sub-Tier (1.1 s/d 7.5) urutan aslinya masih
+   campur (mis. di Makanan & Minuman, "minuman" nyempil di antara "lauk").
+   KOTOBA_CATEGORY_DEFS di bawah menata ulang urutan kartu di Mode Belajar
+   jadi berkelompok per jenis + dikasih pemisah kategori, TANPA mengubah data
+   asli KOTOBA_N5_CHAPTERS (dipakai Mode Kuis, urutannya tetap seperti semula).
+   Cara nambah/ubah: cukup geser kata-nya ke array `words` kategori yang mau.
+   Kata yang belum terdaftar otomatis masuk kelompok "Lainnya" di paling akhir. */
+const KOTOBA_CATEGORY_DEFS = {
+  tier1: [
+    { label: { en: "Personal Pronouns", id: "Kata Ganti Orang" },
+      words: ["わたし", "わたしたち", "あなた", "かれ", "かのじょ", "かれら"] },
+    { label: { en: "Words for People", id: "Sebutan untuk Orang" },
+      words: ["ひと", "かた", "あのひと", "あのかた", "みなさん", "みんな"] },
+    { label: { en: "Name Suffixes", id: "Akhiran Sapaan Nama" },
+      words: ["さん", "くん", "ちゃん", "じん"] },
+    { label: { en: "Daily Greetings", id: "Salam Harian" },
+      words: ["おはようございます", "こんにちは", "こんばんは", "おやすみなさい", "さようなら"] },
+    { label: { en: "Leaving & Coming Home", id: "Salam Keluar & Pulang Rumah" },
+      words: ["いってきます", "いってらっしゃい", "ただいま", "おかえりなさい"] },
+    { label: { en: "Thanks & Apologies", id: "Terima Kasih & Permintaan Maaf" },
+      words: ["ありがとうございます", "どういたしまして", "すみません", "ごめんなさい"] },
+    { label: { en: "Introducing Yourself", id: "Perkenalan Diri" },
+      words: ["はじめまして", "よろしくおねがいします"] },
+    { label: { en: "Mealtime Phrases", id: "Ungkapan Saat Makan" },
+      words: ["いただきます", "ごちそうさまでした"] },
+    { label: { en: "Asking Who", id: "Kata Tanya Orang" },
+      words: ["だれ", "どなた"] },
+    { label: { en: "Demonstratives — Things", id: "Kata Tunjuk Benda" },
+      words: ["これ", "それ", "あれ", "どれ"] },
+    { label: { en: "Demonstratives — + Noun", id: "Kata Tunjuk + Kata Benda" },
+      words: ["この", "その", "あの", "どの"] },
+    { label: { en: "Demonstratives — Places", id: "Kata Tunjuk Tempat" },
+      words: ["ここ", "そこ", "あそこ", "どこ"] },
+    { label: { en: "Demonstratives — Directions (polite)", id: "Kata Tunjuk Arah (Sopan)" },
+      words: ["こちら", "そちら", "あちら", "どちら"] },
+    { label: { en: "Yes & No", id: "Jawaban Ya & Tidak" },
+      words: ["はい", "いいえ"] }
+  ],
+  tier2: [
+    { label: { en: "Family in General", id: "Keluarga Secara Umum" },
+      words: ["かぞく", "ごかぞく", "りょうしん", "きょうだい"] },
+    { label: { en: "My Own Family (humble)", id: "Keluarga Sendiri (Merendah)" },
+      words: ["ちち", "はは", "あに", "あね", "おとうと", "いもうと", "つま", "かない", "おっと", "しゅじん"] },
+    { label: { en: "Someone Else's Family (polite)", id: "Keluarga Orang Lain (Sopan)" },
+      words: ["おとうさん", "おかあさん", "おにいさん", "おねえさん", "おとうとさん", "いもうとさん", "おくさん", "ごしゅじん"] },
+    { label: { en: "Children", id: "Anak" },
+      words: ["こども", "おこさん"] },
+    { label: { en: "Friends & People at School", id: "Teman & Orang di Sekolah" },
+      words: ["ともだち", "せいと", "がくせい", "りゅうがくせい", "せんせい"] }
+  ],
+  tier3: [
+    { label: { en: "Education — Teachers & Students", id: "Pendidikan — Guru & Pelajar" },
+      words: ["がくせい", "せいと", "りゅうがくせい", "せんせい", "きょうし"] },
+    { label: { en: "Office & Shop Workers", id: "Pekerja Kantor & Toko" },
+      words: ["かいしゃいん", "しゃいん", "ぎんこういん", "てんいん", "こうむいん"] },
+    { label: { en: "Professional Occupations", id: "Profesi Keahlian" },
+      words: ["いしゃ", "かんごし", "べんごし", "けいかん", "エンジニア", "けんきゅうしゃ"] },
+    { label: { en: "By Age & Gender", id: "Menurut Usia & Gender" },
+      words: ["おとな", "こども", "おとこのひと", "おんなのひと", "おとこのこ", "おんなのこ"] },
+    { label: { en: "General Words for People", id: "Sebutan Umum untuk Orang" },
+      words: ["ひと", "かた", "みなさん"] }
+  ],
+  tier4: [
+    { label: { en: "Now, Today & Nearby Days", id: "Sekarang, Hari Ini & Hari Sekitarnya" },
+      words: ["いま", "きょう", "あした", "きのう", "あさって", "おととい"] },
+    { label: { en: "Parts of the Day", id: "Bagian Waktu dalam Sehari" },
+      words: ["あさ", "ひる", "ゆうがた", "ばん", "よる"] },
+    { label: { en: "Specific Moments", id: "Penunjuk Waktu Spesifik" },
+      words: ["けさ", "こんばん", "ゆうべ"] },
+    { label: { en: "Every ~ (Routine)", id: "Setiap ~ (Rutin)" },
+      words: ["まいにち", "まいあさ", "まいばん"] },
+    { label: { en: "AM & PM", id: "Pembagian AM & PM" },
+      words: ["ごぜん", "ごご"] },
+    { label: { en: "Frequency & Asking When", id: "Frekuensi & Kata Tanya Waktu" },
+      words: ["いつ", "いつも", "ときどき"] },
+    { label: { en: "Sooner or Later", id: "Cepat-Lambatnya Waktu" },
+      words: ["すぐに", "もうすぐ", "あとで", "まだ", "もう"] }
+  ],
+  tier5: [
+    { label: { en: "Days of the Week", id: "Hari dalam Seminggu" },
+      words: ["げつようび", "かようび", "すいようび", "もくようび", "きんようび", "どようび", "にちようび", "なんようび"] },
+    { label: { en: "Calendar Months", id: "Bulan dalam Kalender" },
+      words: ["いちがつ", "にがつ", "さんがつ", "しがつ", "ごがつ", "ろくがつ", "しちがつ", "はちがつ", "くがつ", "じゅうがつ", "じゅういちがつ", "じゅうにがつ", "なんがつ"] },
+    { label: { en: "Clock Time & Units", id: "Jam, Menit & Satuan Waktu" },
+      words: ["じかん", "いちじかん", "なんじかん", "ふん", "なんぷん", "びょう", "いちじ", "なんじ", "はん"] },
+    { label: { en: "Approximate Time & Limits", id: "Perkiraan Waktu & Batasnya" },
+      words: ["ごろ", "ぐらい", "まえ", "すぎ", "から", "まで"] },
+    { label: { en: "Weeks", id: "Minggu" },
+      words: ["こんしゅう", "せんしゅう", "らいしゅう", "いっしゅうかん"] },
+    { label: { en: "Months (this / last / next)", id: "Bulan (Ini / Lalu / Depan)" },
+      words: ["こんげつ", "せんげつ", "らいげつ"] },
+    { label: { en: "Years", id: "Tahun" },
+      words: ["ことし", "きょねん", "らいねん", "さらいねん", "いちねん", "なんねん"] },
+    { label: { en: "Every ~ (Routine)", id: "Setiap ~ (Rutin)" },
+      words: ["まいあさ", "まいしゅう", "まいつき", "まいとし"] }
+  ],
+  tier6: [
+    { label: { en: "Native Japanese Numbers (1-10)", id: "Bilangan Asli Jepang (1-10)" },
+      words: ["ひとつ", "ふたつ", "みっつ", "よっつ", "いつつ", "むっつ", "ななつ", "やっつ", "ここのつ", "とお"] },
+    { label: { en: "Large Numbers", id: "Angka Besar" },
+      words: ["ゼロ", "ひゃく", "せん", "まん"] },
+    { label: { en: "Counting People", id: "Penghitung Orang" },
+      words: ["ひとり", "ふたり", "さんにん", "なんにん"] },
+    { label: { en: "Counting Objects", id: "Penghitung Benda" },
+      words: ["こ", "ほん", "まい", "なんまい", "さつ", "だい", "はい", "そく", "ちゃく", "ひき"] },
+    { label: { en: "Order & Frequency Counters", id: "Penghitung Urutan & Frekuensi" },
+      words: ["かい", "ばん", "ばんめ"] },
+    { label: { en: "Quantity & Asking How Many", id: "Jumlah & Kata Tanya Berapa" },
+      words: ["いくつ", "ぜんぶ", "だけ"] }
+  ],
+  tier7: [
+    { label: { en: "Frequency (often to never)", id: "Frekuensi (Sering ke Tidak Pernah)" },
+      words: ["いつも", "たいてい", "よく", "ときどき", "たまに", "あまり", "ぜんぜん"] },
+    { label: { en: "Right Away or Not Yet", id: "Segera atau Belum" },
+      words: ["すぐ", "もうすぐ", "まだ"] },
+    { label: { en: "Duration", id: "Durasi & Lamanya" },
+      words: ["ずっと", "しばらく", "ちょっと", "あいだ"] },
+    { label: { en: "Pace & Gradual Change", id: "Kecepatan & Perubahan Bertahap" },
+      words: ["ゆっくり", "だんだん"] },
+    { label: { en: "Order & Repetition", id: "Urutan & Pengulangan" },
+      words: ["はじめに", "さいごに", "もういちど"] },
+    { label: { en: "Approximation", id: "Perkiraan Jumlah & Lama" },
+      words: ["どのくらい", "ぐらい"] }
+  ],
+  tier8: [
+    { label: { en: "General Words & Meals", id: "Istilah Umum & Waktu Makan" },
+      words: ["たべもの", "のみもの", "りょうり", "ごはん", "あさごはん", "ひるごはん", "ばんごはん", "べんとう"] },
+    { label: { en: "Drinks", id: "Minuman" },
+      words: ["みず", "おちゃ", "こうちゃ", "ぎゅうにゅう", "ジュース", "コーヒー", "ビール", "おさけ"] },
+    { label: { en: "Meat, Fish & Eggs", id: "Daging, Ikan & Telur" },
+      words: ["にく", "ぎゅうにく", "ぶたにく", "とりにく", "さかな", "たまご"] },
+    { label: { en: "Vegetables & Fruit", id: "Sayur & Buah" },
+      words: ["やさい", "くだもの"] },
+    { label: { en: "Staples & Cooked Dishes", id: "Makanan Pokok & Olahan" },
+      words: ["パン", "そば", "ラーメン", "カレー"] },
+    { label: { en: "Snacks & Sweets", id: "Camilan & Makanan Manis" },
+      words: ["おかし", "ケーキ"] },
+    { label: { en: "Seasonings & Ingredients", id: "Bumbu & Bahan" },
+      words: ["さとう", "しお", "バター"] },
+    { label: { en: "At the Table", id: "Di Meja Makan" },
+      words: ["メニュー", "スプーン", "フォーク"] }
+  ],
+  tier9: [
+    { label: { en: "Everyday Carry", id: "Barang Bawaan Sehari-hari" },
+      words: ["かばん", "さいふ", "おかね", "かぎ", "とけい", "かさ", "にもつ"] },
+    { label: { en: "Stationery", id: "Alat Tulis" },
+      words: ["えんぴつ", "ペン", "ボールペン", "けしゴム", "かみ", "ノート", "てちょう"] },
+    { label: { en: "Things to Read", id: "Bahan Bacaan" },
+      words: ["ほん", "じしょ", "ざっし", "しんぶん"] },
+    { label: { en: "Mail & Post", id: "Surat-menyurat" },
+      words: ["てがみ", "はがき", "きって"] },
+    { label: { en: "Electronics & Appliances", id: "Elektronik & Perabot Listrik" },
+      words: ["でんわ", "ケータイ", "テレビ", "ラジオ", "カメラ", "パソコン", "エアコン", "れいぞうこ", "ストーブ", "でんき"] },
+    { label: { en: "The House & Its Parts", id: "Rumah & Bagiannya" },
+      words: ["いえ", "へや", "まど", "ドア"] },
+    { label: { en: "Furniture", id: "Perabot Rumah" },
+      words: ["つくえ", "いす", "テーブル", "ベッド", "ふとん"] },
+    { label: { en: "Tableware & Containers", id: "Peralatan Makan & Wadah" },
+      words: ["さら", "コップ", "ちゃわん", "はこ"] },
+    { label: { en: "Bath & Household Supplies", id: "Perlengkapan Mandi & Rumah Tangga" },
+      words: ["せっけん", "タオル", "スリッパ"] }
+  ],
+  tier10: [
+    { label: { en: "General & Traditional Wear", id: "Istilah Umum & Pakaian Tradisional" },
+      words: ["ふく", "きもの"] },
+    { label: { en: "Tops & Outerwear", id: "Atasan & Pakaian Luar" },
+      words: ["シャツ", "Tシャツ", "セーター", "うわぎ", "コート"] },
+    { label: { en: "Bottoms", id: "Bawahan" },
+      words: ["ズボン", "スカート"] },
+    { label: { en: "Footwear", id: "Alas Kaki" },
+      words: ["くつ", "くつした", "スリッパ"] },
+    { label: { en: "Accessories", id: "Aksesori & Pelengkap" },
+      words: ["ぼうし", "めがね", "ネクタイ", "てぶくろ", "ゆびわ", "ハンカチ", "かさ"] },
+    { label: { en: "Parts of Clothing", id: "Bagian Pakaian" },
+      words: ["ポケット", "ボタン"] }
+  ],
+  tier11: [
+    { label: { en: "Public & Civic Facilities", id: "Fasilitas Layanan & Umum" },
+      words: ["がっこう", "だいがく", "としょかん", "びょういん", "ぎんこう", "ゆうびんきょく", "こうばん", "こうえん", "たいしかん", "びじゅつかん", "プール"] },
+    { label: { en: "Shopping & Leisure Spots", id: "Tempat Belanja & Hiburan" },
+      words: ["かいしゃ", "みせ", "スーパー", "デパート", "やおや", "やっきょく", "レストラン", "きっさてん", "えいがかん", "ホテル"] },
+    { label: { en: "Transit & Public Geography", id: "Area Transit & Wilayah" },
+      words: ["えき", "くうこう", "バスてい", "ちゅうしゃじょう", "まち", "し", "くに", "がいこく"] }
+  ],
+  tier12: [
+    { label: { en: "Up & Down", id: "Atas & Bawah" },
+      words: ["うえ", "した"] },
+    { label: { en: "Inside & Outside", id: "Dalam & Luar" },
+      words: ["なか", "そと"] },
+    { label: { en: "Left & Right", id: "Kiri & Kanan" },
+      words: ["みぎ", "ひだり"] },
+    { label: { en: "Front & Back", id: "Depan & Belakang" },
+      words: ["まえ", "うしろ"] },
+    { label: { en: "Beside & Nearby", id: "Samping & Kedekatan" },
+      words: ["となり", "よこ", "そば", "ちかく"] },
+    { label: { en: "Between & Across", id: "Antara & Seberang" },
+      words: ["あいだ", "むこう"] }
+  ],
+  tier13: [
+    { label: { en: "Vehicles", id: "Alat Transportasi" },
+      words: ["でんしゃ", "ちかてつ", "れっしゃ", "バス", "タクシー", "くるま", "じてんしゃ", "ひこうき", "ふね"] },
+    { label: { en: "Streets & City Infrastructure", id: "Fitur Jalanan & Infrastruktur Kota" },
+      words: ["みち", "はし", "かど", "しんごう", "のりば", "いりぐち", "でぐち", "もん", "きっぷ"] }
+  ],
+  tier14: [
+    { label: { en: "Eating & Drinking", id: "Makan & Minum" },
+      words: ["たべる", "のむ"] },
+    { label: { en: "Seeing & Hearing", id: "Melihat & Mendengar" },
+      words: ["みる", "きく"] },
+    { label: { en: "Resting", id: "Istirahat" },
+      words: ["ねます"] }
+  ],
+  tier15: [
+    { label: { en: "Going, Coming & Returning", id: "Pergi, Datang & Pulang" },
+      words: ["いく", "くる", "かえる"] },
+    { label: { en: "How You Move", id: "Cara Bergerak" },
+      words: ["あるく"] }
+  ],
+  tier16: [
+    { label: { en: "Communication", id: "Komunikasi" },
+      words: ["はなす", "かく"] },
+    { label: { en: "Shopping & Work", id: "Transaksi & Kerja" },
+      words: ["かう", "はたらく"] }
+  ],
+  tier17: [
+    { label: { en: "Size", id: "Ukuran" },
+      words: ["おおきい", "ちいさい"] },
+    { label: { en: "Height & Price", id: "Tinggi & Harga" },
+      words: ["たかい", "やすい"] }
+  ],
+  tier18: [
+    { label: { en: "Weather & Temperature", id: "Cuaca & Suhu" },
+      words: ["あつい", "さむい"] },
+    { label: { en: "Taste & Body Sensation", id: "Rasa & Kondisi Tubuh" },
+      words: ["おいしい", "いたい"] }
+  ],
+  tier19: [
+    { label: { en: "Likes & Dislikes", id: "Suka & Tidak Suka" },
+      words: ["すき", "きらい"] },
+    { label: { en: "Ability, Looks & Condition", id: "Kemampuan, Penampilan & Kondisi" },
+      words: ["じょうず", "きれい", "げんき"] }
+  ],
+  tier20: [
+    { label: { en: "Weather", id: "Cuaca" },
+      words: ["てんき", "あめ"] },
+    { label: { en: "Nature & Landscape", id: "Alam & Bentang Alam" },
+      words: ["やま", "かわ", "そら"] }
+  ],
+  tier21: [
+    { label: { en: "Primary Colors", id: "Warna Dasar" },
+      words: ["あか", "あお"] },
+    { label: { en: "Black & White", id: "Hitam & Putih" },
+      words: ["しろ", "くろ"] }
+  ],
+  tier22: [
+    { label: { en: "Question Words", id: "Kata Tanya" },
+      words: ["どこ", "いつ", "なに"] },
+    { label: { en: "Degree Adverbs", id: "Kata Keterangan Derajat" },
+      words: ["とても", "あまり"] }
+  ],
+  tier23: [
+    { label: { en: "Adding & Sequencing", id: "Menambahkan & Mengurutkan" },
+      words: ["そして", "それから"] },
+    { label: { en: "Contrast & Cause", id: "Pertentangan & Sebab-Akibat" },
+      words: ["でも", "だから"] }
+  ],
+  tier24: [
+    { label: { en: "Amount", id: "Jumlah & Takaran" },
+      words: ["すこし", "たくさん"] },
+    { label: { en: "Time Adverb", id: "Keterangan Waktu" },
+      words: ["もう"] }
+  ]
+};
+
+/* Menata ulang `items` satu Sub-Tier sesuai KOTOBA_CATEGORY_DEFS, lalu
+   mengembalikan array baru + daftar "run" (kategori, indeks awal, jumlah)
+   yang dipakai renderVocabTables() buat nyisipin baris pemisah kategori.
+   Array aslinya TIDAK dimutasi, jadi Mode Kuis tetap pakai urutan lama. */
+function buildCategorizedVocab(tierKey, items) {
+  const defs = KOTOBA_CATEGORY_DEFS[tierKey];
+  if (!defs) return { items: items, runs: null };
+  const buckets = defs.map(d => ({ label: d.label, items: [] }));
+  const leftovers = [];
+  items.forEach(entry => {
+    const idx = defs.findIndex(d => d.words.includes(entry[0]));
+    if (idx >= 0) buckets[idx].items.push(entry);
+    else leftovers.push(entry);
+  });
+  if (leftovers.length) buckets.push({ label: { en: "Other", id: "Lainnya" }, items: leftovers });
+  const ordered = [];
+  const runs = [];
+  buckets.forEach(b => {
+    if (!b.items.length) return;
+    runs.push({ label: b.label, start: ordered.length, count: b.items.length });
+    b.items.forEach(entry => ordered.push(entry));
+  });
+  return { items: ordered, runs: runs };
+}
+
 const KOTOBA_N5_LEARN = [
   { tierKey: "tier1", title: KOTOBA_N5_LEVEL_TEXT.tier1.title, desc: KOTOBA_N5_LEVEL_TEXT.tier1.desc, items: KOTOBA_N5_CH1_1 },
   { tierKey: "tier2", title: KOTOBA_N5_LEVEL_TEXT.tier2.title, desc: KOTOBA_N5_LEVEL_TEXT.tier2.desc, items: KOTOBA_N5_CH1_2 },
@@ -3382,6 +3839,14 @@ const KOTOBA_N5_LEARN = [
   { tierKey: "tier23", title: KOTOBA_N5_LEVEL_TEXT.tier23.title, desc: KOTOBA_N5_LEVEL_TEXT.tier23.desc, items: KOTOBA_N5_CH7_4 },
   { tierKey: "tier24", title: KOTOBA_N5_LEVEL_TEXT.tier24.title, desc: KOTOBA_N5_LEVEL_TEXT.tier24.desc, items: KOTOBA_N5_CH7_5 }
 ];
+
+// urutkan ulang kartu tiap Sub-Tier Kotoba berdasarkan jenis katanya (khusus
+// Sub-Tier yang terdaftar di KOTOBA_CATEGORY_DEFS — saat ini semuanya, Tier 1.1-7.5).
+KOTOBA_N5_LEARN.forEach(section => {
+  const built = buildCategorizedVocab(section.tierKey, section.items);
+  section.items = built.items;
+  section.categoryRuns = built.runs;
+});
 
 /* ---- Bunpō N5 — 100 pola, 6 Tier / 15 Sub-Tier (lihat bunpo-n5-100-tier.md) ---- */
 /* Format tiap item SAMA seperti BUNPO_TIER1-3 sebelumnya:
@@ -3967,7 +4432,22 @@ function renderVocabTables(section) {
   `;
   const list = document.createElement("div");
   list.className = "grammar-list vocab-list";
-  section.items.forEach(([word, reading, meaning, example, exampleSegments, exampleTranslation, kanjiWord, kanjiExample, usage]) => {
+  // pemisah kategori: dicari per indeks biar urutan kartu & pemisahnya sinkron
+  const runsByStart = {};
+  if (Array.isArray(section.categoryRuns)) {
+    section.categoryRuns.forEach(run => { runsByStart[run.start] = run; });
+  }
+  section.items.forEach(([word, reading, meaning, example, exampleSegments, exampleTranslation, kanjiWord, kanjiExample, usage], itemIndex) => {
+    const run = runsByStart[itemIndex];
+    if (run) {
+      const divider = document.createElement("div");
+      divider.className = "vocab-cat-divider";
+      divider.innerHTML = `
+        <span class="vocab-cat-label">${tf(run.label)}</span>
+        <span class="vocab-cat-count">${run.count} ${t("learn.words")}</span>
+      `;
+      list.appendChild(divider);
+    }
     const card = document.createElement("div");
     card.className = "grammar-card vocab-card";
     const kanjiWordHtml = kanjiWord ? `<span class="vocab-kanji">${kanjiWord}</span>` : "";
@@ -4260,6 +4740,20 @@ function applyLearnSearch() {
       const filledCells = rowEl.querySelectorAll(".kana-cell.filled");
       const rowHasMatch = Array.from(filledCells).some(cell => !cell.classList.contains("no-match"));
       rowEl.classList.toggle("no-match", filledCells.length > 0 && !rowHasMatch);
+    });
+    // pemisah kategori Kotoba: ikut disembunyiin kalau semua kartu di bawahnya
+    // gak cocok sama pencarian, biar gak ada judul kategori yang ngambang kosong.
+    sectionEl.querySelectorAll(".vocab-cat-divider").forEach(dividerEl => {
+      let groupHasMatch = false;
+      let sib = dividerEl.nextElementSibling;
+      while (sib && !sib.classList.contains("vocab-cat-divider")) {
+        if (sib.classList.contains("grammar-card") && !sib.classList.contains("no-match")) {
+          groupHasMatch = true;
+          break;
+        }
+        sib = sib.nextElementSibling;
+      }
+      dividerEl.classList.toggle("no-match", !groupHasMatch);
     });
     const sectionHasItems = items.length > 0;
     sectionEl.classList.toggle("no-match", sectionHasItems && sectionMatches === 0);
@@ -6001,7 +6495,11 @@ function kotobaCardContent(tierKey, idx) {
   const [kana, romaji, meaning, example, segments, translation, kanji, exampleKanji, usage] = item;
   const exRomaji = (segments || []).map(s => s[1]).join(" ");
   const showExKanji = exampleKanji && exampleKanji !== example;
-  const front = `
+  const front = kanji
+    ? `
+    <div class="fc-kanji-front">${escapeHtml(kanji)}</div>
+    <div class="fc-kana">${escapeHtml(kana)}</div>`
+    : `
     <div class="fc-kana">${escapeHtml(kana)}</div>`;
   const back = `
     <div class="fc-kana fc-kana-sm" data-speak="${escapeHtml(kana)}">${escapeHtml(kana)}<span class="fc-audio-icon">🔊</span></div>
@@ -6483,6 +6981,23 @@ function openFlashDeckPicker() {
   document.getElementById("flash-import-status").textContent = "";
   document.getElementById("flash-import-status").className = "flash-import-status";
   window.scrollTo({ top: 0, behavior: "instant" });
+  updateFlashDeckScrollTopVisibility();
+}
+
+/* back-to-top button — deck picker can get long (built-in + imported decks) */
+function updateFlashDeckScrollTopVisibility() {
+  const btn = document.getElementById("btn-flashdeck-scrolltop");
+  if (!btn || !screenFlashDeck) return;
+  const isVisible = !screenFlashDeck.classList.contains("hidden");
+  const shouldShow = isVisible && window.scrollY > 400;
+  btn.classList.toggle("hidden", !shouldShow);
+}
+window.addEventListener("scroll", updateFlashDeckScrollTopVisibility, { passive: true });
+const btnFlashDeckScrollTop = document.getElementById("btn-flashdeck-scrolltop");
+if (btnFlashDeckScrollTop) {
+  btnFlashDeckScrollTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
 function startFlashcardSession(deckRef, label, forceAll) {
@@ -6515,8 +7030,12 @@ function renderCurrentFlashcard() {
   }
   const desc = flashState.queue[flashState.index];
   const content = getCardContent(desc);
-  document.getElementById("flashcard-front").innerHTML = content.front;
-  document.getElementById("flashcard-back").innerHTML = content.back;
+  const frontEl = document.getElementById("flashcard-front");
+  const backEl = document.getElementById("flashcard-back");
+  frontEl.innerHTML = content.front;
+  backEl.innerHTML = content.back;
+  frontEl.scrollTop = 0;
+  backEl.scrollTop = 0;
   flashcardInnerEl.classList.remove("flipped");
   flashRateRowEl.classList.add("hidden");
   flashShowAnswerBtn.classList.remove("hidden");
@@ -6561,6 +7080,7 @@ flashRateRowEl.addEventListener("click", (e) => {
 document.getElementById("btn-flashdeck-back").addEventListener("click", () => {
   hideAllMainScreens();
   screenStart.classList.remove("hidden");
+  updateFlashDeckScrollTopVisibility();
 });
 document.getElementById("btn-flashcard-back").addEventListener("click", openFlashDeckPicker);
 document.getElementById("btn-flashcard-restart").addEventListener("click", () => {

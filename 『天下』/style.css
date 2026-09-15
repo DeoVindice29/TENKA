@@ -3156,6 +3156,7 @@ button.ghost {
   pointer-events: none;
 }
 
+.vocab-cat-divider.no-match,
 .learn-section.no-match,
 .kana-cell.no-match,
 .kanji-cell.no-match,
@@ -3387,6 +3388,36 @@ button.ghost {
 
 .vocab-cell .kj-meaning {
   font-size: 10.5px;
+}
+
+/* pemisah jenis kata di dalam satu Sub-Tier Kotoba (mis. "Minuman", "Alat Tulis") */
+.vocab-cat-divider {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 2px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--line);
+}
+
+.vocab-cat-divider:first-child {
+  margin-top: 0;
+}
+
+.vocab-cat-label {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--indigo);
+  letter-spacing: 0.01em;
+}
+
+.vocab-cat-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 /* vocab cards (kotoba) — word + reading + meaning + contoh kalimat, reuses grammar-card shell */
@@ -4362,6 +4393,13 @@ button.ghost {
 
 .fc-kanji-char-sm {
   font-size: clamp(36px, 10vw, 48px);
+}
+
+.fc-kanji-front {
+  font-family: var(--kana-font);
+  font-weight: 700;
+  font-size: clamp(26px, 7vw, 36px);
+  color: var(--gold);
 }
 
 .flashcard-face hr {
